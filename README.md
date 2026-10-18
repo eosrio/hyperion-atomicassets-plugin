@@ -23,6 +23,9 @@ and [release roadmap](https://github.com/eosrio/hyperion-tools/blob/a36fda12ba81
 
 ## First work
 
+Start from [parity inventory issue #1](https://github.com/eosrio/hyperion-atomicassets-plugin/issues/1).
+Coordinate delivery through [release issue #24](https://github.com/eosrio/hyperion-tools/issues/24).
+
 Start with P10: the complete pinned parity inventory and a reference harness. Implement endpoint
 families with their necessary projections and query semantics; one working endpoint is not parity.
 
