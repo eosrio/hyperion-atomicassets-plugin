@@ -1,0 +1,88 @@
+{
+  "status": 200,
+  "body": {
+    "success": true,
+    "data": {
+      "contract": "atomicassets",
+      "asset_id": "9007199254740993",
+      "owner": "alice",
+      "is_transferable": true,
+      "is_burnable": true,
+      "collection": {
+        "collection_name": "fixturecol",
+        "author": "alice",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "alice"
+        ],
+        "notify_accounts": [],
+        "market_fee": 0.05,
+        "data": {
+          "name": "Fixture Collection"
+        }
+      },
+      "schema": {
+        "schema_name": "cards",
+        "collection": {
+          "collection_name": "fixturecol"
+        },
+        "format": [
+          {
+            "name": "name",
+            "type": "string",
+            "mediatype": "name",
+            "info": null
+          },
+          {
+            "name": "img",
+            "type": "image",
+            "mediatype": "image/png",
+            "info": "cover"
+          }
+        ]
+      },
+      "template": {
+        "template_id": "7",
+        "is_transferable": true,
+        "is_burnable": true,
+        "max_supply": "100",
+        "issued_supply": "1",
+        "mutable_data": {
+          "name": "template-mutable",
+          "description": "fallback"
+        },
+        "immutable_data": {
+          "name": "template-immutable"
+        },
+        "data": {
+          "name": "template-immutable",
+          "description": "fallback"
+        }
+      },
+      "mutable_data": {
+        "name": "asset-mutable",
+        "rank": 1
+      },
+      "immutable_data": {
+        "name": "asset-immutable",
+        "img": "fixture-image"
+      },
+      "backed_tokens": [],
+      "template_mint": "1",
+      "minted_at_block": "123",
+      "minted_at_time": "1700000000000",
+      "updated_at_block": "124",
+      "updated_at_time": "1700000000500",
+      "transferred_at_block": "123",
+      "transferred_at_time": "1700000000000",
+      "data": {
+        "name": "template-immutable",
+        "description": "fallback",
+        "rank": 1,
+        "img": "fixture-image"
+      },
+      "name": "template-immutable",
+      "original_mint": null
+    }
+  }
+}

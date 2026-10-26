@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "baseline": {"repository": "https://github.com/atomicassets/atomicassets-api", "tag": "2.7.0", "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e"},
+  "fixtureKind": "synthetic-database-boundary",
+  "scope": "Reference path validation before database access; not a chain or PostgreSQL fixture.",
+  "namespace": "atomicassets",
+  "namespaceArgs": {"connected_reader": "reference-fixture", "atomicassets_account": "atomicassets"},
+  "request": {"method": "GET", "path": "/atomicassets/v1/assets/not-an-id"},
+  "queries": [],
+  "deterministicComparisons": ["status", "body"],
+  "environmentDependentFields": ["headers.date", "headers.last-modified"]
+}

@@ -18,3 +18,33 @@ jobs:
         run: python3 scripts/check-docs.py
       - name: Check whitespace
         run: git diff --check $(git hash-object -t tree /dev/null) HEAD
+  reference-parity:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['24.x', '26.x']
+    env:
+      AA_REFERENCE_ROOT: ${{ runner.temp }}/atomicassets-api-2.7.0
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+      - name: Verify pinned checker and compiler
+        run: |
+          test "$(bun --version)" = "1.4.4"
+          test "$(bun -p process.versions.typescript)" = "7.0.2"
+      - run: npm ci --allow-git=all
+      - run: npm run typecheck
+      - name: Prepare exact upstream reference
+        run: |
+          npm run reference:prepare -- --destination "$AA_REFERENCE_ROOT"
+          npm install --global pnpm@11.13.1
+          pnpm --dir "$AA_REFERENCE_ROOT" install --frozen-lockfile
+      - name: Build artifacts and execute native reference controls
+        run: npm test
