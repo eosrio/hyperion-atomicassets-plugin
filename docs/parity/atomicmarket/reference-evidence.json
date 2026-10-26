@@ -1,0 +1,162 @@
+{
+  "schemaVersion": 1,
+  "baseline": {
+    "tag": "2.7.0",
+    "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e"
+  },
+  "scope": {
+    "referenceHttp": true,
+    "originalHttpServerNamespaceRouterAndHandler": true,
+    "database": "strict ordered synthetic query boundary",
+    "postgresExecution": false,
+    "chainCapture": false,
+    "hyperionHostActivation": false,
+    "fullParity": false
+  },
+  "cases": [
+    {
+      "name": "marketplace",
+      "expectedFile": "fixtures/harness/atomicmarket/marketplace.expected.json",
+      "expectedSha256": "21e623cdc5496d07b1cb0474c79079d3b9bccb6180fe88ed8f27bf1a96885e71",
+      "deterministicBodiesMatchAcrossNativeMajors": true,
+      "captures": [
+        {
+          "runtime": "v24.19.0",
+          "status": 200,
+          "queries": 2,
+          "captureMember": "reference-node24-v3/marketplace.captured.json",
+          "captureSha256": "14fb163315f27a98fd5495f5a8c5e69640a3b43ca24120bf4a73b0e7d9906226",
+          "rawMember": "reference-node24-v3/marketplace.raw.json",
+          "rawSha256": "b24b6a314c3772be068d446d780d2118062d4a440704e1bf593bc7af48831ff9"
+        },
+        {
+          "runtime": "v26.4.0",
+          "status": 200,
+          "queries": 2,
+          "captureMember": "reference-node26-v3/marketplace.captured.json",
+          "captureSha256": "21e623cdc5496d07b1cb0474c79079d3b9bccb6180fe88ed8f27bf1a96885e71",
+          "rawMember": "reference-node26-v3/marketplace.raw.json",
+          "rawSha256": "d8f89d5c28cb6a2269c2f99c2d1fed6417f297d89d414ee47e780fd5dd279957"
+        }
+      ]
+    },
+    {
+      "name": "marketplace-not-found",
+      "expectedFile": "fixtures/harness/atomicmarket/marketplace-not-found.expected.json",
+      "expectedSha256": "763aebead0c58788336b255a46c3db2fc891f6fe27e53ba9774f020354c0aa28",
+      "deterministicBodiesMatchAcrossNativeMajors": true,
+      "captures": [
+        {
+          "runtime": "v24.19.0",
+          "status": 416,
+          "queries": 2,
+          "captureMember": "reference-node24-v3/marketplace-not-found.captured.json",
+          "captureSha256": "8556da6549fba3fbc4bf75ef3509a04e1e2777c1a24fb7b7ee6f99c0132a5eac",
+          "rawMember": "reference-node24-v3/marketplace-not-found.raw.json",
+          "rawSha256": "212852a021d9771088f44874b72486c71c452ce0b96f5013a332d02c9fe2eeec"
+        },
+        {
+          "runtime": "v26.4.0",
+          "status": 416,
+          "queries": 2,
+          "captureMember": "reference-node26-v3/marketplace-not-found.captured.json",
+          "captureSha256": "763aebead0c58788336b255a46c3db2fc891f6fe27e53ba9774f020354c0aa28",
+          "rawMember": "reference-node26-v3/marketplace-not-found.raw.json",
+          "rawSha256": "56c58f456c5687e43cafd10bf59e10fb6740f2b88193a51e304e900fd815417c"
+        }
+      ]
+    },
+    {
+      "name": "single-sale",
+      "expectedFile": "fixtures/harness/atomicmarket/single-sale.expected.json",
+      "expectedSha256": "ca900cf2c393789dcbfdc46c813e8af4fd427747bd2d2e8ab57c58e8063c14ef",
+      "deterministicBodiesMatchAcrossNativeMajors": true,
+      "captures": [
+        {
+          "runtime": "v24.19.0",
+          "status": 200,
+          "queries": 4,
+          "captureMember": "reference-node24-v3/single-sale.captured.json",
+          "captureSha256": "dd9a96c9cf8baca73c2127cfb1a89f4071c3a9bae971a88fee6bf5ec46737daf",
+          "rawMember": "reference-node24-v3/single-sale.raw.json",
+          "rawSha256": "f9ea519033194063d862996884d71f99231edddd8e35ea0a5b7730f0fbb487c1"
+        },
+        {
+          "runtime": "v26.4.0",
+          "status": 200,
+          "queries": 4,
+          "captureMember": "reference-node26-v3/single-sale.captured.json",
+          "captureSha256": "ca900cf2c393789dcbfdc46c813e8af4fd427747bd2d2e8ab57c58e8063c14ef",
+          "rawMember": "reference-node26-v3/single-sale.raw.json",
+          "rawSha256": "bc9487af53aef5c6ad375ae988a02ed2c0f158d193651ee7a02beadc3c515aec"
+        }
+      ]
+    },
+    {
+      "name": "sale-not-found",
+      "expectedFile": "fixtures/harness/atomicmarket/sale-not-found.expected.json",
+      "expectedSha256": "507fed0c33676fa8b0110f99d0f0533bbc8fe72245828b21fbabc0b9b716ecb2",
+      "deterministicBodiesMatchAcrossNativeMajors": true,
+      "captures": [
+        {
+          "runtime": "v24.19.0",
+          "status": 416,
+          "queries": 2,
+          "captureMember": "reference-node24-v3/sale-not-found.captured.json",
+          "captureSha256": "46bd2a33cbeb8abcf9ca90e13721f53a9ade084677c8ba89b30c8a5deba1a3f7",
+          "rawMember": "reference-node24-v3/sale-not-found.raw.json",
+          "rawSha256": "1cccf4dbed9d691da56f6f6ff8ae0f0fdc84bd620fc2c615575ad9becdc86020"
+        },
+        {
+          "runtime": "v26.4.0",
+          "status": 416,
+          "queries": 2,
+          "captureMember": "reference-node26-v3/sale-not-found.captured.json",
+          "captureSha256": "507fed0c33676fa8b0110f99d0f0533bbc8fe72245828b21fbabc0b9b716ecb2",
+          "rawMember": "reference-node26-v3/sale-not-found.raw.json",
+          "rawSha256": "a0f4dbfe2a863f616c0c1c38f0c886c53147108b2fcdbd95e3ce3c58d5e9c764"
+        }
+      ]
+    },
+    {
+      "name": "sale-invalid-id",
+      "expectedFile": "fixtures/harness/atomicmarket/sale-invalid-id.expected.json",
+      "expectedSha256": "ef3c96895f245133bde4bc2323a2d96dba7c7dfd5a5ef96c381e8d0e7c2d405a",
+      "deterministicBodiesMatchAcrossNativeMajors": true,
+      "captures": [
+        {
+          "runtime": "v24.19.0",
+          "status": 400,
+          "queries": 1,
+          "captureMember": "reference-node24-v3/sale-invalid-id.captured.json",
+          "captureSha256": "9dba54f0a7edb61c721a53700467bc8f25241f793b3b85fbf40da7ed909b6764",
+          "rawMember": "reference-node24-v3/sale-invalid-id.raw.json",
+          "rawSha256": "f210cb8a4a58afda3aaf3745be30ac8c6aa18145eb0cd34b784121581b8cb2b3"
+        },
+        {
+          "runtime": "v26.4.0",
+          "status": 400,
+          "queries": 1,
+          "captureMember": "reference-node26-v3/sale-invalid-id.captured.json",
+          "captureSha256": "ef3c96895f245133bde4bc2323a2d96dba7c7dfd5a5ef96c381e8d0e7c2d405a",
+          "rawMember": "reference-node26-v3/sale-invalid-id.raw.json",
+          "rawSha256": "1ff79cb5646bb5793f89a01ceb1cefb764ca8f6ec2bd910b89aaa5c01bfb1872"
+        }
+      ]
+    }
+  ],
+  "retainedFailure": {
+    "member": "reference-node26/marketplace.failed.json",
+    "sha256": "7af96273d56c360e0f0624796b24204732748996ed98dcc2dad658ec55735e83",
+    "outcome": "failed setup before HTTP; missing direct connection.database.query in initial harness; not a production-read RED"
+  },
+  "focusedReadTests": {
+    "native24": 6,
+    "native26": 6,
+    "errors": [
+      "missing416",
+      "emptycontinuation"
+    ],
+    "scope": "SDK query-boundary fixture; final whole-package ESM validation follows shared foundation integration"
+  }
+}

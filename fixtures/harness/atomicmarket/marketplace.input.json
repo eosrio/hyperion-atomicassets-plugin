@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 1,
+  "baseline": {
+    "repository": "https://github.com/atomicassets/atomicassets-api",
+    "tag": "2.7.0",
+    "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e"
+  },
+  "fixtureKind": "synthetic-database-boundary",
+  "scope": "Original single-marketplace route, handler and HTTP envelope using a deterministic scripted database boundary. Not PostgreSQL, chain capture, source ingestion, Hyperion host activation or backend qualification.",
+  "namespace": "atomicmarket",
+  "namespaceArgs": {
+    "connected_reader": "reference-fixture",
+    "atomicmarket_account": "atomicmarket",
+    "atomicassets_account": "atomicassets",
+    "delphioracle_account": "delphioracle"
+  },
+  "request": {
+    "method": "GET",
+    "path": "/atomicmarket/v1/marketplaces/marketplace1"
+  },
+  "queries": [
+    {
+      "sql": "SELECT * FROM atomicmarket_config WHERE market_contract = $1",
+      "parameters": [
+        "atomicmarket"
+      ],
+      "rows": [
+        {
+          "assets_contract": "atomicassets",
+          "delphi_contract": "delphioracle"
+        }
+      ]
+    },
+    {
+      "sql": "SELECT marketplace_name, creator, created_at_block, created_at_time FROM atomicmarket_marketplaces WHERE market_contract = $1 AND marketplace_name = $2",
+      "parameters": [
+        "atomicmarket",
+        "marketplace1"
+      ],
+      "rows": [
+        {
+          "marketplace_name": "marketplace1",
+          "creator": "alice",
+          "created_at_block": "123",
+          "created_at_time": "1700000000000"
+        }
+      ]
+    }
+  ],
+  "deterministicComparisons": {
+    "status": true,
+    "body.success": true,
+    "body.data": true
+  },
+  "environmentDependentFields": [
+    "body.query_time",
+    "headers.date",
+    "headers.last-modified"
+  ]
+}

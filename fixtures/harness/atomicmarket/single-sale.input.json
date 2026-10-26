@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "baseline": {
+    "repository": "https://github.com/atomicassets/atomicassets-api",
+    "tag": "2.7.0",
+    "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e"
+  },
+  "fixtureKind": "synthetic-database-boundary",
+  "scope": "Input rows for the unmodified pinned reference handler and HTTP envelope. Not a chain capture, PostgreSQL execution, Hyperion projection or backend qualification.",
+  "namespace": "atomicmarket",
+  "namespaceArgs": {
+    "connected_reader": "reference-fixture",
+    "atomicmarket_account": "atomicmarket",
+    "atomicassets_account": "atomicassets",
+    "delphioracle_account": "delphioracle"
+  },
+  "request": {
+    "method": "GET",
+    "path": "/atomicmarket/v1/sales/9007199254740993"
+  },
+  "queries": [
+    {
+      "sql": "SELECT * FROM atomicmarket_config WHERE market_contract = $1",
+      "parameters": ["atomicmarket"],
+      "rows": [{"assets_contract": "atomicassets", "delphi_contract": "delphioracle"}]
+    },
+    {
+      "sql": "SELECT * FROM atomicmarket_sales_master WHERE market_contract = $1 AND sale_id = $2",
+      "parameters": ["atomicmarket", "9007199254740993"],
+      "rows": [
+        {
+          "market_contract": "atomicmarket",
+          "assets_contract": "atomicassets",
+          "sale_id": "9007199254740993",
+          "seller": "alice",
+          "buyer": null,
+          "offer_id": "9007199254740994",
+          "sale_state": 1,
+          "offer_state": 0,
+          "raw_price": "9007199254740995",
+          "raw_token_symbol": "WAX",
+          "raw_token_precision": 8,
+          "price": {
+            "token_contract": "eosio.token",
+            "token_symbol": "WAX",
+            "token_precision": 8
+          },
+          "assets": ["9007199254740997"],
+          "collection_name": "testcollect1",
+          "maker_marketplace": "atomicmarket",
+          "taker_marketplace": null,
+          "created_at_block": "123",
+          "created_at_time": "1700000000000",
+          "updated_at_block": "123",
+          "updated_at_time": "1700000000000"
+        }
+      ]
+    },
+    {
+      "sql": "SELECT * FROM atomicassets_assets_master WHERE contract = $1 AND asset_id = ANY ($2)",
+      "parameters": ["atomicassets", ["9007199254740997"]],
+      "rows": [
+        {
+          "contract": "atomicassets",
+          "asset_id": "9007199254740997",
+          "owner": "alice",
+          "collection_name": "testcollect1",
+          "schema_name": "cards",
+          "template_id": null,
+          "collection": {
+            "contract": "atomicassets",
+            "collection_name": "testcollect1",
+            "author": "alice",
+            "allow_notify": true,
+            "authorized_accounts": ["alice"],
+            "notify_accounts": [],
+            "market_fee": 0.05,
+            "data": {"name": "Reference collection"}
+          },
+          "schema": {
+            "schema_name": "cards",
+            "format": [{"name": "name", "type": "string"}]
+          },
+          "template": null,
+          "immutable_data": {"name": "Immutable card"},
+          "mutable_data": {"name": "Mutable card", "level": 2},
+          "backed_tokens": [],
+          "is_transferable": true,
+          "is_burnable": true,
+          "burned_by_account": null,
+          "burned_at_block": null,
+          "burned_at_time": null,
+          "transferred_at_block": "122",
+          "transferred_at_time": "1699999999500",
+          "minted_at_block": "100",
+          "minted_at_time": "1699999988500",
+          "updated_at_block": "122",
+          "updated_at_time": "1699999999500"
+        }
+      ]
+    },
+    {
+      "sql": "SELECT DISTINCT ON (price.market_contract, price.collection_name, price.template_id, price.symbol) price.market_contract, asset.collection_name, asset.template_id, token.token_symbol, token.token_precision, token.token_contract, price.median, price.average, price.suggested_median, price.suggested_average, price.min, price.max, price.sales FROM atomicassets_assets asset, atomicmarket_template_prices price, atomicmarket_tokens token WHERE asset.contract = price.assets_contract AND asset.collection_name = price.collection_name AND asset.template_id = price.template_id AND asset.template_id IS NOT NULL AND price.market_contract = token.market_contract AND price.symbol = token.token_symbol AND asset.contract = $1 AND asset.asset_id = ANY($2)",
+      "parameters": ["atomicassets", ["9007199254740997"]],
+      "rows": []
+    }
+  ],
+  "deterministicComparisons": {
+    "status": true,
+    "body.success": true,
+    "body.data": true
+  },
+  "environmentDependentFields": ["body.query_time", "headers.date", "headers.last-modified"]
+}

@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "baseline": {
+    "repository": "https://github.com/atomicassets/atomicassets-api",
+    "tag": "2.7.0",
+    "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e"
+  },
+  "fixtureKind": "synthetic-database-boundary",
+  "fixtureSha256": "82fdc1226ccdbb47f035bc808c5c7f98d90c92439cc1241db0d9464ca739ba84",
+  "request": {
+    "method": "GET",
+    "path": "/atomicmarket/v1/sales/9007199254740993"
+  },
+  "status": 200,
+  "body": {
+    "success": true,
+    "data": {
+      "market_contract": "atomicmarket",
+      "assets_contract": "atomicassets",
+      "sale_id": "9007199254740993",
+      "seller": "alice",
+      "buyer": null,
+      "offer_id": "9007199254740994",
+      "price": {
+        "token_contract": "eosio.token",
+        "token_symbol": "WAX",
+        "token_precision": 8,
+        "amount": "9007199254740995"
+      },
+      "assets": [
+        {
+          "contract": "atomicassets",
+          "asset_id": "9007199254740997",
+          "owner": "alice",
+          "collection": {
+            "contract": "atomicassets",
+            "collection_name": "testcollect1",
+            "author": "alice",
+            "allow_notify": true,
+            "authorized_accounts": [
+              "alice"
+            ],
+            "notify_accounts": [],
+            "market_fee": 0.05,
+            "data": {
+              "name": "Reference collection"
+            }
+          },
+          "schema": {
+            "schema_name": "cards",
+            "format": [
+              {
+                "name": "name",
+                "type": "string",
+                "mediatype": "name",
+                "info": null
+              }
+            ]
+          },
+          "template": null,
+          "immutable_data": {
+            "name": "Immutable card"
+          },
+          "mutable_data": {
+            "name": "Mutable card",
+            "level": 2
+          },
+          "backed_tokens": [],
+          "is_transferable": true,
+          "is_burnable": true,
+          "burned_by_account": null,
+          "burned_at_block": null,
+          "burned_at_time": null,
+          "transferred_at_block": "122",
+          "transferred_at_time": "1699999999500",
+          "minted_at_block": "100",
+          "minted_at_time": "1699999988500",
+          "updated_at_block": "122",
+          "updated_at_time": "1699999999500",
+          "sales": [],
+          "auctions": [],
+          "data": {
+            "name": "Immutable card",
+            "level": 2
+          },
+          "name": "Immutable card",
+          "original_mint": null
+        }
+      ],
+      "collection_name": "testcollect1",
+      "maker_marketplace": "atomicmarket",
+      "taker_marketplace": null,
+      "created_at_block": "123",
+      "created_at_time": "1700000000000",
+      "updated_at_block": "123",
+      "updated_at_time": "1700000000000",
+      "state": 1
+    }
+  },
+  "excludedEnvironmentFields": [
+    "body.query_time",
+    "headers.date",
+    "headers.last-modified"
+  ],
+  "scope": {
+    "database": "synthetic-database-boundary",
+    "postgresExecution": false,
+    "chainCapture": false,
+    "hyperionPluginExecution": false,
+    "originalHttpServer": true,
+    "cacheEnabled": false,
+    "chainHealthRpc": "controlled stub; no network"
+  },
+  "referenceExecution": {
+    "nodeVersion": "v26.4.0",
+    "exitCode": 0,
+    "harnessFiles": [
+      {
+        "name": "reference.mjs",
+        "sha256": "423e4a577709145e2fb522826c47a4e55c2b33b34d7ad899634988a9b0a8edab"
+      },
+      {
+        "name": "reference-child.cjs",
+        "sha256": "70cb0840c4b9a58c8c2f81bada34e629b4da785d7977c149c09cb6188c26b61a"
+      }
+    ],
+    "databaseQueries": 4,
+    "unusedQueries": 0
+  }
+}
