@@ -24,10 +24,10 @@ jobs:
       fail-fast: false
       matrix:
         node: ['24.x', '26.x']
-    env:
-      AA_REFERENCE_ROOT: ${{ runner.temp }}/atomicassets-api-2.7.0
     steps:
       - uses: actions/checkout@v4
+      - name: Select owned reference directory
+        run: printf 'AA_REFERENCE_ROOT=%s/atomicassets-api-2.7.0\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
