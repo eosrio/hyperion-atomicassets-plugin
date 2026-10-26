@@ -17,52 +17,52 @@
     {
       "name": "marketplace",
       "expectedFile": "fixtures/harness/atomicmarket/marketplace.expected.json",
-      "expectedSha256": "21e623cdc5496d07b1cb0474c79079d3b9bccb6180fe88ed8f27bf1a96885e71",
+      "expectedSha256": "6064e0401685e974d6c2904ab5f2aeb996cd57c1084ee6243cfb508beb24c9c6",
       "deterministicBodiesMatchAcrossNativeMajors": true,
       "captures": [
         {
           "runtime": "v24.19.0",
           "status": 200,
           "queries": 2,
-          "captureMember": "reference-node24-v3/marketplace.captured.json",
-          "captureSha256": "14fb163315f27a98fd5495f5a8c5e69640a3b43ca24120bf4a73b0e7d9906226",
-          "rawMember": "reference-node24-v3/marketplace.raw.json",
-          "rawSha256": "b24b6a314c3772be068d446d780d2118062d4a440704e1bf593bc7af48831ff9"
+          "captureMember": "reference-node24-v4-lf/marketplace.captured.json",
+          "captureSha256": "3ea196ef6048b38ec871a4cc6598df4e31fc050b58841c17b1671411cd40400f",
+          "rawMember": "reference-node24-v4-lf/marketplace.raw.json",
+          "rawSha256": "1d0f40915d25511871388e5269dea68c65eee66761708da9bbc932e9dcb6693e"
         },
         {
           "runtime": "v26.4.0",
           "status": 200,
           "queries": 2,
-          "captureMember": "reference-node26-v3/marketplace.captured.json",
-          "captureSha256": "21e623cdc5496d07b1cb0474c79079d3b9bccb6180fe88ed8f27bf1a96885e71",
-          "rawMember": "reference-node26-v3/marketplace.raw.json",
-          "rawSha256": "d8f89d5c28cb6a2269c2f99c2d1fed6417f297d89d414ee47e780fd5dd279957"
+          "captureMember": "reference-node26-v4-lf/marketplace.captured.json",
+          "captureSha256": "6064e0401685e974d6c2904ab5f2aeb996cd57c1084ee6243cfb508beb24c9c6",
+          "rawMember": "reference-node26-v4-lf/marketplace.raw.json",
+          "rawSha256": "a56603a73d19a67f8b65481926154753e10563b1aea89bd35e7af4ea87a7b4b1"
         }
       ]
     },
     {
       "name": "marketplace-not-found",
       "expectedFile": "fixtures/harness/atomicmarket/marketplace-not-found.expected.json",
-      "expectedSha256": "763aebead0c58788336b255a46c3db2fc891f6fe27e53ba9774f020354c0aa28",
+      "expectedSha256": "cc39990e31834f9d2e76ef3938dd9b95db6ebbd6e894e9feb3422ed3059496be",
       "deterministicBodiesMatchAcrossNativeMajors": true,
       "captures": [
         {
           "runtime": "v24.19.0",
           "status": 416,
           "queries": 2,
-          "captureMember": "reference-node24-v3/marketplace-not-found.captured.json",
-          "captureSha256": "8556da6549fba3fbc4bf75ef3509a04e1e2777c1a24fb7b7ee6f99c0132a5eac",
-          "rawMember": "reference-node24-v3/marketplace-not-found.raw.json",
-          "rawSha256": "212852a021d9771088f44874b72486c71c452ce0b96f5013a332d02c9fe2eeec"
+          "captureMember": "reference-node24-v4-lf/marketplace-not-found.captured.json",
+          "captureSha256": "44134abcb828e26c1177882f7b9a34a56ce3402caa263032167b176634965931",
+          "rawMember": "reference-node24-v4-lf/marketplace-not-found.raw.json",
+          "rawSha256": "544552160893a46b83d86570524af5c526bb89462d2a1f7e9fbc8f4bea5eb413"
         },
         {
           "runtime": "v26.4.0",
           "status": 416,
           "queries": 2,
-          "captureMember": "reference-node26-v3/marketplace-not-found.captured.json",
-          "captureSha256": "763aebead0c58788336b255a46c3db2fc891f6fe27e53ba9774f020354c0aa28",
-          "rawMember": "reference-node26-v3/marketplace-not-found.raw.json",
-          "rawSha256": "56c58f456c5687e43cafd10bf59e10fb6740f2b88193a51e304e900fd815417c"
+          "captureMember": "reference-node26-v4-lf/marketplace-not-found.captured.json",
+          "captureSha256": "cc39990e31834f9d2e76ef3938dd9b95db6ebbd6e894e9feb3422ed3059496be",
+          "rawMember": "reference-node26-v4-lf/marketplace-not-found.raw.json",
+          "rawSha256": "988f46ce8612469b75ede6793c948a2170bffc2f84f7e9541a3900a3c467dd58"
         }
       ]
     },
@@ -76,19 +76,19 @@
           "runtime": "v24.19.0",
           "status": 200,
           "queries": 4,
-          "captureMember": "reference-node24-v3/single-sale.captured.json",
+          "captureMember": "reference-node24-v4-lf/single-sale.captured.json",
           "captureSha256": "dd9a96c9cf8baca73c2127cfb1a89f4071c3a9bae971a88fee6bf5ec46737daf",
-          "rawMember": "reference-node24-v3/single-sale.raw.json",
-          "rawSha256": "f9ea519033194063d862996884d71f99231edddd8e35ea0a5b7730f0fbb487c1"
+          "rawMember": "reference-node24-v4-lf/single-sale.raw.json",
+          "rawSha256": "cd58cf802cab21a69f2de7bef0d04d347263cdb52ecb07c7ca07b366607df436"
         },
         {
           "runtime": "v26.4.0",
           "status": 200,
           "queries": 4,
-          "captureMember": "reference-node26-v3/single-sale.captured.json",
+          "captureMember": "reference-node26-v4-lf/single-sale.captured.json",
           "captureSha256": "ca900cf2c393789dcbfdc46c813e8af4fd427747bd2d2e8ab57c58e8063c14ef",
-          "rawMember": "reference-node26-v3/single-sale.raw.json",
-          "rawSha256": "bc9487af53aef5c6ad375ae988a02ed2c0f158d193651ee7a02beadc3c515aec"
+          "rawMember": "reference-node26-v4-lf/single-sale.raw.json",
+          "rawSha256": "cf09619cc9f7decf8cad7da3df247566fe7d74e54fff8be0d6c468d7b80fafd5"
         }
       ]
     },
@@ -102,19 +102,19 @@
           "runtime": "v24.19.0",
           "status": 416,
           "queries": 2,
-          "captureMember": "reference-node24-v3/sale-not-found.captured.json",
+          "captureMember": "reference-node24-v4-lf/sale-not-found.captured.json",
           "captureSha256": "46bd2a33cbeb8abcf9ca90e13721f53a9ade084677c8ba89b30c8a5deba1a3f7",
-          "rawMember": "reference-node24-v3/sale-not-found.raw.json",
-          "rawSha256": "1cccf4dbed9d691da56f6f6ff8ae0f0fdc84bd620fc2c615575ad9becdc86020"
+          "rawMember": "reference-node24-v4-lf/sale-not-found.raw.json",
+          "rawSha256": "155343c0f4831936128fbcd5900d3a741f8dc9cb09050dacb91c27259cb96814"
         },
         {
           "runtime": "v26.4.0",
           "status": 416,
           "queries": 2,
-          "captureMember": "reference-node26-v3/sale-not-found.captured.json",
+          "captureMember": "reference-node26-v4-lf/sale-not-found.captured.json",
           "captureSha256": "507fed0c33676fa8b0110f99d0f0533bbc8fe72245828b21fbabc0b9b716ecb2",
-          "rawMember": "reference-node26-v3/sale-not-found.raw.json",
-          "rawSha256": "a0f4dbfe2a863f616c0c1c38f0c886c53147108b2fcdbd95e3ce3c58d5e9c764"
+          "rawMember": "reference-node26-v4-lf/sale-not-found.raw.json",
+          "rawSha256": "25565e7ff08e74d61327f6297c7c46b4e3cee7b3908161306f64e88e524857f5"
         }
       ]
     },
@@ -128,19 +128,19 @@
           "runtime": "v24.19.0",
           "status": 400,
           "queries": 1,
-          "captureMember": "reference-node24-v3/sale-invalid-id.captured.json",
+          "captureMember": "reference-node24-v4-lf/sale-invalid-id.captured.json",
           "captureSha256": "9dba54f0a7edb61c721a53700467bc8f25241f793b3b85fbf40da7ed909b6764",
-          "rawMember": "reference-node24-v3/sale-invalid-id.raw.json",
-          "rawSha256": "f210cb8a4a58afda3aaf3745be30ac8c6aa18145eb0cd34b784121581b8cb2b3"
+          "rawMember": "reference-node24-v4-lf/sale-invalid-id.raw.json",
+          "rawSha256": "7d8fa5555b6636833bd5c2cc0dab53112e342e0fa004ccabdd3d1d09e25eac7a"
         },
         {
           "runtime": "v26.4.0",
           "status": 400,
           "queries": 1,
-          "captureMember": "reference-node26-v3/sale-invalid-id.captured.json",
+          "captureMember": "reference-node26-v4-lf/sale-invalid-id.captured.json",
           "captureSha256": "ef3c96895f245133bde4bc2323a2d96dba7c7dfd5a5ef96c381e8d0e7c2d405a",
-          "rawMember": "reference-node26-v3/sale-invalid-id.raw.json",
-          "rawSha256": "1ff79cb5646bb5793f89a01ceb1cefb764ca8f6ec2bd910b89aaa5c01bfb1872"
+          "rawMember": "reference-node26-v4-lf/sale-invalid-id.raw.json",
+          "rawSha256": "bbd6458bf216794d8731e2f9daeff1cb39bedf05749b1b670d8fad16cd12785d"
         }
       ]
     }
@@ -158,5 +158,12 @@
       "emptycontinuation"
     ],
     "scope": "SDK query-boundary fixture; final whole-package ESM validation follows shared foundation integration"
+  },
+  "fixturePortability": {
+    "checkoutPolicy": "Market JSON is exactUTF8/LF on everyplatform throughscopedgitattributes",
+    "recapture": "all5 originalreferenceHTTPfixtures rerun on bothmajors after LF normalization; no logicalinput/response change",
+    "initialCanonicalDigestMismatchMember": "canonical-fixture-digest-red.json",
+    "oldHead": "e9cdfd91e2a4fe3a944b13f693d0a3693ea5188e",
+    "retainedOldCaptures": true
   }
 }

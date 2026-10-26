@@ -6,7 +6,7 @@
     "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e"
   },
   "fixtureKind": "synthetic-database-boundary",
-  "fixtureSha256": "0bb4dfe1f406d15ff4c74f1b8e87e2f151f8e9a7c2272f1b7f3340d859311655",
+  "fixtureSha256": "9a7d513a8ff2902c11850b90b6ea7a702d160c12ac6e551c740ca5ae1149dc2e",
   "request": {
     "method": "GET",
     "path": "/atomicmarket/v1/marketplaces/marketplace1"
