@@ -13,6 +13,7 @@
     "defaultModeRegistrations": 60,
     "alternateSalesModeRegistrations": 60,
     "socketNamespaces": 4,
+    "socketRegistrations": 4,
     "validationDefinitions": 67
   },
   "scope": {
@@ -2040,13 +2041,396 @@
   ],
   "sockets": [
     {
+      "path": "/atomicmarket/v1/sales",
+      "function": "salesSockets",
+      "source": {
+        "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+        "bytes": 11623,
+        "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+        "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+        "line": 202,
+        "endLine": 202
+      },
+      "registrationSource": {
+        "path": "src/api/namespaces/atomicmarket/index.ts",
+        "bytes": 7066,
+        "gitBlob": "b3d3ac03baceedd45601dacf496ccdc5e8b0270e",
+        "sha256": "acef43316443f62fc892084068afad975d852502837356541f95314eef406ebe",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/index.ts",
+        "line": 193,
+        "endLine": 193
+      },
+      "notification": {
+        "channel": "sales",
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+          "bytes": 11623,
+          "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+          "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+          "line": 218,
+          "endLine": 263
+        }
+      },
+      "accountFilter": {
+        "expression": "trace.act.account !== core.args.atomicmarket_account",
+        "expectedAccount": "core.args.atomicmarket_account",
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+          "bytes": 11623,
+          "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+          "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+          "line": 236,
+          "endLine": 238
+        }
+      },
+      "subscriptions": [
+        {
+          "event": "subscribe",
+          "rooms": [
+            "new_sales",
+            "purchased_sales"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+            "bytes": 11623,
+            "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+            "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+            "line": 205,
+            "endLine": 215
+          },
+          "roomsSource": {
+            "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+            "bytes": 11623,
+            "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+            "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+            "line": 206,
+            "endLine": 206
+          },
+          "joinWhen": "data && data[room]",
+          "joinSource": {
+            "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+            "bytes": 11623,
+            "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+            "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+            "line": 210,
+            "endLine": 210
+          },
+          "leaveWhen": "socket.rooms.has(room)",
+          "leaveSource": {
+            "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+            "bytes": 11623,
+            "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+            "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+            "line": 212,
+            "endLine": 212
+          },
+          "separateUnsubscribe": false,
+          "semantics": "For each available room, truthy data[room] joins; otherwise an existing membership leaves. No separate unsubscribe listener is declared."
+        }
+      ],
+      "events": [
+        {
+          "event": "new_sale",
+          "room": "new_sales",
+          "payload": "{\n                        transaction: notification.data.tx,\n                        block: notification.data.block,\n                        trace: trace,\n                        sale_id: saleID,\n                        sale: sales.find((row: any) => String(row.sale_id) === String(saleID))\n                    }",
+          "payloadFields": [
+            "transaction",
+            "block",
+            "trace",
+            "sale_id",
+            "sale"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+            "bytes": 11623,
+            "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+            "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+            "line": 243,
+            "endLine": 249
+          },
+          "trigger": {
+            "action": "lognewsale",
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+              "bytes": 11623,
+              "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+              "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+              "line": 242,
+              "endLine": 258
+            }
+          },
+          "featureGates": []
+        },
+        {
+          "event": "purchased_sale",
+          "room": "purchased_sales",
+          "payload": "{\n                        transaction: notification.data.tx,\n                        block: notification.data.block,\n                        trace: trace,\n                        sale_id: saleID,\n                        sale: sales.find((row: any) => String(row.sale_id) === String(saleID))\n                    }",
+          "payloadFields": [
+            "transaction",
+            "block",
+            "trace",
+            "sale_id",
+            "sale"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+            "bytes": 11623,
+            "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+            "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+            "line": 251,
+            "endLine": 257
+          },
+          "trigger": {
+            "action": "purchasesale",
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+              "bytes": 11623,
+              "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+              "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+              "line": 250,
+              "endLine": 258
+            }
+          },
+          "featureGates": []
+        }
+      ],
+      "fork": {
+        "event": "fork",
+        "room": null,
+        "payload": "{block_num: notification.data.block.block_num}",
+        "payloadFields": [
+          "block_num"
+        ],
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+          "bytes": 11623,
+          "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+          "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+          "line": 260,
+          "endLine": 260
+        },
+        "trigger": {
+          "notificationType": "fork",
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+            "bytes": 11623,
+            "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+            "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+            "line": 259,
+            "endLine": 261
+          }
+        }
+      },
+      "implementationStatus": "not_implemented",
+      "referenceBehaviorStatus": "source_inventory_only"
+    },
+    {
       "path": "/atomicmarket/v1/auctions",
       "function": "auctionSockets",
       "source": {
         "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
-        "line": 158,
+        "bytes": 10878,
         "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
-        "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577"
+        "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+        "line": 158,
+        "endLine": 158
+      },
+      "registrationSource": {
+        "path": "src/api/namespaces/atomicmarket/index.ts",
+        "bytes": 7066,
+        "gitBlob": "b3d3ac03baceedd45601dacf496ccdc5e8b0270e",
+        "sha256": "acef43316443f62fc892084068afad975d852502837356541f95314eef406ebe",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/index.ts",
+        "line": 194,
+        "endLine": 194
+      },
+      "notification": {
+        "channel": "auctions",
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+          "bytes": 10878,
+          "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+          "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+          "line": 174,
+          "endLine": 235
+        }
+      },
+      "accountFilter": {
+        "expression": "trace.act.account !== core.args.atomicmarket_account",
+        "expectedAccount": "core.args.atomicmarket_account",
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+          "bytes": 10878,
+          "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+          "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+          "line": 196,
+          "endLine": 198
+        }
+      },
+      "subscriptions": [
+        {
+          "event": "subscribe",
+          "rooms": [
+            "new_auctions",
+            "new_bids"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "bytes": 10878,
+            "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+            "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "line": 161,
+            "endLine": 171
+          },
+          "roomsSource": {
+            "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "bytes": 10878,
+            "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+            "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "line": 162,
+            "endLine": 162
+          },
+          "joinWhen": "data && data[room]",
+          "joinSource": {
+            "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "bytes": 10878,
+            "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+            "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "line": 166,
+            "endLine": 166
+          },
+          "leaveWhen": "socket.rooms.has(room)",
+          "leaveSource": {
+            "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "bytes": 10878,
+            "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+            "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "line": 168,
+            "endLine": 168
+          },
+          "separateUnsubscribe": false,
+          "semantics": "For each available room, truthy data[room] joins; otherwise an existing membership leaves. No separate unsubscribe listener is declared."
+        }
+      ],
+      "events": [
+        {
+          "event": "new_auction",
+          "room": "new_auctions",
+          "payload": "{\n                        transaction: notification.data.tx,\n                        block: notification.data.block,\n                        trace: notification.data.trace,\n                        auction_id: auctionID,\n                        auction: auction\n                    }",
+          "payloadFields": [
+            "transaction",
+            "block",
+            "trace",
+            "auction_id",
+            "auction"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "bytes": 10878,
+            "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+            "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "line": 204,
+            "endLine": 210
+          },
+          "trigger": {
+            "action": "lognewauct",
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "bytes": 10878,
+              "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+              "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "line": 203,
+              "endLine": 230
+            }
+          },
+          "featureGates": []
+        },
+        {
+          "event": "new_bid",
+          "room": "new_bids",
+          "payload": "{\n                        transaction: notification.data.tx,\n                        block: notification.data.block,\n                        trace: notification.data.trace,\n                        auction_id: auctionID,\n                        bid: auction ? {\n                            number: bid ? bid.number : 0,\n                            account: (<any>trace.act.data).bidder,\n                            amount: amount,\n                            created_at_block: notification.data.block.block_num,\n                            created_at_time: eosioTimestampToDate(notification.data.block.timestamp).getTime(),\n                            txid: notification.data.tx.id\n                        } : null,\n                        auction: auction\n                    }",
+          "payloadFields": [
+            "transaction",
+            "block",
+            "trace",
+            "auction_id",
+            "bid",
+            "auction"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "bytes": 10878,
+            "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+            "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "line": 215,
+            "endLine": 229
+          },
+          "trigger": {
+            "action": "auctionbid",
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "bytes": 10878,
+              "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+              "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "line": 211,
+              "endLine": 230
+            }
+          },
+          "featureGates": []
+        }
+      ],
+      "fork": {
+        "event": "fork",
+        "room": null,
+        "payload": "{block_num: notification.data.block.block_num}",
+        "payloadFields": [
+          "block_num"
+        ],
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+          "bytes": 10878,
+          "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+          "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+          "line": 232,
+          "endLine": 232
+        },
+        "trigger": {
+          "notificationType": "fork",
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "bytes": 10878,
+            "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+            "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "line": 231,
+            "endLine": 233
+          }
+        }
       },
       "implementationStatus": "not_implemented",
       "referenceBehaviorStatus": "source_inventory_only"
@@ -2056,21 +2440,159 @@
       "function": "buyofferSockets",
       "source": {
         "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
-        "line": 131,
+        "bytes": 8173,
         "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
-        "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a"
+        "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+        "line": 131,
+        "endLine": 131
       },
-      "implementationStatus": "not_implemented",
-      "referenceBehaviorStatus": "source_inventory_only"
-    },
-    {
-      "path": "/atomicmarket/v1/sales",
-      "function": "salesSockets",
-      "source": {
-        "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
-        "line": 202,
-        "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
-        "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0"
+      "registrationSource": {
+        "path": "src/api/namespaces/atomicmarket/index.ts",
+        "bytes": 7066,
+        "gitBlob": "b3d3ac03baceedd45601dacf496ccdc5e8b0270e",
+        "sha256": "acef43316443f62fc892084068afad975d852502837356541f95314eef406ebe",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/index.ts",
+        "line": 195,
+        "endLine": 195
+      },
+      "notification": {
+        "channel": "buyoffers",
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+          "bytes": 8173,
+          "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+          "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+          "line": 147,
+          "endLine": 185
+        }
+      },
+      "accountFilter": {
+        "expression": "trace.act.account !== core.args.atomicmarket_account",
+        "expectedAccount": "core.args.atomicmarket_account",
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+          "bytes": 8173,
+          "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+          "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+          "line": 165,
+          "endLine": 167
+        }
+      },
+      "subscriptions": [
+        {
+          "event": "subscribe",
+          "rooms": [
+            "new_buyoffers"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "bytes": 8173,
+            "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+            "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "line": 134,
+            "endLine": 144
+          },
+          "roomsSource": {
+            "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "bytes": 8173,
+            "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+            "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "line": 135,
+            "endLine": 135
+          },
+          "joinWhen": "data && data[room]",
+          "joinSource": {
+            "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "bytes": 8173,
+            "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+            "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "line": 139,
+            "endLine": 139
+          },
+          "leaveWhen": "socket.rooms.has(room)",
+          "leaveSource": {
+            "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "bytes": 8173,
+            "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+            "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "line": 141,
+            "endLine": 141
+          },
+          "separateUnsubscribe": false,
+          "semantics": "For each available room, truthy data[room] joins; otherwise an existing membership leaves. No separate unsubscribe listener is declared."
+        }
+      ],
+      "events": [
+        {
+          "event": "new_buyoffer",
+          "room": "new_buyoffers",
+          "payload": "{\n                        transaction: notification.data.tx,\n                        block: notification.data.block,\n                        trace: notification.data.trace,\n                        buyoffer_id: buyofferID,\n                        buyoffer: formatBuyoffer(buyoffer)\n                    }",
+          "payloadFields": [
+            "transaction",
+            "block",
+            "trace",
+            "buyoffer_id",
+            "buyoffer"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "bytes": 8173,
+            "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+            "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "line": 173,
+            "endLine": 179
+          },
+          "trigger": {
+            "action": "lognewbuyo",
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+              "bytes": 8173,
+              "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+              "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+              "line": 172,
+              "endLine": 180
+            }
+          },
+          "featureGates": []
+        }
+      ],
+      "fork": {
+        "event": "fork",
+        "room": null,
+        "payload": "{block_num: notification.data.block.block_num}",
+        "payloadFields": [
+          "block_num"
+        ],
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+          "bytes": 8173,
+          "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+          "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+          "line": 182,
+          "endLine": 182
+        },
+        "trigger": {
+          "notificationType": "fork",
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "bytes": 8173,
+            "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+            "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "line": 181,
+            "endLine": 183
+          }
+        }
       },
       "implementationStatus": "not_implemented",
       "referenceBehaviorStatus": "source_inventory_only"
@@ -2080,14 +2602,990 @@
       "function": "templateBuyofferSockets",
       "source": {
         "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
-        "line": 129,
+        "bytes": 8230,
         "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
-        "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1"
+        "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+        "line": 129,
+        "endLine": 129
+      },
+      "registrationSource": {
+        "path": "src/api/namespaces/atomicmarket/index.ts",
+        "bytes": 7066,
+        "gitBlob": "b3d3ac03baceedd45601dacf496ccdc5e8b0270e",
+        "sha256": "acef43316443f62fc892084068afad975d852502837356541f95314eef406ebe",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/index.ts",
+        "line": 196,
+        "endLine": 196
+      },
+      "notification": {
+        "channel": "template_buyoffers",
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+          "bytes": 8230,
+          "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+          "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+          "line": 145,
+          "endLine": 183
+        }
+      },
+      "accountFilter": {
+        "expression": "trace.act.account !== core.args.atomicmarket_account",
+        "expectedAccount": "core.args.atomicmarket_account",
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+          "bytes": 8230,
+          "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+          "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+          "line": 163,
+          "endLine": 165
+        }
+      },
+      "subscriptions": [
+        {
+          "event": "subscribe",
+          "rooms": [
+            "new_template_buyoffers"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "bytes": 8230,
+            "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+            "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "line": 132,
+            "endLine": 142
+          },
+          "roomsSource": {
+            "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "bytes": 8230,
+            "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+            "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "line": 133,
+            "endLine": 133
+          },
+          "joinWhen": "data && data[room]",
+          "joinSource": {
+            "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "bytes": 8230,
+            "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+            "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "line": 137,
+            "endLine": 137
+          },
+          "leaveWhen": "socket.rooms.has(room)",
+          "leaveSource": {
+            "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "bytes": 8230,
+            "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+            "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "line": 139,
+            "endLine": 139
+          },
+          "separateUnsubscribe": false,
+          "semantics": "For each available room, truthy data[room] joins; otherwise an existing membership leaves. No separate unsubscribe listener is declared."
+        }
+      ],
+      "events": [
+        {
+          "event": "new_template_buyoffer",
+          "room": "new_template_buyoffers",
+          "payload": "{\n                        transaction: notification.data.tx,\n                        block: notification.data.block,\n                        trace: notification.data.trace,\n                        buyoffer_id: buyofferID,\n                        buyoffer: formatTemplateBuyoffer(buyoffer)\n                    }",
+          "payloadFields": [
+            "transaction",
+            "block",
+            "trace",
+            "buyoffer_id",
+            "buyoffer"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "bytes": 8230,
+            "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+            "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "line": 171,
+            "endLine": 177
+          },
+          "trigger": {
+            "action": "lognewtbuyo",
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+              "bytes": 8230,
+              "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+              "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+              "line": 170,
+              "endLine": 178
+            }
+          },
+          "featureGates": []
+        }
+      ],
+      "fork": {
+        "event": "fork",
+        "room": null,
+        "payload": "{block_num: notification.data.block.block_num}",
+        "payloadFields": [
+          "block_num"
+        ],
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+          "bytes": 8230,
+          "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+          "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+          "line": 180,
+          "endLine": 180
+        },
+        "trigger": {
+          "notificationType": "fork",
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "bytes": 8230,
+            "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+            "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "line": 179,
+            "endLine": 181
+          }
+        }
       },
       "implementationStatus": "not_implemented",
       "referenceBehaviorStatus": "source_inventory_only"
     }
   ],
+  "socketCoverage": {
+    "status": "source declarations inventoried; reference socket sessions and Hyperion streaming integration pending",
+    "runtimeQualified": false,
+    "registrationCount": 4,
+    "distinctNamespaceCount": 4,
+    "registrations": [
+      {
+        "path": "/atomicmarket/v1/sales",
+        "function": "salesSockets",
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+          "bytes": 11623,
+          "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+          "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+          "line": 202,
+          "endLine": 202
+        },
+        "registrationSource": {
+          "path": "src/api/namespaces/atomicmarket/index.ts",
+          "bytes": 7066,
+          "gitBlob": "b3d3ac03baceedd45601dacf496ccdc5e8b0270e",
+          "sha256": "acef43316443f62fc892084068afad975d852502837356541f95314eef406ebe",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/index.ts",
+          "line": 193,
+          "endLine": 193
+        },
+        "notification": {
+          "channel": "sales",
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+            "bytes": 11623,
+            "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+            "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+            "line": 218,
+            "endLine": 263
+          }
+        },
+        "accountFilter": {
+          "expression": "trace.act.account !== core.args.atomicmarket_account",
+          "expectedAccount": "core.args.atomicmarket_account",
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+            "bytes": 11623,
+            "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+            "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+            "line": 236,
+            "endLine": 238
+          }
+        },
+        "subscriptions": [
+          {
+            "event": "subscribe",
+            "rooms": [
+              "new_sales",
+              "purchased_sales"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+              "bytes": 11623,
+              "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+              "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+              "line": 205,
+              "endLine": 215
+            },
+            "roomsSource": {
+              "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+              "bytes": 11623,
+              "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+              "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+              "line": 206,
+              "endLine": 206
+            },
+            "joinWhen": "data && data[room]",
+            "joinSource": {
+              "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+              "bytes": 11623,
+              "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+              "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+              "line": 210,
+              "endLine": 210
+            },
+            "leaveWhen": "socket.rooms.has(room)",
+            "leaveSource": {
+              "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+              "bytes": 11623,
+              "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+              "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+              "line": 212,
+              "endLine": 212
+            },
+            "separateUnsubscribe": false,
+            "semantics": "For each available room, truthy data[room] joins; otherwise an existing membership leaves. No separate unsubscribe listener is declared."
+          }
+        ],
+        "events": [
+          {
+            "event": "new_sale",
+            "room": "new_sales",
+            "payload": "{\n                        transaction: notification.data.tx,\n                        block: notification.data.block,\n                        trace: trace,\n                        sale_id: saleID,\n                        sale: sales.find((row: any) => String(row.sale_id) === String(saleID))\n                    }",
+            "payloadFields": [
+              "transaction",
+              "block",
+              "trace",
+              "sale_id",
+              "sale"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+              "bytes": 11623,
+              "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+              "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+              "line": 243,
+              "endLine": 249
+            },
+            "trigger": {
+              "action": "lognewsale",
+              "source": {
+                "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+                "bytes": 11623,
+                "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+                "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+                "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+                "line": 242,
+                "endLine": 258
+              }
+            },
+            "featureGates": []
+          },
+          {
+            "event": "purchased_sale",
+            "room": "purchased_sales",
+            "payload": "{\n                        transaction: notification.data.tx,\n                        block: notification.data.block,\n                        trace: trace,\n                        sale_id: saleID,\n                        sale: sales.find((row: any) => String(row.sale_id) === String(saleID))\n                    }",
+            "payloadFields": [
+              "transaction",
+              "block",
+              "trace",
+              "sale_id",
+              "sale"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+              "bytes": 11623,
+              "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+              "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+              "line": 251,
+              "endLine": 257
+            },
+            "trigger": {
+              "action": "purchasesale",
+              "source": {
+                "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+                "bytes": 11623,
+                "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+                "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+                "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+                "line": 250,
+                "endLine": 258
+              }
+            },
+            "featureGates": []
+          }
+        ],
+        "fork": {
+          "event": "fork",
+          "room": null,
+          "payload": "{block_num: notification.data.block.block_num}",
+          "payloadFields": [
+            "block_num"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+            "bytes": 11623,
+            "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+            "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+            "line": 260,
+            "endLine": 260
+          },
+          "trigger": {
+            "notificationType": "fork",
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+              "bytes": 11623,
+              "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+              "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts",
+              "line": 259,
+              "endLine": 261
+            }
+          }
+        },
+        "implementationStatus": "not_implemented",
+        "referenceBehaviorStatus": "source_inventory_only"
+      },
+      {
+        "path": "/atomicmarket/v1/auctions",
+        "function": "auctionSockets",
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+          "bytes": 10878,
+          "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+          "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+          "line": 158,
+          "endLine": 158
+        },
+        "registrationSource": {
+          "path": "src/api/namespaces/atomicmarket/index.ts",
+          "bytes": 7066,
+          "gitBlob": "b3d3ac03baceedd45601dacf496ccdc5e8b0270e",
+          "sha256": "acef43316443f62fc892084068afad975d852502837356541f95314eef406ebe",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/index.ts",
+          "line": 194,
+          "endLine": 194
+        },
+        "notification": {
+          "channel": "auctions",
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "bytes": 10878,
+            "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+            "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "line": 174,
+            "endLine": 235
+          }
+        },
+        "accountFilter": {
+          "expression": "trace.act.account !== core.args.atomicmarket_account",
+          "expectedAccount": "core.args.atomicmarket_account",
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "bytes": 10878,
+            "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+            "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "line": 196,
+            "endLine": 198
+          }
+        },
+        "subscriptions": [
+          {
+            "event": "subscribe",
+            "rooms": [
+              "new_auctions",
+              "new_bids"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "bytes": 10878,
+              "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+              "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "line": 161,
+              "endLine": 171
+            },
+            "roomsSource": {
+              "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "bytes": 10878,
+              "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+              "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "line": 162,
+              "endLine": 162
+            },
+            "joinWhen": "data && data[room]",
+            "joinSource": {
+              "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "bytes": 10878,
+              "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+              "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "line": 166,
+              "endLine": 166
+            },
+            "leaveWhen": "socket.rooms.has(room)",
+            "leaveSource": {
+              "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "bytes": 10878,
+              "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+              "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "line": 168,
+              "endLine": 168
+            },
+            "separateUnsubscribe": false,
+            "semantics": "For each available room, truthy data[room] joins; otherwise an existing membership leaves. No separate unsubscribe listener is declared."
+          }
+        ],
+        "events": [
+          {
+            "event": "new_auction",
+            "room": "new_auctions",
+            "payload": "{\n                        transaction: notification.data.tx,\n                        block: notification.data.block,\n                        trace: notification.data.trace,\n                        auction_id: auctionID,\n                        auction: auction\n                    }",
+            "payloadFields": [
+              "transaction",
+              "block",
+              "trace",
+              "auction_id",
+              "auction"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "bytes": 10878,
+              "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+              "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "line": 204,
+              "endLine": 210
+            },
+            "trigger": {
+              "action": "lognewauct",
+              "source": {
+                "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+                "bytes": 10878,
+                "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+                "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+                "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+                "line": 203,
+                "endLine": 230
+              }
+            },
+            "featureGates": []
+          },
+          {
+            "event": "new_bid",
+            "room": "new_bids",
+            "payload": "{\n                        transaction: notification.data.tx,\n                        block: notification.data.block,\n                        trace: notification.data.trace,\n                        auction_id: auctionID,\n                        bid: auction ? {\n                            number: bid ? bid.number : 0,\n                            account: (<any>trace.act.data).bidder,\n                            amount: amount,\n                            created_at_block: notification.data.block.block_num,\n                            created_at_time: eosioTimestampToDate(notification.data.block.timestamp).getTime(),\n                            txid: notification.data.tx.id\n                        } : null,\n                        auction: auction\n                    }",
+            "payloadFields": [
+              "transaction",
+              "block",
+              "trace",
+              "auction_id",
+              "bid",
+              "auction"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "bytes": 10878,
+              "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+              "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "line": 215,
+              "endLine": 229
+            },
+            "trigger": {
+              "action": "auctionbid",
+              "source": {
+                "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+                "bytes": 10878,
+                "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+                "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+                "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+                "line": 211,
+                "endLine": 230
+              }
+            },
+            "featureGates": []
+          }
+        ],
+        "fork": {
+          "event": "fork",
+          "room": null,
+          "payload": "{block_num: notification.data.block.block_num}",
+          "payloadFields": [
+            "block_num"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "bytes": 10878,
+            "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+            "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+            "line": 232,
+            "endLine": 232
+          },
+          "trigger": {
+            "notificationType": "fork",
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "bytes": 10878,
+              "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+              "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts",
+              "line": 231,
+              "endLine": 233
+            }
+          }
+        },
+        "implementationStatus": "not_implemented",
+        "referenceBehaviorStatus": "source_inventory_only"
+      },
+      {
+        "path": "/atomicmarket/v1/buyoffers",
+        "function": "buyofferSockets",
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+          "bytes": 8173,
+          "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+          "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+          "line": 131,
+          "endLine": 131
+        },
+        "registrationSource": {
+          "path": "src/api/namespaces/atomicmarket/index.ts",
+          "bytes": 7066,
+          "gitBlob": "b3d3ac03baceedd45601dacf496ccdc5e8b0270e",
+          "sha256": "acef43316443f62fc892084068afad975d852502837356541f95314eef406ebe",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/index.ts",
+          "line": 195,
+          "endLine": 195
+        },
+        "notification": {
+          "channel": "buyoffers",
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "bytes": 8173,
+            "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+            "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "line": 147,
+            "endLine": 185
+          }
+        },
+        "accountFilter": {
+          "expression": "trace.act.account !== core.args.atomicmarket_account",
+          "expectedAccount": "core.args.atomicmarket_account",
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "bytes": 8173,
+            "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+            "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "line": 165,
+            "endLine": 167
+          }
+        },
+        "subscriptions": [
+          {
+            "event": "subscribe",
+            "rooms": [
+              "new_buyoffers"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+              "bytes": 8173,
+              "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+              "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+              "line": 134,
+              "endLine": 144
+            },
+            "roomsSource": {
+              "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+              "bytes": 8173,
+              "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+              "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+              "line": 135,
+              "endLine": 135
+            },
+            "joinWhen": "data && data[room]",
+            "joinSource": {
+              "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+              "bytes": 8173,
+              "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+              "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+              "line": 139,
+              "endLine": 139
+            },
+            "leaveWhen": "socket.rooms.has(room)",
+            "leaveSource": {
+              "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+              "bytes": 8173,
+              "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+              "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+              "line": 141,
+              "endLine": 141
+            },
+            "separateUnsubscribe": false,
+            "semantics": "For each available room, truthy data[room] joins; otherwise an existing membership leaves. No separate unsubscribe listener is declared."
+          }
+        ],
+        "events": [
+          {
+            "event": "new_buyoffer",
+            "room": "new_buyoffers",
+            "payload": "{\n                        transaction: notification.data.tx,\n                        block: notification.data.block,\n                        trace: notification.data.trace,\n                        buyoffer_id: buyofferID,\n                        buyoffer: formatBuyoffer(buyoffer)\n                    }",
+            "payloadFields": [
+              "transaction",
+              "block",
+              "trace",
+              "buyoffer_id",
+              "buyoffer"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+              "bytes": 8173,
+              "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+              "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+              "line": 173,
+              "endLine": 179
+            },
+            "trigger": {
+              "action": "lognewbuyo",
+              "source": {
+                "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+                "bytes": 8173,
+                "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+                "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+                "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+                "line": 172,
+                "endLine": 180
+              }
+            },
+            "featureGates": []
+          }
+        ],
+        "fork": {
+          "event": "fork",
+          "room": null,
+          "payload": "{block_num: notification.data.block.block_num}",
+          "payloadFields": [
+            "block_num"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "bytes": 8173,
+            "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+            "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+            "line": 182,
+            "endLine": 182
+          },
+          "trigger": {
+            "notificationType": "fork",
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+              "bytes": 8173,
+              "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+              "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+              "line": 181,
+              "endLine": 183
+            }
+          }
+        },
+        "implementationStatus": "not_implemented",
+        "referenceBehaviorStatus": "source_inventory_only"
+      },
+      {
+        "path": "/atomicmarket/v1/template_buyoffers",
+        "function": "templateBuyofferSockets",
+        "source": {
+          "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+          "bytes": 8230,
+          "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+          "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+          "line": 129,
+          "endLine": 129
+        },
+        "registrationSource": {
+          "path": "src/api/namespaces/atomicmarket/index.ts",
+          "bytes": 7066,
+          "gitBlob": "b3d3ac03baceedd45601dacf496ccdc5e8b0270e",
+          "sha256": "acef43316443f62fc892084068afad975d852502837356541f95314eef406ebe",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/index.ts",
+          "line": 196,
+          "endLine": 196
+        },
+        "notification": {
+          "channel": "template_buyoffers",
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "bytes": 8230,
+            "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+            "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "line": 145,
+            "endLine": 183
+          }
+        },
+        "accountFilter": {
+          "expression": "trace.act.account !== core.args.atomicmarket_account",
+          "expectedAccount": "core.args.atomicmarket_account",
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "bytes": 8230,
+            "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+            "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "line": 163,
+            "endLine": 165
+          }
+        },
+        "subscriptions": [
+          {
+            "event": "subscribe",
+            "rooms": [
+              "new_template_buyoffers"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+              "bytes": 8230,
+              "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+              "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+              "line": 132,
+              "endLine": 142
+            },
+            "roomsSource": {
+              "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+              "bytes": 8230,
+              "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+              "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+              "line": 133,
+              "endLine": 133
+            },
+            "joinWhen": "data && data[room]",
+            "joinSource": {
+              "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+              "bytes": 8230,
+              "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+              "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+              "line": 137,
+              "endLine": 137
+            },
+            "leaveWhen": "socket.rooms.has(room)",
+            "leaveSource": {
+              "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+              "bytes": 8230,
+              "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+              "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+              "line": 139,
+              "endLine": 139
+            },
+            "separateUnsubscribe": false,
+            "semantics": "For each available room, truthy data[room] joins; otherwise an existing membership leaves. No separate unsubscribe listener is declared."
+          }
+        ],
+        "events": [
+          {
+            "event": "new_template_buyoffer",
+            "room": "new_template_buyoffers",
+            "payload": "{\n                        transaction: notification.data.tx,\n                        block: notification.data.block,\n                        trace: notification.data.trace,\n                        buyoffer_id: buyofferID,\n                        buyoffer: formatTemplateBuyoffer(buyoffer)\n                    }",
+            "payloadFields": [
+              "transaction",
+              "block",
+              "trace",
+              "buyoffer_id",
+              "buyoffer"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+              "bytes": 8230,
+              "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+              "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+              "line": 171,
+              "endLine": 177
+            },
+            "trigger": {
+              "action": "lognewtbuyo",
+              "source": {
+                "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+                "bytes": 8230,
+                "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+                "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+                "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+                "line": 170,
+                "endLine": 178
+              }
+            },
+            "featureGates": []
+          }
+        ],
+        "fork": {
+          "event": "fork",
+          "room": null,
+          "payload": "{block_num: notification.data.block.block_num}",
+          "payloadFields": [
+            "block_num"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "bytes": 8230,
+            "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+            "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+            "line": 180,
+            "endLine": 180
+          },
+          "trigger": {
+            "notificationType": "fork",
+            "source": {
+              "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+              "bytes": 8230,
+              "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+              "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+              "line": 179,
+              "endLine": 181
+            }
+          }
+        },
+        "implementationStatus": "not_implemented",
+        "referenceBehaviorStatus": "source_inventory_only"
+      }
+    ],
+    "featureDefaults": {
+      "condition": "!this.args.socket_features",
+      "value": {
+        "asset_update": true
+      },
+      "source": {
+        "path": "src/api/namespaces/atomicmarket/index.ts",
+        "bytes": 7066,
+        "gitBlob": "b3d3ac03baceedd45601dacf496ccdc5e8b0270e",
+        "sha256": "acef43316443f62fc892084068afad975d852502837356541f95314eef406ebe",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/index.ts",
+        "line": 103,
+        "endLine": 107
+      },
+      "semantics": "Defaults replace the whole falsy socket_features value; an existing object is not merged with per-key defaults."
+    },
+    "namespaceFactory": {
+      "expression": "server.socket.io.of(path)",
+      "source": {
+        "path": "src/api/utils.ts",
+        "bytes": 5618,
+        "gitBlob": "2095e511ebe5a372b909875028ebb5ff37f7c4a3",
+        "sha256": "4fcce204aded2e2101282a05240cf15bb2bf43133cfaa414a46cb0c07b533567",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/utils.ts",
+        "line": 64,
+        "endLine": 66
+      }
+    },
+    "transport": {
+      "options": {
+        "cors": {
+          "origin": "*"
+        },
+        "allowEIO3": true,
+        "transports": [
+          "websocket"
+        ]
+      },
+      "source": {
+        "path": "src/api/server.ts",
+        "bytes": 18442,
+        "gitBlob": "a5a2a3074fbee389207188eb3aa404a8201e546f",
+        "sha256": "df32f2055d45bcb3e055cf09b306aa97590e7b14defaea6899a166198b068e1d",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/server.ts",
+        "line": 441,
+        "endLine": 445
+      }
+    },
+    "sourcePins": [
+      {
+        "path": "src/api/namespaces/atomicmarket/index.ts",
+        "bytes": 7066,
+        "gitBlob": "b3d3ac03baceedd45601dacf496ccdc5e8b0270e",
+        "sha256": "acef43316443f62fc892084068afad975d852502837356541f95314eef406ebe",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/index.ts"
+      },
+      {
+        "path": "src/api/namespaces/atomicmarket/routes/auctions.ts",
+        "bytes": 10878,
+        "gitBlob": "826a423921378a6539d812a7cec6f454bad00deb",
+        "sha256": "d50f5ec8287ee61e5f386c4a4522e420220d0fc6e786151f605bf0dcc0e25577",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/auctions.ts"
+      },
+      {
+        "path": "src/api/namespaces/atomicmarket/routes/buyoffers.ts",
+        "bytes": 8173,
+        "gitBlob": "1dea407115a39e731996e323693719a9cc215fe2",
+        "sha256": "4d7edcf2c847ea6cb0dc89326f4f6f6ce2fb531417bf3fc91deeeb57722a7c5a",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/buyoffers.ts"
+      },
+      {
+        "path": "src/api/namespaces/atomicmarket/routes/sales.ts",
+        "bytes": 11623,
+        "gitBlob": "e81ea56e2e66c0c50c68c27523b2b27bd7bc07fa",
+        "sha256": "3a95ad1781f9d32d622bb664b0e35a7553ecbabc491c2990b1499ace06439bd0",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/sales.ts"
+      },
+      {
+        "path": "src/api/namespaces/atomicmarket/routes/template-buyoffers.ts",
+        "bytes": 8230,
+        "gitBlob": "f4b22d05efb7b1f386944f724a373104f2ace8a7",
+        "sha256": "8033f7563faa48cf1c1f5522b32d8d11ba7164af7f8dfb9d1b0162552efc58b1",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/routes/template-buyoffers.ts"
+      },
+      {
+        "path": "src/api/server.ts",
+        "bytes": 18442,
+        "gitBlob": "a5a2a3074fbee389207188eb3aa404a8201e546f",
+        "sha256": "df32f2055d45bcb3e055cf09b306aa97590e7b14defaea6899a166198b068e1d",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/server.ts"
+      },
+      {
+        "path": "src/api/utils.ts",
+        "bytes": 5618,
+        "gitBlob": "2095e511ebe5a372b909875028ebb5ff37f7c4a3",
+        "sha256": "4fcce204aded2e2101282a05240cf15bb2bf43133cfaa414a46cb0c07b533567",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/utils.ts"
+      }
+    ]
+  },
   "openapi": {
     "sharedAcrossSalesModes": true,
     "paths": {

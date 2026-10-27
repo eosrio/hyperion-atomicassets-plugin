@@ -5,6 +5,7 @@ import {createRequire} from 'node:module';
 import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import {dirname, resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {inventorySocketContracts} from '../../../harness/shared/socket-inventory.mjs';
 
 const [referenceRoot, sharedHarnessPath, outputPath, nodePath = process.execPath] = process.argv.slice(2);
 if (!referenceRoot || !sharedHarnessPath || !outputPath) {
@@ -33,7 +34,7 @@ const files = git('ls-tree', '-r', '--name-only', 'HEAD', 'src/api/namespaces/at
   'src/api/namespaces/atomicassets', 'src/api/namespaces/utils.ts', 'src/api/namespaces/validation.ts')
   .toString().trim().split('\n').filter(p => p.endsWith('.ts') && !p.endsWith('.test.ts')
     && !p.endsWith('/test.ts'));
-const sourcePins = [], anchors = [], validation = [], sockets = [];
+const sourcePins = [], anchors = [], validation = [];
 function enclosingFunction(node, source) {
   for (let p = node.parent; p; p = p.parent) {
     if (ts.isFunctionLike(p)) return p.name?.getText(source) ?? p.parent?.name?.getText(source) ?? '(anonymous)';
@@ -74,14 +75,6 @@ for (const path of files) {
       validation.push({function: enclosingFunction(node, source), source: location(node),
         input: node.arguments[0]?.getText(source), definition: node.arguments[1]?.getText(source)});
     }
-    if (path.startsWith('src/api/namespaces/atomicmarket/routes/') && ts.isCallExpression(node)
-        && node.expression.getText(source) === 'createSocketApiNamespace') {
-      const arg = node.arguments[1];
-      assert(ts.isBinaryExpression(arg) && ts.isStringLiteralLike(arg.right));
-      const owner = enclosingFunction(node, source);
-      sockets.push({path: '/atomicmarket' + arg.right.text, function: owner, source: location(node),
-        implementationStatus: 'not_implemented', referenceBehaviorStatus: 'source_inventory_only'});
-    }
     ts.forEachChild(node, visit);
   }
   visit(source);
@@ -102,11 +95,14 @@ for (const {disableV1Sales, result} of inspections) {
 }
 for (const anchor of anchors) assert(routes.has(anchor.registeredMethod + ' ' + anchor.path),
   'Source-declared route was not registered: ' + anchor.path);
+const socketCoverage = inventorySocketContracts({referenceRoot, namespace: 'atomicmarket', ts});
+const sockets = socketCoverage.registrations;
 const sourceStats = {
   files: sourcePins.length, sourceRegistrations: anchors.length, distinctHttpRegistrations: routes.size,
   defaultModeRegistrations: inspections[0].result.inventory.routes.length,
   alternateSalesModeRegistrations: inspections[1].result.inventory.routes.length,
-  socketNamespaces: sockets.length, validationDefinitions: validation.length,
+  socketNamespaces: socketCoverage.distinctNamespaceCount, socketRegistrations: socketCoverage.registrationCount,
+  validationDefinitions: validation.length,
 };
 const components = inspections[0].result.inventory.components;
 assert(components && typeof components === 'object', 'Original response components must be captured');
@@ -138,7 +134,7 @@ const inventory = {schemaVersion: 1,
     modes: inspections.map(({disableV1Sales, result}) => ({disableV1Sales, exitCode: result.execution.exitCode,
       namespaceInitQueries: result.database.executed.length, unusedQueries: result.database.unused}))},
   http: [...routes.values()].sort((a, b) => a.path.localeCompare(b.path) || a.registeredMethod.localeCompare(b.registeredMethod)),
-  sockets,
+  sockets, socketCoverage,
   openapi: {sharedAcrossSalesModes: true, paths: inspections[0].result.inventory.openapi},
   components, tags: inspections[0].result.inventory.tags,
   responseSchemaReferences: {unresolved: [...unresolvedReferences].sort(),

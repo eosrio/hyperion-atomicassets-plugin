@@ -15,7 +15,12 @@ against source syntax in both `api_features.disable_v1_sales` modes:
 
 - 60 distinct HTTP registrations from 62 source registrations; the two extra source registrations
   are the conditional `/v1/sales` and `/v1/sales/_count` alternatives.
-- Four Socket.IO namespaces. Their subscription and event behavior is not runtime-qualified.
+- Four Socket.IO namespaces, with source-pinned notification channels, account filters, `subscribe`
+  room declarations, action/event/payload mappings and namespace-wide `{block_num}` fork events.
+  Sales expose `new_sales`/`purchased_sales`; auctions expose `new_auctions`/`new_bids`; buyoffers
+  and template buyoffers each expose their corresponding `new_*` room. A truthy `data[room]` joins;
+  otherwise an existing membership leaves. There is no separate unsubscribe listener. The shared
+  transport is websocket-only with `allowEIO3: true`. Socket behavior is not runtime-qualified.
 - Original OpenAPI paths, response components and tags, 67 validation definitions, and 54 pinned
   source-file hashes. The validation definitions include shared AtomicAssets helpers used by Market.
 - Inherited asset detail/stats/logs, offer and transfer registrations are included, along with the
