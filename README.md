@@ -134,7 +134,18 @@ transport with graceful process restart; deployed contracts, persistent ES, cras
 and production activation remain outside this result.
 
 The [original PostgreSQL asset oracle harness](docs/parity/atomicassets/postgres-oracle-harness.md)
-is a source-only implementation against the pinned 2.7.0 schema/processors/view/HTTP path. Its
-strict owned-empty admission and socket-free controls do not establish an engine pass. Actual
-PostgreSQL runs, independent physical cleanup and review remain pending; it adopts no pending
-stateful SDK/core interface and makes no MongoDB or full-parity claim.
+passed constructed SQL, light-view and original HTTP controls on native Node 24.19.0 and 26.4.0
+against PostgreSQL 16.15, with independent physical cleanup and closed evidence review. These
+original-reference runs use reversible bookkeeping disabled; they do not establish source authority,
+production recovery, MongoDB lifecycle or full parity. The harness adopts no pending stateful
+SDK/core interface. The internal tracer's safe-input substitution is documented separately below.
+
+
+## Internal asset domain tracer
+
+The [internal untemplated lifecycle component](docs/parity/atomicassets/domain-tracer.md) preserves
+original scheduling, metadata, owner/burn and current-relationship behavior against sanitized
+constructed domain values selected from the closed original PostgreSQL oracle. Normal and packed
+controls exercise the private emitted files; public exports and SDK pins are unchanged. The safe
+collection input differs from the original NUL-containing input, which the tracer refuses. This
+slice does not establish SDK recovery, physical MongoDB lifecycle, source admission or full parity.

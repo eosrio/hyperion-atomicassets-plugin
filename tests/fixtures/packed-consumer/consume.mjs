@@ -68,3 +68,6 @@ for (const {name, fixture, invalid} of saleCases) {
 console.log(JSON.stringify({packedExport: resolved, successes: 1, compatibleMissingError: true,
   sdkRuntimeImport: true, packedAssetExport: assetExport, assetFormatterReferenceCases: assetCases.length,
   packedSaleExport: saleExport, saleFormatterReferenceCases: saleCases.length}));
+
+await assert.rejects(import('@eosrio/hyperion-atomicassets-plugin/atomicassets/internal/lifecycle'),
+  error => error.code === 'ERR_PACKAGE_PATH_NOT_EXPORTED');
