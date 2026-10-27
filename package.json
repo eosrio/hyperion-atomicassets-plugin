@@ -30,7 +30,7 @@
     "typecheck": "bun check -p tsconfig.json",
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && node scripts/run-tests.mjs",
-    "test:reference": "node --test tests/reference-asset.test.mjs fixtures/harness/atomicmarket/reference-http.test.mjs",
+    "test:reference": "node --test tests/reference-asset.test.mjs tests/original-asset-controls.test.mjs fixtures/harness/atomicmarket/reference-http.test.mjs",
     "test:package": "node scripts/check-package.mjs",
     "prepack": "npm run build",
     "check:docs": "python scripts/check-docs.py",

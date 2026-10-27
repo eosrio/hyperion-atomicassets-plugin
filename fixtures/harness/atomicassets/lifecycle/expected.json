@@ -1,0 +1,5586 @@
+{
+  "codec": {
+    "attributes": [
+      {
+        "key": "signed",
+        "value": [
+          "int64",
+          "-9223372036854775808"
+        ]
+      },
+      {
+        "key": "unsigned",
+        "value": [
+          "uint64",
+          "18446744073709551615"
+        ]
+      },
+      {
+        "key": "sv",
+        "value": [
+          "INT64_VEC",
+          [
+            "-9223372036854775808",
+            "9007199254740993"
+          ]
+        ]
+      },
+      {
+        "key": "uv",
+        "value": [
+          "UINT64_VEC",
+          [
+            "0",
+            "18446744073709551615"
+          ]
+        ]
+      },
+      {
+        "key": "f32",
+        "value": [
+          "float32",
+          "0.1"
+        ]
+      },
+      {
+        "key": "f64",
+        "value": [
+          "float64",
+          "0.1"
+        ]
+      },
+      {
+        "key": "fv",
+        "value": [
+          "FLOAT_VEC",
+          [
+            "0.1",
+            "1e-60",
+            "3.4028236e38",
+            "-0",
+            "NaN"
+          ]
+        ]
+      },
+      {
+        "key": "dv",
+        "value": [
+          "DOUBLE_VEC",
+          [
+            "0.1",
+            "1e-400",
+            "1e400",
+            "-0",
+            "Infinity"
+          ]
+        ]
+      },
+      {
+        "first": "nul",
+        "second": [
+          "string",
+          "before\u0000after"
+        ]
+      },
+      {
+        "key": "text",
+        "value": [
+          "string",
+          "left"
+        ]
+      },
+      {
+        "key": "text",
+        "value": [
+          "string",
+          "last duplicate wins"
+        ]
+      }
+    ],
+    "converted": {
+      "signed": "-9223372036854775808",
+      "unsigned": "18446744073709551615",
+      "sv": [
+        "-9223372036854775808",
+        "9007199254740993"
+      ],
+      "uv": [
+        "0",
+        "18446744073709551615"
+      ],
+      "f32": 0.10000000149011612,
+      "f64": 0.1,
+      "fv": [
+        0.10000000149011612,
+        "1e-60",
+        "3.4028236e38",
+        0,
+        "NaN"
+      ],
+      "dv": [
+        0.1,
+        "1e-400",
+        "1e400",
+        0,
+        "Infinity"
+      ],
+      "nul": "before\u0000after",
+      "text": "last duplicate wins"
+    },
+    "negativeZero": {
+      "floatVector": true,
+      "doubleVector": true
+    },
+    "encodedDatabaseJson": "{\"signed\":\"-9223372036854775808\",\"unsigned\":\"18446744073709551615\",\"sv\":[\"-9223372036854775808\",\"9007199254740993\"],\"uv\":[\"0\",\"18446744073709551615\"],\"f32\":0.10000000149011612,\"f64\":0.1,\"fv\":[0.10000000149011612,\"1e-60\",\"3.4028236e38\",0,\"NaN\"],\"dv\":[0.1,\"1e-400\",\"1e400\",0,\"Infinity\"],\"nul\":\"before after\",\"text\":\"last duplicate wins\"}",
+    "serializedInput": {
+      "name": "serialized\u0000name",
+      "image": "image.png",
+      "signed": "-9223372036854775808",
+      "unsigned": "18446744073709551615",
+      "sv": [
+        "-9223372036854775808",
+        "9007199254740993"
+      ],
+      "uv": [
+        "0",
+        "18446744073709551615"
+      ],
+      "f32": 0.1,
+      "f64": 0.1,
+      "fv": [
+        0.1,
+        -1.25
+      ],
+      "dv": [
+        0.1,
+        1.7976931348623157e+308
+      ]
+    },
+    "serializedHex": "040f73657269616c697a6564006e616d650509696d6167652e706e6706ffffffffffffffffff0107ffffffffffffffffff010802ffffffffffffffffff018280808080808020090200ffffffffffffffffff010acdcccc3d0b9a9999999999b93f0c02cdcccc3d0000a0bf0d029a9999999999b93fffffffffffffef7f",
+    "decoded": {
+      "name": "serialized\u0000name",
+      "image": "image.png",
+      "signed": "-9223372036854775808",
+      "unsigned": "18446744073709551615",
+      "sv": [
+        "-9223372036854775808",
+        "9007199254740993"
+      ],
+      "uv": [
+        "0",
+        "18446744073709551615"
+      ],
+      "f32": 0.10000000149011612,
+      "f64": 0.1,
+      "fv": [
+        0.10000000149011612,
+        -1.25
+      ],
+      "dv": [
+        0.1,
+        1.7976931348623157e+308
+      ]
+    },
+    "decodedTypes": {
+      "name": "string",
+      "image": "string",
+      "signed": "string",
+      "unsigned": "string",
+      "sv": [
+        "string",
+        "string"
+      ],
+      "uv": [
+        "string",
+        "string"
+      ],
+      "f32": "number",
+      "f64": "number",
+      "fv": [
+        "number",
+        "number"
+      ],
+      "dv": [
+        "number",
+        "number"
+      ]
+    },
+    "nulBoundary": {
+      "input": {
+        "text": "a\u0000b",
+        "literalEscape": "a\\u0000b",
+        "vector": [
+          "x\u0000y"
+        ]
+      },
+      "encoded": "{\"text\":\"a b\",\"literalEscape\":\"a\\ b\",\"vector\":[\"x y\"]}"
+    }
+  },
+  "cases": [
+    {
+      "name": "same-block-dependencies-mint-flush-owner-guards",
+      "inputs": [
+        {
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "events": [
+            {
+              "kind": "action",
+              "value": {
+                "act": {
+                  "account": "atomicassets",
+                  "name": "logsetdata",
+                  "data": {
+                    "asset_id": "9007199254740993",
+                    "new_data": [
+                      {
+                        "key": "name",
+                        "value": [
+                          "string",
+                          "replacement mutable"
+                        ]
+                      },
+                      {
+                        "key": "signed",
+                        "value": [
+                          "int64",
+                          "-9223372036854775808"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "global_sequence": "18446744073709551000"
+              }
+            },
+            {
+              "kind": "action",
+              "value": {
+                "act": {
+                  "account": "atomicassets",
+                  "name": "logtransfer",
+                  "data": {
+                    "from": "mallory",
+                    "to": "wrong",
+                    "asset_ids": [
+                      "9007199254740993"
+                    ],
+                    "memo": "original transfer\u0000memo"
+                  }
+                },
+                "global_sequence": "18446744073709551001"
+              }
+            },
+            {
+              "kind": "action",
+              "value": {
+                "act": {
+                  "account": "atomicassets",
+                  "name": "logtransfer",
+                  "data": {
+                    "from": "alice",
+                    "to": "bob",
+                    "asset_ids": [
+                      "9007199254740993"
+                    ],
+                    "memo": "original transfer\u0000memo"
+                  }
+                },
+                "global_sequence": "18446744073709551002"
+              }
+            },
+            {
+              "kind": "action",
+              "value": {
+                "act": {
+                  "account": "atomicassets",
+                  "name": "logmint",
+                  "data": {
+                    "asset_id": "9007199254740993",
+                    "collection_name": "fixturecoll",
+                    "schema_name": "fixture",
+                    "template_id": -1,
+                    "new_asset_owner": "alice",
+                    "authorized_minter": "author",
+                    "immutable_data": [
+                      {
+                        "key": "name",
+                        "value": [
+                          "string",
+                          "asset immutable"
+                        ]
+                      },
+                      {
+                        "key": "serial",
+                        "value": [
+                          "uint64",
+                          "18446744073709551615"
+                        ]
+                      }
+                    ],
+                    "mutable_data": [
+                      {
+                        "key": "name",
+                        "value": [
+                          "string",
+                          "asset mutable"
+                        ]
+                      },
+                      {
+                        "key": "old",
+                        "value": [
+                          "string",
+                          "remove me"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "global_sequence": "18446744073709551003"
+              }
+            },
+            {
+              "kind": "action",
+              "value": {
+                "act": {
+                  "account": "atomicassets",
+                  "name": "logmint",
+                  "data": {
+                    "asset_id": "18446744073709551615",
+                    "collection_name": "fixturecoll",
+                    "schema_name": "fixture",
+                    "template_id": 42,
+                    "new_asset_owner": "alice",
+                    "authorized_minter": "author",
+                    "immutable_data": [
+                      {
+                        "key": "name",
+                        "value": [
+                          "string",
+                          "asset immutable"
+                        ]
+                      },
+                      {
+                        "key": "serial",
+                        "value": [
+                          "uint64",
+                          "18446744073709551615"
+                        ]
+                      }
+                    ],
+                    "mutable_data": [
+                      {
+                        "key": "name",
+                        "value": [
+                          "string",
+                          "asset mutable"
+                        ]
+                      },
+                      {
+                        "key": "old",
+                        "value": [
+                          "string",
+                          "remove me"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "global_sequence": "18446744073709551004"
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "templates",
+                "present": true,
+                "value": {
+                  "template_id": 42,
+                  "schema_name": "fixture",
+                  "transferable": true,
+                  "burnable": false,
+                  "max_supply": "18446744073709551615",
+                  "issued_supply": "9007199254740993",
+                  "immutable_serialized_data": "041274656d706c61746520696d6d757461626c6506ffffffffffffffffff0107ffffffffffffffffff01"
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "templates2",
+                "present": true,
+                "value": {
+                  "template_id": 42,
+                  "schema_name": "fixture",
+                  "mutable_serialized_data": "041074656d706c617465206d757461626c65050c74656d706c6174652e706e67"
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "collections",
+                "present": true,
+                "value": {
+                  "collection_name": "fixturecoll",
+                  "author": "author",
+                  "allow_notify": true,
+                  "authorized_accounts": [
+                    "author",
+                    "editor"
+                  ],
+                  "notify_accounts": [
+                    "watcher"
+                  ],
+                  "market_fee": 0.05,
+                  "serialized_data": "04136f726967696e616c20636f6c6c656374696f6e050a696d616765006861736806117b2262616e6e6572223a2269706673227d07ffffffffffffffffff01"
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "schemas",
+                "present": true,
+                "value": {
+                  "schema_name": "fixture",
+                  "format": [
+                    {
+                      "name": "name",
+                      "type": "string"
+                    },
+                    {
+                      "name": "image",
+                      "type": "string"
+                    },
+                    {
+                      "name": "signed",
+                      "type": "int64"
+                    },
+                    {
+                      "name": "unsigned",
+                      "type": "uint64"
+                    },
+                    {
+                      "name": "sv",
+                      "type": "int64[]"
+                    },
+                    {
+                      "name": "uv",
+                      "type": "uint64[]"
+                    },
+                    {
+                      "name": "f32",
+                      "type": "float"
+                    },
+                    {
+                      "name": "f64",
+                      "type": "double"
+                    },
+                    {
+                      "name": "fv",
+                      "type": "float[]"
+                    },
+                    {
+                      "name": "dv",
+                      "type": "double[]"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "schematypes",
+                "present": true,
+                "value": {
+                  "schema_name": "fixture",
+                  "format_type": [
+                    {
+                      "name": "image",
+                      "type": "image/png"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "config",
+                "present": true,
+                "value": {
+                  "supported_tokens": [
+                    {
+                      "sym": "4,WAX",
+                      "contract": "eosio.token"
+                    }
+                  ],
+                  "collection_format": [
+                    {
+                      "name": "name",
+                      "type": "string"
+                    },
+                    {
+                      "name": "img",
+                      "type": "string"
+                    },
+                    {
+                      "name": "images",
+                      "type": "string"
+                    },
+                    {
+                      "name": "rank",
+                      "type": "uint64"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "queued": [
+        [
+          {
+            "priority": 60,
+            "index": 1,
+            "input": "logsetdata"
+          },
+          {
+            "priority": 60,
+            "index": 2,
+            "input": "logtransfer"
+          },
+          {
+            "priority": 60,
+            "index": 3,
+            "input": "logtransfer"
+          },
+          {
+            "priority": 50,
+            "index": 4,
+            "input": "logmint"
+          },
+          {
+            "priority": 50,
+            "index": 5,
+            "input": "logmint"
+          },
+          {
+            "priority": 40,
+            "index": 6,
+            "input": "templates"
+          },
+          {
+            "priority": 40,
+            "index": 7,
+            "input": "templates2"
+          },
+          {
+            "priority": 20,
+            "index": 8,
+            "input": "collections"
+          },
+          {
+            "priority": 20,
+            "index": 9,
+            "input": "schemas"
+          },
+          {
+            "priority": 20,
+            "index": 10,
+            "input": "schematypes"
+          },
+          {
+            "priority": 10,
+            "index": 11,
+            "input": "config"
+          }
+        ]
+      ],
+      "calls": [
+        {
+          "operation": "insert",
+          "table": "atomicassets_tokens",
+          "data": {
+            "contract": "atomicassets",
+            "token_symbol": "WAX",
+            "token_contract": "eosio.token",
+            "token_precision": "4"
+          },
+          "keys": [
+            "contract",
+            "token_symbol"
+          ],
+          "args": [
+            true,
+            true,
+            "nothing"
+          ]
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_config",
+          "data": {
+            "collection_format": [
+              "{\"name\":\"name\",\"type\":\"string\"}",
+              "{\"name\":\"img\",\"type\":\"string\"}",
+              "{\"name\":\"images\",\"type\":\"string\"}",
+              "{\"name\":\"rank\",\"type\":\"uint64\"}"
+            ]
+          },
+          "where": {
+            "str": "contract = $1",
+            "values": [
+              "atomicassets"
+            ]
+          },
+          "keys": [
+            "contract"
+          ],
+          "scriptedAffectedRows": 1
+        },
+        {
+          "operation": "replace",
+          "table": "atomicassets_collections",
+          "data": {
+            "contract": "atomicassets",
+            "collection_name": "fixturecoll",
+            "author": "author",
+            "allow_notify": true,
+            "authorized_accounts": [
+              "author",
+              "editor"
+            ],
+            "notify_accounts": [
+              "watcher"
+            ],
+            "market_fee": 0.05,
+            "data": "{\"name\":\"original collection\",\"img\":\"image hash\",\"images\":\"{\\\"banner\\\":\\\"ipfs\\\"}\",\"rank\":\"18446744073709551615\"}",
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500
+          },
+          "keys": [
+            "contract",
+            "collection_name"
+          ],
+          "preserve": [
+            "created_at_block",
+            "created_at_time"
+          ]
+        },
+        {
+          "operation": "replace",
+          "table": "atomicassets_schemas",
+          "data": {
+            "contract": "atomicassets",
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "format": [
+              "{\"name\":\"name\",\"type\":\"string\"}",
+              "{\"name\":\"image\",\"type\":\"string\"}",
+              "{\"name\":\"signed\",\"type\":\"int64\"}",
+              "{\"name\":\"unsigned\",\"type\":\"uint64\"}",
+              "{\"name\":\"sv\",\"type\":\"int64[]\"}",
+              "{\"name\":\"uv\",\"type\":\"uint64[]\"}",
+              "{\"name\":\"f32\",\"type\":\"float\"}",
+              "{\"name\":\"f64\",\"type\":\"double\"}",
+              "{\"name\":\"fv\",\"type\":\"float[]\"}",
+              "{\"name\":\"dv\",\"type\":\"double[]\"}"
+            ],
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500
+          },
+          "keys": [
+            "contract",
+            "collection_name",
+            "schema_name"
+          ],
+          "preserve": [
+            "created_at_block",
+            "created_at_time"
+          ]
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_schemas",
+          "data": {
+            "types": [
+              "{\"name\":\"image\",\"type\":\"image/png\"}"
+            ]
+          },
+          "where": {
+            "str": "contract = $1 AND collection_name = $2 AND schema_name = $3",
+            "values": [
+              "atomicassets",
+              "fixturecoll",
+              "fixture"
+            ]
+          },
+          "keys": [
+            "contract",
+            "collection_name",
+            "schema_name"
+          ],
+          "scriptedAffectedRows": 1
+        },
+        {
+          "operation": "query",
+          "sql": "SELECT contract, collection_name, schema_name FROM atomicassets_templates WHERE contract = $1 AND template_id = $2",
+          "parameters": [
+            "atomicassets",
+            42
+          ],
+          "scriptedRows": []
+        },
+        {
+          "operation": "query",
+          "sql": "SELECT format FROM atomicassets_schemas WHERE contract = $1 AND collection_name = $2 AND schema_name = $3",
+          "parameters": [
+            "atomicassets",
+            "fixturecoll",
+            "fixture"
+          ],
+          "scriptedRows": [
+            {
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "name": "image",
+                  "type": "string"
+                },
+                {
+                  "name": "signed",
+                  "type": "int64"
+                },
+                {
+                  "name": "unsigned",
+                  "type": "uint64"
+                },
+                {
+                  "name": "sv",
+                  "type": "int64[]"
+                },
+                {
+                  "name": "uv",
+                  "type": "uint64[]"
+                },
+                {
+                  "name": "f32",
+                  "type": "float"
+                },
+                {
+                  "name": "f64",
+                  "type": "double"
+                },
+                {
+                  "name": "fv",
+                  "type": "float[]"
+                },
+                {
+                  "name": "dv",
+                  "type": "double[]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_templates",
+          "data": {
+            "contract": "atomicassets",
+            "template_id": 42,
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "transferable": true,
+            "burnable": false,
+            "max_supply": "18446744073709551615",
+            "issued_supply": "9007199254740993",
+            "immutable_data": "{\"name\":\"template immutable\",\"signed\":\"-9223372036854775808\",\"unsigned\":\"18446744073709551615\"}",
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500,
+            "deleted_at_block": null,
+            "deleted_at_time": null
+          },
+          "keys": [
+            "contract",
+            "template_id"
+          ],
+          "args": [
+            true,
+            true,
+            "update"
+          ]
+        },
+        {
+          "operation": "query",
+          "sql": "SELECT format FROM atomicassets_schemas WHERE contract = $1 AND collection_name = $2 AND schema_name = $3",
+          "parameters": [
+            "atomicassets",
+            "fixturecoll",
+            "fixture"
+          ],
+          "scriptedRows": [
+            {
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "name": "image",
+                  "type": "string"
+                },
+                {
+                  "name": "signed",
+                  "type": "int64"
+                },
+                {
+                  "name": "unsigned",
+                  "type": "uint64"
+                },
+                {
+                  "name": "sv",
+                  "type": "int64[]"
+                },
+                {
+                  "name": "uv",
+                  "type": "uint64[]"
+                },
+                {
+                  "name": "f32",
+                  "type": "float"
+                },
+                {
+                  "name": "f64",
+                  "type": "double"
+                },
+                {
+                  "name": "fv",
+                  "type": "float[]"
+                },
+                {
+                  "name": "dv",
+                  "type": "double[]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_templates",
+          "data": {
+            "mutable_data": "{\"name\":\"template mutable\",\"image\":\"template.png\"}"
+          },
+          "where": {
+            "str": "contract = $1 AND template_id = $2",
+            "values": [
+              "atomicassets",
+              42
+            ]
+          },
+          "keys": [
+            "contract",
+            "template_id"
+          ],
+          "scriptedAffectedRows": 1
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_assets",
+          "data": [
+            {
+              "contract": "atomicassets",
+              "asset_id": "9007199254740993",
+              "collection_name": "fixturecoll",
+              "schema_name": "fixture",
+              "template_id": null,
+              "owner": "alice",
+              "mutable_data": "{\"name\":\"asset mutable\",\"old\":\"remove me\"}",
+              "immutable_data": "{\"name\":\"asset immutable\",\"serial\":\"18446744073709551615\"}",
+              "burned_by_account": null,
+              "burned_at_block": null,
+              "burned_at_time": null,
+              "transferred_at_block": 123456,
+              "transferred_at_time": 1793016000500,
+              "updated_at_block": 123456,
+              "updated_at_time": 1793016000500,
+              "minted_at_block": 123456,
+              "minted_at_time": 1793016000500
+            },
+            {
+              "contract": "atomicassets",
+              "asset_id": "18446744073709551615",
+              "collection_name": "fixturecoll",
+              "schema_name": "fixture",
+              "template_id": 42,
+              "owner": "alice",
+              "mutable_data": "{\"name\":\"asset mutable\",\"old\":\"remove me\"}",
+              "immutable_data": "{\"name\":\"asset immutable\",\"serial\":\"18446744073709551615\"}",
+              "burned_by_account": null,
+              "burned_at_block": null,
+              "burned_at_time": null,
+              "transferred_at_block": 123456,
+              "transferred_at_time": 1793016000500,
+              "updated_at_block": 123456,
+              "updated_at_time": 1793016000500,
+              "minted_at_block": 123456,
+              "minted_at_time": 1793016000500
+            }
+          ],
+          "keys": [
+            "contract",
+            "asset_id"
+          ],
+          "args": [
+            true,
+            true,
+            "update"
+          ]
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_mints",
+          "data": [
+            {
+              "contract": "atomicassets",
+              "asset_id": "9007199254740993",
+              "receiver": "alice",
+              "minter": "author",
+              "txid": {
+                "type": "Buffer",
+                "data": [
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171
+                ]
+              }
+            },
+            {
+              "contract": "atomicassets",
+              "asset_id": "18446744073709551615",
+              "receiver": "alice",
+              "minter": "author",
+              "txid": {
+                "type": "Buffer",
+                "data": [
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171
+                ]
+              }
+            }
+          ],
+          "keys": [
+            "contract",
+            "asset_id"
+          ],
+          "args": [
+            true,
+            true,
+            "nothing"
+          ]
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_assets",
+          "data": {
+            "mutable_data": "{\"name\":\"replacement mutable\",\"signed\":\"-9223372036854775808\"}",
+            "updated_at_block": 123456,
+            "updated_at_time": 1793016000500
+          },
+          "where": {
+            "str": "contract = $1 AND asset_id = $2",
+            "values": [
+              "atomicassets",
+              "9007199254740993"
+            ]
+          },
+          "keys": [
+            "contract",
+            "asset_id"
+          ],
+          "scriptedAffectedRows": 1
+        },
+        {
+          "operation": "query",
+          "sql": "SET LOCAL statement_timeout = '300s'",
+          "parameters": [],
+          "scriptedRows": []
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_assets",
+          "data": {
+            "owner": "wrong",
+            "transferred_at_block": 123456,
+            "transferred_at_time": 1793016000500,
+            "updated_at_block": 123456,
+            "updated_at_time": 1793016000500
+          },
+          "where": {
+            "str": "contract = $1 AND asset_id = ANY ($2) AND owner = $3",
+            "values": [
+              "atomicassets",
+              [
+                "9007199254740993"
+              ],
+              "mallory"
+            ]
+          },
+          "keys": [
+            "contract",
+            "asset_id"
+          ],
+          "scriptedAffectedRows": 0
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_transfers",
+          "data": {
+            "contract": "atomicassets",
+            "transfer_id": "18446744073709551001",
+            "sender": "mallory",
+            "recipient": "wrong",
+            "memo": "original transfer\u0000memo",
+            "txid": {
+              "type": "Buffer",
+              "data": [
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171
+              ]
+            },
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500
+          },
+          "keys": [
+            "contract",
+            "transfer_id"
+          ],
+          "args": [
+            true,
+            true,
+            "update"
+          ]
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_transfers_assets",
+          "data": [
+            {
+              "transfer_id": "18446744073709551001",
+              "contract": "atomicassets",
+              "index": 1,
+              "asset_id": "9007199254740993"
+            }
+          ],
+          "keys": [
+            "contract",
+            "transfer_id",
+            "asset_id"
+          ],
+          "args": [
+            true,
+            true,
+            "update"
+          ]
+        },
+        {
+          "operation": "query",
+          "sql": "SET LOCAL statement_timeout = '300s'",
+          "parameters": [],
+          "scriptedRows": []
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_assets",
+          "data": {
+            "owner": "bob",
+            "transferred_at_block": 123456,
+            "transferred_at_time": 1793016000500,
+            "updated_at_block": 123456,
+            "updated_at_time": 1793016000500
+          },
+          "where": {
+            "str": "contract = $1 AND asset_id = ANY ($2) AND owner = $3",
+            "values": [
+              "atomicassets",
+              [
+                "9007199254740993"
+              ],
+              "alice"
+            ]
+          },
+          "keys": [
+            "contract",
+            "asset_id"
+          ],
+          "scriptedAffectedRows": 1
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_transfers",
+          "data": {
+            "contract": "atomicassets",
+            "transfer_id": "18446744073709551002",
+            "sender": "alice",
+            "recipient": "bob",
+            "memo": "original transfer\u0000memo",
+            "txid": {
+              "type": "Buffer",
+              "data": [
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171
+              ]
+            },
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500
+          },
+          "keys": [
+            "contract",
+            "transfer_id"
+          ],
+          "args": [
+            true,
+            true,
+            "update"
+          ]
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_transfers_assets",
+          "data": [
+            {
+              "transfer_id": "18446744073709551002",
+              "contract": "atomicassets",
+              "index": 1,
+              "asset_id": "9007199254740993"
+            }
+          ],
+          "keys": [
+            "contract",
+            "transfer_id",
+            "asset_id"
+          ],
+          "args": [
+            true,
+            true,
+            "update"
+          ]
+        }
+      ],
+      "notifications": [
+        {
+          "topic": "assets",
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "trace": {
+            "act": {
+              "account": "atomicassets",
+              "name": "logmint",
+              "data": {
+                "asset_id": "9007199254740993",
+                "collection_name": "fixturecoll",
+                "schema_name": "fixture",
+                "template_id": -1,
+                "new_asset_owner": "alice",
+                "authorized_minter": "author",
+                "immutable_data": [
+                  {
+                    "key": "name",
+                    "value": [
+                      "string",
+                      "asset immutable"
+                    ]
+                  },
+                  {
+                    "key": "serial",
+                    "value": [
+                      "uint64",
+                      "18446744073709551615"
+                    ]
+                  }
+                ],
+                "mutable_data": [
+                  {
+                    "key": "name",
+                    "value": [
+                      "string",
+                      "asset mutable"
+                    ]
+                  },
+                  {
+                    "key": "old",
+                    "value": [
+                      "string",
+                      "remove me"
+                    ]
+                  }
+                ]
+              }
+            },
+            "global_sequence": "18446744073709551003"
+          }
+        },
+        {
+          "topic": "assets",
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "trace": {
+            "act": {
+              "account": "atomicassets",
+              "name": "logmint",
+              "data": {
+                "asset_id": "18446744073709551615",
+                "collection_name": "fixturecoll",
+                "schema_name": "fixture",
+                "template_id": 42,
+                "new_asset_owner": "alice",
+                "authorized_minter": "author",
+                "immutable_data": [
+                  {
+                    "key": "name",
+                    "value": [
+                      "string",
+                      "asset immutable"
+                    ]
+                  },
+                  {
+                    "key": "serial",
+                    "value": [
+                      "uint64",
+                      "18446744073709551615"
+                    ]
+                  }
+                ],
+                "mutable_data": [
+                  {
+                    "key": "name",
+                    "value": [
+                      "string",
+                      "asset mutable"
+                    ]
+                  },
+                  {
+                    "key": "old",
+                    "value": [
+                      "string",
+                      "remove me"
+                    ]
+                  }
+                ]
+              }
+            },
+            "global_sequence": "18446744073709551004"
+          }
+        },
+        {
+          "topic": "assets",
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "trace": {
+            "act": {
+              "account": "atomicassets",
+              "name": "logsetdata",
+              "data": {
+                "asset_id": "9007199254740993",
+                "new_data": [
+                  {
+                    "key": "name",
+                    "value": [
+                      "string",
+                      "replacement mutable"
+                    ]
+                  },
+                  {
+                    "key": "signed",
+                    "value": [
+                      "int64",
+                      "-9223372036854775808"
+                    ]
+                  }
+                ]
+              }
+            },
+            "global_sequence": "18446744073709551000"
+          }
+        },
+        {
+          "topic": "transfers",
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "trace": {
+            "act": {
+              "account": "atomicassets",
+              "name": "logtransfer",
+              "data": {
+                "from": "mallory",
+                "to": "wrong",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "memo": "original transfer\u0000memo"
+              }
+            },
+            "global_sequence": "18446744073709551001"
+          }
+        },
+        {
+          "topic": "transfers",
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "trace": {
+            "act": {
+              "account": "atomicassets",
+              "name": "logtransfer",
+              "data": {
+                "from": "alice",
+                "to": "bob",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "memo": "original transfer\u0000memo"
+              }
+            },
+            "global_sequence": "18446744073709551002"
+          }
+        }
+      ],
+      "error": null,
+      "finalRows": {
+        "atomicassets_config": [
+          {
+            "contract": "atomicassets",
+            "collection_format": [
+              "{\"name\":\"name\",\"type\":\"string\"}",
+              "{\"name\":\"img\",\"type\":\"string\"}",
+              "{\"name\":\"images\",\"type\":\"string\"}",
+              "{\"name\":\"rank\",\"type\":\"uint64\"}"
+            ]
+          }
+        ],
+        "atomicassets_tokens": [
+          {
+            "contract": "atomicassets",
+            "token_symbol": "WAX",
+            "token_contract": "eosio.token",
+            "token_precision": "4"
+          }
+        ],
+        "atomicassets_collections": [
+          {
+            "contract": "atomicassets",
+            "collection_name": "fixturecoll",
+            "author": "author",
+            "allow_notify": true,
+            "authorized_accounts": [
+              "author",
+              "editor"
+            ],
+            "notify_accounts": [
+              "watcher"
+            ],
+            "market_fee": 0.05,
+            "data": "{\"name\":\"original collection\",\"img\":\"image hash\",\"images\":\"{\\\"banner\\\":\\\"ipfs\\\"}\",\"rank\":\"18446744073709551615\"}",
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500
+          }
+        ],
+        "atomicassets_schemas": [
+          {
+            "contract": "atomicassets",
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "format": [
+              "{\"name\":\"name\",\"type\":\"string\"}",
+              "{\"name\":\"image\",\"type\":\"string\"}",
+              "{\"name\":\"signed\",\"type\":\"int64\"}",
+              "{\"name\":\"unsigned\",\"type\":\"uint64\"}",
+              "{\"name\":\"sv\",\"type\":\"int64[]\"}",
+              "{\"name\":\"uv\",\"type\":\"uint64[]\"}",
+              "{\"name\":\"f32\",\"type\":\"float\"}",
+              "{\"name\":\"f64\",\"type\":\"double\"}",
+              "{\"name\":\"fv\",\"type\":\"float[]\"}",
+              "{\"name\":\"dv\",\"type\":\"double[]\"}"
+            ],
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500,
+            "types": [
+              "{\"name\":\"image\",\"type\":\"image/png\"}"
+            ]
+          }
+        ],
+        "atomicassets_templates": [
+          {
+            "contract": "atomicassets",
+            "template_id": 42,
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "transferable": true,
+            "burnable": false,
+            "max_supply": "18446744073709551615",
+            "issued_supply": "9007199254740993",
+            "immutable_data": "{\"name\":\"template immutable\",\"signed\":\"-9223372036854775808\",\"unsigned\":\"18446744073709551615\"}",
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500,
+            "deleted_at_block": null,
+            "deleted_at_time": null,
+            "mutable_data": "{\"name\":\"template mutable\",\"image\":\"template.png\"}"
+          }
+        ],
+        "atomicassets_assets": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740993",
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "template_id": null,
+            "owner": "bob",
+            "mutable_data": "{\"name\":\"replacement mutable\",\"signed\":\"-9223372036854775808\"}",
+            "immutable_data": "{\"name\":\"asset immutable\",\"serial\":\"18446744073709551615\"}",
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": 123456,
+            "transferred_at_time": 1793016000500,
+            "updated_at_block": 123456,
+            "updated_at_time": 1793016000500,
+            "minted_at_block": 123456,
+            "minted_at_time": 1793016000500
+          },
+          {
+            "contract": "atomicassets",
+            "asset_id": "18446744073709551615",
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "template_id": 42,
+            "owner": "alice",
+            "mutable_data": "{\"name\":\"asset mutable\",\"old\":\"remove me\"}",
+            "immutable_data": "{\"name\":\"asset immutable\",\"serial\":\"18446744073709551615\"}",
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": 123456,
+            "transferred_at_time": 1793016000500,
+            "updated_at_block": 123456,
+            "updated_at_time": 1793016000500,
+            "minted_at_block": 123456,
+            "minted_at_time": 1793016000500
+          }
+        ],
+        "atomicassets_mints": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740993",
+            "receiver": "alice",
+            "minter": "author",
+            "txid": {
+              "0": 171,
+              "1": 171,
+              "2": 171,
+              "3": 171,
+              "4": 171,
+              "5": 171,
+              "6": 171,
+              "7": 171,
+              "8": 171,
+              "9": 171,
+              "10": 171,
+              "11": 171,
+              "12": 171,
+              "13": 171,
+              "14": 171,
+              "15": 171,
+              "16": 171,
+              "17": 171,
+              "18": 171,
+              "19": 171,
+              "20": 171,
+              "21": 171,
+              "22": 171,
+              "23": 171,
+              "24": 171,
+              "25": 171,
+              "26": 171,
+              "27": 171,
+              "28": 171,
+              "29": 171,
+              "30": 171,
+              "31": 171
+            }
+          },
+          {
+            "contract": "atomicassets",
+            "asset_id": "18446744073709551615",
+            "receiver": "alice",
+            "minter": "author",
+            "txid": {
+              "0": 171,
+              "1": 171,
+              "2": 171,
+              "3": 171,
+              "4": 171,
+              "5": 171,
+              "6": 171,
+              "7": 171,
+              "8": 171,
+              "9": 171,
+              "10": 171,
+              "11": 171,
+              "12": 171,
+              "13": 171,
+              "14": 171,
+              "15": 171,
+              "16": 171,
+              "17": 171,
+              "18": 171,
+              "19": 171,
+              "20": 171,
+              "21": 171,
+              "22": 171,
+              "23": 171,
+              "24": 171,
+              "25": 171,
+              "26": 171,
+              "27": 171,
+              "28": 171,
+              "29": 171,
+              "30": 171,
+              "31": 171
+            }
+          }
+        ],
+        "atomicassets_transfers": [
+          {
+            "contract": "atomicassets",
+            "transfer_id": "18446744073709551001",
+            "sender": "mallory",
+            "recipient": "wrong",
+            "memo": "original transfer\u0000memo",
+            "txid": {
+              "0": 171,
+              "1": 171,
+              "2": 171,
+              "3": 171,
+              "4": 171,
+              "5": 171,
+              "6": 171,
+              "7": 171,
+              "8": 171,
+              "9": 171,
+              "10": 171,
+              "11": 171,
+              "12": 171,
+              "13": 171,
+              "14": 171,
+              "15": 171,
+              "16": 171,
+              "17": 171,
+              "18": 171,
+              "19": 171,
+              "20": 171,
+              "21": 171,
+              "22": 171,
+              "23": 171,
+              "24": 171,
+              "25": 171,
+              "26": 171,
+              "27": 171,
+              "28": 171,
+              "29": 171,
+              "30": 171,
+              "31": 171
+            },
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500
+          },
+          {
+            "contract": "atomicassets",
+            "transfer_id": "18446744073709551002",
+            "sender": "alice",
+            "recipient": "bob",
+            "memo": "original transfer\u0000memo",
+            "txid": {
+              "0": 171,
+              "1": 171,
+              "2": 171,
+              "3": 171,
+              "4": 171,
+              "5": 171,
+              "6": 171,
+              "7": 171,
+              "8": 171,
+              "9": 171,
+              "10": 171,
+              "11": 171,
+              "12": 171,
+              "13": 171,
+              "14": 171,
+              "15": 171,
+              "16": 171,
+              "17": 171,
+              "18": 171,
+              "19": 171,
+              "20": 171,
+              "21": 171,
+              "22": 171,
+              "23": 171,
+              "24": 171,
+              "25": 171,
+              "26": 171,
+              "27": 171,
+              "28": 171,
+              "29": 171,
+              "30": 171,
+              "31": 171
+            },
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500
+          }
+        ],
+        "atomicassets_transfers_assets": [
+          {
+            "transfer_id": "18446744073709551001",
+            "contract": "atomicassets",
+            "index": 1,
+            "asset_id": "9007199254740993"
+          },
+          {
+            "transfer_id": "18446744073709551002",
+            "contract": "atomicassets",
+            "index": 1,
+            "asset_id": "9007199254740993"
+          }
+        ]
+      },
+      "activeListenersAfterRelease": {
+        "trace_listeners": [],
+        "table_listeners": []
+      },
+      "registrations": {
+        "actions": [
+          {
+            "action": "logmint",
+            "priority": 50
+          },
+          {
+            "action": "logbackasset",
+            "priority": 60
+          },
+          {
+            "action": "logburnasset",
+            "priority": 60
+          },
+          {
+            "action": "logsetdata",
+            "priority": 60
+          },
+          {
+            "action": "logtransfer",
+            "priority": 60
+          }
+        ],
+        "tables": [
+          {
+            "table": "config",
+            "priority": 10
+          },
+          {
+            "table": "tokenconfigs",
+            "priority": 10
+          },
+          {
+            "table": "collections",
+            "priority": 20
+          },
+          {
+            "table": "authorswaps",
+            "priority": 20
+          },
+          {
+            "table": "schemas",
+            "priority": 20
+          },
+          {
+            "table": "schematypes",
+            "priority": 20
+          },
+          {
+            "table": "templates",
+            "priority": 40
+          },
+          {
+            "table": "templates2",
+            "priority": 40
+          }
+        ]
+      }
+    },
+    {
+      "name": "burn-backing-relationships-and-template-clearing",
+      "inputs": [
+        {
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "events": [
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "config",
+                "present": true,
+                "value": {
+                  "supported_tokens": [
+                    {
+                      "sym": "4,WAX",
+                      "contract": "eosio.token"
+                    }
+                  ],
+                  "collection_format": [
+                    {
+                      "name": "name",
+                      "type": "string"
+                    },
+                    {
+                      "name": "img",
+                      "type": "string"
+                    },
+                    {
+                      "name": "images",
+                      "type": "string"
+                    },
+                    {
+                      "name": "rank",
+                      "type": "uint64"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "collections",
+                "present": true,
+                "value": {
+                  "collection_name": "fixturecoll",
+                  "author": "author",
+                  "allow_notify": true,
+                  "authorized_accounts": [
+                    "author",
+                    "editor"
+                  ],
+                  "notify_accounts": [
+                    "watcher"
+                  ],
+                  "market_fee": 0.05,
+                  "serialized_data": "04136f726967696e616c20636f6c6c656374696f6e050a696d616765006861736806117b2262616e6e6572223a2269706673227d07ffffffffffffffffff01"
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "schemas",
+                "present": true,
+                "value": {
+                  "schema_name": "fixture",
+                  "format": [
+                    {
+                      "name": "name",
+                      "type": "string"
+                    },
+                    {
+                      "name": "image",
+                      "type": "string"
+                    },
+                    {
+                      "name": "signed",
+                      "type": "int64"
+                    },
+                    {
+                      "name": "unsigned",
+                      "type": "uint64"
+                    },
+                    {
+                      "name": "sv",
+                      "type": "int64[]"
+                    },
+                    {
+                      "name": "uv",
+                      "type": "uint64[]"
+                    },
+                    {
+                      "name": "f32",
+                      "type": "float"
+                    },
+                    {
+                      "name": "f64",
+                      "type": "double"
+                    },
+                    {
+                      "name": "fv",
+                      "type": "float[]"
+                    },
+                    {
+                      "name": "dv",
+                      "type": "double[]"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "templates",
+                "present": true,
+                "value": {
+                  "template_id": 42,
+                  "schema_name": "fixture",
+                  "transferable": true,
+                  "burnable": false,
+                  "max_supply": "18446744073709551615",
+                  "issued_supply": "9007199254740993",
+                  "immutable_serialized_data": "041274656d706c61746520696d6d757461626c6506ffffffffffffffffff0107ffffffffffffffffff01"
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "templates2",
+                "present": true,
+                "value": {
+                  "template_id": 42,
+                  "schema_name": "fixture",
+                  "mutable_serialized_data": "041074656d706c617465206d757461626c65050c74656d706c6174652e706e67"
+                }
+              }
+            },
+            {
+              "kind": "action",
+              "value": {
+                "act": {
+                  "account": "atomicassets",
+                  "name": "logmint",
+                  "data": {
+                    "asset_id": "9007199254740993",
+                    "collection_name": "fixturecoll",
+                    "schema_name": "fixture",
+                    "template_id": -1,
+                    "new_asset_owner": "alice",
+                    "authorized_minter": "author",
+                    "immutable_data": [
+                      {
+                        "key": "name",
+                        "value": [
+                          "string",
+                          "asset immutable"
+                        ]
+                      },
+                      {
+                        "key": "serial",
+                        "value": [
+                          "uint64",
+                          "18446744073709551615"
+                        ]
+                      }
+                    ],
+                    "mutable_data": [
+                      {
+                        "key": "name",
+                        "value": [
+                          "string",
+                          "asset mutable"
+                        ]
+                      },
+                      {
+                        "key": "old",
+                        "value": [
+                          "string",
+                          "remove me"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "global_sequence": "18446744073709551005"
+              }
+            },
+            {
+              "kind": "action",
+              "value": {
+                "act": {
+                  "account": "atomicassets",
+                  "name": "logmint",
+                  "data": {
+                    "asset_id": "18446744073709551615",
+                    "collection_name": "fixturecoll",
+                    "schema_name": "fixture",
+                    "template_id": 42,
+                    "new_asset_owner": "alice",
+                    "authorized_minter": "author",
+                    "immutable_data": [
+                      {
+                        "key": "name",
+                        "value": [
+                          "string",
+                          "asset immutable"
+                        ]
+                      },
+                      {
+                        "key": "serial",
+                        "value": [
+                          "uint64",
+                          "18446744073709551615"
+                        ]
+                      }
+                    ],
+                    "mutable_data": [
+                      {
+                        "key": "name",
+                        "value": [
+                          "string",
+                          "asset mutable"
+                        ]
+                      },
+                      {
+                        "key": "old",
+                        "value": [
+                          "string",
+                          "remove me"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "global_sequence": "18446744073709551006"
+              }
+            }
+          ]
+        },
+        {
+          "block": {
+            "block_num": 123457,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000002",
+            "timestamp": "2026-10-26T12:00:01.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "events": [
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "collections",
+                "present": true,
+                "value": {
+                  "collection_name": "fixturecoll",
+                  "author": "author",
+                  "allow_notify": true,
+                  "authorized_accounts": [
+                    "author",
+                    "editor"
+                  ],
+                  "notify_accounts": [
+                    "watcher"
+                  ],
+                  "market_fee": 0.05,
+                  "serialized_data": "041263757272656e7420636f6c6c656374696f6e050a696d616765006861736806117b2262616e6e6572223a2269706673227d07ffffffffffffffffff01"
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "schemas",
+                "present": true,
+                "value": {
+                  "schema_name": "fixture",
+                  "format": [
+                    {
+                      "name": "name",
+                      "type": "string"
+                    },
+                    {
+                      "name": "image",
+                      "type": "string"
+                    },
+                    {
+                      "name": "signed",
+                      "type": "int64"
+                    },
+                    {
+                      "name": "unsigned",
+                      "type": "uint64"
+                    },
+                    {
+                      "name": "sv",
+                      "type": "int64[]"
+                    },
+                    {
+                      "name": "uv",
+                      "type": "uint64[]"
+                    },
+                    {
+                      "name": "f32",
+                      "type": "float"
+                    },
+                    {
+                      "name": "f64",
+                      "type": "double"
+                    },
+                    {
+                      "name": "fv",
+                      "type": "float[]"
+                    },
+                    {
+                      "name": "dv",
+                      "type": "double[]"
+                    },
+                    {
+                      "name": "new_field",
+                      "type": "string"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "schematypes",
+                "present": true,
+                "value": {
+                  "schema_name": "fixture",
+                  "format_type": [
+                    {
+                      "name": "image",
+                      "type": "video/mp4"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "authorswaps",
+                "present": true,
+                "value": {
+                  "collection_name": "fixturecoll",
+                  "new_author": "nextauthor",
+                  "acceptance_date": 1800000000
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "authorswaps",
+                "present": false,
+                "value": {
+                  "collection_name": "fixturecoll"
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "templates",
+                "present": true,
+                "value": {
+                  "template_id": 42,
+                  "schema_name": "fixture",
+                  "transferable": true,
+                  "burnable": false,
+                  "max_supply": "18446744073709551615",
+                  "issued_supply": "9007199254740993",
+                  "immutable_serialized_data": "04236d757374206e6f74207265706c616365206f726967696e616c20696d6d757461626c6506ffffffffffffffffff0107ffffffffffffffffff01"
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "templates2",
+                "present": false,
+                "value": {
+                  "template_id": 42,
+                  "schema_name": "fixture",
+                  "mutable_serialized_data": "041074656d706c617465206d757461626c65050c74656d706c6174652e706e67"
+                }
+              }
+            },
+            {
+              "kind": "action",
+              "value": {
+                "act": {
+                  "account": "atomicassets",
+                  "name": "logburnasset",
+                  "data": {
+                    "asset_id": "18446744073709551615",
+                    "asset_owner": "alice"
+                  }
+                },
+                "global_sequence": "18446744073709551007"
+              }
+            },
+            {
+              "kind": "action",
+              "value": {
+                "act": {
+                  "account": "atomicassets",
+                  "name": "logbackasset",
+                  "data": {
+                    "asset_id": "9007199254740993",
+                    "backed_token": "900719925474.0993 WAX"
+                  }
+                },
+                "global_sequence": "18446744073709551008"
+              }
+            },
+            {
+              "kind": "action",
+              "value": {
+                "act": {
+                  "account": "atomicassets",
+                  "name": "logbackasset",
+                  "data": {
+                    "asset_id": "9007199254740993",
+                    "backed_token": "900719925474.0993 WAX"
+                  }
+                },
+                "global_sequence": "18446744073709551009"
+              }
+            },
+            {
+              "kind": "action",
+              "value": {
+                "act": {
+                  "account": "atomicassets",
+                  "name": "logtransfer",
+                  "data": {
+                    "from": "alice",
+                    "to": "bob",
+                    "asset_ids": [
+                      "9007199254740993"
+                    ],
+                    "memo": "original transfer\u0000memo"
+                  }
+                },
+                "global_sequence": "18446744073709551010"
+              }
+            },
+            {
+              "kind": "action",
+              "value": {
+                "act": {
+                  "account": "atomicassets",
+                  "name": "logtransfer",
+                  "data": {
+                    "from": "alice",
+                    "to": "wrong",
+                    "asset_ids": [
+                      "9007199254740993"
+                    ],
+                    "memo": "original transfer\u0000memo"
+                  }
+                },
+                "global_sequence": "18446744073709551011"
+              }
+            },
+            {
+              "kind": "action",
+              "value": {
+                "act": {
+                  "account": "atomicassets",
+                  "name": "logtransfer",
+                  "data": {
+                    "from": "alice",
+                    "to": "nobody",
+                    "asset_ids": [],
+                    "memo": "original transfer\u0000memo"
+                  }
+                },
+                "global_sequence": "18446744073709551012"
+              }
+            }
+          ]
+        },
+        {
+          "block": {
+            "block_num": 123458,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000003",
+            "timestamp": "2026-10-26T12:00:02.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "events": [
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "templates",
+                "present": false,
+                "value": {
+                  "template_id": 42,
+                  "schema_name": "fixture",
+                  "transferable": true,
+                  "burnable": false,
+                  "max_supply": "18446744073709551615",
+                  "issued_supply": "9007199254740993",
+                  "immutable_serialized_data": "041274656d706c61746520696d6d757461626c6506ffffffffffffffffff0107ffffffffffffffffff01"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "queued": [
+        [
+          {
+            "priority": 10,
+            "index": 1,
+            "input": "config"
+          },
+          {
+            "priority": 20,
+            "index": 2,
+            "input": "collections"
+          },
+          {
+            "priority": 20,
+            "index": 3,
+            "input": "schemas"
+          },
+          {
+            "priority": 40,
+            "index": 4,
+            "input": "templates"
+          },
+          {
+            "priority": 40,
+            "index": 5,
+            "input": "templates2"
+          },
+          {
+            "priority": 50,
+            "index": 6,
+            "input": "logmint"
+          },
+          {
+            "priority": 50,
+            "index": 7,
+            "input": "logmint"
+          }
+        ],
+        [
+          {
+            "priority": 20,
+            "index": 1,
+            "input": "collections"
+          },
+          {
+            "priority": 20,
+            "index": 2,
+            "input": "schemas"
+          },
+          {
+            "priority": 20,
+            "index": 3,
+            "input": "schematypes"
+          },
+          {
+            "priority": 20,
+            "index": 4,
+            "input": "authorswaps"
+          },
+          {
+            "priority": 20,
+            "index": 5,
+            "input": "authorswaps"
+          },
+          {
+            "priority": 40,
+            "index": 6,
+            "input": "templates"
+          },
+          {
+            "priority": 40,
+            "index": 7,
+            "input": "templates2"
+          },
+          {
+            "priority": 60,
+            "index": 8,
+            "input": "logburnasset"
+          },
+          {
+            "priority": 60,
+            "index": 9,
+            "input": "logbackasset"
+          },
+          {
+            "priority": 60,
+            "index": 10,
+            "input": "logbackasset"
+          },
+          {
+            "priority": 60,
+            "index": 11,
+            "input": "logtransfer"
+          },
+          {
+            "priority": 60,
+            "index": 12,
+            "input": "logtransfer"
+          },
+          {
+            "priority": 60,
+            "index": 13,
+            "input": "logtransfer"
+          }
+        ],
+        [
+          {
+            "priority": 40,
+            "index": 1,
+            "input": "templates"
+          }
+        ]
+      ],
+      "calls": [
+        {
+          "operation": "insert",
+          "table": "atomicassets_tokens",
+          "data": {
+            "contract": "atomicassets",
+            "token_symbol": "WAX",
+            "token_contract": "eosio.token",
+            "token_precision": "4"
+          },
+          "keys": [
+            "contract",
+            "token_symbol"
+          ],
+          "args": [
+            true,
+            true,
+            "nothing"
+          ]
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_config",
+          "data": {
+            "collection_format": [
+              "{\"name\":\"name\",\"type\":\"string\"}",
+              "{\"name\":\"img\",\"type\":\"string\"}",
+              "{\"name\":\"images\",\"type\":\"string\"}",
+              "{\"name\":\"rank\",\"type\":\"uint64\"}"
+            ]
+          },
+          "where": {
+            "str": "contract = $1",
+            "values": [
+              "atomicassets"
+            ]
+          },
+          "keys": [
+            "contract"
+          ],
+          "scriptedAffectedRows": 1
+        },
+        {
+          "operation": "replace",
+          "table": "atomicassets_collections",
+          "data": {
+            "contract": "atomicassets",
+            "collection_name": "fixturecoll",
+            "author": "author",
+            "allow_notify": true,
+            "authorized_accounts": [
+              "author",
+              "editor"
+            ],
+            "notify_accounts": [
+              "watcher"
+            ],
+            "market_fee": 0.05,
+            "data": "{\"name\":\"original collection\",\"img\":\"image hash\",\"images\":\"{\\\"banner\\\":\\\"ipfs\\\"}\",\"rank\":\"18446744073709551615\"}",
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500
+          },
+          "keys": [
+            "contract",
+            "collection_name"
+          ],
+          "preserve": [
+            "created_at_block",
+            "created_at_time"
+          ]
+        },
+        {
+          "operation": "replace",
+          "table": "atomicassets_schemas",
+          "data": {
+            "contract": "atomicassets",
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "format": [
+              "{\"name\":\"name\",\"type\":\"string\"}",
+              "{\"name\":\"image\",\"type\":\"string\"}",
+              "{\"name\":\"signed\",\"type\":\"int64\"}",
+              "{\"name\":\"unsigned\",\"type\":\"uint64\"}",
+              "{\"name\":\"sv\",\"type\":\"int64[]\"}",
+              "{\"name\":\"uv\",\"type\":\"uint64[]\"}",
+              "{\"name\":\"f32\",\"type\":\"float\"}",
+              "{\"name\":\"f64\",\"type\":\"double\"}",
+              "{\"name\":\"fv\",\"type\":\"float[]\"}",
+              "{\"name\":\"dv\",\"type\":\"double[]\"}"
+            ],
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500
+          },
+          "keys": [
+            "contract",
+            "collection_name",
+            "schema_name"
+          ],
+          "preserve": [
+            "created_at_block",
+            "created_at_time"
+          ]
+        },
+        {
+          "operation": "query",
+          "sql": "SELECT contract, collection_name, schema_name FROM atomicassets_templates WHERE contract = $1 AND template_id = $2",
+          "parameters": [
+            "atomicassets",
+            42
+          ],
+          "scriptedRows": []
+        },
+        {
+          "operation": "query",
+          "sql": "SELECT format FROM atomicassets_schemas WHERE contract = $1 AND collection_name = $2 AND schema_name = $3",
+          "parameters": [
+            "atomicassets",
+            "fixturecoll",
+            "fixture"
+          ],
+          "scriptedRows": [
+            {
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "name": "image",
+                  "type": "string"
+                },
+                {
+                  "name": "signed",
+                  "type": "int64"
+                },
+                {
+                  "name": "unsigned",
+                  "type": "uint64"
+                },
+                {
+                  "name": "sv",
+                  "type": "int64[]"
+                },
+                {
+                  "name": "uv",
+                  "type": "uint64[]"
+                },
+                {
+                  "name": "f32",
+                  "type": "float"
+                },
+                {
+                  "name": "f64",
+                  "type": "double"
+                },
+                {
+                  "name": "fv",
+                  "type": "float[]"
+                },
+                {
+                  "name": "dv",
+                  "type": "double[]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_templates",
+          "data": {
+            "contract": "atomicassets",
+            "template_id": 42,
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "transferable": true,
+            "burnable": false,
+            "max_supply": "18446744073709551615",
+            "issued_supply": "9007199254740993",
+            "immutable_data": "{\"name\":\"template immutable\",\"signed\":\"-9223372036854775808\",\"unsigned\":\"18446744073709551615\"}",
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500,
+            "deleted_at_block": null,
+            "deleted_at_time": null
+          },
+          "keys": [
+            "contract",
+            "template_id"
+          ],
+          "args": [
+            true,
+            true,
+            "update"
+          ]
+        },
+        {
+          "operation": "query",
+          "sql": "SELECT format FROM atomicassets_schemas WHERE contract = $1 AND collection_name = $2 AND schema_name = $3",
+          "parameters": [
+            "atomicassets",
+            "fixturecoll",
+            "fixture"
+          ],
+          "scriptedRows": [
+            {
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "name": "image",
+                  "type": "string"
+                },
+                {
+                  "name": "signed",
+                  "type": "int64"
+                },
+                {
+                  "name": "unsigned",
+                  "type": "uint64"
+                },
+                {
+                  "name": "sv",
+                  "type": "int64[]"
+                },
+                {
+                  "name": "uv",
+                  "type": "uint64[]"
+                },
+                {
+                  "name": "f32",
+                  "type": "float"
+                },
+                {
+                  "name": "f64",
+                  "type": "double"
+                },
+                {
+                  "name": "fv",
+                  "type": "float[]"
+                },
+                {
+                  "name": "dv",
+                  "type": "double[]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_templates",
+          "data": {
+            "mutable_data": "{\"name\":\"template mutable\",\"image\":\"template.png\"}"
+          },
+          "where": {
+            "str": "contract = $1 AND template_id = $2",
+            "values": [
+              "atomicassets",
+              42
+            ]
+          },
+          "keys": [
+            "contract",
+            "template_id"
+          ],
+          "scriptedAffectedRows": 1
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_assets",
+          "data": [
+            {
+              "contract": "atomicassets",
+              "asset_id": "9007199254740993",
+              "collection_name": "fixturecoll",
+              "schema_name": "fixture",
+              "template_id": null,
+              "owner": "alice",
+              "mutable_data": "{\"name\":\"asset mutable\",\"old\":\"remove me\"}",
+              "immutable_data": "{\"name\":\"asset immutable\",\"serial\":\"18446744073709551615\"}",
+              "burned_by_account": null,
+              "burned_at_block": null,
+              "burned_at_time": null,
+              "transferred_at_block": 123456,
+              "transferred_at_time": 1793016000500,
+              "updated_at_block": 123456,
+              "updated_at_time": 1793016000500,
+              "minted_at_block": 123456,
+              "minted_at_time": 1793016000500
+            },
+            {
+              "contract": "atomicassets",
+              "asset_id": "18446744073709551615",
+              "collection_name": "fixturecoll",
+              "schema_name": "fixture",
+              "template_id": 42,
+              "owner": "alice",
+              "mutable_data": "{\"name\":\"asset mutable\",\"old\":\"remove me\"}",
+              "immutable_data": "{\"name\":\"asset immutable\",\"serial\":\"18446744073709551615\"}",
+              "burned_by_account": null,
+              "burned_at_block": null,
+              "burned_at_time": null,
+              "transferred_at_block": 123456,
+              "transferred_at_time": 1793016000500,
+              "updated_at_block": 123456,
+              "updated_at_time": 1793016000500,
+              "minted_at_block": 123456,
+              "minted_at_time": 1793016000500
+            }
+          ],
+          "keys": [
+            "contract",
+            "asset_id"
+          ],
+          "args": [
+            true,
+            true,
+            "update"
+          ]
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_mints",
+          "data": [
+            {
+              "contract": "atomicassets",
+              "asset_id": "9007199254740993",
+              "receiver": "alice",
+              "minter": "author",
+              "txid": {
+                "type": "Buffer",
+                "data": [
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171
+                ]
+              }
+            },
+            {
+              "contract": "atomicassets",
+              "asset_id": "18446744073709551615",
+              "receiver": "alice",
+              "minter": "author",
+              "txid": {
+                "type": "Buffer",
+                "data": [
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171
+                ]
+              }
+            }
+          ],
+          "keys": [
+            "contract",
+            "asset_id"
+          ],
+          "args": [
+            true,
+            true,
+            "nothing"
+          ]
+        },
+        {
+          "operation": "replace",
+          "table": "atomicassets_collections",
+          "data": {
+            "contract": "atomicassets",
+            "collection_name": "fixturecoll",
+            "author": "author",
+            "allow_notify": true,
+            "authorized_accounts": [
+              "author",
+              "editor"
+            ],
+            "notify_accounts": [
+              "watcher"
+            ],
+            "market_fee": 0.05,
+            "data": "{\"name\":\"current collection\",\"img\":\"image hash\",\"images\":\"{\\\"banner\\\":\\\"ipfs\\\"}\",\"rank\":\"18446744073709551615\"}",
+            "created_at_block": 123457,
+            "created_at_time": 1793016001500
+          },
+          "keys": [
+            "contract",
+            "collection_name"
+          ],
+          "preserve": [
+            "created_at_block",
+            "created_at_time"
+          ]
+        },
+        {
+          "operation": "replace",
+          "table": "atomicassets_schemas",
+          "data": {
+            "contract": "atomicassets",
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "format": [
+              "{\"name\":\"name\",\"type\":\"string\"}",
+              "{\"name\":\"image\",\"type\":\"string\"}",
+              "{\"name\":\"signed\",\"type\":\"int64\"}",
+              "{\"name\":\"unsigned\",\"type\":\"uint64\"}",
+              "{\"name\":\"sv\",\"type\":\"int64[]\"}",
+              "{\"name\":\"uv\",\"type\":\"uint64[]\"}",
+              "{\"name\":\"f32\",\"type\":\"float\"}",
+              "{\"name\":\"f64\",\"type\":\"double\"}",
+              "{\"name\":\"fv\",\"type\":\"float[]\"}",
+              "{\"name\":\"dv\",\"type\":\"double[]\"}",
+              "{\"name\":\"new_field\",\"type\":\"string\"}"
+            ],
+            "created_at_block": 123457,
+            "created_at_time": 1793016001500
+          },
+          "keys": [
+            "contract",
+            "collection_name",
+            "schema_name"
+          ],
+          "preserve": [
+            "created_at_block",
+            "created_at_time"
+          ]
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_schemas",
+          "data": {
+            "types": [
+              "{\"name\":\"image\",\"type\":\"video/mp4\"}"
+            ]
+          },
+          "where": {
+            "str": "contract = $1 AND collection_name = $2 AND schema_name = $3",
+            "values": [
+              "atomicassets",
+              "fixturecoll",
+              "fixture"
+            ]
+          },
+          "keys": [
+            "contract",
+            "collection_name",
+            "schema_name"
+          ],
+          "scriptedAffectedRows": 1
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_collections",
+          "data": {
+            "new_author_name": "nextauthor",
+            "new_author_date": 1800000000000
+          },
+          "where": {
+            "str": "contract = $1 AND collection_name = $2",
+            "values": [
+              "atomicassets",
+              "fixturecoll"
+            ]
+          },
+          "keys": [
+            "contract",
+            "collection_name"
+          ],
+          "scriptedAffectedRows": 1
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_collections",
+          "data": {
+            "new_author_name": null,
+            "new_author_date": null
+          },
+          "where": {
+            "str": "contract = $1 AND collection_name = $2",
+            "values": [
+              "atomicassets",
+              "fixturecoll"
+            ]
+          },
+          "keys": [
+            "contract",
+            "collection_name"
+          ],
+          "scriptedAffectedRows": 1
+        },
+        {
+          "operation": "query",
+          "sql": "SELECT contract, collection_name, schema_name FROM atomicassets_templates WHERE contract = $1 AND template_id = $2",
+          "parameters": [
+            "atomicassets",
+            42
+          ],
+          "scriptedRows": [
+            {
+              "contract": "atomicassets",
+              "collection_name": "fixturecoll",
+              "schema_name": "fixture"
+            }
+          ]
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_templates",
+          "data": {
+            "transferable": true,
+            "burnable": false,
+            "max_supply": "18446744073709551615",
+            "issued_supply": "9007199254740993",
+            "deleted_at_block": null,
+            "deleted_at_time": null
+          },
+          "where": {
+            "str": "contract = $1 AND template_id = $2",
+            "values": [
+              "atomicassets",
+              42
+            ]
+          },
+          "keys": [
+            "contract",
+            "template_id"
+          ],
+          "scriptedAffectedRows": 1
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_templates",
+          "data": {
+            "mutable_data": null
+          },
+          "where": {
+            "str": "contract = $1 AND template_id = $2",
+            "values": [
+              "atomicassets",
+              42
+            ]
+          },
+          "keys": [
+            "contract",
+            "template_id"
+          ],
+          "scriptedAffectedRows": 1
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_assets",
+          "data": {
+            "owner": null,
+            "burned_by_account": "alice",
+            "burned_at_block": 123457,
+            "burned_at_time": 1793016001500,
+            "updated_at_block": 123457,
+            "updated_at_time": 1793016001500
+          },
+          "where": {
+            "str": "contract = $1 AND asset_id = $2",
+            "values": [
+              "atomicassets",
+              "18446744073709551615"
+            ]
+          },
+          "keys": [
+            "contract",
+            "asset_id"
+          ],
+          "scriptedAffectedRows": 1
+        },
+        {
+          "operation": "query",
+          "sql": "SELECT amount FROM atomicassets_assets_backed_tokens WHERE contract = $1 AND asset_id = $2 AND token_symbol = $3",
+          "parameters": [
+            "atomicassets",
+            "9007199254740993",
+            "WAX"
+          ],
+          "scriptedRows": []
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_assets_backed_tokens",
+          "data": {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740993",
+            "token_symbol": "WAX",
+            "amount": "9007199254740993",
+            "updated_at_block": 123457,
+            "updated_at_time": 1793016001500
+          },
+          "keys": [
+            "contract",
+            "asset_id",
+            "token_symbol"
+          ],
+          "args": []
+        },
+        {
+          "operation": "query",
+          "sql": "SELECT amount FROM atomicassets_assets_backed_tokens WHERE contract = $1 AND asset_id = $2 AND token_symbol = $3",
+          "parameters": [
+            "atomicassets",
+            "9007199254740993",
+            "WAX"
+          ],
+          "scriptedRows": [
+            {
+              "amount": "9007199254740993"
+            }
+          ]
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_assets_backed_tokens",
+          "data": {
+            "amount": "18014398509481986",
+            "updated_at_block": 123457,
+            "updated_at_time": 1793016001500
+          },
+          "where": {
+            "str": "contract = $1 AND asset_id = $2 AND token_symbol = $3",
+            "values": [
+              "atomicassets",
+              "9007199254740993",
+              "WAX"
+            ]
+          },
+          "keys": [
+            "contract",
+            "asset_id",
+            "token_symbol"
+          ],
+          "scriptedAffectedRows": 1
+        },
+        {
+          "operation": "query",
+          "sql": "SET LOCAL statement_timeout = '300s'",
+          "parameters": [],
+          "scriptedRows": []
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_assets",
+          "data": {
+            "owner": "bob",
+            "transferred_at_block": 123457,
+            "transferred_at_time": 1793016001500,
+            "updated_at_block": 123457,
+            "updated_at_time": 1793016001500
+          },
+          "where": {
+            "str": "contract = $1 AND asset_id = ANY ($2) AND owner = $3",
+            "values": [
+              "atomicassets",
+              [
+                "9007199254740993"
+              ],
+              "alice"
+            ]
+          },
+          "keys": [
+            "contract",
+            "asset_id"
+          ],
+          "scriptedAffectedRows": 1
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_transfers",
+          "data": {
+            "contract": "atomicassets",
+            "transfer_id": "18446744073709551010",
+            "sender": "alice",
+            "recipient": "bob",
+            "memo": "original transfer\u0000memo",
+            "txid": {
+              "type": "Buffer",
+              "data": [
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171
+              ]
+            },
+            "created_at_block": 123457,
+            "created_at_time": 1793016001500
+          },
+          "keys": [
+            "contract",
+            "transfer_id"
+          ],
+          "args": [
+            true,
+            true,
+            "update"
+          ]
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_transfers_assets",
+          "data": [
+            {
+              "transfer_id": "18446744073709551010",
+              "contract": "atomicassets",
+              "index": 1,
+              "asset_id": "9007199254740993"
+            }
+          ],
+          "keys": [
+            "contract",
+            "transfer_id",
+            "asset_id"
+          ],
+          "args": [
+            true,
+            true,
+            "update"
+          ]
+        },
+        {
+          "operation": "query",
+          "sql": "SET LOCAL statement_timeout = '300s'",
+          "parameters": [],
+          "scriptedRows": []
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_assets",
+          "data": {
+            "owner": "wrong",
+            "transferred_at_block": 123457,
+            "transferred_at_time": 1793016001500,
+            "updated_at_block": 123457,
+            "updated_at_time": 1793016001500
+          },
+          "where": {
+            "str": "contract = $1 AND asset_id = ANY ($2) AND owner = $3",
+            "values": [
+              "atomicassets",
+              [
+                "9007199254740993"
+              ],
+              "alice"
+            ]
+          },
+          "keys": [
+            "contract",
+            "asset_id"
+          ],
+          "scriptedAffectedRows": 0
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_transfers",
+          "data": {
+            "contract": "atomicassets",
+            "transfer_id": "18446744073709551011",
+            "sender": "alice",
+            "recipient": "wrong",
+            "memo": "original transfer\u0000memo",
+            "txid": {
+              "type": "Buffer",
+              "data": [
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171,
+                171
+              ]
+            },
+            "created_at_block": 123457,
+            "created_at_time": 1793016001500
+          },
+          "keys": [
+            "contract",
+            "transfer_id"
+          ],
+          "args": [
+            true,
+            true,
+            "update"
+          ]
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_transfers_assets",
+          "data": [
+            {
+              "transfer_id": "18446744073709551011",
+              "contract": "atomicassets",
+              "index": 1,
+              "asset_id": "9007199254740993"
+            }
+          ],
+          "keys": [
+            "contract",
+            "transfer_id",
+            "asset_id"
+          ],
+          "args": [
+            true,
+            true,
+            "update"
+          ]
+        },
+        {
+          "operation": "query",
+          "sql": "SELECT contract, collection_name, schema_name FROM atomicassets_templates WHERE contract = $1 AND template_id = $2",
+          "parameters": [
+            "atomicassets",
+            42
+          ],
+          "scriptedRows": [
+            {
+              "contract": "atomicassets",
+              "collection_name": "fixturecoll",
+              "schema_name": "fixture"
+            }
+          ]
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_templates",
+          "data": {
+            "transferable": true,
+            "burnable": false,
+            "max_supply": "18446744073709551615",
+            "issued_supply": "9007199254740993",
+            "deleted_at_block": 123458,
+            "deleted_at_time": 1793016002500
+          },
+          "where": {
+            "str": "contract = $1 AND template_id = $2",
+            "values": [
+              "atomicassets",
+              42
+            ]
+          },
+          "keys": [
+            "contract",
+            "template_id"
+          ],
+          "scriptedAffectedRows": 1
+        }
+      ],
+      "notifications": [
+        {
+          "topic": "assets",
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "trace": {
+            "act": {
+              "account": "atomicassets",
+              "name": "logmint",
+              "data": {
+                "asset_id": "9007199254740993",
+                "collection_name": "fixturecoll",
+                "schema_name": "fixture",
+                "template_id": -1,
+                "new_asset_owner": "alice",
+                "authorized_minter": "author",
+                "immutable_data": [
+                  {
+                    "key": "name",
+                    "value": [
+                      "string",
+                      "asset immutable"
+                    ]
+                  },
+                  {
+                    "key": "serial",
+                    "value": [
+                      "uint64",
+                      "18446744073709551615"
+                    ]
+                  }
+                ],
+                "mutable_data": [
+                  {
+                    "key": "name",
+                    "value": [
+                      "string",
+                      "asset mutable"
+                    ]
+                  },
+                  {
+                    "key": "old",
+                    "value": [
+                      "string",
+                      "remove me"
+                    ]
+                  }
+                ]
+              }
+            },
+            "global_sequence": "18446744073709551005"
+          }
+        },
+        {
+          "topic": "assets",
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "trace": {
+            "act": {
+              "account": "atomicassets",
+              "name": "logmint",
+              "data": {
+                "asset_id": "18446744073709551615",
+                "collection_name": "fixturecoll",
+                "schema_name": "fixture",
+                "template_id": 42,
+                "new_asset_owner": "alice",
+                "authorized_minter": "author",
+                "immutable_data": [
+                  {
+                    "key": "name",
+                    "value": [
+                      "string",
+                      "asset immutable"
+                    ]
+                  },
+                  {
+                    "key": "serial",
+                    "value": [
+                      "uint64",
+                      "18446744073709551615"
+                    ]
+                  }
+                ],
+                "mutable_data": [
+                  {
+                    "key": "name",
+                    "value": [
+                      "string",
+                      "asset mutable"
+                    ]
+                  },
+                  {
+                    "key": "old",
+                    "value": [
+                      "string",
+                      "remove me"
+                    ]
+                  }
+                ]
+              }
+            },
+            "global_sequence": "18446744073709551006"
+          }
+        },
+        {
+          "topic": "assets",
+          "block": {
+            "block_num": 123457,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000002",
+            "timestamp": "2026-10-26T12:00:01.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "trace": {
+            "act": {
+              "account": "atomicassets",
+              "name": "logburnasset",
+              "data": {
+                "asset_id": "18446744073709551615",
+                "asset_owner": "alice"
+              }
+            },
+            "global_sequence": "18446744073709551007"
+          }
+        },
+        {
+          "topic": "assets",
+          "block": {
+            "block_num": 123457,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000002",
+            "timestamp": "2026-10-26T12:00:01.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "trace": {
+            "act": {
+              "account": "atomicassets",
+              "name": "logbackasset",
+              "data": {
+                "asset_id": "9007199254740993",
+                "backed_token": "900719925474.0993 WAX"
+              }
+            },
+            "global_sequence": "18446744073709551008"
+          }
+        },
+        {
+          "topic": "assets",
+          "block": {
+            "block_num": 123457,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000002",
+            "timestamp": "2026-10-26T12:00:01.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "trace": {
+            "act": {
+              "account": "atomicassets",
+              "name": "logbackasset",
+              "data": {
+                "asset_id": "9007199254740993",
+                "backed_token": "900719925474.0993 WAX"
+              }
+            },
+            "global_sequence": "18446744073709551009"
+          }
+        },
+        {
+          "topic": "transfers",
+          "block": {
+            "block_num": 123457,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000002",
+            "timestamp": "2026-10-26T12:00:01.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "trace": {
+            "act": {
+              "account": "atomicassets",
+              "name": "logtransfer",
+              "data": {
+                "from": "alice",
+                "to": "bob",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "memo": "original transfer\u0000memo"
+              }
+            },
+            "global_sequence": "18446744073709551010"
+          }
+        },
+        {
+          "topic": "transfers",
+          "block": {
+            "block_num": 123457,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000002",
+            "timestamp": "2026-10-26T12:00:01.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "trace": {
+            "act": {
+              "account": "atomicassets",
+              "name": "logtransfer",
+              "data": {
+                "from": "alice",
+                "to": "wrong",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "memo": "original transfer\u0000memo"
+              }
+            },
+            "global_sequence": "18446744073709551011"
+          }
+        },
+        {
+          "topic": "transfers",
+          "block": {
+            "block_num": 123457,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000002",
+            "timestamp": "2026-10-26T12:00:01.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "trace": {
+            "act": {
+              "account": "atomicassets",
+              "name": "logtransfer",
+              "data": {
+                "from": "alice",
+                "to": "nobody",
+                "asset_ids": [],
+                "memo": "original transfer\u0000memo"
+              }
+            },
+            "global_sequence": "18446744073709551012"
+          }
+        }
+      ],
+      "error": null,
+      "finalRows": {
+        "atomicassets_config": [
+          {
+            "contract": "atomicassets",
+            "collection_format": [
+              "{\"name\":\"name\",\"type\":\"string\"}",
+              "{\"name\":\"img\",\"type\":\"string\"}",
+              "{\"name\":\"images\",\"type\":\"string\"}",
+              "{\"name\":\"rank\",\"type\":\"uint64\"}"
+            ]
+          }
+        ],
+        "atomicassets_tokens": [
+          {
+            "contract": "atomicassets",
+            "token_symbol": "WAX",
+            "token_contract": "eosio.token",
+            "token_precision": "4"
+          }
+        ],
+        "atomicassets_collections": [
+          {
+            "contract": "atomicassets",
+            "collection_name": "fixturecoll",
+            "author": "author",
+            "allow_notify": true,
+            "authorized_accounts": [
+              "author",
+              "editor"
+            ],
+            "notify_accounts": [
+              "watcher"
+            ],
+            "market_fee": 0.05,
+            "data": "{\"name\":\"current collection\",\"img\":\"image hash\",\"images\":\"{\\\"banner\\\":\\\"ipfs\\\"}\",\"rank\":\"18446744073709551615\"}",
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500,
+            "new_author_name": null,
+            "new_author_date": null
+          }
+        ],
+        "atomicassets_schemas": [
+          {
+            "contract": "atomicassets",
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "format": [
+              "{\"name\":\"name\",\"type\":\"string\"}",
+              "{\"name\":\"image\",\"type\":\"string\"}",
+              "{\"name\":\"signed\",\"type\":\"int64\"}",
+              "{\"name\":\"unsigned\",\"type\":\"uint64\"}",
+              "{\"name\":\"sv\",\"type\":\"int64[]\"}",
+              "{\"name\":\"uv\",\"type\":\"uint64[]\"}",
+              "{\"name\":\"f32\",\"type\":\"float\"}",
+              "{\"name\":\"f64\",\"type\":\"double\"}",
+              "{\"name\":\"fv\",\"type\":\"float[]\"}",
+              "{\"name\":\"dv\",\"type\":\"double[]\"}",
+              "{\"name\":\"new_field\",\"type\":\"string\"}"
+            ],
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500,
+            "types": [
+              "{\"name\":\"image\",\"type\":\"video/mp4\"}"
+            ]
+          }
+        ],
+        "atomicassets_templates": [
+          {
+            "contract": "atomicassets",
+            "template_id": 42,
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "transferable": true,
+            "burnable": false,
+            "max_supply": "18446744073709551615",
+            "issued_supply": "9007199254740993",
+            "immutable_data": "{\"name\":\"template immutable\",\"signed\":\"-9223372036854775808\",\"unsigned\":\"18446744073709551615\"}",
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500,
+            "deleted_at_block": 123458,
+            "deleted_at_time": 1793016002500,
+            "mutable_data": null
+          }
+        ],
+        "atomicassets_assets": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740993",
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "template_id": null,
+            "owner": "bob",
+            "mutable_data": "{\"name\":\"asset mutable\",\"old\":\"remove me\"}",
+            "immutable_data": "{\"name\":\"asset immutable\",\"serial\":\"18446744073709551615\"}",
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": 123457,
+            "transferred_at_time": 1793016001500,
+            "updated_at_block": 123457,
+            "updated_at_time": 1793016001500,
+            "minted_at_block": 123456,
+            "minted_at_time": 1793016000500
+          },
+          {
+            "contract": "atomicassets",
+            "asset_id": "18446744073709551615",
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "template_id": 42,
+            "owner": null,
+            "mutable_data": "{\"name\":\"asset mutable\",\"old\":\"remove me\"}",
+            "immutable_data": "{\"name\":\"asset immutable\",\"serial\":\"18446744073709551615\"}",
+            "burned_by_account": "alice",
+            "burned_at_block": 123457,
+            "burned_at_time": 1793016001500,
+            "transferred_at_block": 123456,
+            "transferred_at_time": 1793016000500,
+            "updated_at_block": 123457,
+            "updated_at_time": 1793016001500,
+            "minted_at_block": 123456,
+            "minted_at_time": 1793016000500
+          }
+        ],
+        "atomicassets_mints": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740993",
+            "receiver": "alice",
+            "minter": "author",
+            "txid": {
+              "0": 171,
+              "1": 171,
+              "2": 171,
+              "3": 171,
+              "4": 171,
+              "5": 171,
+              "6": 171,
+              "7": 171,
+              "8": 171,
+              "9": 171,
+              "10": 171,
+              "11": 171,
+              "12": 171,
+              "13": 171,
+              "14": 171,
+              "15": 171,
+              "16": 171,
+              "17": 171,
+              "18": 171,
+              "19": 171,
+              "20": 171,
+              "21": 171,
+              "22": 171,
+              "23": 171,
+              "24": 171,
+              "25": 171,
+              "26": 171,
+              "27": 171,
+              "28": 171,
+              "29": 171,
+              "30": 171,
+              "31": 171
+            }
+          },
+          {
+            "contract": "atomicassets",
+            "asset_id": "18446744073709551615",
+            "receiver": "alice",
+            "minter": "author",
+            "txid": {
+              "0": 171,
+              "1": 171,
+              "2": 171,
+              "3": 171,
+              "4": 171,
+              "5": 171,
+              "6": 171,
+              "7": 171,
+              "8": 171,
+              "9": 171,
+              "10": 171,
+              "11": 171,
+              "12": 171,
+              "13": 171,
+              "14": 171,
+              "15": 171,
+              "16": 171,
+              "17": 171,
+              "18": 171,
+              "19": 171,
+              "20": 171,
+              "21": 171,
+              "22": 171,
+              "23": 171,
+              "24": 171,
+              "25": 171,
+              "26": 171,
+              "27": 171,
+              "28": 171,
+              "29": 171,
+              "30": 171,
+              "31": 171
+            }
+          }
+        ],
+        "atomicassets_assets_backed_tokens": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740993",
+            "token_symbol": "WAX",
+            "amount": "18014398509481986",
+            "updated_at_block": 123457,
+            "updated_at_time": 1793016001500
+          }
+        ],
+        "atomicassets_transfers": [
+          {
+            "contract": "atomicassets",
+            "transfer_id": "18446744073709551010",
+            "sender": "alice",
+            "recipient": "bob",
+            "memo": "original transfer\u0000memo",
+            "txid": {
+              "0": 171,
+              "1": 171,
+              "2": 171,
+              "3": 171,
+              "4": 171,
+              "5": 171,
+              "6": 171,
+              "7": 171,
+              "8": 171,
+              "9": 171,
+              "10": 171,
+              "11": 171,
+              "12": 171,
+              "13": 171,
+              "14": 171,
+              "15": 171,
+              "16": 171,
+              "17": 171,
+              "18": 171,
+              "19": 171,
+              "20": 171,
+              "21": 171,
+              "22": 171,
+              "23": 171,
+              "24": 171,
+              "25": 171,
+              "26": 171,
+              "27": 171,
+              "28": 171,
+              "29": 171,
+              "30": 171,
+              "31": 171
+            },
+            "created_at_block": 123457,
+            "created_at_time": 1793016001500
+          },
+          {
+            "contract": "atomicassets",
+            "transfer_id": "18446744073709551011",
+            "sender": "alice",
+            "recipient": "wrong",
+            "memo": "original transfer\u0000memo",
+            "txid": {
+              "0": 171,
+              "1": 171,
+              "2": 171,
+              "3": 171,
+              "4": 171,
+              "5": 171,
+              "6": 171,
+              "7": 171,
+              "8": 171,
+              "9": 171,
+              "10": 171,
+              "11": 171,
+              "12": 171,
+              "13": 171,
+              "14": 171,
+              "15": 171,
+              "16": 171,
+              "17": 171,
+              "18": 171,
+              "19": 171,
+              "20": 171,
+              "21": 171,
+              "22": 171,
+              "23": 171,
+              "24": 171,
+              "25": 171,
+              "26": 171,
+              "27": 171,
+              "28": 171,
+              "29": 171,
+              "30": 171,
+              "31": 171
+            },
+            "created_at_block": 123457,
+            "created_at_time": 1793016001500
+          }
+        ],
+        "atomicassets_transfers_assets": [
+          {
+            "transfer_id": "18446744073709551010",
+            "contract": "atomicassets",
+            "index": 1,
+            "asset_id": "9007199254740993"
+          },
+          {
+            "transfer_id": "18446744073709551011",
+            "contract": "atomicassets",
+            "index": 1,
+            "asset_id": "9007199254740993"
+          }
+        ]
+      },
+      "activeListenersAfterRelease": {
+        "trace_listeners": [],
+        "table_listeners": []
+      },
+      "registrations": {
+        "actions": [
+          {
+            "action": "logmint",
+            "priority": 50
+          },
+          {
+            "action": "logbackasset",
+            "priority": 60
+          },
+          {
+            "action": "logburnasset",
+            "priority": 60
+          },
+          {
+            "action": "logsetdata",
+            "priority": 60
+          },
+          {
+            "action": "logtransfer",
+            "priority": 60
+          }
+        ],
+        "tables": [
+          {
+            "table": "config",
+            "priority": 10
+          },
+          {
+            "table": "tokenconfigs",
+            "priority": 10
+          },
+          {
+            "table": "collections",
+            "priority": 20
+          },
+          {
+            "table": "authorswaps",
+            "priority": 20
+          },
+          {
+            "table": "schemas",
+            "priority": 20
+          },
+          {
+            "table": "schematypes",
+            "priority": 20
+          },
+          {
+            "table": "templates",
+            "priority": 40
+          },
+          {
+            "table": "templates2",
+            "priority": 40
+          }
+        ]
+      }
+    },
+    {
+      "name": "missing-schema-for-template",
+      "inputs": [
+        {
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "events": [
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "templates",
+                "present": true,
+                "value": {
+                  "template_id": 42,
+                  "schema_name": "fixture",
+                  "transferable": true,
+                  "burnable": false,
+                  "max_supply": "18446744073709551615",
+                  "issued_supply": "9007199254740993",
+                  "immutable_serialized_data": "041274656d706c61746520696d6d757461626c6506ffffffffffffffffff0107ffffffffffffffffff01"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "queued": [
+        [
+          {
+            "priority": 40,
+            "index": 1,
+            "input": "templates"
+          }
+        ]
+      ],
+      "calls": [
+        {
+          "operation": "query",
+          "sql": "SELECT contract, collection_name, schema_name FROM atomicassets_templates WHERE contract = $1 AND template_id = $2",
+          "parameters": [
+            "atomicassets",
+            42
+          ],
+          "scriptedRows": []
+        },
+        {
+          "operation": "query",
+          "sql": "SELECT format FROM atomicassets_schemas WHERE contract = $1 AND collection_name = $2 AND schema_name = $3",
+          "parameters": [
+            "atomicassets",
+            "fixturecoll",
+            "fixture"
+          ],
+          "scriptedRows": []
+        }
+      ],
+      "notifications": [],
+      "error": {
+        "name": "Error",
+        "message": "AtomicAssets: Schema of template not found. Should not be possible by contract"
+      },
+      "finalRows": {
+        "atomicassets_config": [
+          {
+            "contract": "atomicassets",
+            "collection_format": []
+          }
+        ],
+        "atomicassets_templates": [],
+        "atomicassets_schemas": []
+      },
+      "activeListenersAfterRelease": {
+        "trace_listeners": [],
+        "table_listeners": []
+      },
+      "registrations": {
+        "actions": [
+          {
+            "action": "logmint",
+            "priority": 50
+          },
+          {
+            "action": "logbackasset",
+            "priority": 60
+          },
+          {
+            "action": "logburnasset",
+            "priority": 60
+          },
+          {
+            "action": "logsetdata",
+            "priority": 60
+          },
+          {
+            "action": "logtransfer",
+            "priority": 60
+          }
+        ],
+        "tables": [
+          {
+            "table": "config",
+            "priority": 10
+          },
+          {
+            "table": "tokenconfigs",
+            "priority": 10
+          },
+          {
+            "table": "collections",
+            "priority": 20
+          },
+          {
+            "table": "authorswaps",
+            "priority": 20
+          },
+          {
+            "table": "schemas",
+            "priority": 20
+          },
+          {
+            "table": "schematypes",
+            "priority": 20
+          },
+          {
+            "table": "templates",
+            "priority": 40
+          },
+          {
+            "table": "templates2",
+            "priority": 40
+          }
+        ]
+      }
+    },
+    {
+      "name": "missing-schema-for-mutable-template",
+      "inputs": [
+        {
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "events": [
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "templates2",
+                "present": true,
+                "value": {
+                  "template_id": 42,
+                  "schema_name": "fixture",
+                  "mutable_serialized_data": "041074656d706c617465206d757461626c65050c74656d706c6174652e706e67"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "queued": [
+        [
+          {
+            "priority": 40,
+            "index": 1,
+            "input": "templates2"
+          }
+        ]
+      ],
+      "calls": [
+        {
+          "operation": "query",
+          "sql": "SELECT format FROM atomicassets_schemas WHERE contract = $1 AND collection_name = $2 AND schema_name = $3",
+          "parameters": [
+            "atomicassets",
+            "fixturecoll",
+            "fixture"
+          ],
+          "scriptedRows": []
+        }
+      ],
+      "notifications": [],
+      "error": {
+        "name": "Error",
+        "message": "AtomicAssets: Schema of template not found. Should not be possible by contract"
+      },
+      "finalRows": {
+        "atomicassets_config": [
+          {
+            "contract": "atomicassets",
+            "collection_format": []
+          }
+        ],
+        "atomicassets_schemas": []
+      },
+      "activeListenersAfterRelease": {
+        "trace_listeners": [],
+        "table_listeners": []
+      },
+      "registrations": {
+        "actions": [
+          {
+            "action": "logmint",
+            "priority": 50
+          },
+          {
+            "action": "logbackasset",
+            "priority": 60
+          },
+          {
+            "action": "logburnasset",
+            "priority": 60
+          },
+          {
+            "action": "logsetdata",
+            "priority": 60
+          },
+          {
+            "action": "logtransfer",
+            "priority": 60
+          }
+        ],
+        "tables": [
+          {
+            "table": "config",
+            "priority": 10
+          },
+          {
+            "table": "tokenconfigs",
+            "priority": 10
+          },
+          {
+            "table": "collections",
+            "priority": 20
+          },
+          {
+            "table": "authorswaps",
+            "priority": 20
+          },
+          {
+            "table": "schemas",
+            "priority": 20
+          },
+          {
+            "table": "schematypes",
+            "priority": 20
+          },
+          {
+            "table": "templates",
+            "priority": 40
+          },
+          {
+            "table": "templates2",
+            "priority": 40
+          }
+        ]
+      }
+    },
+    {
+      "name": "equal-priority-input-order-matters",
+      "inputs": [
+        {
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "events": [
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "templates2",
+                "present": true,
+                "value": {
+                  "template_id": 42,
+                  "schema_name": "fixture",
+                  "mutable_serialized_data": "041074656d706c617465206d757461626c65050c74656d706c6174652e706e67"
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "templates",
+                "present": true,
+                "value": {
+                  "template_id": 42,
+                  "schema_name": "fixture",
+                  "transferable": true,
+                  "burnable": false,
+                  "max_supply": "18446744073709551615",
+                  "issued_supply": "9007199254740993",
+                  "immutable_serialized_data": "041274656d706c61746520696d6d757461626c6506ffffffffffffffffff0107ffffffffffffffffff01"
+                }
+              }
+            },
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "schemas",
+                "present": true,
+                "value": {
+                  "schema_name": "fixture",
+                  "format": [
+                    {
+                      "name": "name",
+                      "type": "string"
+                    },
+                    {
+                      "name": "image",
+                      "type": "string"
+                    },
+                    {
+                      "name": "signed",
+                      "type": "int64"
+                    },
+                    {
+                      "name": "unsigned",
+                      "type": "uint64"
+                    },
+                    {
+                      "name": "sv",
+                      "type": "int64[]"
+                    },
+                    {
+                      "name": "uv",
+                      "type": "uint64[]"
+                    },
+                    {
+                      "name": "f32",
+                      "type": "float"
+                    },
+                    {
+                      "name": "f64",
+                      "type": "double"
+                    },
+                    {
+                      "name": "fv",
+                      "type": "float[]"
+                    },
+                    {
+                      "name": "dv",
+                      "type": "double[]"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "queued": [
+        [
+          {
+            "priority": 40,
+            "index": 1,
+            "input": "templates2"
+          },
+          {
+            "priority": 40,
+            "index": 2,
+            "input": "templates"
+          },
+          {
+            "priority": 20,
+            "index": 3,
+            "input": "schemas"
+          }
+        ]
+      ],
+      "calls": [
+        {
+          "operation": "replace",
+          "table": "atomicassets_schemas",
+          "data": {
+            "contract": "atomicassets",
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "format": [
+              "{\"name\":\"name\",\"type\":\"string\"}",
+              "{\"name\":\"image\",\"type\":\"string\"}",
+              "{\"name\":\"signed\",\"type\":\"int64\"}",
+              "{\"name\":\"unsigned\",\"type\":\"uint64\"}",
+              "{\"name\":\"sv\",\"type\":\"int64[]\"}",
+              "{\"name\":\"uv\",\"type\":\"uint64[]\"}",
+              "{\"name\":\"f32\",\"type\":\"float\"}",
+              "{\"name\":\"f64\",\"type\":\"double\"}",
+              "{\"name\":\"fv\",\"type\":\"float[]\"}",
+              "{\"name\":\"dv\",\"type\":\"double[]\"}"
+            ],
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500
+          },
+          "keys": [
+            "contract",
+            "collection_name",
+            "schema_name"
+          ],
+          "preserve": [
+            "created_at_block",
+            "created_at_time"
+          ]
+        },
+        {
+          "operation": "query",
+          "sql": "SELECT format FROM atomicassets_schemas WHERE contract = $1 AND collection_name = $2 AND schema_name = $3",
+          "parameters": [
+            "atomicassets",
+            "fixturecoll",
+            "fixture"
+          ],
+          "scriptedRows": [
+            {
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "name": "image",
+                  "type": "string"
+                },
+                {
+                  "name": "signed",
+                  "type": "int64"
+                },
+                {
+                  "name": "unsigned",
+                  "type": "uint64"
+                },
+                {
+                  "name": "sv",
+                  "type": "int64[]"
+                },
+                {
+                  "name": "uv",
+                  "type": "uint64[]"
+                },
+                {
+                  "name": "f32",
+                  "type": "float"
+                },
+                {
+                  "name": "f64",
+                  "type": "double"
+                },
+                {
+                  "name": "fv",
+                  "type": "float[]"
+                },
+                {
+                  "name": "dv",
+                  "type": "double[]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "operation": "update",
+          "table": "atomicassets_templates",
+          "data": {
+            "mutable_data": "{\"name\":\"template mutable\",\"image\":\"template.png\"}"
+          },
+          "where": {
+            "str": "contract = $1 AND template_id = $2",
+            "values": [
+              "atomicassets",
+              42
+            ]
+          },
+          "keys": [
+            "contract",
+            "template_id"
+          ],
+          "scriptedAffectedRows": 0
+        },
+        {
+          "operation": "query",
+          "sql": "SELECT contract, collection_name, schema_name FROM atomicassets_templates WHERE contract = $1 AND template_id = $2",
+          "parameters": [
+            "atomicassets",
+            42
+          ],
+          "scriptedRows": []
+        },
+        {
+          "operation": "query",
+          "sql": "SELECT format FROM atomicassets_schemas WHERE contract = $1 AND collection_name = $2 AND schema_name = $3",
+          "parameters": [
+            "atomicassets",
+            "fixturecoll",
+            "fixture"
+          ],
+          "scriptedRows": [
+            {
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "name": "image",
+                  "type": "string"
+                },
+                {
+                  "name": "signed",
+                  "type": "int64"
+                },
+                {
+                  "name": "unsigned",
+                  "type": "uint64"
+                },
+                {
+                  "name": "sv",
+                  "type": "int64[]"
+                },
+                {
+                  "name": "uv",
+                  "type": "uint64[]"
+                },
+                {
+                  "name": "f32",
+                  "type": "float"
+                },
+                {
+                  "name": "f64",
+                  "type": "double"
+                },
+                {
+                  "name": "fv",
+                  "type": "float[]"
+                },
+                {
+                  "name": "dv",
+                  "type": "double[]"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_templates",
+          "data": {
+            "contract": "atomicassets",
+            "template_id": 42,
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "transferable": true,
+            "burnable": false,
+            "max_supply": "18446744073709551615",
+            "issued_supply": "9007199254740993",
+            "immutable_data": "{\"name\":\"template immutable\",\"signed\":\"-9223372036854775808\",\"unsigned\":\"18446744073709551615\"}",
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500,
+            "deleted_at_block": null,
+            "deleted_at_time": null
+          },
+          "keys": [
+            "contract",
+            "template_id"
+          ],
+          "args": [
+            true,
+            true,
+            "update"
+          ]
+        }
+      ],
+      "notifications": [],
+      "error": null,
+      "finalRows": {
+        "atomicassets_config": [
+          {
+            "contract": "atomicassets",
+            "collection_format": []
+          }
+        ],
+        "atomicassets_schemas": [
+          {
+            "contract": "atomicassets",
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "format": [
+              "{\"name\":\"name\",\"type\":\"string\"}",
+              "{\"name\":\"image\",\"type\":\"string\"}",
+              "{\"name\":\"signed\",\"type\":\"int64\"}",
+              "{\"name\":\"unsigned\",\"type\":\"uint64\"}",
+              "{\"name\":\"sv\",\"type\":\"int64[]\"}",
+              "{\"name\":\"uv\",\"type\":\"uint64[]\"}",
+              "{\"name\":\"f32\",\"type\":\"float\"}",
+              "{\"name\":\"f64\",\"type\":\"double\"}",
+              "{\"name\":\"fv\",\"type\":\"float[]\"}",
+              "{\"name\":\"dv\",\"type\":\"double[]\"}"
+            ],
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500
+          }
+        ],
+        "atomicassets_templates": [
+          {
+            "contract": "atomicassets",
+            "template_id": 42,
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "transferable": true,
+            "burnable": false,
+            "max_supply": "18446744073709551615",
+            "issued_supply": "9007199254740993",
+            "immutable_data": "{\"name\":\"template immutable\",\"signed\":\"-9223372036854775808\",\"unsigned\":\"18446744073709551615\"}",
+            "created_at_block": 123456,
+            "created_at_time": 1793016000500,
+            "deleted_at_block": null,
+            "deleted_at_time": null
+          }
+        ]
+      },
+      "activeListenersAfterRelease": {
+        "trace_listeners": [],
+        "table_listeners": []
+      },
+      "registrations": {
+        "actions": [
+          {
+            "action": "logmint",
+            "priority": 50
+          },
+          {
+            "action": "logbackasset",
+            "priority": 60
+          },
+          {
+            "action": "logburnasset",
+            "priority": 60
+          },
+          {
+            "action": "logsetdata",
+            "priority": 60
+          },
+          {
+            "action": "logtransfer",
+            "priority": 60
+          }
+        ],
+        "tables": [
+          {
+            "table": "config",
+            "priority": 10
+          },
+          {
+            "table": "tokenconfigs",
+            "priority": 10
+          },
+          {
+            "table": "collections",
+            "priority": 20
+          },
+          {
+            "table": "authorswaps",
+            "priority": 20
+          },
+          {
+            "table": "schemas",
+            "priority": 20
+          },
+          {
+            "table": "schematypes",
+            "priority": 20
+          },
+          {
+            "table": "templates",
+            "priority": 40
+          },
+          {
+            "table": "templates2",
+            "priority": 40
+          }
+        ]
+      }
+    },
+    {
+      "name": "unknown-template-delete-does-not-invent-row",
+      "inputs": [
+        {
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "events": [
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "templates",
+                "present": false,
+                "value": {
+                  "template_id": 43,
+                  "schema_name": "fixture",
+                  "transferable": true,
+                  "burnable": false,
+                  "max_supply": "18446744073709551615",
+                  "issued_supply": "9007199254740993",
+                  "immutable_serialized_data": "041274656d706c61746520696d6d757461626c6506ffffffffffffffffff0107ffffffffffffffffff01"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "queued": [
+        [
+          {
+            "priority": 40,
+            "index": 1,
+            "input": "templates"
+          }
+        ]
+      ],
+      "calls": [
+        {
+          "operation": "query",
+          "sql": "SELECT contract, collection_name, schema_name FROM atomicassets_templates WHERE contract = $1 AND template_id = $2",
+          "parameters": [
+            "atomicassets",
+            43
+          ],
+          "scriptedRows": []
+        }
+      ],
+      "notifications": [],
+      "error": null,
+      "finalRows": {
+        "atomicassets_config": [
+          {
+            "contract": "atomicassets",
+            "collection_format": []
+          }
+        ],
+        "atomicassets_templates": []
+      },
+      "activeListenersAfterRelease": {
+        "trace_listeners": [],
+        "table_listeners": []
+      },
+      "registrations": {
+        "actions": [
+          {
+            "action": "logmint",
+            "priority": 50
+          },
+          {
+            "action": "logbackasset",
+            "priority": 60
+          },
+          {
+            "action": "logburnasset",
+            "priority": 60
+          },
+          {
+            "action": "logsetdata",
+            "priority": 60
+          },
+          {
+            "action": "logtransfer",
+            "priority": 60
+          }
+        ],
+        "tables": [
+          {
+            "table": "config",
+            "priority": 10
+          },
+          {
+            "table": "tokenconfigs",
+            "priority": 10
+          },
+          {
+            "table": "collections",
+            "priority": 20
+          },
+          {
+            "table": "authorswaps",
+            "priority": 20
+          },
+          {
+            "table": "schemas",
+            "priority": 20
+          },
+          {
+            "table": "schematypes",
+            "priority": 20
+          },
+          {
+            "table": "templates",
+            "priority": 40
+          },
+          {
+            "table": "templates2",
+            "priority": 40
+          }
+        ]
+      }
+    },
+    {
+      "name": "collection-delete-is-rejected",
+      "inputs": [
+        {
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "events": [
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "collections",
+                "present": false,
+                "value": {
+                  "collection_name": "fixturecoll"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "queued": [
+        [
+          {
+            "priority": 20,
+            "index": 1,
+            "input": "collections"
+          }
+        ]
+      ],
+      "calls": [],
+      "notifications": [],
+      "error": {
+        "name": "Error",
+        "message": "AtomicAssets: A collection was deleted. Should not be possible by contract"
+      },
+      "finalRows": {
+        "atomicassets_config": [
+          {
+            "contract": "atomicassets",
+            "collection_format": []
+          }
+        ]
+      },
+      "activeListenersAfterRelease": {
+        "trace_listeners": [],
+        "table_listeners": []
+      },
+      "registrations": {
+        "actions": [
+          {
+            "action": "logmint",
+            "priority": 50
+          },
+          {
+            "action": "logbackasset",
+            "priority": 60
+          },
+          {
+            "action": "logburnasset",
+            "priority": 60
+          },
+          {
+            "action": "logsetdata",
+            "priority": 60
+          },
+          {
+            "action": "logtransfer",
+            "priority": 60
+          }
+        ],
+        "tables": [
+          {
+            "table": "config",
+            "priority": 10
+          },
+          {
+            "table": "tokenconfigs",
+            "priority": 10
+          },
+          {
+            "table": "collections",
+            "priority": 20
+          },
+          {
+            "table": "authorswaps",
+            "priority": 20
+          },
+          {
+            "table": "schemas",
+            "priority": 20
+          },
+          {
+            "table": "schematypes",
+            "priority": 20
+          },
+          {
+            "table": "templates",
+            "priority": 40
+          },
+          {
+            "table": "templates2",
+            "priority": 40
+          }
+        ]
+      }
+    },
+    {
+      "name": "schema-delete-is-rejected",
+      "inputs": [
+        {
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "events": [
+            {
+              "kind": "row",
+              "value": {
+                "code": "atomicassets",
+                "scope": "fixturecoll",
+                "table": "schemas",
+                "present": false,
+                "value": {
+                  "schema_name": "fixture"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "queued": [
+        [
+          {
+            "priority": 20,
+            "index": 1,
+            "input": "schemas"
+          }
+        ]
+      ],
+      "calls": [],
+      "notifications": [],
+      "error": {
+        "name": "Error",
+        "message": "AtomicAssets: A schema was deleted. Should not be possible by contract"
+      },
+      "finalRows": {
+        "atomicassets_config": [
+          {
+            "contract": "atomicassets",
+            "collection_format": []
+          }
+        ]
+      },
+      "activeListenersAfterRelease": {
+        "trace_listeners": [],
+        "table_listeners": []
+      },
+      "registrations": {
+        "actions": [
+          {
+            "action": "logmint",
+            "priority": 50
+          },
+          {
+            "action": "logbackasset",
+            "priority": 60
+          },
+          {
+            "action": "logburnasset",
+            "priority": 60
+          },
+          {
+            "action": "logsetdata",
+            "priority": 60
+          },
+          {
+            "action": "logtransfer",
+            "priority": 60
+          }
+        ],
+        "tables": [
+          {
+            "table": "config",
+            "priority": 10
+          },
+          {
+            "table": "tokenconfigs",
+            "priority": 10
+          },
+          {
+            "table": "collections",
+            "priority": 20
+          },
+          {
+            "table": "authorswaps",
+            "priority": 20
+          },
+          {
+            "table": "schemas",
+            "priority": 20
+          },
+          {
+            "table": "schematypes",
+            "priority": 20
+          },
+          {
+            "table": "templates",
+            "priority": 40
+          },
+          {
+            "table": "templates2",
+            "priority": 40
+          }
+        ]
+      }
+    },
+    {
+      "name": "mint-does-not-read-or-certify-related-rows",
+      "inputs": [
+        {
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "events": [
+            {
+              "kind": "action",
+              "value": {
+                "act": {
+                  "account": "atomicassets",
+                  "name": "logmint",
+                  "data": {
+                    "asset_id": "9007199254740993",
+                    "collection_name": "fixturecoll",
+                    "schema_name": "fixture",
+                    "template_id": 42,
+                    "new_asset_owner": "alice",
+                    "authorized_minter": "author",
+                    "immutable_data": [
+                      {
+                        "key": "name",
+                        "value": [
+                          "string",
+                          "asset immutable"
+                        ]
+                      },
+                      {
+                        "key": "serial",
+                        "value": [
+                          "uint64",
+                          "18446744073709551615"
+                        ]
+                      }
+                    ],
+                    "mutable_data": [
+                      {
+                        "key": "name",
+                        "value": [
+                          "string",
+                          "asset mutable"
+                        ]
+                      },
+                      {
+                        "key": "old",
+                        "value": [
+                          "string",
+                          "remove me"
+                        ]
+                      }
+                    ]
+                  }
+                },
+                "global_sequence": "18446744073709551013"
+              }
+            }
+          ]
+        }
+      ],
+      "queued": [
+        [
+          {
+            "priority": 50,
+            "index": 1,
+            "input": "logmint"
+          }
+        ]
+      ],
+      "calls": [
+        {
+          "operation": "insert",
+          "table": "atomicassets_assets",
+          "data": [
+            {
+              "contract": "atomicassets",
+              "asset_id": "9007199254740993",
+              "collection_name": "fixturecoll",
+              "schema_name": "fixture",
+              "template_id": 42,
+              "owner": "alice",
+              "mutable_data": "{\"name\":\"asset mutable\",\"old\":\"remove me\"}",
+              "immutable_data": "{\"name\":\"asset immutable\",\"serial\":\"18446744073709551615\"}",
+              "burned_by_account": null,
+              "burned_at_block": null,
+              "burned_at_time": null,
+              "transferred_at_block": 123456,
+              "transferred_at_time": 1793016000500,
+              "updated_at_block": 123456,
+              "updated_at_time": 1793016000500,
+              "minted_at_block": 123456,
+              "minted_at_time": 1793016000500
+            }
+          ],
+          "keys": [
+            "contract",
+            "asset_id"
+          ],
+          "args": [
+            true,
+            true,
+            "update"
+          ]
+        },
+        {
+          "operation": "insert",
+          "table": "atomicassets_mints",
+          "data": [
+            {
+              "contract": "atomicassets",
+              "asset_id": "9007199254740993",
+              "receiver": "alice",
+              "minter": "author",
+              "txid": {
+                "type": "Buffer",
+                "data": [
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171,
+                  171
+                ]
+              }
+            }
+          ],
+          "keys": [
+            "contract",
+            "asset_id"
+          ],
+          "args": [
+            true,
+            true,
+            "nothing"
+          ]
+        }
+      ],
+      "notifications": [
+        {
+          "topic": "assets",
+          "block": {
+            "block_num": 123456,
+            "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+            "timestamp": "2026-10-26T12:00:00.500"
+          },
+          "tx": {
+            "id": "abababababababababababababababababababababababababababababababab"
+          },
+          "trace": {
+            "act": {
+              "account": "atomicassets",
+              "name": "logmint",
+              "data": {
+                "asset_id": "9007199254740993",
+                "collection_name": "fixturecoll",
+                "schema_name": "fixture",
+                "template_id": 42,
+                "new_asset_owner": "alice",
+                "authorized_minter": "author",
+                "immutable_data": [
+                  {
+                    "key": "name",
+                    "value": [
+                      "string",
+                      "asset immutable"
+                    ]
+                  },
+                  {
+                    "key": "serial",
+                    "value": [
+                      "uint64",
+                      "18446744073709551615"
+                    ]
+                  }
+                ],
+                "mutable_data": [
+                  {
+                    "key": "name",
+                    "value": [
+                      "string",
+                      "asset mutable"
+                    ]
+                  },
+                  {
+                    "key": "old",
+                    "value": [
+                      "string",
+                      "remove me"
+                    ]
+                  }
+                ]
+              }
+            },
+            "global_sequence": "18446744073709551013"
+          }
+        }
+      ],
+      "error": null,
+      "finalRows": {
+        "atomicassets_config": [
+          {
+            "contract": "atomicassets",
+            "collection_format": []
+          }
+        ],
+        "atomicassets_assets": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740993",
+            "collection_name": "fixturecoll",
+            "schema_name": "fixture",
+            "template_id": 42,
+            "owner": "alice",
+            "mutable_data": "{\"name\":\"asset mutable\",\"old\":\"remove me\"}",
+            "immutable_data": "{\"name\":\"asset immutable\",\"serial\":\"18446744073709551615\"}",
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": 123456,
+            "transferred_at_time": 1793016000500,
+            "updated_at_block": 123456,
+            "updated_at_time": 1793016000500,
+            "minted_at_block": 123456,
+            "minted_at_time": 1793016000500
+          }
+        ],
+        "atomicassets_mints": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740993",
+            "receiver": "alice",
+            "minter": "author",
+            "txid": {
+              "0": 171,
+              "1": 171,
+              "2": 171,
+              "3": 171,
+              "4": 171,
+              "5": 171,
+              "6": 171,
+              "7": 171,
+              "8": 171,
+              "9": 171,
+              "10": 171,
+              "11": 171,
+              "12": 171,
+              "13": 171,
+              "14": 171,
+              "15": 171,
+              "16": 171,
+              "17": 171,
+              "18": 171,
+              "19": 171,
+              "20": 171,
+              "21": 171,
+              "22": 171,
+              "23": 171,
+              "24": 171,
+              "25": 171,
+              "26": 171,
+              "27": 171,
+              "28": 171,
+              "29": 171,
+              "30": 171,
+              "31": 171
+            }
+          }
+        ]
+      },
+      "activeListenersAfterRelease": {
+        "trace_listeners": [],
+        "table_listeners": []
+      },
+      "registrations": {
+        "actions": [
+          {
+            "action": "logmint",
+            "priority": 50
+          },
+          {
+            "action": "logbackasset",
+            "priority": 60
+          },
+          {
+            "action": "logburnasset",
+            "priority": 60
+          },
+          {
+            "action": "logsetdata",
+            "priority": 60
+          },
+          {
+            "action": "logtransfer",
+            "priority": 60
+          }
+        ],
+        "tables": [
+          {
+            "table": "config",
+            "priority": 10
+          },
+          {
+            "table": "tokenconfigs",
+            "priority": 10
+          },
+          {
+            "table": "collections",
+            "priority": 20
+          },
+          {
+            "table": "authorswaps",
+            "priority": 20
+          },
+          {
+            "table": "schemas",
+            "priority": 20
+          },
+          {
+            "table": "schematypes",
+            "priority": 20
+          },
+          {
+            "table": "templates",
+            "priority": 40
+          },
+          {
+            "table": "templates2",
+            "priority": 40
+          }
+        ]
+      }
+    }
+  ]
+}

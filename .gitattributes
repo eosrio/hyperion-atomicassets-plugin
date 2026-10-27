@@ -1,0 +1,2 @@
+# Original reference/helper blobs retain their exact bytes on every checkout.
+/fixtures/harness/atomicassets/lifecycle/original/** -text
