@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
-import {readFileSync, statSync} from 'node:fs';
+import {statSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
-export const PIN = Object.freeze(JSON.parse(readFileSync(new URL('./fixture-pin.json', import.meta.url))));
+import {PIN, verifyImageIdentity, verifyImageDescriptor} from './image-identity.mjs';
+export {PIN};
 export const LABEL = 'atomicassets-original-postgres';
 
 export function validateReceipt(receipt) {
@@ -26,10 +27,8 @@ export function verifyObservedFixture(receipt, observed) {
   const container = observed.container; labels(container.Config.Labels); labels(observed.volume.Labels); labels(observed.network.Labels);
   assert.equal(container.Id, receipt.containerId); assert.equal(container.Name, '/aa-pg-' + receipt.run);
   assert.equal(container.State.Running, true); assert.equal(container.Config.Image, PIN.image);
-  assert.equal(container.Image, observed.image.Id); assert.equal(observed.image.Os, 'linux'); assert.equal(observed.image.Architecture, 'amd64');
-  assert.equal(observed.image.Id, PIN.registryInspection.configDigest);
-  const digest = PIN.image.split('@')[1];
-  assert.ok(observed.image.RepoDigests.some(value => [PIN.image, 'library/postgres@' + digest, 'postgres@' + digest].includes(value)));
+  verifyImageIdentity(observed.image); assert.equal(container.Image, observed.image.Id);
+  if (container.ImageManifestDescriptor !== undefined && container.ImageManifestDescriptor !== null) verifyImageDescriptor(container.ImageManifestDescriptor);
   assert.equal(container.HostConfig.Memory, PIN.memoryBytes); assert.equal(container.HostConfig.MemorySwap, PIN.memoryBytes);
   assert.equal(container.HostConfig.NanoCpus, PIN.cpuCount * 1e9); assert.equal(container.HostConfig.Privileged, false);
   assert.equal(container.HostConfig.PublishAllPorts, false); assert.ok(!container.HostConfig.Binds?.length);

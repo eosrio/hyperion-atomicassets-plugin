@@ -16,7 +16,9 @@
     "indexDigest": "sha256:0cefaabd882e42bcb2a2f3dc56d3ce4770560ba62fd7f197f1a2e008fd5731ab",
     "linuxAmd64ManifestDigest": "sha256:cbf42f0edc946c0bc1b8eeed62403734e1f25dc67a3491455d07a92fdb558b28",
     "configDigest": "sha256:6a2e324ebe59af6031c4c1cd96c1d5072c2ebc36563d2196365e43b8297c062d",
-    "inspectedAt": "2026-10-27T12:18:58.213989+00:00"
+    "inspectedAt": "2026-10-27T12:18:58.213989+00:00",
+    "manifestBytes": 3054,
+    "configBytes": 9073
   },
   "engineExecuted": false,
   "dockerSocketPath": "/var/run/docker.sock",

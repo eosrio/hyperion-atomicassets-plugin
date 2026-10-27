@@ -15,7 +15,7 @@ const record=value=>{assert.ok(report.events.length<2048,'Original PG event budg
  const {originalSource,sha}=await import('./source.mjs');
  const {verifyObservedFixture,observeFixture,admitEmptyDatabase,PIN}=await import('./admission.mjs');
  const reference=originalSource(job.referenceRoot),config=verifyObservedFixture(job.receipt,observeFixture(job.receipt));
- report.harness={files:['admission.mjs','child.cjs','fixture-pin.json','query-observer.cjs','run.mjs','scenario.cjs','schema.cjs','source.mjs'].map(path=>{const data=fs.readFileSync(join(__dirname,path));return{path,bytes:data.length,sha256:sha(data)};}),
+ report.harness={files:['admission.mjs','child.cjs','fixture-pin.json','image-identity.mjs','postgres-16.15-linux-amd64.manifest.json','postgres-16.15-linux-amd64.config.json','query-observer.cjs','run.mjs','scenario.cjs','schema.cjs','source.mjs'].map(path=>{const data=fs.readFileSync(join(__dirname,path));return{path,bytes:data.length,sha256:sha(data)};}),
   fixtureInputSha256:sha(fs.readFileSync(join(__dirname,'../../../fixtures/harness/atomicassets/lifecycle/input.json'))),
   auditManifestSha256:sha(fs.readFileSync(join(__dirname,'../../../docs/parity/atomicassets/postgres-oracle-sources.json'))),
   nodeExecutableSha256:sha(fs.readFileSync(process.execPath))};

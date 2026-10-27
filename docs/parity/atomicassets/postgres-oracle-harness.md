@@ -17,6 +17,19 @@ has not been observed. The selected image is:
 
 `docker.io/library/postgres@sha256:cbf42f0edc946c0bc1b8eeed62403734e1f25dc67a3491455d07a92fdb558b28`
 
+The checked-in original [platform manifest](../../../harness/atomicassets/postgres/postgres-16.15-linux-amd64.manifest.json)
+and [configuration](../../../harness/atomicassets/postgres/postgres-16.15-linux-amd64.config.json)
+retain their exact registry bytes. Admission hashes both, checks manifest/config media types,
+sizes and digest linkage, and verifies Linux/amd64 and PostgreSQL 16.15 metadata. Classic Docker
+may report the linked configuration digest as the image ID; the containerd image store reports
+the platform-manifest digest. Only those exact linked IDs are accepted. The manifest-ID form
+requires the matching OCI descriptor digest, media type and byte size; any reported descriptor
+platform must agree. A contradictory descriptor also refuses on the config-ID path. Exact
+repository digest and container-image equality remain required; a reported container manifest
+descriptor is checked too. This follows the [Docker descriptor contract](https://docs.docker.com/reference/api/engine/version-history/)
+and [OCI manifest/config relationship](https://github.com/opencontainers/image-spec/blob/v1.1.1/manifest.md).
+It changes fixture admission, not the selected image, resources, workload or engine acceptance.
+
 Use a new 32-character lowercase hexadecimal run identifier. The fixed names are container
 `aa-pg-RUN`, database/volume `aa_pg_RUN`, and database user `oracle`. Container, local volume and
 internal network must carry `io.eosrio.qualifier=atomicassets-original-postgres` and the exact

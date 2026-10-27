@@ -33,6 +33,16 @@ test('owned fixture derives connection only from exact observed root receipt; no
  assert.throws(()=>validateReceipt({...receipt,daemonId:PIN.forbiddenH1GlobalDaemonId}));
  assert.throws(()=>validateReceipt({...receipt,url:'postgres://production'}));assert.throws(()=>parseArgs(['--url','postgres://production']));
 });
+test('manifest-ID fixture preserves exact container image binding and descriptor checks',()=>{
+ const {receipt,observed}=fixture();observed.image.Id=PIN.registryInspection.linuxAmd64ManifestDigest;
+ observed.image.Descriptor={mediaType:'application/vnd.oci.image.manifest.v1+json',digest:observed.image.Id,size:3054};
+ observed.container.Image=observed.image.Id;observed.container.ImageManifestDescriptor=structuredClone(observed.image.Descriptor);
+ assert.equal(verifyObservedFixture(receipt,observed).ownership.image,PIN.image);
+ const mismatched=structuredClone(observed);mismatched.container.Image=PIN.registryInspection.configDigest;
+ assert.throws(()=>verifyObservedFixture(receipt,mismatched));
+ observed.container.ImageManifestDescriptor.digest=PIN.registryInspection.configDigest;
+ assert.throws(()=>verifyObservedFixture(receipt,observed));
+});
 test('foreign identity, mutable image, public port, resources and bind-like volumes refuse',()=>{
  for(const mutate of [v=>v.daemon.ID='foreign',v=>v.socket.ino=9,v=>v.container.Config.Image='postgres:16-alpine',
   v=>v.image.Id='foreign',v=>v.container.Config.Labels={},v=>v.container.HostConfig.Memory=2e9,
