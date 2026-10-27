@@ -1,5 +1,7 @@
 # Original reference/helper blobs retain their exact bytes on every checkout.
 /fixtures/harness/atomicassets/lifecycle/original/** -text
+# Sanitized domain oracle/provenance hashes also cover exact retained bytes.
+/fixtures/harness/atomicassets/domain/** -text
 # OCI content digests cover original bytes, including newlines.
 /harness/atomicassets/postgres/postgres-16.15-linux-amd64.manifest.json -text
 /harness/atomicassets/postgres/postgres-16.15-linux-amd64.config.json -text

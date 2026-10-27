@@ -61,3 +61,9 @@ formatSale({...saleInput, raw_price: 9007199254740993});
 // @ts-expect-error The five-state API does not expose an additional sixth state.
 const extraState: AtomicSaleState = 5;
 void [exactSaleId, exactSalePrice, saleState, extraState];
+
+// This relative installed declaration check grants no public subpath support.
+import type {DomainReader, DomainStage} from './node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicassets/internal/lifecycle-port.js';
+const privateDomainReader: DomainReader = {async get() {return {status: 'covered-absent'};}};
+const privateDomainStage: DomainStage = {...privateDomainReader, put() {}, delete() {}};
+void privateDomainStage;

@@ -20,8 +20,8 @@ delete env.NODE_OPTIONS;
 delete env.NODE_PATH;
 const commands = [];
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
-function run(args, cwd, label) {
-  const result = spawnSync(process.execPath, args, {cwd, env, encoding: 'utf8', timeout: 90000,
+function run(args, cwd, label, commandEnv = env) {
+  const result = spawnSync(process.execPath, args, {cwd, env: commandEnv, encoding: 'utf8', timeout: 90000,
     windowsHide: true, maxBuffer: 8 * 1024 * 1024});
   const stdout = result.stdout ?? '', stderr = result.stderr ?? '';
   const receipt = {command: [process.execPath, ...args], cwd, exitCode: result.status,
@@ -51,6 +51,8 @@ try {
     'dist/atomicmarket/sale.js', 'dist/atomicmarket/sale.d.ts',
     'dist/atomicmarket/marketplace-indexing.js', 'dist/atomicmarket/marketplace-indexing.d.ts',
     'dist/atomicassets/asset.js', 'dist/atomicassets/asset.d.ts',
+    'dist/atomicassets/internal/lifecycle.js', 'dist/atomicassets/internal/lifecycle.d.ts',
+    'dist/atomicassets/internal/lifecycle-port.js', 'dist/atomicassets/internal/lifecycle-port.d.ts',
     'README.md', 'LICENSE', 'harness/shared/LICENSE.atomicassets-api.txt',
     'harness/shared/NOTICE.atomicassets-api.txt', 'docs/parity/atomicmarket/UPSTREAM-LICENSE'];
   for (const path of required) assert.ok(packedFiles.has(path), `Packed artifact is missing ${path}`);
@@ -71,6 +73,9 @@ try {
   const installed = join(consumer, 'node_modules', name);
   assert.equal(lstatSync(installed).isSymbolicLink(), false, 'Consumer must install the tarball, not link source');
   const installedPackage = JSON.parse(await readFile(join(installed, 'package.json'), 'utf8'));
+  assert.deepEqual(installedPackage.exports, JSON.parse(await readFile(join(root, 'package.json'), 'utf8')).exports,
+    'The internal domain slice must not change public exports');
+  assert.deepEqual(installedPackage.dependencies, JSON.parse(await readFile(join(root, 'package.json'), 'utf8')).dependencies);
   assert.equal(installedPackage.exports['./atomicmarket/marketplace'].import, './dist/atomicmarket/marketplace.js');
   assert.equal(installedPackage.exports['./atomicmarket/marketplace'].types, './dist/atomicmarket/marketplace.d.ts');
   assert.equal(installedPackage.exports['./atomicmarket/marketplace-indexing'].import, './dist/atomicmarket/marketplace-indexing.js');
@@ -81,6 +86,9 @@ try {
   assert.equal(installedPackage.exports['./atomicmarket/sale'].types, './dist/atomicmarket/sale.d.ts');
   for (const path of required) assert.equal(sha(await readFile(join(installed, path))), sha(await readFile(join(root, path))), path);
   const runtime = await run([join(consumer, 'consume.mjs')], consumer, 'consumer-runtime');
+  // Explicit private-file control; this is not a newly supported package subpath.
+  await run(['--test', join(root, 'tests/asset-lifecycle.test.mjs')], root, 'consumer-internal-domain',
+    {...env, AA_DOMAIN_MODULE_ROOT: join(installed, 'dist')});
   const declarations = await run([join(consumer, 'node_modules/typescript/bin/tsc'), '-p',
     join(consumer, 'tsconfig.json'), '--listFiles'], consumer, 'consumer-declarations');
   const slash = value => value.replaceAll('\\', '/').toLowerCase();
@@ -103,6 +111,7 @@ try {
   const result = {nodeVersion: process.version, package: name, packedFiles: [...packedFiles].sort(),
     tarball: {path: tarball, bytes: tarballBytes.length, sha256: sha(tarballBytes), integrity: packed.integrity},
     installedFromTarball: true, runtimeImport: JSON.parse(runtime), declarationConsumerExit: 0,
+    internalDomainRegression: true, internalDomainPublicExport: false,
     consumerLockSha256: sha(lockBytes), sdkResolved, commands,
     scope: 'Packed query component and declarations; no Hyperion HTTP, source ingestion, database or full parity qualification'};
   await writeFile(join(evidence, 'result.json'), JSON.stringify(result, null, 2) + '\n');

@@ -138,3 +138,13 @@ is a source-only implementation against the pinned 2.7.0 schema/processors/view/
 strict owned-empty admission and socket-free controls do not establish an engine pass. Actual
 PostgreSQL runs, independent physical cleanup and review remain pending; it adopts no pending
 stateful SDK/core interface and makes no MongoDB or full-parity claim.
+
+
+## Internal asset domain tracer
+
+The [internal untemplated lifecycle component](docs/parity/atomicassets/domain-tracer.md) preserves
+original scheduling, metadata, owner/burn and current-relationship behavior against sanitized
+constructed domain values selected from the closed original PostgreSQL oracle. Normal and packed
+controls exercise the private emitted files; public exports and SDK pins are unchanged. The safe
+collection input differs from the original NUL-containing input, which the tracer refuses. This
+slice does not establish SDK recovery, physical MongoDB lifecycle, source admission or full parity.

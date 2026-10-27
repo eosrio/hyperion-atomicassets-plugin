@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "referenceCommit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+  "archive": {
+    "bytes": 3736882,
+    "sha256": "37d367d7ff475548dbb6af70ccd6a4bbfbf4d94f21306a856f2e476f25e567a7"
+  },
+  "reports": [
+    {
+      "node": "node24",
+      "member": "cases/node24/aa-pg-30225859f60270cb6a26748e00d290bf/report.json",
+      "sha256": "4657577f07fdc1b9c2649ce809dc989af1e41754f44ee2b23318a698fb42609f"
+    },
+    {
+      "node": "node26",
+      "member": "cases/node26/aa-pg-1700d63d5718276536c5685ce113d5f8/report.json",
+      "sha256": "de7735744a01c047195f45e220578dd7902c2d42bd1b1b81ee909bed93fa9b23"
+    }
+  ],
+  "originalInputSha256": "6c4a2a25d7d57afe043c18cb20b9c9125992a5d90965fa8409cc0d689f6cfbfe",
+  "derivedInputSha256": "cf693ce27093a909f27eedc048242ec048dcd502839921ce9450d9a9d98bd86e",
+  "fixtureSha256": "4488cb4acad269d5d72b2f8927a21332b1492d17db60ed9f49865ab73ef007a6",
+  "sourceManifest": "../lifecycle/provenance.json",
+  "sourceManifestSha256": "a599f2377100af6f490d120a6547b60f34d00afbd11e508318ff857b849085e3",
+  "substitution": {
+    "field": "collectionData.img",
+    "original": "image\u0000hash",
+    "derived": "image hash",
+    "reason": "Refuse unresolved original NUL policy; supported subset uses original stored value"
+  },
+  "scope": {
+    "originalPGOutputsAgreeOnNative24And26": true,
+    "newSameInputPhysicalPGComparison": false,
+    "constructedInputs": true,
+    "mongo": false,
+    "sdkRecovery": false,
+    "fullParity": false
+  }
+}
