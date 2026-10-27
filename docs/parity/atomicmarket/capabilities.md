@@ -1,8 +1,9 @@
 # AtomicMarket capability requirements
 
 Reference pin: atomicassets-api `0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e` (2.7.0).
-SDK pin: Hyperion SDK `339b5c93d1338968c18ed14254961439dcab16a0`.
-This is an implementation gap map, not a new architecture contract or backend qualification.
+Historical SDK inventory pin: Hyperion SDK `339b5c93d1338968c18ed14254961439dcab16a0`.
+This original gap inventory is retained. The package now pins merged SDK `8d37e932` and adds
+the [contextual marketplace slice](marketplace-indexing.md); actual engine qualification remains pending.
 
 ## Smallest marketplace integration gap
 
@@ -16,7 +17,7 @@ uses bigint for both creation fields; default pg reads return strings. The
 [single marketplace handler](https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicmarket/handlers/marketplaces.ts#L16)
 returns those original fields, not the current read checkpoint.
 
-Current SDK `ProjectionField` paths select scalar members from one decoded source row.
+At the historical SDK pin, `ProjectionField` paths select scalar members from one decoded source row.
 `projectTableValue` receives that row without a declared block-envelope/constant-field source.
 `ProjectionMutation.put` replaces the complete scalar record; arbitrary hooks remain later contracts.
 The smallest complete marketplace indexing slice therefore needs:

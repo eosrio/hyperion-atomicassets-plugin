@@ -48,7 +48,7 @@ async function execute({referenceRoot, nodePath = process.execPath, timeoutMs = 
       clearTimeout(timer);
       if (failure || code !== 0 || !result) reject(new Error(`${failure?.message ?? 'Reference child did not complete'}; exit=${code}; signal=${signal}; ${output}`));
       else resolve({...result, reference, execution: {nodePath, nodeVersion: result.nodeVersion, exitCode: code, logBytes,
-        ...(command.mode === 'asset-controls' ? {mergedLog: output} : {})}});
+        ...(command.mode === 'asset-controls' || command.mode === 'marketplace-controls' ? {mergedLog: output} : {})}});
     });
     child.stdin.end(input);
   });
@@ -66,4 +66,8 @@ export async function inspectReferenceNamespace({referenceRoot, namespace, names
 
 export async function executeOriginalAssetControls({referenceRoot, nodePath, timeoutMs}) {
   return await execute({referenceRoot, nodePath, timeoutMs, command: {mode: 'asset-controls'}});
+}
+
+export async function executeOriginalMarketplaceControls({referenceRoot, input, nodePath, timeoutMs}) {
+  return await execute({referenceRoot, nodePath, timeoutMs, command: {mode: 'marketplace-controls', input}});
 }

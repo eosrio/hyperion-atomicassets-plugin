@@ -3,6 +3,8 @@ import {readMarketplace, type Marketplace, type MarketplaceReader}
 import type {ProjectionRollbackReadView} from '@eosrio/hyperion-sdk/projection';
 import {formatAsset, type AtomicAssetInput, type AtomicValue}
   from '@eosrio/hyperion-atomicassets-plugin/atomicassets/asset';
+import {createMarketplaceDefinition}
+  from '@eosrio/hyperion-atomicassets-plugin/atomicmarket/marketplace-indexing';
 
 declare const view: ProjectionRollbackReadView;
 declare const reader: MarketplaceReader<ProjectionRollbackReadView>;
@@ -33,3 +35,11 @@ formatAsset({...input, asset_id: 9007199254740993});
 // @ts-expect-error Metadata is structured JSON, not bigint values that cannot be serialized.
 formatAsset({...input, immutable_data: {rank: 1n}});
 void [exactId, metadata, rounded];
+
+const definition = createMarketplaceDefinition({id: 'marketplaces', mappingRevision: 'a'.repeat(64),
+  marketContract: 'atomicmarket', abiDeployment: 'original-deployment', abiSha256: 'b'.repeat(64)});
+const contextualVersion: 2 = definition.schemaVersion;
+const policy: 'delete' | 'incomplete' = definition.onAbsent;
+// @ts-expect-error Original source cannot be implicitly replaced by a current snapshot.
+createMarketplaceDefinition({id: 'marketplaces', initialization: {kind: 'snapshot'}});
+void [contextualVersion, policy];

@@ -6,11 +6,16 @@ import {fileURLToPath} from 'node:url';
 import {PROJECTION_CAPABILITIES} from '@eosrio/hyperion-sdk/projection';
 import {MarketplaceNotFoundError, readMarketplace} from '@eosrio/hyperion-atomicassets-plugin/atomicmarket/marketplace';
 import {formatAsset} from '@eosrio/hyperion-atomicassets-plugin/atomicassets/asset';
+import {createMarketplaceDefinition} from '@eosrio/hyperion-atomicassets-plugin/atomicmarket/marketplace-indexing';
 import {assetFormatterCases} from './asset-formatter-cases.mjs';
 
 const resolved = fileURLToPath(import.meta.resolve('@eosrio/hyperion-atomicassets-plugin/atomicmarket/marketplace'));
 assert.equal(realpathSync(resolved), realpathSync(join(process.cwd(), 'node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicmarket/marketplace.js')));
 assert.ok(PROJECTION_CAPABILITIES.includes('eq-filter'));
+const contextual = createMarketplaceDefinition({id: 'marketplaces', mappingRevision: 'a'.repeat(64),
+  marketContract: 'atomicmarket', abiDeployment: 'original-deployment', abiSha256: 'b'.repeat(64)});
+assert.equal(contextual.schemaVersion, 2); assert.equal(contextual.onAbsent, 'incomplete');
+assert.deepEqual(contextual.preserveOnReplace, ['created_at_block', 'created_at_time']);
 const view = {
   binding: {chainId: 'a'.repeat(64), backendId: 'mongodb', projectionId: 'marketplaces',
     mappingRevision: 'b'.repeat(64), abiDeployment: 'market-abi', abiSha256: 'c'.repeat(64), generation: 'test-instance'},
