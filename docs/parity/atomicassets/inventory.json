@@ -17,7 +17,9 @@
     "jsonApiPaths": 35,
     "documentationRedirects": 2,
     "documentedPaths": 26,
-    "implementedPluginPaths": 0
+    "implementedPluginPaths": 0,
+    "socketRegistrations": 3,
+    "socketNamespaces": 2
   },
   "components": {
     "schemas": {
@@ -7183,12 +7185,576 @@
     }
   ],
   "socketCoverage": {
-    "status": "source inventoried; reference socket connections and Hyperion streaming integration pending",
-    "sources": [
-      "src/api/namespaces/atomicassets/index.ts",
-      "src/api/namespaces/atomicassets/routes/assets.ts",
-      "src/api/namespaces/atomicassets/routes/offers.ts",
-      "src/api/namespaces/atomicassets/routes/transfers.ts"
+    "status": "source declarations inventoried; reference socket sessions and Hyperion streaming integration pending",
+    "runtimeQualified": false,
+    "registrationCount": 3,
+    "distinctNamespaceCount": 2,
+    "registrations": [
+      {
+        "path": "/atomicassets/v1/assets",
+        "function": "AssetApi.sockets",
+        "source": {
+          "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+          "bytes": 12659,
+          "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+          "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts",
+          "line": 202,
+          "endLine": 202
+        },
+        "registrationSource": {
+          "path": "src/api/namespaces/atomicassets/index.ts",
+          "bytes": 4849,
+          "gitBlob": "f6ee501922b3910dffd3c093de0d3676eb026681",
+          "sha256": "dee9e494d119c20080698090278a12466c8899bb54e13b86e50191d2083fb6f9",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/index.ts",
+          "line": 134,
+          "endLine": 134
+        },
+        "notification": {
+          "channel": "assets",
+          "source": {
+            "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+            "bytes": 12659,
+            "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+            "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts",
+            "line": 204,
+            "endLine": 277
+          }
+        },
+        "accountFilter": {
+          "expression": "trace.act.account !== this.core.args.atomicassets_account",
+          "expectedAccount": "this.core.args.atomicassets_account",
+          "source": {
+            "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+            "bytes": 12659,
+            "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+            "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts",
+            "line": 230,
+            "endLine": 232
+          }
+        },
+        "subscriptions": [],
+        "events": [
+          {
+            "event": "new_asset",
+            "room": null,
+            "payload": "{\n                            transaction: notification.data.tx,\n                            block: notification.data.block,\n                            trace: trace,\n                            asset_id: assetID,\n                            asset: assets.find(row => String(row.asset_id) === String(assetID))\n                        }",
+            "payloadFields": [
+              "transaction",
+              "block",
+              "trace",
+              "asset_id",
+              "asset"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+              "bytes": 12659,
+              "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+              "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts",
+              "line": 237,
+              "endLine": 243
+            },
+            "trigger": {
+              "action": "logmint",
+              "source": {
+                "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+                "bytes": 12659,
+                "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+                "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+                "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts",
+                "line": 236,
+                "endLine": 252
+              }
+            },
+            "featureGates": []
+          },
+          {
+            "event": "burn",
+            "room": null,
+            "payload": "{\n                            transaction:notification.data.tx,\n                            block: notification.data.block,\n                            trace: trace,\n                            asset_id: assetID,\n                            asset: assets.find(row => String(row.asset_id) === String(assetID))\n                        }",
+            "payloadFields": [
+              "transaction",
+              "block",
+              "trace",
+              "asset_id",
+              "asset"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+              "bytes": 12659,
+              "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+              "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts",
+              "line": 245,
+              "endLine": 251
+            },
+            "trigger": {
+              "action": "logburnasset",
+              "source": {
+                "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+                "bytes": 12659,
+                "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+                "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+                "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts",
+                "line": 244,
+                "endLine": 252
+              }
+            },
+            "featureGates": []
+          },
+          {
+            "event": "back",
+            "room": null,
+            "payload": "{\n                                transaction: notification.data.tx,\n                                block: notification.data.block,\n                                trace: trace,\n                                asset_id: assetID,\n                                asset: assets.find(row => String(row.asset_id) === String(assetID))\n                            }",
+            "payloadFields": [
+              "transaction",
+              "block",
+              "trace",
+              "asset_id",
+              "asset"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+              "bytes": 12659,
+              "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+              "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts",
+              "line": 256,
+              "endLine": 262
+            },
+            "trigger": {
+              "action": "logbackasset",
+              "source": {
+                "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+                "bytes": 12659,
+                "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+                "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+                "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts",
+                "line": 255,
+                "endLine": 271
+              }
+            },
+            "featureGates": [
+              {
+                "expression": "this.core.args.socket_features.asset_update",
+                "source": {
+                  "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+                  "bytes": 12659,
+                  "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+                  "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+                  "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts",
+                  "line": 254,
+                  "endLine": 272
+                }
+              }
+            ]
+          },
+          {
+            "event": "update",
+            "room": null,
+            "payload": "{\n                                transaction: notification.data.tx,\n                                block: notification.data.block,\n                                trace: trace,\n                                asset_id: assetID,\n                                asset: assets.find(row => String(row.asset_id) === String(assetID))\n                            }",
+            "payloadFields": [
+              "transaction",
+              "block",
+              "trace",
+              "asset_id",
+              "asset"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+              "bytes": 12659,
+              "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+              "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts",
+              "line": 264,
+              "endLine": 270
+            },
+            "trigger": {
+              "action": "logsetdata",
+              "source": {
+                "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+                "bytes": 12659,
+                "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+                "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+                "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts",
+                "line": 263,
+                "endLine": 271
+              }
+            },
+            "featureGates": [
+              {
+                "expression": "this.core.args.socket_features.asset_update",
+                "source": {
+                  "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+                  "bytes": 12659,
+                  "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+                  "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+                  "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts",
+                  "line": 254,
+                  "endLine": 272
+                }
+              }
+            ]
+          }
+        ],
+        "fork": {
+          "event": "fork",
+          "room": null,
+          "payload": "{block_num: notification.data.block.block_num}",
+          "payloadFields": [
+            "block_num"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+            "bytes": 12659,
+            "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+            "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts",
+            "line": 274,
+            "endLine": 274
+          },
+          "trigger": {
+            "notificationType": "fork",
+            "source": {
+              "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+              "bytes": 12659,
+              "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+              "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts",
+              "line": 273,
+              "endLine": 275
+            }
+          }
+        },
+        "implementationStatus": "not_implemented",
+        "referenceBehaviorStatus": "source_inventory_only"
+      },
+      {
+        "path": "/atomicassets/v1/offers",
+        "function": "TransferApi.sockets",
+        "source": {
+          "path": "src/api/namespaces/atomicassets/routes/transfers.ts",
+          "bytes": 9678,
+          "gitBlob": "c4c4689f7e3afc0ff083ef95b6e371df7c1bc3fa",
+          "sha256": "85f2965b8b158d7165d9c4d98ec081f6773f91517179726cf074ca61aca96d14",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/transfers.ts",
+          "line": 153,
+          "endLine": 153
+        },
+        "registrationSource": {
+          "path": "src/api/namespaces/atomicassets/index.ts",
+          "bytes": 4849,
+          "gitBlob": "f6ee501922b3910dffd3c093de0d3676eb026681",
+          "sha256": "dee9e494d119c20080698090278a12466c8899bb54e13b86e50191d2083fb6f9",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/index.ts",
+          "line": 135,
+          "endLine": 135
+        },
+        "notification": {
+          "channel": "transfers",
+          "source": {
+            "path": "src/api/namespaces/atomicassets/routes/transfers.ts",
+            "bytes": 9678,
+            "gitBlob": "c4c4689f7e3afc0ff083ef95b6e371df7c1bc3fa",
+            "sha256": "85f2965b8b158d7165d9c4d98ec081f6773f91517179726cf074ca61aca96d14",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/transfers.ts",
+            "line": 155,
+            "endLine": 204
+          }
+        },
+        "accountFilter": {
+          "expression": "trace.act.account !== this.core.args.atomicassets_account",
+          "expectedAccount": "this.core.args.atomicassets_account",
+          "source": {
+            "path": "src/api/namespaces/atomicassets/routes/transfers.ts",
+            "bytes": 9678,
+            "gitBlob": "c4c4689f7e3afc0ff083ef95b6e371df7c1bc3fa",
+            "sha256": "85f2965b8b158d7165d9c4d98ec081f6773f91517179726cf074ca61aca96d14",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/transfers.ts",
+            "line": 187,
+            "endLine": 189
+          }
+        },
+        "subscriptions": [],
+        "events": [
+          {
+            "event": "new_transfer",
+            "room": null,
+            "payload": "{\n                            transaction: notification.data.tx,\n                            block: notification.data.block,\n                            trace: trace,\n                            transfer_id: trace.global_sequence,\n                            transfer: transfers.find(row => String(row.transfer_id) === String(trace.global_sequence))\n                        }",
+            "payloadFields": [
+              "transaction",
+              "block",
+              "trace",
+              "transfer_id",
+              "transfer"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicassets/routes/transfers.ts",
+              "bytes": 9678,
+              "gitBlob": "c4c4689f7e3afc0ff083ef95b6e371df7c1bc3fa",
+              "sha256": "85f2965b8b158d7165d9c4d98ec081f6773f91517179726cf074ca61aca96d14",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/transfers.ts",
+              "line": 192,
+              "endLine": 198
+            },
+            "trigger": {
+              "action": "logtransfer",
+              "source": {
+                "path": "src/api/namespaces/atomicassets/routes/transfers.ts",
+                "bytes": 9678,
+                "gitBlob": "c4c4689f7e3afc0ff083ef95b6e371df7c1bc3fa",
+                "sha256": "85f2965b8b158d7165d9c4d98ec081f6773f91517179726cf074ca61aca96d14",
+                "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/transfers.ts",
+                "line": 191,
+                "endLine": 199
+              }
+            },
+            "featureGates": []
+          }
+        ],
+        "fork": {
+          "event": "fork",
+          "room": null,
+          "payload": "{block_num: notification.data.block.block_num}",
+          "payloadFields": [
+            "block_num"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicassets/routes/transfers.ts",
+            "bytes": 9678,
+            "gitBlob": "c4c4689f7e3afc0ff083ef95b6e371df7c1bc3fa",
+            "sha256": "85f2965b8b158d7165d9c4d98ec081f6773f91517179726cf074ca61aca96d14",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/transfers.ts",
+            "line": 201,
+            "endLine": 201
+          },
+          "trigger": {
+            "notificationType": "fork",
+            "source": {
+              "path": "src/api/namespaces/atomicassets/routes/transfers.ts",
+              "bytes": 9678,
+              "gitBlob": "c4c4689f7e3afc0ff083ef95b6e371df7c1bc3fa",
+              "sha256": "85f2965b8b158d7165d9c4d98ec081f6773f91517179726cf074ca61aca96d14",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/transfers.ts",
+              "line": 200,
+              "endLine": 202
+            }
+          }
+        },
+        "implementationStatus": "not_implemented",
+        "referenceBehaviorStatus": "source_inventory_only"
+      },
+      {
+        "path": "/atomicassets/v1/offers",
+        "function": "OfferApi.sockets",
+        "source": {
+          "path": "src/api/namespaces/atomicassets/routes/offers.ts",
+          "bytes": 16456,
+          "gitBlob": "6eb4b0c6e6f35da5e0d11d5281ad510a69f17e4e",
+          "sha256": "4a140ea5565eaa39208c520b4823cf4db58494486de3054bc9d8afa3afcfdc5e",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/offers.ts",
+          "line": 303,
+          "endLine": 303
+        },
+        "registrationSource": {
+          "path": "src/api/namespaces/atomicassets/index.ts",
+          "bytes": 4849,
+          "gitBlob": "f6ee501922b3910dffd3c093de0d3676eb026681",
+          "sha256": "dee9e494d119c20080698090278a12466c8899bb54e13b86e50191d2083fb6f9",
+          "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/index.ts",
+          "line": 136,
+          "endLine": 136
+        },
+        "notification": {
+          "channel": "offers",
+          "source": {
+            "path": "src/api/namespaces/atomicassets/routes/offers.ts",
+            "bytes": 16456,
+            "gitBlob": "6eb4b0c6e6f35da5e0d11d5281ad510a69f17e4e",
+            "sha256": "4a140ea5565eaa39208c520b4823cf4db58494486de3054bc9d8afa3afcfdc5e",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/offers.ts",
+            "line": 305,
+            "endLine": 346
+          }
+        },
+        "accountFilter": {
+          "expression": "trace.act.account !== this.core.args.atomicassets_account",
+          "expectedAccount": "this.core.args.atomicassets_account",
+          "source": {
+            "path": "src/api/namespaces/atomicassets/routes/offers.ts",
+            "bytes": 16456,
+            "gitBlob": "6eb4b0c6e6f35da5e0d11d5281ad510a69f17e4e",
+            "sha256": "4a140ea5565eaa39208c520b4823cf4db58494486de3054bc9d8afa3afcfdc5e",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/offers.ts",
+            "line": 327,
+            "endLine": 329
+          }
+        },
+        "subscriptions": [],
+        "events": [
+          {
+            "event": "create",
+            "room": null,
+            "payload": "{\n                            transaction: notification.data.tx,\n                            block: notification.data.block,\n                            trace: trace,\n                            offer_id: offerID,\n                            offer: offers.find(row => String(row.offer_id) === String(offerID)),\n                        }",
+            "payloadFields": [
+              "transaction",
+              "block",
+              "trace",
+              "offer_id",
+              "offer"
+            ],
+            "source": {
+              "path": "src/api/namespaces/atomicassets/routes/offers.ts",
+              "bytes": 16456,
+              "gitBlob": "6eb4b0c6e6f35da5e0d11d5281ad510a69f17e4e",
+              "sha256": "4a140ea5565eaa39208c520b4823cf4db58494486de3054bc9d8afa3afcfdc5e",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/offers.ts",
+              "line": 334,
+              "endLine": 340
+            },
+            "trigger": {
+              "action": "lognewoffer",
+              "source": {
+                "path": "src/api/namespaces/atomicassets/routes/offers.ts",
+                "bytes": 16456,
+                "gitBlob": "6eb4b0c6e6f35da5e0d11d5281ad510a69f17e4e",
+                "sha256": "4a140ea5565eaa39208c520b4823cf4db58494486de3054bc9d8afa3afcfdc5e",
+                "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/offers.ts",
+                "line": 333,
+                "endLine": 341
+              }
+            },
+            "featureGates": []
+          }
+        ],
+        "fork": {
+          "event": "fork",
+          "room": null,
+          "payload": "{block_num: notification.data.block.block_num}",
+          "payloadFields": [
+            "block_num"
+          ],
+          "source": {
+            "path": "src/api/namespaces/atomicassets/routes/offers.ts",
+            "bytes": 16456,
+            "gitBlob": "6eb4b0c6e6f35da5e0d11d5281ad510a69f17e4e",
+            "sha256": "4a140ea5565eaa39208c520b4823cf4db58494486de3054bc9d8afa3afcfdc5e",
+            "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/offers.ts",
+            "line": 343,
+            "endLine": 343
+          },
+          "trigger": {
+            "notificationType": "fork",
+            "source": {
+              "path": "src/api/namespaces/atomicassets/routes/offers.ts",
+              "bytes": 16456,
+              "gitBlob": "6eb4b0c6e6f35da5e0d11d5281ad510a69f17e4e",
+              "sha256": "4a140ea5565eaa39208c520b4823cf4db58494486de3054bc9d8afa3afcfdc5e",
+              "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/offers.ts",
+              "line": 342,
+              "endLine": 344
+            }
+          }
+        },
+        "implementationStatus": "not_implemented",
+        "referenceBehaviorStatus": "source_inventory_only"
+      }
+    ],
+    "featureDefaults": {
+      "condition": "!this.args.socket_features",
+      "value": {
+        "asset_update": true
+      },
+      "source": {
+        "path": "src/api/namespaces/atomicassets/index.ts",
+        "bytes": 4849,
+        "gitBlob": "f6ee501922b3910dffd3c093de0d3676eb026681",
+        "sha256": "dee9e494d119c20080698090278a12466c8899bb54e13b86e50191d2083fb6f9",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/index.ts",
+        "line": 50,
+        "endLine": 54
+      },
+      "semantics": "Defaults replace the whole falsy socket_features value; an existing object is not merged with per-key defaults."
+    },
+    "namespaceFactory": {
+      "expression": "server.socket.io.of(path)",
+      "source": {
+        "path": "src/api/utils.ts",
+        "bytes": 5618,
+        "gitBlob": "2095e511ebe5a372b909875028ebb5ff37f7c4a3",
+        "sha256": "4fcce204aded2e2101282a05240cf15bb2bf43133cfaa414a46cb0c07b533567",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/utils.ts",
+        "line": 64,
+        "endLine": 66
+      }
+    },
+    "transport": {
+      "options": {
+        "cors": {
+          "origin": "*"
+        },
+        "allowEIO3": true,
+        "transports": [
+          "websocket"
+        ]
+      },
+      "source": {
+        "path": "src/api/server.ts",
+        "bytes": 18442,
+        "gitBlob": "a5a2a3074fbee389207188eb3aa404a8201e546f",
+        "sha256": "df32f2055d45bcb3e055cf09b306aa97590e7b14defaea6899a166198b068e1d",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/server.ts",
+        "line": 441,
+        "endLine": 445
+      }
+    },
+    "sourcePins": [
+      {
+        "path": "src/api/namespaces/atomicassets/index.ts",
+        "bytes": 4849,
+        "gitBlob": "f6ee501922b3910dffd3c093de0d3676eb026681",
+        "sha256": "dee9e494d119c20080698090278a12466c8899bb54e13b86e50191d2083fb6f9",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/index.ts"
+      },
+      {
+        "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+        "bytes": 12659,
+        "gitBlob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+        "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts"
+      },
+      {
+        "path": "src/api/namespaces/atomicassets/routes/offers.ts",
+        "bytes": 16456,
+        "gitBlob": "6eb4b0c6e6f35da5e0d11d5281ad510a69f17e4e",
+        "sha256": "4a140ea5565eaa39208c520b4823cf4db58494486de3054bc9d8afa3afcfdc5e",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/offers.ts"
+      },
+      {
+        "path": "src/api/namespaces/atomicassets/routes/transfers.ts",
+        "bytes": 9678,
+        "gitBlob": "c4c4689f7e3afc0ff083ef95b6e371df7c1bc3fa",
+        "sha256": "85f2965b8b158d7165d9c4d98ec081f6773f91517179726cf074ca61aca96d14",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/transfers.ts"
+      },
+      {
+        "path": "src/api/server.ts",
+        "bytes": 18442,
+        "gitBlob": "a5a2a3074fbee389207188eb3aa404a8201e546f",
+        "sha256": "df32f2055d45bcb3e055cf09b306aa97590e7b14defaea6899a166198b068e1d",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/server.ts"
+      },
+      {
+        "path": "src/api/utils.ts",
+        "bytes": 5618,
+        "gitBlob": "2095e511ebe5a372b909875028ebb5ff37f7c4a3",
+        "sha256": "4fcce204aded2e2101282a05240cf15bb2bf43133cfaa414a46cb0c07b533567",
+        "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/utils.ts"
+      }
     ]
   }
 }

@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "baseline": {
+    "repository": "https://github.com/atomicassets/atomicassets-api",
+    "tag": "2.7.0",
+    "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e"
+  },
+  "fixtureKind": "synthetic-database-boundary",
+  "fixtureSha256": "3790e2036598581ffa80fe47e796196323dc40cdf346e321c8a3b4f2eaabc0e1",
+  "request": {
+    "method": "GET",
+    "path": "/atomicmarket/v1/marketplaces/marketplace1"
+  },
+  "status": 200,
+  "body": {
+    "success": true,
+    "data": {
+      "marketplace_name": "marketplace1",
+      "creator": "alice",
+      "created_at_block": "123",
+      "created_at_time": "1700000000000"
+    }
+  },
+  "excludedEnvironmentFields": [
+    "body.query_time",
+    "headers.date",
+    "headers.last-modified"
+  ],
+  "scope": {
+    "database": "synthetic-database-boundary",
+    "postgresExecution": false,
+    "chainCapture": false,
+    "hyperionPluginExecution": false,
+    "originalHttpServer": true,
+    "cacheEnabled": false,
+    "chainHealthRpc": "controlled stub; no network"
+  },
+  "referenceExecution": {
+    "nodeVersion": "v26.4.0",
+    "exitCode": 0,
+    "harnessFiles": [
+      {
+        "name": "reference.mjs",
+        "sha256": "423e4a577709145e2fb522826c47a4e55c2b33b34d7ad899634988a9b0a8edab"
+      },
+      {
+        "name": "reference-child.cjs",
+        "sha256": "70cb0840c4b9a58c8c2f81bada34e629b4da785d7977c149c09cb6188c26b61a"
+      }
+    ],
+    "databaseQueries": 2,
+    "unusedQueries": 0
+  }
+}

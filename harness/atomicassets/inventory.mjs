@@ -4,6 +4,7 @@ import {mkdir, readFile, writeFile} from 'node:fs/promises';
 import {createRequire} from 'node:module';
 import {join, resolve} from 'node:path';
 import {inspectReferenceNamespace, REFERENCE} from '../shared/reference.mjs';
+import {inventorySocketContracts} from '../shared/socket-inventory.mjs';
 
 const referenceRoot = resolve(process.env.AA_REFERENCE_ROOT ?? '');
 if (!process.env.AA_REFERENCE_ROOT) throw new Error('AA_REFERENCE_ROOT is required');
@@ -63,6 +64,7 @@ function closure(names) {
 }
 const runtime = await inspectReferenceNamespace({referenceRoot, namespace: 'atomicassets',
   namespaceArgs: {connected_reader: 'reference-fixture', atomicassets_account: 'atomicassets'}});
+const socketCoverage = inventorySocketContracts({referenceRoot, namespace: 'atomicassets', ts});
 const endpoints = runtime.inventory.routes.map(route => {
   const openapiPath = route.path.replace(/:([a-zA-Z_]+)/g, '{$1}');
   const documented = runtime.inventory.openapi[openapiPath];
@@ -77,7 +79,8 @@ const result = {schemaVersion: 1, baseline: REFERENCE,
     referenceLockSha256: runtime.reference.lockSha256},
   summary: {registrations: endpoints.length, jsonApiPaths: endpoints.filter(e => e.classification === 'json-api').length,
     documentationRedirects: endpoints.filter(e => e.classification === 'documentation-redirect').length,
-    documentedPaths: endpoints.filter(e => e.openapi).length, implementedPluginPaths: 0},
+    documentedPaths: endpoints.filter(e => e.openapi).length, implementedPluginPaths: 0,
+    socketRegistrations: socketCoverage.registrationCount, socketNamespaces: socketCoverage.distinctNamespaceCount},
   components: runtime.inventory.components,
   sharedSemantics: [
     {path: 'src/api/server.ts', note: 'Original returnAsJSON merges request data and returns success/data/query_time. API errors, query timeouts and unknown errors use the original responder.'},
@@ -85,9 +88,7 @@ const result = {schemaVersion: 1, baseline: REFERENCE,
     {path: 'src/api/namespaces/utils.ts', note: 'Original query and body merge behavior; page/filter composition is preserved rather than inferred from OpenAPI alone.'},
     {path: 'src/api/namespaces/atomicassets/format.ts', note: 'Asset/template/schema/collection/offer/transfer response formatting is domain behavior; dynamic field precedence and exact IDs must remain compatible.'}
   ], endpoints, sources,
-  socketCoverage: {status: 'source inventoried; reference socket connections and Hyperion streaming integration pending',
-    sources: ['src/api/namespaces/atomicassets/index.ts', 'src/api/namespaces/atomicassets/routes/assets.ts',
-      'src/api/namespaces/atomicassets/routes/offers.ts', 'src/api/namespaces/atomicassets/routes/transfers.ts']}};
+  socketCoverage};
 await mkdir(output, {recursive: true});
 await writeFile(join(output, 'inventory.json'), JSON.stringify(result, null, 2) + '\n');
 console.log(JSON.stringify(result.summary));

@@ -48,3 +48,5 @@ jobs:
           pnpm --dir "$AA_REFERENCE_ROOT" install --frozen-lockfile
       - name: Build artifacts and execute native reference controls
         run: npm test
+      - name: Verify packed exports and declarations through an installed consumer
+        run: npm run test:package

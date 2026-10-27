@@ -25,8 +25,15 @@ Upstream generated descriptions and source-derived rules retain the
 | Burns | 2 | Global/account burn views preserving burned-asset lifecycle data. |
 | Configuration | 1 | Contract settings, token definitions and public response shape. |
 
-The source also supplies asset/offer/transfer sockets. Their source paths are listed in the
-inventory; reference socket sessions and Hyperion stream integration remain unqualified.
+The source socket inventory preserves **three registrations and two distinct namespaces**.
+Assets use `/atomicassets/v1/assets`; both the transfer and offer handlers register the literal
+`/atomicassets/v1/offers` namespace. Their notification channels remain `transfers` and `offers`.
+No subscription or room API is declared for these handlers. The inventory retains every action/event
+and payload declaration, configured-account filter, namespace-wide `fork` event, source anchor and
+Git blob/hash. Asset `back` and `update` events require `socket_features.asset_update`; the upstream
+sets it to true only when replacing the whole missing/falsy `socket_features` value, without merging
+an existing object. The shared Socket.IO options are websocket-only with `allowEIO3: true`.
+These are source declarations; reference socket sessions and Hyperion stream integration remain unqualified.
 
 ## First executed cases
 

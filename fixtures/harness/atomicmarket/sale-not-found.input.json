@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "baseline": {
+    "repository": "https://github.com/atomicassets/atomicassets-api",
+    "tag": "2.7.0",
+    "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e"
+  },
+  "fixtureKind": "synthetic-database-boundary",
+  "scope": "Input rows for the unmodified pinned reference handler and HTTP envelope. No PostgreSQL, chain, projection or backend acceptance is claimed.",
+  "namespace": "atomicmarket",
+  "namespaceArgs": {
+    "connected_reader": "reference-fixture",
+    "atomicmarket_account": "atomicmarket",
+    "atomicassets_account": "atomicassets",
+    "delphioracle_account": "delphioracle"
+  },
+  "request": {"method": "GET", "path": "/atomicmarket/v1/sales/9007199254740993"},
+  "queries": [
+    {
+      "sql": "SELECT * FROM atomicmarket_config WHERE market_contract = $1",
+      "parameters": ["atomicmarket"],
+      "rows": [{"assets_contract": "atomicassets", "delphi_contract": "delphioracle"}]
+    },
+    {
+      "sql": "SELECT * FROM atomicmarket_sales_master WHERE market_contract = $1 AND sale_id = $2",
+      "parameters": ["atomicmarket", "9007199254740993"],
+      "rows": []
+    }
+  ],
+  "deterministicComparisons": {"status": true, "body": true},
+  "environmentDependentFields": ["headers.date", "headers.last-modified"]
+}
