@@ -53,6 +53,8 @@ try {
     'dist/atomicassets/asset.js', 'dist/atomicassets/asset.d.ts',
     'dist/atomicassets/internal/lifecycle.js', 'dist/atomicassets/internal/lifecycle.d.ts',
     'dist/atomicassets/internal/lifecycle-port.js', 'dist/atomicassets/internal/lifecycle-port.d.ts',
+    'dist/atomicmarket/internal/fixed-sale.js', 'dist/atomicmarket/internal/fixed-sale.d.ts',
+    'dist/atomicmarket/internal/fixed-sale-port.js', 'dist/atomicmarket/internal/fixed-sale-port.d.ts',
     'README.md', 'LICENSE', 'harness/shared/LICENSE.atomicassets-api.txt',
     'harness/shared/NOTICE.atomicassets-api.txt', 'docs/parity/atomicmarket/UPSTREAM-LICENSE'];
   for (const path of required) assert.ok(packedFiles.has(path), `Packed artifact is missing ${path}`);
@@ -89,6 +91,8 @@ try {
   // Explicit private-file control; this is not a newly supported package subpath.
   await run(['--test', join(root, 'tests/asset-lifecycle.test.mjs')], root, 'consumer-internal-domain',
     {...env, AA_DOMAIN_MODULE_ROOT: join(installed, 'dist')});
+  await run(['--test', join(root, 'tests/fixed-sale-lifecycle.test.mjs')], root, 'consumer-fixed-sale',
+    {...env, AM_DOMAIN_MODULE_ROOT: join(installed, 'dist')});
   const declarations = await run([join(consumer, 'node_modules/typescript/bin/tsc'), '-p',
     join(consumer, 'tsconfig.json'), '--listFiles'], consumer, 'consumer-declarations');
   const slash = value => value.replaceAll('\\', '/').toLowerCase();
@@ -100,6 +104,8 @@ try {
     'Consumer must resolve the installed packed asset declaration');
   assert.ok(slash(declarations).includes(slash(join(installed, 'dist/atomicmarket/sale.d.ts'))),
     'Consumer must resolve the installed packed sale declaration');
+  assert.ok(slash(declarations).includes(slash(join(installed, 'dist/atomicmarket/internal/fixed-sale-port.d.ts'))),
+    'Private declaration control must use the installed file');
   assert.ok(slash(declarations).includes(slash(join(consumer, 'node_modules/@eosrio/hyperion-sdk/dist/projection.d.ts'))),
     'Consumer must resolve its installed SDK declarations');
   const lockBytes = await readFile(join(consumer, 'package-lock.json'));
@@ -112,6 +118,7 @@ try {
     tarball: {path: tarball, bytes: tarballBytes.length, sha256: sha(tarballBytes), integrity: packed.integrity},
     installedFromTarball: true, runtimeImport: JSON.parse(runtime), declarationConsumerExit: 0,
     internalDomainRegression: true, internalDomainPublicExport: false,
+    internalFixedSaleRegression: true, internalFixedSalePublicExport: false,
     consumerLockSha256: sha(lockBytes), sdkResolved, commands,
     scope: 'Packed query component and declarations; no Hyperion HTTP, source ingestion, database or full parity qualification'};
   await writeFile(join(evidence, 'result.json'), JSON.stringify(result, null, 2) + '\n');

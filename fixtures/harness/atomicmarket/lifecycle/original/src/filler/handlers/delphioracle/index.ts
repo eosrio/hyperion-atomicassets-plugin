@@ -1,0 +1,219 @@
+import * as fs from 'fs';
+import { PoolClient } from 'pg';
+
+import { ContractHandler } from '../interfaces';
+import { ShipBlock } from '../../../types/ship';
+import { EosioContractRow } from '../../../types/eosio';
+import { ContractDBTransaction } from '../../database';
+import logger from '../../../utils/winston';
+import { eosioTimestampToDate } from '../../../utils/eosio';
+import Filler from '../../filler';
+import DataProcessor from '../../processor';
+
+export const DELPHIORACLE_BASE_PRIORITY = 0;
+
+export type DelphiOracleArgs = {
+    delphioracle_account: string
+};
+
+type PairsTableRow = {
+    active: boolean,
+    bounty_awarded: boolean,
+    bounty_edited_by_custodians: boolean,
+    proposer: string,
+    name: string,
+    bounty_amount: string,
+    approving_custodians: string[],
+    approving_oracles: string[],
+    base_symbol: string,
+    base_type: number,
+    base_contract: string,
+    quote_symbol: string,
+    quote_type: number,
+    quote_contract: string,
+    quoted_precision: string
+};
+
+type DatapointsTableRow = {
+    id: string,
+    owner: string,
+    value: string,
+    median: string,
+    timestamp: string
+};
+
+export default class DelphiOracleHandler extends ContractHandler {
+    static handlerName = 'delphioracle';
+
+    declare readonly args: DelphiOracleArgs;
+
+    config: {
+        version: string
+    };
+
+    pairs: string[] = [];
+
+    static async setup(client: PoolClient): Promise<boolean> {
+        const existsQuery = await client.query(
+            'SELECT EXISTS (SELECT FROM information_schema.tables WHERE table_schema = $1 AND table_name = $2)',
+            ['public', 'delphioracle_pairs']
+        );
+
+        if (!existsQuery.rows[0].exists) {
+            logger.info('Could not find DelphiOracle tables. Create them now...');
+
+            await client.query(fs.readFileSync('./definitions/tables/delphioracle_tables.sql', {
+                encoding: 'utf8'
+            }));
+
+            logger.info('DelphiOracle tables successfully created');
+
+            return true;
+        }
+
+        return false;
+    }
+
+    constructor(filler: Filler, args: {[key: string]: any}) {
+        super(filler, args);
+
+        if (typeof args.delphioracle_account !== 'string') {
+            throw new Error('DelphiOracle: Argument missing in handler: delphioracle_account');
+        }
+    }
+
+    async init(client: PoolClient): Promise<void> {
+        try {
+            const resp = await this.connection.chain.rpc.get_table_rows({
+                json: true, code: this.args.delphioracle_account, scope: this.args.delphioracle_account,
+                table: 'pairs', limit: 100
+            });
+
+            const createdPairs = [];
+
+            for (const row of resp.rows) {
+                const data = this.getDatabaseRow(row);
+                const keys = Object.keys(data);
+
+                const existsQuery = await client.query(
+                    'SELECT * FROM delphioracle_pairs WHERE contract = $1 AND delphi_pair_name = $2',
+                    [this.args.delphioracle_account, data.delphi_pair_name]
+                );
+
+                if (existsQuery.rowCount === 0) {
+                    await client.query(
+                        'INSERT INTO delphioracle_pairs (' +
+                        keys.map((key) => client.escapeIdentifier(key)).join(',') +
+                        ') VALUES (' +
+                        keys.map((_, index) => '$' + (index + 1)).join(',') +
+                        ')',
+                        keys.map(key => data[key])
+                    );
+
+                    createdPairs.push(data.delphi_pair_name);
+                }
+            }
+
+            if (createdPairs.length > 0) {
+                logger.info('Successfully created ' + createdPairs.length + ' delphi pairs', createdPairs);
+            }
+        } catch (e) {
+            logger.warn('Failed to fetch current delphioracle pairs');
+        }
+    }
+
+    async deleteDB(client: PoolClient): Promise<void> {
+        const tables = ['delphioracle_pairs'];
+
+        for (const table of tables) {
+            await client.query(
+                'DELETE FROM ' + client.escapeIdentifier(table) + ' WHERE contract = $1',
+                [this.args.delphioracle_account]
+            );
+        }
+    }
+
+    async register(processor: DataProcessor): Promise<() => any> {
+        const destructors: Array<() => any> = [];
+
+        const lastUpdated: {[key: string]: number} = {};
+
+        destructors.push(
+            processor.onContractRow(this.args.delphioracle_account, 'datapoints', async (db: ContractDBTransaction, block: ShipBlock, delta: EosioContractRow<DatapointsTableRow>) => {
+                if (!lastUpdated[delta.scope]) {
+                    const existsQuery = await this.connection.database.query(
+                        'SELECT delphi_pair_name FROM delphioracle_pairs WHERE contract = $1 AND delphi_pair_name = $2',
+                        [this.args.delphioracle_account, delta.scope]
+                    );
+
+                    if (existsQuery.rowCount === 0) {
+                        await this.fillPair(db, block, delta.scope);
+                    }
+
+                    lastUpdated[delta.scope] = 0;
+                }
+
+                if (lastUpdated[delta.scope] + 30 < block.block_num) {
+                    await db.update('delphioracle_pairs', {
+                        median: delta.value.median,
+                        updated_at_time: eosioTimestampToDate(block.timestamp).getTime(),
+                        updated_at_block: block.block_num
+                    }, {
+                        str: 'contract = $1 AND delphi_pair_name = $2',
+                        values: [this.args.delphioracle_account, delta.scope]
+                    }, ['contract', 'delphi_pair_name']);
+
+                    lastUpdated[delta.scope] = block.block_num;
+                }
+
+            }, DELPHIORACLE_BASE_PRIORITY + 20, {headOnly: true})
+        );
+
+        destructors.push(
+            processor.onContractRow(this.args.delphioracle_account, 'pairs', async (db: ContractDBTransaction, block: ShipBlock, delta: EosioContractRow<PairsTableRow>) => {
+                await this.savePair(db, block, delta.value);
+            }, DELPHIORACLE_BASE_PRIORITY + 10, {headOnly: true})
+        );
+
+
+        return (): any => destructors.map(fn => fn());
+    }
+
+    private async fillPair(db: ContractDBTransaction, block: ShipBlock, pair: string): Promise<void> {
+        const resp = await this.connection.chain.rpc.get_table_rows({
+            json: true, code: this.args.delphioracle_account, scope: this.args.delphioracle_account,
+            table: 'pairs', lower_bound: pair, upper_bound: pair
+        });
+
+        if (resp.rows.length === 0) {
+            throw new Error('DelphiOracle: Delphi pair not found');
+        }
+
+        await this.savePair(db, block, resp.rows[0]);
+    }
+
+    private async savePair(db: ContractDBTransaction, _: ShipBlock, row: PairsTableRow): Promise<void> {
+        if (this.pairs.indexOf(row.name) >= 0) {
+            return;
+        }
+
+        this.pairs.push(row.name);
+
+        await db.replace('delphioracle_pairs', this.getDatabaseRow(row), ['contract', 'delphi_pair_name'], ['median']);
+    }
+
+    private getDatabaseRow(table: PairsTableRow): any {
+        return {
+            contract: this.args.delphioracle_account,
+            delphi_pair_name: table.name,
+            base_symbol: table.base_symbol.split(',')[1],
+            base_precision: table.base_symbol.split(',')[0],
+            quote_symbol: table.quote_symbol.split(',')[1],
+            quote_precision: table.quote_symbol.split(',')[0],
+            median: 1, // should not be 0
+            median_precision: table.quoted_precision,
+            updated_at_time: 0,
+            updated_at_block: 0
+        };
+    }
+}
