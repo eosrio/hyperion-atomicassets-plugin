@@ -14,7 +14,7 @@ function retain(name, result) {
   if (!directory) return;
   mkdirSync(directory, {recursive: true});
   writeFileSync(join(directory, name + '.json'), JSON.stringify({node: process.version,
-    host: {head: host.pins.head, tree: host.pins.tree, installedProof: host.installedProof},
+    host: {head: host.pins.head, tree: host.pins.tree, artifactProfile: host.artifactProfile, installedProof: host.installedProof},
     scope: {inMemoryDatabaseBoundary: true, mongoEngineExecuted: false}, result}, null, 2) + '\n', {flag: 'wx'});
 }
 

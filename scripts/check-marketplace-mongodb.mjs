@@ -20,7 +20,7 @@ assert.equal(fromHost('mongodb/package.json').version, '7.2.0');
 const fixture = new OwnedMongoFixture(), appName = `h45-market-${fixture.run}`;
 const databaseName = `hyp_marketplace_${fixture.run}`, prefix = 'h45_marketplaces', backendId = `fixture-marketplace-${fixture.run}`;
 const report = {schemaVersion: 1, status: 'running', qualification: false, node: process.version,
-  host: {head: host.pins.head, tree: host.pins.tree}, image: MONGODB_IMAGE, run: fixture.run,
+  host: {head: host.pins.head, tree: host.pins.tree, artifactProfile: host.artifactProfile}, image: MONGODB_IMAGE, run: fixture.run,
   scope: 'Constructed Marketplace source through actual journal/runtime/Mongo/read and pinned original processor/HTTP; no production activation or full parity',
   commandTrace: [], commandTraceTruncated: false, physical: [], restarts: [], cleanup: fixture.cleanupResult};
 let client;

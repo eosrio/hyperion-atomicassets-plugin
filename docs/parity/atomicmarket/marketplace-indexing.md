@@ -21,12 +21,24 @@ is the deliberate package/lock/consumer pin; legacy query and formatter consumer
 ## Source and original-reference controls
 
 The separate harness accepts only frozen HAPI engineering head
-`31356f34b9d63e34fd3d02f1ba7193b00749c4bc`, tree
-`463928512bdd30dce3fe36c84bcf3f471e9aff74`, with all 273 emitted JavaScript hashes checked and
+`19a347b4dfb97987f6833af65f59a3343c478fd5`, tree
+`b9f4e2a13457d98e2c36eee5ddf8441e3fa15442`, with all 273 emitted JavaScript hashes checked and
 the original installed native SDK/Wire proof required before loading source inputs.
 It does not change that checkout, install it into the plugin or activate its runtime in production.
 It retains unchanged Wire716/nestedSDK339b and the exact original 2.7.0 reference commit
 `0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e`.
+
+The artifact gate recognizes two complete observed byte profiles: `windows-observed` and
+`linux-observed`. All 273 files remain required; 267 hashes are common and six exact overrides come
+from a normal Linux build of that same Git tree. It selects and reports one coherent full profile;
+missing, mutated or mixed files are refused. It never rewrites or normalizes runtime bytes. The
+source Git and installed native proof gates still apply. Tests construct the six known LF vectors
+from retained Windows bytes and verify their hashes against the independently measured Linux
+inventory; this fixture construction does not define a general acceptance rule.
+The measurements originated at HAPI 31356. The explicitly selected HAPI 19a child changes only four
+private qualification/test/docs paths; its 273 Windows JavaScript outputs match 31356 byte-for-byte.
+Earlier 31356 Mongo qualification failed its expected-replica identity input; the new child passes
+that identity explicitly. The child remains an engineering dependency pending actual engine results.
 
 The input is actual captured Wire genesis1 followed by **constructed** ABI2, registrationA3 and
 updateB4 sections, encoded/decoded with the unchanged Wire codec. The constructed fixture ABI/table

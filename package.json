@@ -39,7 +39,7 @@
     "prepack": "npm run build",
     "check:docs": "python scripts/check-docs.py",
     "reference:prepare": "node scripts/prepare-reference.mjs",
-    "test:contextual": "node --test harness/atomicmarket/contextual.test.mjs"
+    "test:contextual": "node --test harness/atomicmarket/contextual.test.mjs harness/atomicmarket/host-artifacts.test.mjs"
   },
   "dependencies": {
     "@eosrio/hyperion-sdk": "git+https://github.com/eosrio/hyperion-sdk.git#8d37e932df5e0e7d671c9682505de3dd55f0edb4"

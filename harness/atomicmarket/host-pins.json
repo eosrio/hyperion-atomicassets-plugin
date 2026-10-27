@@ -1,7 +1,7 @@
 {
   "scope": "Frozen engineering dependency, not release/engine qualification",
-  "head": "31356f34b9d63e34fd3d02f1ba7193b00749c4bc",
-  "tree": "463928512bdd30dce3fe36c84bcf3f471e9aff74",
+  "head": "19a347b4dfb97987f6833af65f59a3343c478fd5",
+  "tree": "b9f4e2a13457d98e2c36eee5ddf8441e3fa15442",
   "sdk": "8d37e932df5e0e7d671c9682505de3dd55f0edb4",
   "wire": "7167659e9c043cb3351074fcacb40200cc57f3a3",
   "emittedJavaScript": [
@@ -1370,5 +1370,56 @@
       "bytes": 7524,
       "sha256": "ec4a4af6c2b2e7c5e6750ab827eadc51ffb5a4ed1289b9aff7ea560b771f8399"
     }
-  ]
+  ],
+  "artifactCount": 273,
+  "observedProfiles": [
+    {
+      "id": "windows-observed",
+      "overrides": []
+    },
+    {
+      "id": "linux-observed",
+      "overrides": [
+        {
+          "path": "build/api/config/open_api.js",
+          "bytes": 2079,
+          "sha256": "fb19242789d8caab41ab8f11e30abb34b234a67cc789c69c485f52aa06a11d59"
+        },
+        {
+          "path": "build/cli/repair-cli/repair.js",
+          "bytes": 25577,
+          "sha256": "a0638816d1d75bdcc9c445706a60257efe6b97676c9b2207a7f537b14e5616f2"
+        },
+        {
+          "path": "build/cli/repair-cli/utils.js",
+          "bytes": 3990,
+          "sha256": "4b3eb138cd5a0bfc50db35315cdec0ae71e8a68d739bd46ba9108b44b40b7fee"
+        },
+        {
+          "path": "build/indexer/definitions/updateByBlock.painless.js",
+          "bytes": 1016,
+          "sha256": "53a4d47cd38fc6606ed53e150c08022d9e4926c560e07853827f55f30dc07c48"
+        },
+        {
+          "path": "build/indexer/history/action-sequence-query-plan.js",
+          "bytes": 29195,
+          "sha256": "ff87359bc1b4203a3414488abd43fe133eac0b54750efad0d2a39d97bb181937"
+        },
+        {
+          "path": "build/indexer/modules/indexerMonitor.js",
+          "bytes": 10147,
+          "sha256": "24f5584b702c77d14cd7856cd04ca0da8ad8373bf8b31d565901901e5b92905d"
+        }
+      ]
+    }
+  ],
+  "profileEvidence": {
+    "scope": "Two complete observed immutable-byte build profiles; runtime matches raw hashes and never normalizes",
+    "sharedArtifacts": 267,
+    "variantArtifacts": 6,
+    "linuxCounterexampleSha256": "7aa6cdc528e89cd5950c4adb0f7ea5b1b55b25f172ce673a2cfd14e5e900959a",
+    "linuxInventorySha256": "1a4da268643bd5b9f969f802a0089670df6ab03ad1e53d1ee988ccfedea03fac",
+    "observedAtHapiHead": "31356f34b9d63e34fd3d02f1ba7193b00749c4bc",
+    "unchangedProductionEmitsAtHapiHead": "19a347b4dfb97987f6833af65f59a3343c478fd5"
+  }
 }
