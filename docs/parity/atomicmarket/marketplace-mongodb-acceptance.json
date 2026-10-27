@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 1,
+  "kind": "public-derived-acceptance-summary",
+  "observedDate": "2026-10-27",
+  "rawByteEquivalent": false,
+  "localPathsAndUrisOmitted": true,
+  "source": {
+    "testedPluginCommit": "13c1094d2ffe3be1a57693817024b563ec387a5c",
+    "testedPluginTree": "e45e8fbdfc779279a8613516ea938887ccc58be5",
+    "referenceVersion": "2.7.0",
+    "referenceCommit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+    "sdkCommit": "8d37e932df5e0e7d671c9682505de3dd55f0edb4",
+    "hapiCommit": "19a347b4dfb97987f6833af65f59a3343c478fd5",
+    "hapiTree": "b9f4e2a13457d98e2c36eee5ddf8441e3fa15442",
+    "hapiArtifactProfile": "linux-observed"
+  },
+  "resources": {
+    "mongoVersion": "8.0.34",
+    "mongoImage": "docker.io/library/mongo@sha256:4c7d0fb8fde0681e2ae443b0b09371ec9c31a81caab05af9579458bfcb30d656",
+    "cpuCount": 2,
+    "memoryBytes": 1073741824
+  },
+  "scope": {
+    "constructedSource": true,
+    "reconstructedInMemoryElasticsearchTransport": true,
+    "gracefulActualNodeProcessRestart": true,
+    "deployedContract": false,
+    "persistentElasticsearch": false,
+    "processCrashOrLostAcknowledgement": false,
+    "postgresqlExecution": false,
+    "wormDbQualification": false,
+    "productionActivation": false,
+    "productionWireQualification": false,
+    "fullAtomicAssetsAtomicMarketParity": false
+  },
+  "runs": [
+    {
+      "node": "v24.19.0",
+      "nodeExecutableSha256": "bc17c508ffeed0ec622934f9b7fa72f8e78da65350e63c3eceb56fa688aa5e12",
+      "rawReport": {
+        "bytes": 1824685,
+        "sha256": "eef0538cab55cdd4c6e658e3771a523f62a610ebe13a2f37e4fa26a2f30e1772"
+      },
+      "status": "passed",
+      "physicalStages": [
+        "before-registration",
+        "registration-a",
+        "update-b-repeated-key",
+        "exact-replay-b",
+        "restart-replay-b",
+        "rollback-b",
+        "rollback-a",
+        "canonical-replacement-c",
+        "absent",
+        "malformed-row",
+        "missing-time",
+        "wrong-abi",
+        "missing-metadata",
+        "failed-storage",
+        "uncertain-storage",
+        "process-index-b-closed",
+        "process-source-admitted-before-read",
+        "process-recovered-before-replay",
+        "process-exact-replay-b-closed"
+      ],
+      "faultCases": [
+        "absent",
+        "malformed-row",
+        "missing-time",
+        "wrong-abi",
+        "missing-metadata",
+        "failed-storage",
+        "uncertain-storage"
+      ],
+      "children": [
+        {
+          "role": "index",
+          "identity": {
+            "pid": 2475155,
+            "parentPid": 2469672,
+            "instance": "e0c00e3e-531d-412b-8cb6-1dea4dd00680",
+            "startedAt": "2026-10-27T11:31:58.361Z",
+            "node": "v24.19.0"
+          },
+          "execution": {
+            "startedAt": "2026-10-27T11:31:58.327Z",
+            "closedAt": "2026-10-27T11:31:59.637Z",
+            "exitCode": 0,
+            "signal": null,
+            "reaped": true,
+            "absentAfterClose": true,
+            "processGroupAbsent": true
+          },
+          "admissionStatus": null,
+          "replayStatus": null,
+          "dataWritesAfterStartup": [],
+          "transactionControlsAfterStartup": [],
+          "commandFailuresAfterStartup": [],
+          "recoveredReadAfterDuplicateAdmission": false
+        },
+        {
+          "role": "recover",
+          "identity": {
+            "pid": 2475339,
+            "parentPid": 2469672,
+            "instance": "3be12abc-e6b5-4cb0-a3f1-aaf8d0ddfa09",
+            "startedAt": "2026-10-27T11:31:59.800Z",
+            "node": "v24.19.0"
+          },
+          "execution": {
+            "startedAt": "2026-10-27T11:31:59.767Z",
+            "closedAt": "2026-10-27T11:32:01.480Z",
+            "exitCode": 0,
+            "signal": null,
+            "reaped": true,
+            "absentAfterClose": true,
+            "processGroupAbsent": true
+          },
+          "admissionStatus": "duplicate",
+          "replayStatus": "duplicate",
+          "dataWritesAfterStartup": [],
+          "transactionControlsAfterStartup": [
+            {
+              "command": "commitTransaction",
+              "database": "admin",
+              "outcome": "succeeded"
+            },
+            {
+              "command": "commitTransaction",
+              "database": "admin",
+              "outcome": "succeeded"
+            }
+          ],
+          "commandFailuresAfterStartup": [],
+          "recoveredReadAfterDuplicateAdmission": true
+        }
+      ],
+      "independentPhysicalMetadataReceiptsCheckpointRevisionAndRowsEqual": true,
+      "sourceRevokedReadRefused": true,
+      "unrelatedHealthySourceProgressed": true,
+      "cleanup": {
+        "containers": {
+          "replica": true
+        },
+        "network": true,
+        "volume": true,
+        "verified": true
+      },
+      "protectedProcessesAndGlobalDockerRestored": true
+    },
+    {
+      "node": "v26.4.0",
+      "nodeExecutableSha256": "4cfdaeec2e3689e4728b4bc98932a9147a3f98162bdc7955c03c0d7fa3b8aa94",
+      "rawReport": {
+        "bytes": 1824658,
+        "sha256": "631cb17c166ea0cd3bc0ea541e7f425d01b71ef455db5094145aae7a27780c12"
+      },
+      "status": "passed",
+      "physicalStages": [
+        "before-registration",
+        "registration-a",
+        "update-b-repeated-key",
+        "exact-replay-b",
+        "restart-replay-b",
+        "rollback-b",
+        "rollback-a",
+        "canonical-replacement-c",
+        "absent",
+        "malformed-row",
+        "missing-time",
+        "wrong-abi",
+        "missing-metadata",
+        "failed-storage",
+        "uncertain-storage",
+        "process-index-b-closed",
+        "process-source-admitted-before-read",
+        "process-recovered-before-replay",
+        "process-exact-replay-b-closed"
+      ],
+      "faultCases": [
+        "absent",
+        "malformed-row",
+        "missing-time",
+        "wrong-abi",
+        "missing-metadata",
+        "failed-storage",
+        "uncertain-storage"
+      ],
+      "children": [
+        {
+          "role": "index",
+          "identity": {
+            "pid": 2482688,
+            "parentPid": 2477271,
+            "instance": "5716fd54-d1f6-4ba3-bf47-e2af6149329a",
+            "startedAt": "2026-10-27T11:32:23.341Z",
+            "node": "v26.4.0"
+          },
+          "execution": {
+            "startedAt": "2026-10-27T11:32:23.310Z",
+            "closedAt": "2026-10-27T11:32:24.593Z",
+            "exitCode": 0,
+            "signal": null,
+            "reaped": true,
+            "absentAfterClose": true,
+            "processGroupAbsent": true
+          },
+          "admissionStatus": null,
+          "replayStatus": null,
+          "dataWritesAfterStartup": [],
+          "transactionControlsAfterStartup": [],
+          "commandFailuresAfterStartup": [],
+          "recoveredReadAfterDuplicateAdmission": false
+        },
+        {
+          "role": "recover",
+          "identity": {
+            "pid": 2482870,
+            "parentPid": 2477271,
+            "instance": "84498635-2c6c-4106-b3af-c35e2c7cfd69",
+            "startedAt": "2026-10-27T11:32:24.748Z",
+            "node": "v26.4.0"
+          },
+          "execution": {
+            "startedAt": "2026-10-27T11:32:24.712Z",
+            "closedAt": "2026-10-27T11:32:26.422Z",
+            "exitCode": 0,
+            "signal": null,
+            "reaped": true,
+            "absentAfterClose": true,
+            "processGroupAbsent": true
+          },
+          "admissionStatus": "duplicate",
+          "replayStatus": "duplicate",
+          "dataWritesAfterStartup": [],
+          "transactionControlsAfterStartup": [
+            {
+              "command": "commitTransaction",
+              "database": "admin",
+              "outcome": "succeeded"
+            },
+            {
+              "command": "commitTransaction",
+              "database": "admin",
+              "outcome": "succeeded"
+            }
+          ],
+          "commandFailuresAfterStartup": [],
+          "recoveredReadAfterDuplicateAdmission": true
+        }
+      ],
+      "independentPhysicalMetadataReceiptsCheckpointRevisionAndRowsEqual": true,
+      "sourceRevokedReadRefused": true,
+      "unrelatedHealthySourceProgressed": true,
+      "cleanup": {
+        "containers": {
+          "replica": true
+        },
+        "network": true,
+        "volume": true,
+        "verified": true
+      },
+      "protectedProcessesAndGlobalDockerRestored": true
+    }
+  ],
+  "rawCustody": {
+    "archiveBytes": 1868278,
+    "archiveSha256": "e6bbeeefcb54714de00693d6abb43014ff55bed5973e395d745951e9d1cb1d52",
+    "payloadCount": 600,
+    "payloadBytes": 13348488,
+    "allPayloadHashesVerified": true,
+    "noMissingFiles": true,
+    "terminalAndCompleteScopedNoWriterCensusVerified": true,
+    "custodyManifestSha256": "a5ccac61f1658dd1264e0bf048570b399e28002efc28f1d0c04e4b8fceea8cd0",
+    "engineExecutionSha256": "35fd83e7cfb7bb77c6c7b1a4b830ec6b194cf3da87d9e6c90c67d6842577283e"
+  },
+  "historicalAttempt": {
+    "pluginCommit": "f1d6f2222312035399c3da0d61bcab30731246e3",
+    "node24": "failed at commitTransaction-only monitor assertion",
+    "node24RawReportBytes": 1815878,
+    "node24RawReportSha256": "545464d53d5dad77e59a367d90a696cab68989b5123837a5388a3e86986c476a",
+    "recoveredPhysicalEqualityAfterFailedAdmission": "not established",
+    "node26": "not run: fail-fast"
+  }
+}

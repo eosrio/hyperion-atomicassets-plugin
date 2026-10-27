@@ -1,10 +1,12 @@
 # Contextual marketplace indexing: engineering slice
 
-[Issue #6](https://github.com/eosrio/hyperion-atomicassets-plugin/issues/6) remains open until the
-remaining actual Node host-process restart cell passes. The earlier complete owned MongoDB program
-passed on native Node24.19.0 and26.4.0; that program restarted MongoDB and reconstructed a runtime in
-the same Node process. This adds the plugin-owned declarative factory and a source/runtime/read
-component path. It provides no production activation, compatible plugin release or complete parity claim.
+The scoped [issue #6](https://github.com/eosrio/hyperion-atomicassets-plugin/issues/6) owned-fixture
+program passed on native Node 24.19.0 and 26.4.0 at source `13c1094d` on 2026-10-27. Each run includes
+nineteen physical stages, seven fault cases and two distinct actual Node children. The earlier
+server restart/fresh runtime controls are retained. This adds the plugin-owned declarative factory
+and a source/runtime/read engineering path, with no production activation, compatible plugin
+release or complete parity claim. The [derived acceptance summary](marketplace-mongodb-acceptance.json)
+records exact raw-report/source/runtime hashes and omits local paths and URIs; it is not a raw report.
 
 `@eosrio/hyperion-atomicassets-plugin/atomicmarket/marketplace-indexing` exports
 `createMarketplaceDefinition({id, mappingRevision, marketContract, abiDeployment, abiSha256})`.
@@ -40,7 +42,8 @@ inventory; this fixture construction does not define a general acceptance rule.
 The measurements originated at HAPI 31356. The explicitly selected HAPI 19a child changes only four
 private qualification/test/docs paths; its 273 Windows JavaScript outputs match 31356 byte-for-byte.
 Earlier 31356 Mongo qualification failed its expected-replica identity input; the new child passes
-that identity explicitly. The child remains an engineering dependency pending actual engine results.
+that identity explicitly. The Marketplace engine results below use this engineering child; they
+do not qualify its release or production activation.
 
 The input is actual captured Wire genesis1 followed by **constructed** ABI2, registrationA3 and
 updateB4 sections, encoded/decoded with the unchanged Wire codec. The constructed fixture ABI/table
@@ -92,7 +95,8 @@ candidate; write-concern error64 exercises an uncertain admission-marker acknowl
 mapping. That latter case is not claimed as a lost final-transaction acknowledgment or a durable
 original-candidate receipt. HAPI #359 separately owns its original-intent crash/retry controls.
 
-Root owns actual engine execution. Writing this program is not a successful engine run. Production
+The complete program passed with the exact image, two CPUs / 1 GiB allocation and unchanged deadlines.
+Cleanup, protected processes and global Docker state were restored after each native run. Production
 fork/finality activation remains HAPI #246 and serving context/headers/cache remain #221. Snapshot
 rows without proven first-creation metadata are not complete genesis initialization. PostgreSQL
 execution, real deployed Market capture, WormDB, transport and full domain parity remain unqualified.
@@ -120,7 +124,13 @@ the exact run-derived fixture database/backend/replica-set, fixed prefix and loo
 with no executable input or production database URL option. JSON, logs, owner acknowledgements
 and whole-child lifetime have fixed bounds; the original readiness, operation and transaction
 deadlines are unchanged. All earlier fifteen physical stages and seven fault cells remain.
-Pure validation/native refusal controls do not execute MongoDB. Root will run the complete engine
-program after review. This cell is a graceful Node host restart with reconstructed in-memory ES
+Both observed children exited normally and were reaped with PID/group absence verified. On both
+native versions, recovered admission/replay were duplicate, data writes and command failures were
+empty, and two successful commitTransaction controls were retained separately. All three recovered
+physical snapshots exactly matched the first closed child's metadata, receipts, checkpoint, revision
+and records. The earlier `f1d6f222` Node 24 attempt failed its commit-only monitor assertion before recovered
+physical equality was established; Node 26 was skipped in that historical fail-fast attempt.
+Pure validation/native refusal controls remain separate from these actual MongoDB runs.
+This cell is a graceful Node host restart with reconstructed in-memory ES
 transport, not persistent Elasticsearch, a process crash/lost acknowledgement, PostgreSQL execution,
 a deployed contract capture, production activation or full parity.

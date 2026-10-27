@@ -72,8 +72,11 @@ Repository documentation checks remain available through `npm run check:docs`.
 
 The [contextual Marketplace slice](docs/parity/atomicmarket/marketplace-indexing.md) adds an inert
 backend-neutral definition factory and separate source/runtime/read engineering controls. Its
-original owned MongoDB program passed on Node24/26. The additive actual Node host-process restart
-cell awaits root's engine run; issue #6 remains open.
+complete owned MongoDB program, including two actual Node host processes, passed on native
+Node 24.19.0 and 26.4.0 at source `13c1094d` on 2026-10-27. Each run passed nineteen physical stages and
+seven fault cases with cleanup and protected/Docker restoration. The
+[derived acceptance summary](docs/parity/atomicmarket/marketplace-mongodb-acceptance.json) retains
+exact source, runtime and raw-report hashes.
 
 The [AtomicMarket inventory and scope](docs/parity/atomicmarket/README.md) joins the same package.
 The first Market read component is available at the development subpath
@@ -87,8 +90,8 @@ isolated consumer, imports the public subpath, and typechecks its installed decl
 checks run on Node 24 and 26. The package includes the upstream license/notice files; source and
 fixtures are not required for the compiled consumer.
 
-Actual Hyperion HTTP routes remain zero. Source ingestion, PostgreSQL execution, MongoDB/WormDB
-adapter integration and complete AtomicAssets/AtomicMarket parity remain unqualified. The package
+Actual Hyperion HTTP routes remain zero. Full source coverage, PostgreSQL execution, WormDB,
+production backend activation and complete AtomicAssets/AtomicMarket parity remain unqualified. The package
 is private development work and this validation does not publish or activate an extension.
 
 ## Portable asset formatting
@@ -115,5 +118,10 @@ The private process-restart qualifier records successful MongoDB transaction con
 After startup, the recovered child still refuses all data-write commands, output aggregates, unknown commands,
 and command failures, and retains the original physical metadata/receipt/checkpoint/record equality gates.
 Both successful and failed transaction-control evidence is retained in child and parent reports. The measured
-f1 Node24 run stopped at a commitTransaction-only monitor assertion; it did not establish recovered physical
-equality, and Node26 was skipped. Corrected real-engine qualification remains pending an independent rerun.
+`f1d6f222` Node 24 run stopped at a commitTransaction-only monitor assertion; it did not establish recovered physical
+equality, and Node 26 was skipped in that historical attempt. The corrected full program passed both
+native versions at source `13c1094d`: recovered B admission and replay were duplicate, data writes and
+command failures were empty, two successful commit controls were retained, and all independent
+physical equality gates passed. This covers constructed source and reconstructed in-memory ES
+transport with graceful process restart; deployed contracts, persistent ES, crash/lost-ack recovery
+and production activation remain outside this result.
