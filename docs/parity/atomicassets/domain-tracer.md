@@ -17,6 +17,8 @@ indexing, transfers history and notifications are not implemented by this compon
 Jobs retain original priorities 10 (config), 20 (collection/schema), 50 (mint), and 60 (updates).
 Equal priorities retain insertion order. Mint-buffer completion precedes priority-60 updates and
 also runs when mint is the last priority. Same-block mutable data replaces the previous object.
+Runtime dispatch validates table names and action names separately; a name from the other kind
+refuses the entire candidate. Only explicit `logburnasset` occurrences enter burn handling.
 Wrong-owner transfers leave asset state unchanged. Burn retains the asset with null owner and
 burn/update chronology; immutable mint/earlier transfer chronology remains separate. Collection and
 schema replacement preserves creation fields. Later relationship-only changes affect current read
@@ -51,6 +53,8 @@ own declaration/backend/generation/recovery identity, predecessor checkpoint, bo
 before-images, retries, fences before/after awaits, coherent reads and commit/abort. Its staged puts
 and deletes must shadow base reads in order. On any throw the caller discards **all** staged effects;
 this function performs no native writes or commit. There is no plugin-owned recovery system.
+Generic staging and input/resource bounds remain caller obligations; this finite engineering fixture
+does not qualify an unbounded production workload or establish SDK bounds.
 
 Tests use a local callback storage fixture to demonstrate these domain rules. That fixture is not
 physical MongoDB, SDK conformance, concurrency, durability, restart, uncertain-commit or fork recovery

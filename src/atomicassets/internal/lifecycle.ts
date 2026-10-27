@@ -4,8 +4,8 @@ import {block, decimal, domainKey, evidence, format, hash, read, record, records
   type MetadataCodec} from './lifecycle-port.js';
 
 const CODEC = '2dfe332031728c475622ae510d7ea78246a9592a9da6cf70ba8a1abd7fa2e573';
-const priorities = {config: 10, collections: 20, schemas: 20, schematypes: 20,
-  logmint: 50, logsetdata: 60, logtransfer: 60, logburnasset: 60} as const;
+const rowPriorities = {config: 10, collections: 20, schemas: 20, schematypes: 20} as const;
+const actionPriorities = {logmint: 50, logsetdata: 60, logtransfer: 60, logburnasset: 60} as const;
 const updated = (b: LifecycleBlock) => ({updated_at_block: b.blockNum, updated_at_time: b.blockTimeMs});
 const bool = (v: unknown): boolean => typeof v === 'boolean' ? v : unavailable('Expected boolean');
 const fraction = (v: unknown): number => typeof v === 'number' && Number.isFinite(v) ? v : unavailable('Expected finite fraction');
@@ -67,11 +67,17 @@ export async function reduceAssetLifecycle(b: LifecycleBlock, events: readonly L
     const value = record(event) as unknown as LifecycleEvent;
     evidence(value.evidence);
     record(value.value);
-    const name = value.kind === 'row' ? value.table : value.kind === 'action' ? value.name : '';
-    if (!Object.hasOwn(priorities, name)) return unavailable('Unsupported lifecycle input');
-    if (value.kind === 'action') hash(value.transactionId);
-    else {text(value.scope); bool(value.present);}
-    return {event: value, index, priority: priorities[name as keyof typeof priorities]};
+    let priority: number;
+    if (value.kind === 'row') {
+      if (!Object.hasOwn(rowPriorities, value.table)) return unavailable('Unsupported lifecycle row');
+      priority = rowPriorities[value.table];
+      text(value.scope); bool(value.present);
+    } else if (value.kind === 'action') {
+      if (!Object.hasOwn(actionPriorities, value.name)) return unavailable('Unsupported lifecycle action');
+      priority = actionPriorities[value.name];
+      hash(value.transactionId);
+    } else return unavailable('Unsupported lifecycle kind');
+    return {event: value, index, priority};
   }).sort((a, z) => a.priority - z.priority || a.index - z.index);
   const mintBuffer: {asset: AtomicObject; mint: AtomicObject}[] = [];
   async function flushMints() {
@@ -136,15 +142,17 @@ export async function reduceAssetLifecycle(b: LifecycleBlock, events: readonly L
           transferred_at_block: b.blockNum, transferred_at_time: b.blockTimeMs, ...updated(b)});
       }
       // Transfer history and notifications are separate occurrence effects, not asset-state writes.
-    } else {
+    } else if (event.name === 'logsetdata') {
       const key = domainKey(b.contract, decimal(v.asset_id)), old = await read(stage, 'asset', key);
       if (!old) continue; // Covered absent UPDATE affects zero rows, unlike unknown coverage.
-      if (event.name === 'logsetdata') {
-        await schemaFor(stage, b, text(old.collection_name), text(old.schema_name), event.evidence.schemaDigest);
-        stage.put('asset', key, {...old, mutable_data: attributes(codec, v.new_data), ...updated(b)});
-      } else stage.put('asset', key, {...old, owner: null, burned_by_account: text(v.asset_owner),
+      await schemaFor(stage, b, text(old.collection_name), text(old.schema_name), event.evidence.schemaDigest);
+      stage.put('asset', key, {...old, mutable_data: attributes(codec, v.new_data), ...updated(b)});
+    } else if (event.name === 'logburnasset') {
+      const key = domainKey(b.contract, decimal(v.asset_id)), old = await read(stage, 'asset', key);
+      if (!old) continue;
+      stage.put('asset', key, {...old, owner: null, burned_by_account: text(v.asset_owner),
         burned_at_block: b.blockNum, burned_at_time: b.blockTimeMs, ...updated(b)});
-    }
+    } else unavailable('Unsupported lifecycle action');
   }
   if (mintBuffer.length) await flushMints();
   // Deferred original FK constraints: validate final staged dependencies, not intermediate order.
