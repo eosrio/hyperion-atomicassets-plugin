@@ -125,3 +125,9 @@ command failures were empty, two successful commit controls were retained, and a
 physical equality gates passed. This covers constructed source and reconstructed in-memory ES
 transport with graceful process restart; deployed contracts, persistent ES, crash/lost-ack recovery
 and production activation remain outside this result.
+
+The [original PostgreSQL asset oracle harness](docs/parity/atomicassets/postgres-oracle-harness.md)
+is a source-only implementation against the pinned 2.7.0 schema/processors/view/HTTP path. Its
+strict owned-empty admission and socket-free controls do not establish an engine pass. Actual
+PostgreSQL runs, independent physical cleanup and review remain pending; it adopts no pending
+stateful SDK/core interface and makes no MongoDB or full-parity claim.
