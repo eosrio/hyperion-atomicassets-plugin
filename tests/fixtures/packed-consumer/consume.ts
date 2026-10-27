@@ -5,6 +5,8 @@ import {formatAsset, type AtomicAssetInput, type AtomicValue}
   from '@eosrio/hyperion-atomicassets-plugin/atomicassets/asset';
 import {createMarketplaceDefinition}
   from '@eosrio/hyperion-atomicassets-plugin/atomicmarket/marketplace-indexing';
+import {formatSale, type AtomicSaleInput, type AtomicSaleState}
+  from '@eosrio/hyperion-atomicassets-plugin/atomicmarket/sale';
 
 declare const view: ProjectionRollbackReadView;
 declare const reader: MarketplaceReader<ProjectionRollbackReadView>;
@@ -43,3 +45,19 @@ const policy: 'delete' | 'incomplete' = definition.onAbsent;
 // @ts-expect-error Original source cannot be implicitly replaced by a current snapshot.
 createMarketplaceDefinition({id: 'marketplaces', initialization: {kind: 'snapshot'}});
 void [contextualVersion, policy];
+
+const saleInput: AtomicSaleInput = {market_contract: 'atomicmarket', assets_contract: 'atomicassets',
+  sale_id: '9007199254740993', offer_id: '9007199254740994', seller: 'alice', buyer: null,
+  sale_state: 1, offer_state: 0, raw_price: '9223372036854775807',
+  price: {token_symbol: 'WAX', token_precision: 8}, assets: ['9007199254740997', formatted]};
+const sale = formatSale(saleInput);
+const exactSaleId: string = sale.sale_id;
+const exactSalePrice: string | null | undefined = sale.price.amount;
+const saleState: AtomicSaleState = sale.state;
+// @ts-expect-error Sale identifiers must remain exact decimal strings.
+formatSale({...saleInput, sale_id: 9007199254740993});
+// @ts-expect-error Supplied price amounts must not be rounded numeric inputs.
+formatSale({...saleInput, raw_price: 9007199254740993});
+// @ts-expect-error The five-state API does not expose an additional sixth state.
+const extraState: AtomicSaleState = 5;
+void [exactSaleId, exactSalePrice, saleState, extraState];

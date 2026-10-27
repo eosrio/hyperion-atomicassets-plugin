@@ -1,0 +1,1180 @@
+{
+  "listed-pending": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "market_contract": "atomicmarket",
+        "assets_contract": "atomicassets",
+        "sale_id": "9007199254740993",
+        "seller": "alice",
+        "buyer": null,
+        "offer_id": "9007199254740994",
+        "price": {
+          "token_contract": "eosio.token",
+          "token_symbol": "WAX",
+          "token_precision": 8,
+          "amount": "9007199254740995"
+        },
+        "assets": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740997",
+            "owner": "alice",
+            "collection": {
+              "contract": "atomicassets",
+              "collection_name": "testcollect1",
+              "author": "alice",
+              "allow_notify": true,
+              "authorized_accounts": [
+                "alice"
+              ],
+              "notify_accounts": [],
+              "market_fee": 0.05,
+              "data": {
+                "name": "Reference collection"
+              }
+            },
+            "schema": {
+              "schema_name": "cards",
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string",
+                  "mediatype": "name",
+                  "info": null
+                }
+              ]
+            },
+            "template": null,
+            "immutable_data": {
+              "name": "Immutable card"
+            },
+            "mutable_data": {
+              "name": "Mutable card",
+              "level": 2
+            },
+            "backed_tokens": [],
+            "is_transferable": true,
+            "is_burnable": true,
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": "122",
+            "transferred_at_time": "1699999999500",
+            "minted_at_block": "100",
+            "minted_at_time": "1699999988500",
+            "updated_at_block": "122",
+            "updated_at_time": "1699999999500",
+            "sales": [],
+            "auctions": [],
+            "data": {
+              "name": "Immutable card",
+              "level": 2
+            },
+            "name": "Immutable card",
+            "original_mint": null
+          }
+        ],
+        "collection_name": "testcollect1",
+        "maker_marketplace": "atomicmarket",
+        "taker_marketplace": null,
+        "created_at_block": "123",
+        "created_at_time": "1700000000000",
+        "updated_at_block": "123",
+        "updated_at_time": "1700000000000",
+        "state": 1
+      }
+    }
+  },
+  "waiting-ignores-offer": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "market_contract": "atomicmarket",
+        "assets_contract": "atomicassets",
+        "sale_id": "9007199254740993",
+        "seller": "alice",
+        "buyer": null,
+        "offer_id": "9007199254740994",
+        "price": {
+          "token_contract": "eosio.token",
+          "token_symbol": "WAX",
+          "token_precision": 8,
+          "amount": "9007199254740995"
+        },
+        "assets": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740997",
+            "owner": "alice",
+            "collection": {
+              "contract": "atomicassets",
+              "collection_name": "testcollect1",
+              "author": "alice",
+              "allow_notify": true,
+              "authorized_accounts": [
+                "alice"
+              ],
+              "notify_accounts": [],
+              "market_fee": 0.05,
+              "data": {
+                "name": "Reference collection"
+              }
+            },
+            "schema": {
+              "schema_name": "cards",
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string",
+                  "mediatype": "name",
+                  "info": null
+                }
+              ]
+            },
+            "template": null,
+            "immutable_data": {
+              "name": "Immutable card"
+            },
+            "mutable_data": {
+              "name": "Mutable card",
+              "level": 2
+            },
+            "backed_tokens": [],
+            "is_transferable": true,
+            "is_burnable": true,
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": "122",
+            "transferred_at_time": "1699999999500",
+            "minted_at_block": "100",
+            "minted_at_time": "1699999988500",
+            "updated_at_block": "122",
+            "updated_at_time": "1699999999500",
+            "sales": [],
+            "auctions": [],
+            "data": {
+              "name": "Immutable card",
+              "level": 2
+            },
+            "name": "Immutable card",
+            "original_mint": null
+          }
+        ],
+        "collection_name": "testcollect1",
+        "maker_marketplace": "atomicmarket",
+        "taker_marketplace": null,
+        "created_at_block": "123",
+        "created_at_time": "1700000000000",
+        "updated_at_block": "123",
+        "updated_at_time": "1700000000000",
+        "state": 0
+      }
+    }
+  },
+  "canceled-ignores-offer": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "market_contract": "atomicmarket",
+        "assets_contract": "atomicassets",
+        "sale_id": "9007199254740993",
+        "seller": "alice",
+        "buyer": null,
+        "offer_id": "9007199254740994",
+        "price": {
+          "token_contract": "eosio.token",
+          "token_symbol": "WAX",
+          "token_precision": 8,
+          "amount": "9007199254740995"
+        },
+        "assets": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740997",
+            "owner": "alice",
+            "collection": {
+              "contract": "atomicassets",
+              "collection_name": "testcollect1",
+              "author": "alice",
+              "allow_notify": true,
+              "authorized_accounts": [
+                "alice"
+              ],
+              "notify_accounts": [],
+              "market_fee": 0.05,
+              "data": {
+                "name": "Reference collection"
+              }
+            },
+            "schema": {
+              "schema_name": "cards",
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string",
+                  "mediatype": "name",
+                  "info": null
+                }
+              ]
+            },
+            "template": null,
+            "immutable_data": {
+              "name": "Immutable card"
+            },
+            "mutable_data": {
+              "name": "Mutable card",
+              "level": 2
+            },
+            "backed_tokens": [],
+            "is_transferable": true,
+            "is_burnable": true,
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": "122",
+            "transferred_at_time": "1699999999500",
+            "minted_at_block": "100",
+            "minted_at_time": "1699999988500",
+            "updated_at_block": "122",
+            "updated_at_time": "1699999999500",
+            "sales": [],
+            "auctions": [],
+            "data": {
+              "name": "Immutable card",
+              "level": 2
+            },
+            "name": "Immutable card",
+            "original_mint": null
+          }
+        ],
+        "collection_name": "testcollect1",
+        "maker_marketplace": "atomicmarket",
+        "taker_marketplace": null,
+        "created_at_block": "123",
+        "created_at_time": "1700000000000",
+        "updated_at_block": "123",
+        "updated_at_time": "1700000000000",
+        "state": 2
+      }
+    }
+  },
+  "sold-ignores-offer": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "market_contract": "atomicmarket",
+        "assets_contract": "atomicassets",
+        "sale_id": "9007199254740993",
+        "seller": "alice",
+        "buyer": "bob",
+        "offer_id": "9007199254740994",
+        "price": {
+          "token_contract": "eosio.token",
+          "token_symbol": "WAX",
+          "token_precision": 8,
+          "amount": "9007199254740995"
+        },
+        "assets": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740997",
+            "owner": "alice",
+            "collection": {
+              "contract": "atomicassets",
+              "collection_name": "testcollect1",
+              "author": "alice",
+              "allow_notify": true,
+              "authorized_accounts": [
+                "alice"
+              ],
+              "notify_accounts": [],
+              "market_fee": 0.05,
+              "data": {
+                "name": "Reference collection"
+              }
+            },
+            "schema": {
+              "schema_name": "cards",
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string",
+                  "mediatype": "name",
+                  "info": null
+                }
+              ]
+            },
+            "template": null,
+            "immutable_data": {
+              "name": "Immutable card"
+            },
+            "mutable_data": {
+              "name": "Mutable card",
+              "level": 2
+            },
+            "backed_tokens": [],
+            "is_transferable": true,
+            "is_burnable": true,
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": "122",
+            "transferred_at_time": "1699999999500",
+            "minted_at_block": "100",
+            "minted_at_time": "1699999988500",
+            "updated_at_block": "122",
+            "updated_at_time": "1699999999500",
+            "sales": [],
+            "auctions": [],
+            "data": {
+              "name": "Immutable card",
+              "level": 2
+            },
+            "name": "Immutable card",
+            "original_mint": null
+          }
+        ],
+        "collection_name": "testcollect1",
+        "maker_marketplace": "atomicmarket",
+        "taker_marketplace": null,
+        "created_at_block": "123",
+        "created_at_time": "1700000000000",
+        "updated_at_block": "123",
+        "updated_at_time": "1700000000000",
+        "state": 3
+      }
+    }
+  },
+  "listed-nonpending-is-invalid": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "market_contract": "atomicmarket",
+        "assets_contract": "atomicassets",
+        "sale_id": "9007199254740993",
+        "seller": "alice",
+        "buyer": null,
+        "offer_id": "9007199254740994",
+        "price": {
+          "token_contract": "eosio.token",
+          "token_symbol": "WAX",
+          "token_precision": 8,
+          "amount": "9007199254740995"
+        },
+        "assets": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740997",
+            "owner": "alice",
+            "collection": {
+              "contract": "atomicassets",
+              "collection_name": "testcollect1",
+              "author": "alice",
+              "allow_notify": true,
+              "authorized_accounts": [
+                "alice"
+              ],
+              "notify_accounts": [],
+              "market_fee": 0.05,
+              "data": {
+                "name": "Reference collection"
+              }
+            },
+            "schema": {
+              "schema_name": "cards",
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string",
+                  "mediatype": "name",
+                  "info": null
+                }
+              ]
+            },
+            "template": null,
+            "immutable_data": {
+              "name": "Immutable card"
+            },
+            "mutable_data": {
+              "name": "Mutable card",
+              "level": 2
+            },
+            "backed_tokens": [],
+            "is_transferable": true,
+            "is_burnable": true,
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": "122",
+            "transferred_at_time": "1699999999500",
+            "minted_at_block": "100",
+            "minted_at_time": "1699999988500",
+            "updated_at_block": "122",
+            "updated_at_time": "1699999999500",
+            "sales": [],
+            "auctions": [],
+            "data": {
+              "name": "Immutable card",
+              "level": 2
+            },
+            "name": "Immutable card",
+            "original_mint": null
+          }
+        ],
+        "collection_name": "testcollect1",
+        "maker_marketplace": "atomicmarket",
+        "taker_marketplace": null,
+        "created_at_block": "123",
+        "created_at_time": "1700000000000",
+        "updated_at_block": "123",
+        "updated_at_time": "1700000000000",
+        "state": 4
+      }
+    }
+  },
+  "listed-null-offer-is-invalid": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "market_contract": "atomicmarket",
+        "assets_contract": "atomicassets",
+        "sale_id": "9007199254740993",
+        "seller": "alice",
+        "buyer": null,
+        "offer_id": "9007199254740994",
+        "price": {
+          "token_contract": "eosio.token",
+          "token_symbol": "WAX",
+          "token_precision": 8,
+          "amount": "9007199254740995"
+        },
+        "assets": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740997",
+            "owner": "alice",
+            "collection": {
+              "contract": "atomicassets",
+              "collection_name": "testcollect1",
+              "author": "alice",
+              "allow_notify": true,
+              "authorized_accounts": [
+                "alice"
+              ],
+              "notify_accounts": [],
+              "market_fee": 0.05,
+              "data": {
+                "name": "Reference collection"
+              }
+            },
+            "schema": {
+              "schema_name": "cards",
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string",
+                  "mediatype": "name",
+                  "info": null
+                }
+              ]
+            },
+            "template": null,
+            "immutable_data": {
+              "name": "Immutable card"
+            },
+            "mutable_data": {
+              "name": "Mutable card",
+              "level": 2
+            },
+            "backed_tokens": [],
+            "is_transferable": true,
+            "is_burnable": true,
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": "122",
+            "transferred_at_time": "1699999999500",
+            "minted_at_block": "100",
+            "minted_at_time": "1699999988500",
+            "updated_at_block": "122",
+            "updated_at_time": "1699999999500",
+            "sales": [],
+            "auctions": [],
+            "data": {
+              "name": "Immutable card",
+              "level": 2
+            },
+            "name": "Immutable card",
+            "original_mint": null
+          }
+        ],
+        "collection_name": "testcollect1",
+        "maker_marketplace": "atomicmarket",
+        "taker_marketplace": null,
+        "created_at_block": "123",
+        "created_at_time": "1700000000000",
+        "updated_at_block": "123",
+        "updated_at_time": "1700000000000",
+        "state": 4
+      }
+    }
+  },
+  "listed-missing-offer-is-invalid": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "market_contract": "atomicmarket",
+        "assets_contract": "atomicassets",
+        "sale_id": "9007199254740993",
+        "seller": "alice",
+        "buyer": null,
+        "offer_id": "9007199254740994",
+        "price": {
+          "token_contract": "eosio.token",
+          "token_symbol": "WAX",
+          "token_precision": 8,
+          "amount": "9007199254740995"
+        },
+        "assets": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740997",
+            "owner": "alice",
+            "collection": {
+              "contract": "atomicassets",
+              "collection_name": "testcollect1",
+              "author": "alice",
+              "allow_notify": true,
+              "authorized_accounts": [
+                "alice"
+              ],
+              "notify_accounts": [],
+              "market_fee": 0.05,
+              "data": {
+                "name": "Reference collection"
+              }
+            },
+            "schema": {
+              "schema_name": "cards",
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string",
+                  "mediatype": "name",
+                  "info": null
+                }
+              ]
+            },
+            "template": null,
+            "immutable_data": {
+              "name": "Immutable card"
+            },
+            "mutable_data": {
+              "name": "Mutable card",
+              "level": 2
+            },
+            "backed_tokens": [],
+            "is_transferable": true,
+            "is_burnable": true,
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": "122",
+            "transferred_at_time": "1699999999500",
+            "minted_at_block": "100",
+            "minted_at_time": "1699999988500",
+            "updated_at_block": "122",
+            "updated_at_time": "1699999999500",
+            "sales": [],
+            "auctions": [],
+            "data": {
+              "name": "Immutable card",
+              "level": 2
+            },
+            "name": "Immutable card",
+            "original_mint": null
+          }
+        ],
+        "collection_name": "testcollect1",
+        "maker_marketplace": "atomicmarket",
+        "taker_marketplace": null,
+        "created_at_block": "123",
+        "created_at_time": "1700000000000",
+        "updated_at_block": "123",
+        "updated_at_time": "1700000000000",
+        "state": 4
+      }
+    }
+  },
+  "unknown-sale-is-invalid": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "market_contract": "atomicmarket",
+        "assets_contract": "atomicassets",
+        "sale_id": "9007199254740993",
+        "seller": "alice",
+        "buyer": null,
+        "offer_id": "9007199254740994",
+        "price": {
+          "token_contract": "eosio.token",
+          "token_symbol": "WAX",
+          "token_precision": 8,
+          "amount": "9007199254740995"
+        },
+        "assets": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740997",
+            "owner": "alice",
+            "collection": {
+              "contract": "atomicassets",
+              "collection_name": "testcollect1",
+              "author": "alice",
+              "allow_notify": true,
+              "authorized_accounts": [
+                "alice"
+              ],
+              "notify_accounts": [],
+              "market_fee": 0.05,
+              "data": {
+                "name": "Reference collection"
+              }
+            },
+            "schema": {
+              "schema_name": "cards",
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string",
+                  "mediatype": "name",
+                  "info": null
+                }
+              ]
+            },
+            "template": null,
+            "immutable_data": {
+              "name": "Immutable card"
+            },
+            "mutable_data": {
+              "name": "Mutable card",
+              "level": 2
+            },
+            "backed_tokens": [],
+            "is_transferable": true,
+            "is_burnable": true,
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": "122",
+            "transferred_at_time": "1699999999500",
+            "minted_at_block": "100",
+            "minted_at_time": "1699999988500",
+            "updated_at_block": "122",
+            "updated_at_time": "1699999999500",
+            "sales": [],
+            "auctions": [],
+            "data": {
+              "name": "Immutable card",
+              "level": 2
+            },
+            "name": "Immutable card",
+            "original_mint": null
+          }
+        ],
+        "collection_name": "testcollect1",
+        "maker_marketplace": "atomicmarket",
+        "taker_marketplace": null,
+        "created_at_block": "123",
+        "created_at_time": "1700000000000",
+        "updated_at_block": "123",
+        "updated_at_time": "1700000000000",
+        "state": 4
+      }
+    }
+  },
+  "string-state-is-not-coerced": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "market_contract": "atomicmarket",
+        "assets_contract": "atomicassets",
+        "sale_id": "9007199254740993",
+        "seller": "alice",
+        "buyer": null,
+        "offer_id": "9007199254740994",
+        "price": {
+          "token_contract": "eosio.token",
+          "token_symbol": "WAX",
+          "token_precision": 8,
+          "amount": "9007199254740995"
+        },
+        "assets": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740997",
+            "owner": "alice",
+            "collection": {
+              "contract": "atomicassets",
+              "collection_name": "testcollect1",
+              "author": "alice",
+              "allow_notify": true,
+              "authorized_accounts": [
+                "alice"
+              ],
+              "notify_accounts": [],
+              "market_fee": 0.05,
+              "data": {
+                "name": "Reference collection"
+              }
+            },
+            "schema": {
+              "schema_name": "cards",
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string",
+                  "mediatype": "name",
+                  "info": null
+                }
+              ]
+            },
+            "template": null,
+            "immutable_data": {
+              "name": "Immutable card"
+            },
+            "mutable_data": {
+              "name": "Mutable card",
+              "level": 2
+            },
+            "backed_tokens": [],
+            "is_transferable": true,
+            "is_burnable": true,
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": "122",
+            "transferred_at_time": "1699999999500",
+            "minted_at_block": "100",
+            "minted_at_time": "1699999988500",
+            "updated_at_block": "122",
+            "updated_at_time": "1699999999500",
+            "sales": [],
+            "auctions": [],
+            "data": {
+              "name": "Immutable card",
+              "level": 2
+            },
+            "name": "Immutable card",
+            "original_mint": null
+          }
+        ],
+        "collection_name": "testcollect1",
+        "maker_marketplace": "atomicmarket",
+        "taker_marketplace": null,
+        "created_at_block": "123",
+        "created_at_time": "1700000000000",
+        "updated_at_block": "123",
+        "updated_at_time": "1700000000000",
+        "state": 4
+      }
+    }
+  },
+  "exact-price-and-fields": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "market_contract": "atomicmarket",
+        "assets_contract": "atomicassets",
+        "sale_id": "9007199254740993",
+        "seller": "alice",
+        "buyer": null,
+        "offer_id": "9007199254740994",
+        "price": {
+          "token_contract": "eosio.token",
+          "token_symbol": "WAX",
+          "token_precision": 8,
+          "amount": "9223372036854775807",
+          "median": "9007199254740999"
+        },
+        "assets": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740997",
+            "owner": "alice",
+            "collection": {
+              "contract": "atomicassets",
+              "collection_name": "testcollect1",
+              "author": "alice",
+              "allow_notify": true,
+              "authorized_accounts": [
+                "alice"
+              ],
+              "notify_accounts": [],
+              "market_fee": 0.05,
+              "data": {
+                "name": "Reference collection"
+              }
+            },
+            "schema": {
+              "schema_name": "cards",
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string",
+                  "mediatype": "name",
+                  "info": null
+                }
+              ]
+            },
+            "template": null,
+            "immutable_data": {
+              "name": "Immutable card"
+            },
+            "mutable_data": {
+              "name": "Mutable card",
+              "level": 2
+            },
+            "backed_tokens": [],
+            "is_transferable": true,
+            "is_burnable": true,
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": "122",
+            "transferred_at_time": "1699999999500",
+            "minted_at_block": "100",
+            "minted_at_time": "1699999988500",
+            "updated_at_block": "122",
+            "updated_at_time": "1699999999500",
+            "sales": [],
+            "auctions": [],
+            "data": {
+              "name": "Immutable card",
+              "level": 2
+            },
+            "name": "Immutable card",
+            "original_mint": null
+          }
+        ],
+        "collection_name": "testcollect1",
+        "maker_marketplace": "atomicmarket",
+        "taker_marketplace": null,
+        "created_at_block": "123",
+        "created_at_time": "1700000000000",
+        "updated_at_block": "123",
+        "updated_at_time": "1700000000000",
+        "listing_price": "9007199254740997",
+        "listing_symbol": "WAX",
+        "current_collection_fee": 0.07,
+        "collection": {
+          "collection_name": "testcollect1",
+          "market_fee": 0.05,
+          "data": {
+            "kept": [
+              null,
+              false,
+              "2"
+            ]
+          }
+        },
+        "extension": {
+          "nested": [
+            false,
+            null,
+            {
+              "exact": "9007199254740993"
+            }
+          ]
+        },
+        "state": 1
+      }
+    }
+  },
+  "explicit-null-values": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "market_contract": "atomicmarket",
+        "assets_contract": "atomicassets",
+        "sale_id": "9007199254740993",
+        "seller": "alice",
+        "buyer": null,
+        "offer_id": "9007199254740994",
+        "price": {
+          "token_contract": "eosio.token",
+          "token_symbol": "WAX",
+          "token_precision": 8,
+          "median": null,
+          "amount": null
+        },
+        "assets": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740997",
+            "owner": "alice",
+            "collection": {
+              "contract": "atomicassets",
+              "collection_name": "testcollect1",
+              "author": "alice",
+              "allow_notify": true,
+              "authorized_accounts": [
+                "alice"
+              ],
+              "notify_accounts": [],
+              "market_fee": 0.05,
+              "data": {
+                "name": "Reference collection"
+              }
+            },
+            "schema": {
+              "schema_name": "cards",
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string",
+                  "mediatype": "name",
+                  "info": null
+                }
+              ]
+            },
+            "template": null,
+            "immutable_data": {
+              "name": "Immutable card"
+            },
+            "mutable_data": {
+              "name": "Mutable card",
+              "level": 2
+            },
+            "backed_tokens": [],
+            "is_transferable": true,
+            "is_burnable": true,
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": "122",
+            "transferred_at_time": "1699999999500",
+            "minted_at_block": "100",
+            "minted_at_time": "1699999988500",
+            "updated_at_block": "122",
+            "updated_at_time": "1699999999500",
+            "sales": [],
+            "auctions": [],
+            "data": {
+              "name": "Immutable card",
+              "level": 2
+            },
+            "name": "Immutable card",
+            "original_mint": null
+          }
+        ],
+        "collection_name": "testcollect1",
+        "maker_marketplace": "atomicmarket",
+        "taker_marketplace": null,
+        "created_at_block": "123",
+        "created_at_time": "1700000000000",
+        "updated_at_block": "123",
+        "updated_at_time": "1700000000000",
+        "collection": null,
+        "state": 1
+      }
+    }
+  },
+  "missing-values-stay-missing": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "market_contract": "atomicmarket",
+        "assets_contract": "atomicassets",
+        "sale_id": "9007199254740993",
+        "seller": "alice",
+        "offer_id": "9007199254740994",
+        "price": {
+          "token_symbol": "WAX",
+          "token_precision": 8
+        },
+        "assets": [
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740997",
+            "owner": "alice",
+            "collection": {
+              "contract": "atomicassets",
+              "collection_name": "testcollect1",
+              "author": "alice",
+              "allow_notify": true,
+              "authorized_accounts": [
+                "alice"
+              ],
+              "notify_accounts": [],
+              "market_fee": 0.05,
+              "data": {
+                "name": "Reference collection"
+              }
+            },
+            "schema": {
+              "schema_name": "cards",
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string",
+                  "mediatype": "name",
+                  "info": null
+                }
+              ]
+            },
+            "template": null,
+            "immutable_data": {
+              "name": "Immutable card"
+            },
+            "mutable_data": {
+              "name": "Mutable card",
+              "level": 2
+            },
+            "backed_tokens": [],
+            "is_transferable": true,
+            "is_burnable": true,
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": "122",
+            "transferred_at_time": "1699999999500",
+            "minted_at_block": "100",
+            "minted_at_time": "1699999988500",
+            "updated_at_block": "122",
+            "updated_at_time": "1699999999500",
+            "sales": [],
+            "auctions": [],
+            "data": {
+              "name": "Immutable card",
+              "level": 2
+            },
+            "name": "Immutable card",
+            "original_mint": null
+          }
+        ],
+        "collection_name": "testcollect1",
+        "maker_marketplace": "atomicmarket",
+        "created_at_block": "123",
+        "created_at_time": "1700000000000",
+        "updated_at_block": "123",
+        "updated_at_time": "1700000000000",
+        "extension": {
+          "kept": false
+        },
+        "state": 1
+      }
+    }
+  },
+  "ordered-unresolved-assets": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "market_contract": "atomicmarket",
+        "assets_contract": "atomicassets",
+        "sale_id": "9007199254740993",
+        "seller": "alice",
+        "buyer": null,
+        "offer_id": "9007199254740994",
+        "price": {
+          "token_contract": "eosio.token",
+          "token_symbol": "WAX",
+          "token_precision": 8,
+          "amount": "9007199254740995"
+        },
+        "assets": [
+          "9007199254740998",
+          {
+            "contract": "atomicassets",
+            "asset_id": "9007199254740997",
+            "owner": "alice",
+            "collection": {
+              "contract": "atomicassets",
+              "collection_name": "testcollect1",
+              "author": "alice",
+              "allow_notify": true,
+              "authorized_accounts": [
+                "alice"
+              ],
+              "notify_accounts": [],
+              "market_fee": 0.05,
+              "data": {
+                "name": "Reference collection"
+              }
+            },
+            "schema": {
+              "schema_name": "cards",
+              "format": [
+                {
+                  "name": "name",
+                  "type": "string",
+                  "mediatype": "name",
+                  "info": null
+                }
+              ]
+            },
+            "template": null,
+            "immutable_data": {
+              "name": "Immutable card"
+            },
+            "mutable_data": {
+              "name": "Mutable card",
+              "level": 2
+            },
+            "backed_tokens": [],
+            "is_transferable": true,
+            "is_burnable": true,
+            "burned_by_account": null,
+            "burned_at_block": null,
+            "burned_at_time": null,
+            "transferred_at_block": "122",
+            "transferred_at_time": "1699999999500",
+            "minted_at_block": "100",
+            "minted_at_time": "1699999988500",
+            "updated_at_block": "122",
+            "updated_at_time": "1699999999500",
+            "sales": [],
+            "auctions": [],
+            "data": {
+              "name": "Immutable card",
+              "level": 2
+            },
+            "name": "Immutable card",
+            "original_mint": null
+          },
+          "9007199254740998"
+        ],
+        "collection_name": "testcollect1",
+        "maker_marketplace": "atomicmarket",
+        "taker_marketplace": null,
+        "created_at_block": "123",
+        "created_at_time": "1700000000000",
+        "updated_at_block": "123",
+        "updated_at_time": "1700000000000",
+        "state": 1
+      }
+    }
+  },
+  "invalid-null-price": {
+    "status": 500,
+    "body": {
+      "success": false,
+      "message": "Internal Server Error"
+    }
+  }
+}
