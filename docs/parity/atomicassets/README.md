@@ -61,6 +61,8 @@ nested collection/schema/template views and typed metadata decoding/merging. Thi
 represented faithfully by pretending an opaque JSON string is the final generic projection API.
 Runtime-supported transformation hooks, structured values and relationship/read-context semantics
 need a concrete cross-repository slice before this endpoint becomes a Hyperion implementation.
+The [portable formatter](formatter.md) now implements the pure structured formatting boundary
+against eight original HTTP controls; it does not implement those projection/host dependencies.
 
 Further families require declared sort/range/membership filters, grouping/relationships and exact
 count/pagination semantics. The inventory retains the original source rules, including dynamic
