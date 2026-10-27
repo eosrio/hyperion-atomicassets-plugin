@@ -1,0 +1,7 @@
+{
+  "status": 400,
+  "body": {
+    "success": false,
+    "message": "Invalid value for parameter asset_id"
+  }
+}

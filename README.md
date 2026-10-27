@@ -3,8 +3,9 @@
 One EOS Rio operator package for AtomicAssets and AtomicMarket indexing and APIs, with modular
 internal components.
 
-Status: Development scaffold for Hyperion 4.5. No plugin implementation or compatible release
-is provided by this initial repository. Maintained by EOS Rio.
+Status: Development reference harness for Hyperion 4.5. No compatible plugin release is provided.
+The pinned reference HTTP controls and explicit implementation frontier are documented below.
+Maintained by EOS Rio.
 
 Read the [architecture definition](https://github.com/eosrio/hyperion-tools/blob/a36fda12ba813968ce361e85893206d8f5bceb0f/docs/architecture/hyperion-4.5.md),
 [ADRs](https://github.com/eosrio/hyperion-tools/tree/a36fda12ba813968ce361e85893206d8f5bceb0f/docs/adr)
@@ -35,5 +36,53 @@ families with their necessary projections and query semantics; one working endpo
 [Approved initial issue batch](https://github.com/eosrio/hyperion-tools/blob/a36fda12ba813968ce361e85893206d8f5bceb0f/docs/roadmap/hyperion-4.5-initial-issues.md).
 
 Read [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md).
-Repository checks validate scaffold documents and local links; runtime qualification is pending.
+## Reference execution
+
+The [AtomicAssets inventory](docs/parity/atomicassets/README.md) covers the pinned reference routes
+and records the current capability/input frontier. The shared harness executes the original
+upstream HTTP server and routes against explicit synthetic database-boundary fixtures.
+
+Prepare a sibling reference checkout and install its own committed dependency lock:
+
+```sh
+npm run reference:prepare -- --destination ../atomicassets-reference-2.7.0
+cd ../atomicassets-reference-2.7.0
+pnpm install --frozen-lockfile
+```
+
+Use pnpm 11.13.1 for that exact upstream reference. Set `AA_REFERENCE_ROOT` to its absolute path,
+return to this repository, then run:
+
+```sh
+npm ci --allow-git=all
+npm run typecheck
+npm test
+```
+
+The new TypeScript package uses TypeScript 7.0.2 and Bun 1.4.4, emits native Node artifacts and
+checks on Node 24/26. The reference keeps its own pinned compiler/dependencies. The SDK dependency
+is pinned to the current host contract at `339b5c93`; the package permits preparation for that
+exact Git revision only. No automatic executable plugin installation or release publication occurs.
+
+Reference controls require the explicit checkout and fail when it is unavailable. They are not
+silently skipped or reported as MongoDB, WormDB, chain or full domain qualification.
+Repository documentation checks remain available through `npm run check:docs`.
+
+## Combined query component
+
+The [AtomicMarket inventory and scope](docs/parity/atomicmarket/README.md) joins the same package.
+The first Market read component is available at the development subpath
+`@eosrio/hyperion-atomicassets-plugin/atomicmarket/marketplace`. It reads four scalar marketplace
+fields through the existing SDK query contract and returns the adapter's serving view unchanged.
+It is not a registered Hyperion HTTP route or a source-ingestion implementation.
+
+`npm test` runs both domains' reference HTTP cases and the Market query component tests against
+normal emitted ESM. `npm run test:package` packs the compiled files, installs the tarball in an
+isolated consumer, imports the public subpath, and typechecks its installed declarations. Both
+checks run on Node 24 and 26. The package includes the upstream license/notice files; source and
+fixtures are not required for the compiled consumer.
+
+Actual Hyperion HTTP routes remain zero. Source ingestion, PostgreSQL execution, MongoDB/WormDB
+adapter integration and complete AtomicAssets/AtomicMarket parity remain unqualified. The package
+is private development work and this validation does not publish or activate an extension.
 Licensed under [MIT](LICENSE).

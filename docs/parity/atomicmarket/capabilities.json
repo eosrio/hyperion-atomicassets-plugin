@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "scope": "source-backed capability gaps; not new interfaces or qualification",
+  "pins": [
+    {
+      "repository": "atomicassets/atomicassets-api",
+      "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+      "path": "src/filler/handlers/atomicmarket/processors/marketplaces.ts",
+      "bytes": 1563,
+      "sha256": "0d09452199a5275947bb371465af0c988c51a8ce640c8732c24ab4ac88a34a00",
+      "gitBlob": "454c9667da118703f104dc80da03926927138987"
+    },
+    {
+      "repository": "atomicassets/atomicassets-api",
+      "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+      "path": "src/filler/database.ts",
+      "bytes": 50216,
+      "sha256": "24882decf0a6823cde7dd0d7c7c59df727fac64863c6ef3ff6380c3e232c5054",
+      "gitBlob": "cc407c99a3fc9b6755ec1fa5ffc8a307d9e79995"
+    },
+    {
+      "repository": "atomicassets/atomicassets-api",
+      "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+      "path": "definitions/tables/atomicmarket_tables.sql",
+      "bytes": 28196,
+      "sha256": "bdcb96e1cf60bfac26d3b6cafd3645133cdbda21d16e269d95506074ab20d71d",
+      "gitBlob": "d6c05dde13fce36a6250f22e5d9de14968ac4502"
+    },
+    {
+      "repository": "eosrio/hyperion-sdk",
+      "commit": "339b5c93d1338968c18ed14254961439dcab16a0",
+      "path": "src/projection.ts",
+      "bytes": 50163,
+      "sha256": "d8647d47e53ae545015068550ef14fb57538e71d184e676c727d8e38bcd21149",
+      "gitBlob": "79b3dffcbbf7d428cf2bb5f79ba997e7dc3d0506",
+      "anchors": [
+        {
+          "symbol": "ProjectionScalar",
+          "line": 17
+        },
+        {
+          "symbol": "ProjectionRecord",
+          "line": 18
+        },
+        {
+          "symbol": "ProjectionField",
+          "line": 19
+        },
+        {
+          "symbol": "ProjectionDefinition",
+          "line": 25
+        },
+        {
+          "symbol": "ProjectionMutation",
+          "line": 76
+        },
+        {
+          "symbol": "ProjectionQuery",
+          "line": 94
+        },
+        {
+          "symbol": "ProjectionReadView",
+          "line": 57
+        },
+        {
+          "symbol": "ProjectionRollbackReadView",
+          "line": 171
+        },
+        {
+          "symbol": "ProjectionAdapter",
+          "line": 136
+        },
+        {
+          "symbol": "projectTableValue",
+          "line": 848
+        }
+      ]
+    }
+  ]
+}

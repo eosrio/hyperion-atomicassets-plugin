@@ -1,0 +1,44 @@
+{
+  "name": "@eosrio/hyperion-atomicassets-plugin",
+  "version": "0.0.0-dev.1",
+  "private": true,
+  "type": "module",
+  "description": "Development parity harness and query components for the planned AtomicAssets and AtomicMarket plugin",
+  "license": "MIT",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "harness/shared/LICENSE.atomicassets-api.txt",
+    "harness/shared/NOTICE.atomicassets-api.txt",
+    "docs/parity/atomicmarket/UPSTREAM-LICENSE"
+  ],
+  "exports": {
+    "./atomicmarket/marketplace": {
+      "types": "./dist/atomicmarket/marketplace.d.ts",
+      "import": "./dist/atomicmarket/marketplace.js"
+    }
+  },
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "typecheck": "bun check -p tsconfig.json",
+    "build": "tsc -p tsconfig.json",
+    "test": "npm run build && node scripts/run-tests.mjs",
+    "test:reference": "node --test tests/reference-asset.test.mjs fixtures/harness/atomicmarket/reference-http.test.mjs",
+    "test:package": "node scripts/check-package.mjs",
+    "prepack": "npm run build",
+    "check:docs": "python scripts/check-docs.py",
+    "reference:prepare": "node scripts/prepare-reference.mjs"
+  },
+  "dependencies": {
+    "@eosrio/hyperion-sdk": "git+https://github.com/eosrio/hyperion-sdk.git#339b5c93d1338968c18ed14254961439dcab16a0"
+  },
+  "devDependencies": {
+    "typescript": "7.0.2"
+  },
+  "allowScripts": {
+    "github:eosrio/hyperion-sdk#339b5c93d1338968c18ed14254961439dcab16a0": true
+  }
+}

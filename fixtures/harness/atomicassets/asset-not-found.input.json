@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "baseline": {"repository": "https://github.com/atomicassets/atomicassets-api", "tag": "2.7.0", "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e"},
+  "fixtureKind": "synthetic-database-boundary",
+  "scope": "Empty deterministic SQL result at the unmodified reference database boundary; not a chain or PostgreSQL fixture.",
+  "namespace": "atomicassets",
+  "namespaceArgs": {"connected_reader": "reference-fixture", "atomicassets_account": "atomicassets"},
+  "request": {"method": "GET", "path": "/atomicassets/v1/assets/9007199254740994"},
+  "queries": [{"sql": "SELECT * FROM atomicassets_assets_master WHERE contract = $1 AND asset_id = ANY ($2)", "parameters": ["atomicassets", ["9007199254740994"]], "rows": []}],
+  "deterministicComparisons": ["status", "body"],
+  "environmentDependentFields": ["headers.date", "headers.last-modified"]
+}

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "baseline": {
+    "repository": "https://github.com/atomicassets/atomicassets-api",
+    "tag": "2.7.0",
+    "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e"
+  },
+  "fixtureKind": "synthetic-database-boundary",
+  "scope": "Representative deterministic SQL-view row, executed by the unmodified reference HTTP server, route and formatter. Not a chain capture, PostgreSQL execution, Hyperion projection or backend qualification.",
+  "namespace": "atomicassets",
+  "namespaceArgs": {
+    "connected_reader": "reference-fixture",
+    "atomicassets_account": "atomicassets"
+  },
+  "request": {"method": "GET", "path": "/atomicassets/v1/assets/9007199254740993"},
+  "queries": [{
+    "sql": "SELECT * FROM atomicassets_assets_master WHERE contract = $1 AND asset_id = ANY ($2)",
+    "parameters": ["atomicassets", ["9007199254740993"]],
+    "rows": [{
+      "contract": "atomicassets",
+      "asset_id": "9007199254740993",
+      "owner": "alice",
+      "is_transferable": true,
+      "is_burnable": true,
+      "collection_name": "fixturecol",
+      "schema_name": "cards",
+      "template_id": "7",
+      "authorized_accounts": ["alice"],
+      "collection": {"collection_name": "fixturecol", "author": "alice", "allow_notify": true, "authorized_accounts": ["alice"], "notify_accounts": [], "market_fee": 0.05, "data": {"name": "Fixture Collection"}},
+      "schema": {"schema_name": "cards", "collection_name": "fixturecol", "authorized_accounts": ["alice"], "collection": {"collection_name": "fixturecol"}, "format": [{"name": "name", "type": "string"}, {"name": "img", "type": "image"}], "types": [{"name": "img", "mediatype": "image/png", "info": "cover"}]},
+      "template": {"template_id": "7", "is_transferable": true, "is_burnable": true, "max_supply": "100", "issued_supply": "1", "mutable_data": {"name": "template-mutable", "description": "fallback"}, "immutable_data": {"name": "template-immutable"}},
+      "mutable_data": {"name": "asset-mutable", "rank": 1},
+      "immutable_data": {"name": "asset-immutable", "img": "fixture-image"},
+      "backed_tokens": [],
+      "template_mint": "1",
+      "minted_at_block": "123",
+      "minted_at_time": "1700000000000",
+      "updated_at_block": "124",
+      "updated_at_time": "1700000000500",
+      "transferred_at_block": "123",
+      "transferred_at_time": "1700000000000"
+    }]
+  }],
+  "deterministicComparisons": ["status", "body.success", "body.data"],
+  "environmentDependentFields": ["body.query_time", "headers.date", "headers.last-modified"]
+}
