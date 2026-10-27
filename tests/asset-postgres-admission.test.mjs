@@ -17,7 +17,9 @@ function fixture(){
  const receipt={schemaVersion:1,run,daemonId:'controlled-daemon-id',socketDev:1,socketIno:2,containerId:'b'.repeat(64),networkId:'d'.repeat(64),volumeName:'aa_pg_'+run};
  const image={Id:PIN.registryInspection.configDigest,Os:'linux',Architecture:'amd64',RepoDigests:[PIN.image],Config:{Entrypoint:['docker-entrypoint.sh']}};
  const observed={daemon:{ID:receipt.daemonId},socket:{dev:1,ino:2},image,
-  volume:{Name:receipt.volumeName,Driver:'local',Options:null,Labels:labels},network:{Id:receipt.networkId,Internal:true,Labels:labels},
+  volume:{Name:receipt.volumeName,Driver:'local',Options:null,Labels:labels},
+  network:{Id:receipt.networkId,Name:'aa-pg-'+run,Driver:'bridge',Internal:false,
+   Options:{'com.docker.network.bridge.enable_ip_masquerade':'false'},Labels:labels},
   container:{Id:receipt.containerId,Name:'/aa-pg-'+run,Image:image.Id,State:{Running:true,StartedAt:'controlled-start'},
    Config:{Image:PIN.image,Labels:labels,Entrypoint:['docker-entrypoint.sh'],Cmd:['postgres'],Env:['POSTGRES_DB=aa_pg_'+run,'POSTGRES_USER=oracle','POSTGRES_PASSWORD='+'c'.repeat(64),'PG_VERSION='+PIN.postgresVersion,'PGDATA=/var/lib/postgresql/data']},
    HostConfig:{Memory:PIN.memoryBytes,MemorySwap:PIN.memoryBytes,NanoCpus:2e9,Privileged:false,PublishAllPorts:false,Binds:null,RestartPolicy:{Name:'no'}},
@@ -47,7 +49,32 @@ test('foreign identity, mutable image, public port, resources and bind-like volu
  for(const mutate of [v=>v.daemon.ID='foreign',v=>v.socket.ino=9,v=>v.container.Config.Image='postgres:16-alpine',
   v=>v.image.Id='foreign',v=>v.container.Config.Labels={},v=>v.container.HostConfig.Memory=2e9,
   v=>v.container.NetworkSettings.Ports['5432/tcp'][0].HostIp='0.0.0.0',v=>v.volume.Options={device:'/foreign'},
-  v=>v.network.Internal=false,v=>v.container.Config.Cmd=['sh'],v=>v.container.Mounts[0].Name='foreign']){
+  v=>v.network.Internal=true,v=>v.container.Config.Cmd=['sh'],v=>v.container.Mounts[0].Name='foreign']){
+  const f=fixture();f.observed=structuredClone(f.observed);mutate(f.observed);assert.throws(()=>verifyObservedFixture(f.receipt,f.observed));
+ }
+});
+
+test('owned bridge disables masquerading and admits only its actual loopback publication',()=>{
+ const {receipt,observed}=fixture();assert.equal(verifyObservedFixture(receipt,observed).port,35432);
+ // Docker29 retained the requested loopback binding while reporting this null actual mapping.
+ // This is a controlled copy of that failed observation, not a successful server connection.
+ observed.container.HostConfig.PortBindings={'5432/tcp':[{HostIp:'127.0.0.1',HostPort:''}]};
+ observed.container.NetworkSettings.Ports={'5432/tcp':null};
+ assert.throws(()=>verifyObservedFixture(receipt,observed),/Owned PostgreSQL port must be published/);
+});
+
+test('foreign bridge, NAT options and absent/public/extra port mappings refuse before SQL',()=>{
+ for(const mutate of [v=>v.network.Name='foreign',v=>v.network.Driver='overlay',v=>v.network.Internal=true,
+  v=>v.network.Options=null,v=>v.network.Options={},
+  v=>v.network.Options['com.docker.network.bridge.enable_ip_masquerade']='true',
+  v=>v.network.Options['com.docker.network.bridge.enable_ip_masquerade']=false,
+  v=>v.network.Options['com.docker.network.bridge.gateway_mode_ipv4']='routed',
+  v=>v.container.NetworkSettings.Ports={'5432/tcp':[]},v=>v.container.NetworkSettings.Ports={},
+  v=>v.container.NetworkSettings.Ports['5432/tcp'].push({HostIp:'0.0.0.0',HostPort:'35433'}),
+  v=>v.container.NetworkSettings.Ports['5432/tcp'][0].HostIp='::',
+  v=>v.container.NetworkSettings.Ports['5432/tcp'][0].HostPort='0',
+  v=>v.container.NetworkSettings.Ports['5432/tcp'][0].HostPort='65536',
+  v=>v.container.NetworkSettings.Networks.other={NetworkID:'e'.repeat(64)}]){
   const f=fixture();f.observed=structuredClone(f.observed);mutate(f.observed);assert.throws(()=>verifyObservedFixture(f.receipt,f.observed));
  }
 });

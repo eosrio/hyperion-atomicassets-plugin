@@ -32,13 +32,24 @@ It changes fixture admission, not the selected image, resources, workload or eng
 
 Use a new 32-character lowercase hexadecimal run identifier. The fixed names are container
 `aa-pg-RUN`, database/volume `aa_pg_RUN`, and database user `oracle`. Container, local volume and
-internal network must carry `io.eosrio.qualifier=atomicassets-original-postgres` and the exact
+run-owned bridge network must carry `io.eosrio.qualifier=atomicassets-original-postgres` and the exact
 `io.eosrio.run` label. No bind mounts, volume device options, alternate entrypoint/command or restart
-policy is admitted. Only the one owned data volume and one internal network are accepted. The
+policy is admitted. Only the one owned data volume and one run-owned network are accepted. The
 container must use exactly two CPUs, 1 GiB memory with no extra swap, and one loopback-only
 published PostgreSQL port. The original image entrypoint and `postgres` command remain intact.
 Use a new 64-hex fixture password; it is obtained privately from observed container configuration,
 never accepted as a database URL or copied to the report. No trust-auth or initdb override is accepted.
+
+The network name must be `aa-pg-RUN`, its driver `bridge` and `Internal` false, with exactly
+`{"com.docker.network.bridge.enable_ip_masquerade":"false"}` as its driver options. Root creates
+that fixture network explicitly with `--driver bridge --opt com.docker.network.bridge.enable_ip_masquerade=false`.
+The actual published mapping must still contain exactly one PostgreSQL port on `127.0.0.1`;
+a requested binding with a null actual mapping refuses before SQL. Docker29 omitted publication
+on the earlier internal-only fixture. The [upstream report](https://github.com/moby/moby/discussions/53256)
+corroborates that failure shape; [Docker's bridge options](https://docs.docker.com/engine/network/drivers/bridge/#options)
+document the per-network masquerading setting. Disabling masquerading is not a standalone egress
+isolation guarantee. Root must retain the separate no-NIC private LXC/namespace guard and exact
+private daemon admission. No global Docker, firewall, namespace or production setting changes.
 
 Execution must be inside the root-owned private Docker/LXC namespace. The pinned socket path is
 namespace-local `/var/run/docker.sock`; there is no global-Docker default or environment override.

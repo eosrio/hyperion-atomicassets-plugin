@@ -34,7 +34,10 @@ export function verifyObservedFixture(receipt, observed) {
   assert.equal(container.HostConfig.PublishAllPorts, false); assert.ok(!container.HostConfig.Binds?.length);
   assert.equal(observed.volume.Name, receipt.volumeName); assert.equal(observed.volume.Driver, 'local');
   assert.ok(!observed.volume.Options || Object.keys(observed.volume.Options).length === 0);
-  assert.equal(observed.network.Internal, true); assert.equal(container.HostConfig.RestartPolicy.Name, 'no');
+  assert.equal(observed.network.Name, 'aa-pg-' + receipt.run);
+  assert.equal(observed.network.Driver, 'bridge'); assert.equal(observed.network.Internal, false);
+  assert.deepEqual(observed.network.Options, {'com.docker.network.bridge.enable_ip_masquerade': 'false'});
+  assert.equal(container.HostConfig.RestartPolicy.Name, 'no');
   assert.deepEqual(container.Config.Entrypoint, observed.image.Config.Entrypoint); assert.deepEqual(container.Config.Cmd, ['postgres']);
   assert.equal(container.Mounts.length, 1); assert.equal(container.Mounts[0].Type, 'volume');
   assert.equal(container.Mounts[0].Name, receipt.volumeName); assert.equal(container.Mounts[0].Destination, '/var/lib/postgresql/data');
@@ -42,6 +45,7 @@ export function verifyObservedFixture(receipt, observed) {
   const networks = Object.values(container.NetworkSettings.Networks); assert.equal(networks.length, 1);
   assert.equal(networks[0].NetworkID, receipt.networkId);
   const ports = container.NetworkSettings.Ports; assert.deepEqual(Object.keys(ports), ['5432/tcp']);
+  assert.ok(Array.isArray(ports['5432/tcp']), 'Owned PostgreSQL port must be published');
   assert.equal(ports['5432/tcp'].length, 1); const published = ports['5432/tcp'][0];
   assert.equal(published.HostIp, '127.0.0.1'); assert.match(published.HostPort, /^[0-9]{1,5}$/);
   const port = Number(published.HostPort); assert.ok(port > 0 && port <= 65535);
