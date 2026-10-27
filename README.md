@@ -114,6 +114,13 @@ rollback or coherent relationship serving. These controls run with the normal re
 
 Licensed under [MIT](LICENSE).
 
+## Single-sale formatter component
+
+The [portable sale formatter](docs/parity/atomicmarket/sale-formatter.md) follows the pinned
+2.7.0 sale/offer state and exact price/identifier output over an already assembled row. Its
+original-reference and packed-consumer controls qualify this pure component; source ingestion,
+relationship acquisition, database execution, public serving and complete parity remain separate.
+
 The private process-restart qualifier records successful MongoDB transaction controls separately from data writes.
 After startup, the recovered child still refuses all data-write commands, output aggregates, unknown commands,
 and command failures, and retains the original physical metadata/receipt/checkpoint/record equality gates.

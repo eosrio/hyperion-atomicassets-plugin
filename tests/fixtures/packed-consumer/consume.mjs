@@ -8,6 +8,8 @@ import {MarketplaceNotFoundError, readMarketplace} from '@eosrio/hyperion-atomic
 import {formatAsset} from '@eosrio/hyperion-atomicassets-plugin/atomicassets/asset';
 import {createMarketplaceDefinition} from '@eosrio/hyperion-atomicassets-plugin/atomicmarket/marketplace-indexing';
 import {assetFormatterCases} from './asset-formatter-cases.mjs';
+import {formatSale} from '@eosrio/hyperion-atomicassets-plugin/atomicmarket/sale';
+import {saleFormatterCases, saleFormatterInput} from './sale-formatter-cases.mjs';
 
 const resolved = fileURLToPath(import.meta.resolve('@eosrio/hyperion-atomicassets-plugin/atomicmarket/marketplace'));
 assert.equal(realpathSync(resolved), realpathSync(join(process.cwd(), 'node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicmarket/marketplace.js')));
@@ -47,5 +49,22 @@ for (const {name, fixture, invalid} of assetCases) {
   }
   assert.deepEqual(input, original);
 }
+const saleExport = fileURLToPath(import.meta.resolve('@eosrio/hyperion-atomicassets-plugin/atomicmarket/sale'));
+assert.equal(realpathSync(saleExport), realpathSync(join(process.cwd(), 'node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicmarket/sale.js')));
+const saleBase = JSON.parse(await readFile(new URL('./single-sale.input.json', import.meta.url)));
+const saleGolden = JSON.parse(await readFile(new URL('./sale-formatter.expected.json', import.meta.url)));
+const saleCases = saleFormatterCases(saleBase);
+for (const {name, fixture, invalid} of saleCases) {
+  const input = saleFormatterInput(fixture, saleGolden[name]), original = structuredClone(input);
+  if (invalid) {assert.equal(saleGolden[name].status, 500); assert.throws(() => formatSale(input), TypeError);}
+  else {
+    assert.equal(saleGolden[name].status, 200);
+    const formatted = formatSale(input);
+    assert.deepEqual(JSON.parse(JSON.stringify(formatted)), saleGolden[name].body.data);
+    assert.equal(JSON.stringify(formatted), JSON.stringify(saleGolden[name].body.data));
+  }
+  assert.deepEqual(input, original);
+}
 console.log(JSON.stringify({packedExport: resolved, successes: 1, compatibleMissingError: true,
-  sdkRuntimeImport: true, packedAssetExport: assetExport, assetFormatterReferenceCases: assetCases.length}));
+  sdkRuntimeImport: true, packedAssetExport: assetExport, assetFormatterReferenceCases: assetCases.length,
+  packedSaleExport: saleExport, saleFormatterReferenceCases: saleCases.length}));
