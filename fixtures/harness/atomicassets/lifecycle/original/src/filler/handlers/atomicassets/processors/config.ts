@@ -1,0 +1,91 @@
+import AtomicAssetsHandler, { AtomicAssetsUpdatePriority } from '../index';
+import DataProcessor from '../../../processor';
+import { ContractDBTransaction } from '../../../database';
+import { EosioContractRow } from '../../../../types/eosio';
+import { ShipBlock } from '../../../../types/ship';
+import type { ConfigTableRow, TokenConfigsTableRow } from '@atomichub/atomicassets';
+import { parseContractMajorVersion } from '../v2-guard';
+
+export function configProcessor(core: AtomicAssetsHandler, processor: DataProcessor): () => any {
+    const destructors: Array<() => any> = [];
+    const contract = core.args.atomicassets_account;
+
+    destructors.push(processor.onContractRow(
+        contract, 'config',
+        async (db: ContractDBTransaction, block: ShipBlock, delta: EosioContractRow<ConfigTableRow>): Promise<void> => {
+            if (!delta.present) {
+                throw new Error('AtomicAssets: config row was deleted. Should not be possible by contract');
+            }
+
+            if (core.config.supported_tokens.length !== delta.value.supported_tokens.length) {
+                const tokens = core.config.supported_tokens.map((row: {sym: string, contract: string}) => row.sym);
+
+                for (const token of delta.value.supported_tokens) {
+                    const index = tokens.indexOf(token.sym);
+
+                    if (index === -1) {
+                        // ON CONFLICT DO NOTHING - token rows are fixed by the
+                        // chain (precision is immutable per symbol), so a
+                        // delta replay against an existing row must be a no-op.
+                        // Mirrors the init-time INSERT at index.ts:175.
+                        await db.insert('atomicassets_tokens', {
+                            contract: contract,
+                            token_symbol: token.sym.split(',')[1],
+                            token_contract: token.contract,
+                            token_precision: token.sym.split(',')[0]
+                        }, ['contract', 'token_symbol'], true, true, 'nothing');
+                    }
+                }
+            }
+
+            if (core.config.collection_format.length !== delta.value.collection_format.length) {
+                await db.update('atomicassets_config', {
+                    collection_format: delta.value.collection_format.map((element: any) => JSON.stringify(element))
+                }, {
+                    str: 'contract = $1',
+                    values: [contract]
+                }, ['contract']);
+            }
+
+            core.config = delta.value;
+        }, AtomicAssetsUpdatePriority.TABLE_CONFIG.valueOf()
+    ));
+
+    destructors.push(processor.onContractRow(
+        contract, 'tokenconfigs',
+        async (db: ContractDBTransaction, block: ShipBlock, delta: EosioContractRow<TokenConfigsTableRow>): Promise<void> => {
+            if (!delta.present) {
+                throw new Error('AtomicAssets: tokenconfigs row was deleted. Should not be possible by contract');
+            }
+
+            if (core.tokenconfigs.version !== delta.value.version) {
+                await db.update('atomicassets_config', {
+                    version: delta.value.version
+                }, {
+                    str: 'contract = $1',
+                    values: [contract]
+                }, ['contract']);
+            }
+
+            // v2 late-upgrader continuity marker (design.md "Startup guard"):
+            // a live tokenconfigs delta reporting v2+ is proof this reader was
+            // subscribed for the flip, so it could not have missed the v2
+            // table data. NULL-checked, not version-compared, so a rewound
+            // replay that reprocesses the same delta after the marker is
+            // already set (accept_v2_gap, or a prior pass of this same
+            // delta) is a no-op rather than re-triggering on old === new.
+            const majorVersion = parseContractMajorVersion(delta.value.version);
+
+            if (majorVersion !== null && majorVersion >= 2) {
+                await db.query(
+                    'UPDATE atomicassets_config SET v2_marker_block = $1 WHERE contract = $2 AND v2_marker_block IS NULL',
+                    [block.block_num, contract]
+                );
+            }
+
+            core.tokenconfigs = delta.value;
+        }, AtomicAssetsUpdatePriority.TABLE_CONFIG.valueOf()
+    ));
+
+    return (): any => destructors.map(fn => fn());
+}

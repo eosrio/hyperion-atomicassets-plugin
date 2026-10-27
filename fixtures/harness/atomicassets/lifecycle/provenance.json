@@ -1,0 +1,129 @@
+{
+  "repository": "https://github.com/atomicassets/atomicassets-api",
+  "tag": "2.7.0",
+  "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+  "sources": [
+    {
+      "path": "package.json",
+      "gitBlob": "231a3a487871043bca76bdb4702793fc824f7925",
+      "bytes": 5162,
+      "sha256": "ac81fe7d5e2ddb1998f4e47a7762481eb003417edb665cdf26492a2494e91c02"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "gitBlob": "5a9e859fb8fb14b8a79963cb7a46332cddc48ca4",
+      "bytes": 168997,
+      "sha256": "91dc5c040888673788bca9778b7a87ea285b5a5f1aa834da7707a2e6cdb52e5c"
+    },
+    {
+      "path": "src/filler/processor.ts",
+      "gitBlob": "65e9bdd70c2f070a616cb62e9a6f7bd347b4e0b9",
+      "bytes": 14186,
+      "sha256": "cf5c1432789322fd95b2ef9be34aae1635e18846690d1119e3894b069a744651"
+    },
+    {
+      "path": "src/filler/handlers/atomicassets/index.ts",
+      "gitBlob": "aae3582c4fa5ba0b13b94f5161e265b115ec4548",
+      "bytes": 26848,
+      "sha256": "3708ea3747446300fd27f81af83bb2552a3020b3fa9e04ddcba2bafce6c4f9be"
+    },
+    {
+      "path": "src/filler/handlers/atomicassets/processors/config.ts",
+      "gitBlob": "4532cc80f22668b8456d7f7637a184d4bffd2170",
+      "bytes": 4432,
+      "sha256": "a1d1f9f13bce6d16fc1e53cb2906461cf6cadf40d1ede5b7cfac1de85f3ad37d"
+    },
+    {
+      "path": "src/filler/handlers/atomicassets/processors/collections.ts",
+      "gitBlob": "6dc3a3a3b10b9161b6996fe85b6a2ba4449db570",
+      "bytes": 2982,
+      "sha256": "55637545d54b155f012bb3fb182070a40db83484d8a9a5a034edcfe084b2881d"
+    },
+    {
+      "path": "src/filler/handlers/atomicassets/processors/schemas.ts",
+      "gitBlob": "cd90c4014f58523f8a355364f7bf03807229f99b",
+      "bytes": 2505,
+      "sha256": "c29562be9e90fd0d3e946b01810c014ea00cd0f09c152aa79a3f262b44511ee7"
+    },
+    {
+      "path": "src/filler/handlers/atomicassets/processors/templates.ts",
+      "gitBlob": "d1aacdcf7d9e29536a452f1b38517a98cd77e11f",
+      "bytes": 6169,
+      "sha256": "5d66b578b5f669fae361aeb1807c6497ba398541f8e4c31f81ec85bf3d5794a4"
+    },
+    {
+      "path": "src/filler/handlers/atomicassets/processors/assets.ts",
+      "gitBlob": "ecabcb4402d97fcd9c01e74212b5bda3b9a2a81c",
+      "bytes": 12082,
+      "sha256": "d1897e903b5bac3ee9dc379925b1efded412e7cb7bd381aaae61558143bc5c9f"
+    },
+    {
+      "path": "src/filler/utils.ts",
+      "gitBlob": "b01ee64e9febd881f61259cd1c9abc58a8d4288c",
+      "bytes": 124,
+      "sha256": "3b792f88013f17759dd02e39e5aaaad700defe81d1aad2cb6a6ee299013b3fcc"
+    },
+    {
+      "path": "src/utils/eosio.ts",
+      "gitBlob": "9912e9d3a124075505dd19b999de33132e6aa6e3",
+      "bytes": 3099,
+      "sha256": "df7150c69bee8ffcbc9f6b13491b1cc10b00dc059b5ecc60d40b3d4e1c496121"
+    },
+    {
+      "path": "src/utils/index.ts",
+      "gitBlob": "f25be509de32a9a4551c33a2825d56e3e963a27e",
+      "bytes": 1602,
+      "sha256": "56f5c6ecda7cdf033e25dc3f3cc4bb4d5f0964b5407cb5b487c3085dac8e92ec"
+    },
+    {
+      "path": "definitions/views/atomicassets_assets_master.sql",
+      "gitBlob": "181d5136a151b00fa59e015ae8cb11366af9562e",
+      "bytes": 4085,
+      "sha256": "a15cd23ec3ca69e09b303808b34efc49843436cdc75f299f9fdaaeabd1e64367"
+    },
+    {
+      "path": "LICENSE",
+      "gitBlob": "3a60c807d68b5606ab636a6dc1dc2189a6090074",
+      "bytes": 1140,
+      "sha256": "458f83058135a4425dcbdcbeb51586dad3ca7b2d6c999fcd16b1a064c9acfa3e"
+    },
+    {
+      "path": "NOTICE",
+      "gitBlob": "d2d61166bc7c685f212cb326bf70dabb0912dcf0",
+      "bytes": 874,
+      "sha256": "c50dba45bfe5f1b79911ef24b848a98cba29a5b37801f5f0872ad6611b136370"
+    }
+  ],
+  "codec": {
+    "package": "@atomichub/atomicassets",
+    "version": "2.2.0",
+    "lockIntegrity": "sha512-v4PWwuyQhmSPjoJ8p6ObAXot9cvmmR81CvB1enaCvdv/8CkIjDqWfaUde8AZRdR15CUKrs0MmfyeGfnkpOD0Iw==",
+    "files": [
+      {
+        "path": "build/index.cjs",
+        "bytes": 107772,
+        "sha256": "2dfe332031728c475622ae510d7ea78246a9592a9da6cf70ba8a1abd7fa2e573"
+      },
+      {
+        "path": "package.json",
+        "bytes": 1971,
+        "sha256": "9808a959dda89c8942524476c68033ad3929d5468ce8bcdefe06cf542058c8fb"
+      },
+      {
+        "path": "LICENSE",
+        "bytes": 1168,
+        "sha256": "f61f57d0725fd9f6e63582c0316409122024830a99e567be2a01a65aeebafc7d"
+      },
+      {
+        "path": "NOTICE",
+        "bytes": 639,
+        "sha256": "e60e86c31e8ee0548ac61ceab020571900d7c04a30b8ed7f3fdb755ad276bc2f"
+      },
+      {
+        "path": "licenses/Apache-2.0.txt",
+        "bytes": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    ]
+  }
+}

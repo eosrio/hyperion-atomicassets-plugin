@@ -96,4 +96,12 @@ records the pinned source rules, actual original HTTP controls and remaining int
 Normal emitted ESM and the installed packed consumer run the same eight discriminating cases.
 This formatter grants no source coverage, serving readiness or Hyperion HTTP integration.
 
+## Original asset lifecycle controls
+
+The [source-pinned lifecycle and metadata controls](docs/parity/atomicassets/lifecycle.md) execute
+the actual 2.7.0 processors, priority scheduler and locked AtomicAssets 2.2.0 codec. They retain
+original source/lock/helper blobs and captured outputs. The transaction boundary is an explicitly
+bounded script; its recorded effects do not qualify PostgreSQL, MongoDB, source ingestion,
+rollback or coherent relationship serving. These controls run with the normal reference tests.
+
 Licensed under [MIT](LICENSE).

@@ -47,7 +47,8 @@ async function execute({referenceRoot, nodePath = process.execPath, timeoutMs = 
     child.on('close', (code, signal) => {
       clearTimeout(timer);
       if (failure || code !== 0 || !result) reject(new Error(`${failure?.message ?? 'Reference child did not complete'}; exit=${code}; signal=${signal}; ${output}`));
-      else resolve({...result, reference, execution: {nodePath, nodeVersion: result.nodeVersion, exitCode: code, logBytes}});
+      else resolve({...result, reference, execution: {nodePath, nodeVersion: result.nodeVersion, exitCode: code, logBytes,
+        ...(command.mode === 'asset-controls' ? {mergedLog: output} : {})}});
     });
     child.stdin.end(input);
   });
@@ -61,4 +62,8 @@ export async function executeReferenceFixture({referenceRoot, fixture, nodePath,
 
 export async function inspectReferenceNamespace({referenceRoot, namespace, namespaceArgs, queries = [], nodePath, timeoutMs}) {
   return await execute({referenceRoot, nodePath, timeoutMs, command: {mode: 'inventory', namespace, namespaceArgs, queries}});
+}
+
+export async function executeOriginalAssetControls({referenceRoot, nodePath, timeoutMs}) {
+  return await execute({referenceRoot, nodePath, timeoutMs, command: {mode: 'asset-controls'}});
 }
