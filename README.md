@@ -61,7 +61,7 @@ npm test
 
 The new TypeScript package uses TypeScript 7.0.2 and Bun 1.4.4, emits native Node artifacts and
 checks on Node 24/26. The reference keeps its own pinned compiler/dependencies. The SDK dependency
-is pinned to the current host contract at `339b5c93`; the package permits preparation for that
+is pinned to merged contextual contract `8d37e932`; the package permits preparation for that
 exact Git revision only. No automatic executable plugin installation or release publication occurs.
 
 Reference controls require the explicit checkout and fail when it is unavailable. They are not
@@ -69,6 +69,10 @@ silently skipped or reported as MongoDB, WormDB, chain or full domain qualificat
 Repository documentation checks remain available through `npm run check:docs`.
 
 ## Combined query component
+
+The [contextual Marketplace slice](docs/parity/atomicmarket/marketplace-indexing.md) adds an inert
+backend-neutral definition factory and separate source/runtime/read engineering controls. Its
+explicit owned MongoDB program awaits an actual engine run; issue #6 remains open.
 
 The [AtomicMarket inventory and scope](docs/parity/atomicmarket/README.md) joins the same package.
 The first Market read component is available at the development subpath

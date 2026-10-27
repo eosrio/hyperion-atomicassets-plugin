@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const name = '@eosrio/hyperion-atomicassets-plugin';
-const sdkPin = 'git+https://github.com/eosrio/hyperion-sdk.git#339b5c93d1338968c18ed14254961439dcab16a0';
+const sdkPin = 'git+https://github.com/eosrio/hyperion-sdk.git#8d37e932df5e0e7d671c9682505de3dd55f0edb4';
 const npmCli = process.env.npm_execpath ?? join(dirname(process.execPath), 'node_modules/npm/bin/npm-cli.js');
 assert.ok(existsSync(npmCli), 'Run through npm so its actual CLI path is available');
 await mkdir(join(root, 'out'), {recursive: true});
@@ -48,6 +48,7 @@ try {
   assert.equal(packed.name, name);
   const packedFiles = new Set(packed.files.map(file => file.path));
   const required = ['dist/atomicmarket/marketplace.js', 'dist/atomicmarket/marketplace.d.ts',
+    'dist/atomicmarket/marketplace-indexing.js', 'dist/atomicmarket/marketplace-indexing.d.ts',
     'dist/atomicassets/asset.js', 'dist/atomicassets/asset.d.ts',
     'README.md', 'LICENSE', 'harness/shared/LICENSE.atomicassets-api.txt',
     'harness/shared/NOTICE.atomicassets-api.txt', 'docs/parity/atomicmarket/UPSTREAM-LICENSE'];
@@ -56,7 +57,7 @@ try {
   const tarballBytes = await readFile(tarball);
   await writeFile(join(consumer, 'package.json'), JSON.stringify({name: 'atomic-parity-packed-consumer',
     private: true, type: 'module', dependencies: {[name]: 'file:' + tarball}, devDependencies: {typescript: '7.0.2'},
-    allowScripts: {'github:eosrio/hyperion-sdk#339b5c93d1338968c18ed14254961439dcab16a0': true}}, null, 2) + '\n');
+    allowScripts: {'github:eosrio/hyperion-sdk#8d37e932df5e0e7d671c9682505de3dd55f0edb4': true}}, null, 2) + '\n');
   for (const file of ['consume.mjs', 'consume.ts', 'tsconfig.json'])
     await copyFile(join(root, 'tests/fixtures/packed-consumer', file), join(consumer, file));
   for (const file of ['asset-formatter-cases.mjs', 'asset-formatter.expected.json'])
@@ -69,6 +70,8 @@ try {
   const installedPackage = JSON.parse(await readFile(join(installed, 'package.json'), 'utf8'));
   assert.equal(installedPackage.exports['./atomicmarket/marketplace'].import, './dist/atomicmarket/marketplace.js');
   assert.equal(installedPackage.exports['./atomicmarket/marketplace'].types, './dist/atomicmarket/marketplace.d.ts');
+  assert.equal(installedPackage.exports['./atomicmarket/marketplace-indexing'].import, './dist/atomicmarket/marketplace-indexing.js');
+  assert.equal(installedPackage.exports['./atomicmarket/marketplace-indexing'].types, './dist/atomicmarket/marketplace-indexing.d.ts');
   assert.equal(installedPackage.exports['./atomicassets/asset'].import, './dist/atomicassets/asset.js');
   assert.equal(installedPackage.exports['./atomicassets/asset'].types, './dist/atomicassets/asset.d.ts');
   for (const path of required) assert.equal(sha(await readFile(join(installed, path))), sha(await readFile(join(root, path))), path);
@@ -78,6 +81,8 @@ try {
   const slash = value => value.replaceAll('\\', '/').toLowerCase();
   assert.ok(slash(declarations).includes(slash(join(installed, 'dist/atomicmarket/marketplace.d.ts'))),
     'Consumer must resolve the installed packed declaration');
+  assert.ok(slash(declarations).includes(slash(join(installed, 'dist/atomicmarket/marketplace-indexing.d.ts'))),
+    'Consumer must resolve the installed contextual factory declaration');
   assert.ok(slash(declarations).includes(slash(join(installed, 'dist/atomicassets/asset.d.ts'))),
     'Consumer must resolve the installed packed asset declaration');
   assert.ok(slash(declarations).includes(slash(join(consumer, 'node_modules/@eosrio/hyperion-sdk/dist/projection.d.ts'))),

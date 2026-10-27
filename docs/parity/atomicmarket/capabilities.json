@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "scope": "source-backed capability gaps; not new interfaces or qualification",
+  "scope": "historical source-backed capability gaps at SDK339b; see marketplace-indexing.md for SDK8d contextual component follow-up, actual engine pending",
   "pins": [
     {
       "repository": "atomicassets/atomicassets-api",

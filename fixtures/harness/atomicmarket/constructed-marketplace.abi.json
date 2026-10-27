@@ -1,0 +1,39 @@
+{
+  "version": "sysio::abi/1.3",
+  "types": [],
+  "structs": [
+    {
+      "name": "marketplace",
+      "base": "",
+      "fields": [
+        {
+          "name": "marketplace_name",
+          "type": "string"
+        },
+        {
+          "name": "creator",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "tables": [
+    {
+      "name": "marketplaces",
+      "index_type": "",
+      "key_names": [
+        "marketplace_name"
+      ],
+      "key_types": [
+        "string"
+      ],
+      "type": "marketplace",
+      "table_id": 7,
+      "secondary_indexes": []
+    }
+  ],
+  "ricardian_clauses": [],
+  "error_messages": [],
+  "abi_extensions": []
+}
