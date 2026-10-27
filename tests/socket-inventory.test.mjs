@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {mkdir, mkdtemp, readFile} from 'node:fs/promises';
-import {spawnSync} from 'node:child_process';
+import {execFileSync, spawnSync} from 'node:child_process';
+import {createHash} from 'node:crypto';
 import {join, resolve} from 'node:path';
 import test from 'node:test';
 
@@ -122,6 +123,18 @@ test('normal inventory generators reproduce both golden contracts from exact pin
   const aa = JSON.parse(await readFile(join(output, 'atomicassets/inventory.json')));
   const market = JSON.parse(await readFile(join(output, 'atomicmarket.json')));
   const aaGolden = await read('atomicassets'), marketGolden = await read('atomicmarket');
+  // The harness records physical lock bytes. A clean Git checkout can materialize LF or CRLF.
+  // Verify those bytes against the exact upstream Git blob before treating this observation as portable.
+  const canonicalLock = execFileSync('git', ['show', '0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e:pnpm-lock.yaml'],
+    {cwd: process.env.AA_REFERENCE_ROOT, timeout: 10000});
+  const materializedLock = await readFile(join(process.env.AA_REFERENCE_ROOT, 'pnpm-lock.yaml'));
+  const sha = bytes => createHash('sha256').update(bytes).digest('hex');
+  assert.equal(sha(canonicalLock), '91dc5c040888673788bca9778b7a87ea285b5a5f1aa834da7707a2e6cdb52e5c');
+  assert.equal(materializedLock.toString().replaceAll('\r\n', '\n'), canonicalLock.toString());
+  assert.equal(aa.runtime.referenceLockSha256, sha(materializedLock));
+  const validLockMaterializations = new Set([sha(canonicalLock), sha(canonicalLock.toString().replaceAll('\n', '\r\n'))]);
+  assert.ok(validLockMaterializations.has(aaGolden.runtime.referenceLockSha256));
+  aa.runtime.referenceLockSha256 = aaGolden.runtime.referenceLockSha256;
   // The executing Node version is an observation, not part of the pinned source contract.
   aa.runtime.node = aaGolden.runtime.node;
   market.inspection.nodeVersion = marketGolden.inspection.nodeVersion;
