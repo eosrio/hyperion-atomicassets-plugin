@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "image": "docker.io/library/postgres@sha256:cbf42f0edc946c0bc1b8eeed62403734e1f25dc67a3491455d07a92fdb558b28",
+  "postgresVersion": "16.15",
+  "platform": "linux/amd64",
+  "cpuCount": 2,
+  "memoryBytes": 1073741824,
+  "initializationSeconds": 60,
+  "childDeadlineMS": 180000,
+  "sqlStatementMS": 30000,
+  "httpResponseBytes": 2097152,
+  "reportBytes": 8388608,
+  "registryInspection": {
+    "registry": "https://registry-1.docker.io/v2/library/postgres",
+    "mutableSelection": "16-alpine",
+    "indexDigest": "sha256:0cefaabd882e42bcb2a2f3dc56d3ce4770560ba62fd7f197f1a2e008fd5731ab",
+    "linuxAmd64ManifestDigest": "sha256:cbf42f0edc946c0bc1b8eeed62403734e1f25dc67a3491455d07a92fdb558b28",
+    "configDigest": "sha256:6a2e324ebe59af6031c4c1cd96c1d5072c2ebc36563d2196365e43b8297c062d",
+    "inspectedAt": "2026-10-27T12:18:58.213989+00:00",
+    "manifestBytes": 3054,
+    "configBytes": 9073
+  },
+  "engineExecuted": false,
+  "dockerSocketPath": "/var/run/docker.sock",
+  "privateNamespaceRequired": true,
+  "forbiddenH1GlobalDaemonId": "2f167773-05ba-4742-806f-72a4800e614e"
+}

@@ -1,2 +1,5 @@
 # Original reference/helper blobs retain their exact bytes on every checkout.
 /fixtures/harness/atomicassets/lifecycle/original/** -text
+# OCI content digests cover original bytes, including newlines.
+/harness/atomicassets/postgres/postgres-16.15-linux-amd64.manifest.json -text
+/harness/atomicassets/postgres/postgres-16.15-linux-amd64.config.json -text

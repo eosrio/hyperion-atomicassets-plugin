@@ -1,0 +1,1939 @@
+{
+  "schemaVersion": 1,
+  "scope": "source-audit-only original PostgreSQL/view/HTTP oracle plan; no engine execution or Hyperion parity",
+  "baseline": {
+    "repository": "https://github.com/atomicassets/atomicassets-api",
+    "tag": "2.7.0",
+    "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e"
+  },
+  "sourceByteSemantics": "bytes/sha256 describe exact Git blobs; separately labeled Windows working bytes retain checkout line-ending differences, not runtime acceptance profiles",
+  "engine": {
+    "composeDeclaration": "postgres:16-alpine",
+    "ciMajors": [
+      14,
+      15,
+      16,
+      17,
+      18
+    ],
+    "immutableImageDigest": "sha256:cbf42f0edc946c0bc1b8eeed62403734e1f25dc67a3491455d07a92fdb558b28",
+    "exactServerVersion": null,
+    "resourcesAndOwnedFixtureReceipt": null,
+    "engineExecuted": false,
+    "registryReportedVersion": "16.15",
+    "fixturePin": "harness/atomicassets/postgres/fixture-pin.json",
+    "immutableImage": "docker.io/library/postgres@sha256:cbf42f0edc946c0bc1b8eeed62403734e1f25dc67a3491455d07a92fdb558b28"
+  },
+  "dependencies": {
+    "originalPackageVersion": "2.7.0",
+    "packageManager": "pnpm@11.13.1",
+    "testSetupHandlerOrder": [
+      "atomicassets",
+      "delphioracle",
+      "atomicmarket",
+      "atomicpacksx",
+      "atomicdropsx",
+      "simpleassets"
+    ],
+    "originalPriorityOrder": {
+      "config": 10,
+      "collectionAndSchema": 20,
+      "template": 40,
+      "mintWithCompletionFlush": 50,
+      "assetUpdate": 60
+    },
+    "assetId": "9007199254740993",
+    "codecVersion": "@atomichub/atomicassets@2.2.0",
+    "sqlFilesPinned": 176
+  },
+  "originalSources": [
+    {
+      "path": ".github/workflows/ci.yaml",
+      "blob": "1c806dc74e378ff8c0e68e2529e0871a0b85d919",
+      "bytes": 3266,
+      "sha256": "8a533e61ba50ebc4a9c70e60a839ebf37c9769812a30f23a40c836d78cc382fc",
+      "observedWindowsWorkingBytes": 3382,
+      "observedWindowsWorkingSha256": "ab7faef541d9a0939c26c236a6f182e23eaa1503bcf41a5ccad36120574f1ec6",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/.github/workflows/ci.yaml"
+    },
+    {
+      "path": "definitions/migrations/1.1.0/atomicassets.sql",
+      "blob": "3a7374a369b90537650c436f9f6bde36a78df0f7",
+      "bytes": 2465,
+      "sha256": "1684c30218af824eaec368f05a405bffe4e77a4d4d498dfd570983cbc92e2f24",
+      "observedWindowsWorkingBytes": 2515,
+      "observedWindowsWorkingSha256": "57bdf6017560028414bcb7a3aa48c0b477535d6eeaf424d851b5af51bb36fc89",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.1.0/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.1.0/atomicmarket.sql",
+      "blob": "7020175e589112b1d8e21db688692f12e561e277",
+      "bytes": 2637,
+      "sha256": "86943edaa7ddddc18aa87fde7ea8bcfe82a59228d50d40c21ff952ccc4651186",
+      "observedWindowsWorkingBytes": 2683,
+      "observedWindowsWorkingSha256": "82602db11796509c0167a2e0f6b4a6025c0d94544284cf177d86f0784c8a0f9b",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.1.0/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.1.0/atomictools.sql",
+      "blob": "fef31d402422261156dcd70d30e1930b4f9f4e4b",
+      "bytes": 227,
+      "sha256": "28c9a6e17dab4ef9e7ede2fe8752974e8dac1a004e5f8adf96fa013b0b72bf22",
+      "observedWindowsWorkingBytes": 230,
+      "observedWindowsWorkingSha256": "ab9bb45177ebafd09796c12320fc7daa1112097dc500ab7f135cb36871174870",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.1.0/atomictools.sql"
+    },
+    {
+      "path": "definitions/migrations/1.1.0/database.sql",
+      "blob": "6a6bb7f8a31088d0224f93f401371fc078d12dc4",
+      "bytes": 212,
+      "sha256": "9c5e20b0c3c610f842010459c7e3d55f16211ab5814dca71647935f4b3eabf84",
+      "observedWindowsWorkingBytes": 218,
+      "observedWindowsWorkingSha256": "d0a12920764ff9c7944d7fbba9b390052c93740eeb694c846f8d26b67be258ab",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.1.0/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.0/atomicassets.sql",
+      "blob": "719510684404fa55a756b2f4d623461a8fac778d",
+      "bytes": 743,
+      "sha256": "60d59354ecbaea3d463183560d0b6659257cf2054d3c49e1343fe42acdad5bd7",
+      "observedWindowsWorkingBytes": 756,
+      "observedWindowsWorkingSha256": "de18476f461ad8ae3aaa0c85de75b123b990990ba2af7324f3c44ceccd794c7c",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.0/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.0/atomicmarket.sql",
+      "blob": "00525cb0e18b7e4119632b6f068f8f84c3197caf",
+      "bytes": 2018,
+      "sha256": "7177bf0cf0cde32e2010dce0754a6e723b7b8c1ce0247362d6133d76c4f4168d",
+      "observedWindowsWorkingBytes": 2052,
+      "observedWindowsWorkingSha256": "02d8d9624e864af3adf8d022cb708b82c6f71d627203e1d325daf0fce28f67c8",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.0/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.0/database.sql",
+      "blob": "633e9e0c3a6f003e9d111164160fc1d43291cdd7",
+      "bytes": 60,
+      "sha256": "8e4f5912c2522b8096606fc8c1a92c9626dd501ed2c348f6abb0350d85ef0bc7",
+      "observedWindowsWorkingBytes": 61,
+      "observedWindowsWorkingSha256": "cecdac9b770ffcf0ee20a4b4fd9cb00684671c5cffff2e2142507b8924f92379",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.0/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.1/atomicassets.sql",
+      "blob": "9cac238ed2fe3a2ad85321ac3557af48ddf15583",
+      "bytes": 491,
+      "sha256": "ac1449b3e0a32446fcddbf9643a1bb9d58aacf98272911c335fd6115980b4410",
+      "observedWindowsWorkingBytes": 500,
+      "observedWindowsWorkingSha256": "d37bfe5afec01fa8b0ceb78df4bb220cdee5d3dbbea144f1f491f4a78b8005a8",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.1/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.1/atomicmarket.sql",
+      "blob": "523e0fca3f783d6dd7eb4059d2299c5f2e31682c",
+      "bytes": 166,
+      "sha256": "0f910d90cf7a7e1646669276153d8506cbc3795382dbd4e011ec59922ef1f491",
+      "observedWindowsWorkingBytes": 169,
+      "observedWindowsWorkingSha256": "c119fbd73c95a2d585b3298f7c6f14d5836558e460e71263faf75fd155fbe62a",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.1/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.1/database.sql",
+      "blob": "575490864ba9256942777b46d3a2eaad8733084f",
+      "bytes": 60,
+      "sha256": "b65d1e4840124c24890cba6f4bd84b68c38a5e52bf5cfbd0692df45a01eb7996",
+      "observedWindowsWorkingBytes": 61,
+      "observedWindowsWorkingSha256": "7bdfaf57e64b337fbaafb132811fefc1de661ae46f32e1e5dc9c73d6bec8d91b",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.1/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.14/database.sql",
+      "blob": "ddb5a95d2d2310dbfea1e70b04f788642f595eb0",
+      "bytes": 61,
+      "sha256": "d753ad9beb3ec820a7686bfd325dc81d7dd518ce8d7ad34aa798bd29c9762fca",
+      "observedWindowsWorkingBytes": 62,
+      "observedWindowsWorkingSha256": "db7e963fa49f61a142c493fe42e949b05f16effffe3a9db4daa489657a25097c",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.14/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.2/atomicassets.sql",
+      "blob": "cc2660bfae94ad7761d9857dc663c85f2d3cd985",
+      "bytes": 156,
+      "sha256": "bb3cb758d675ce1755254ec5aa06e3035c800504306b1093f43c81d994847257",
+      "observedWindowsWorkingBytes": 159,
+      "observedWindowsWorkingSha256": "b28592e89bd80724a2d07c712132711fb6e113b1318b14d68c9cc9ddd2045fe9",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.2/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.2/atomicmarket.sql",
+      "blob": "18f8b9f63a5cbcb1a38e91f826c0cf61284951e5",
+      "bytes": 690,
+      "sha256": "2dfb662938b9734d5f023064d845900ed5effa914969711da061506cac20e1fb",
+      "observedWindowsWorkingBytes": 697,
+      "observedWindowsWorkingSha256": "4a92b68c83981bcf0237c23c5b047423fe5e4886c9ca50d67c98596a97863a65",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.2/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.2/database.sql",
+      "blob": "fe87e4d57bb59013af5628f114d34adf51bfb240",
+      "bytes": 60,
+      "sha256": "db402cbf8224e097e04ac35626e5af3b85d039844093cb39492e9ea654416a59",
+      "observedWindowsWorkingBytes": 61,
+      "observedWindowsWorkingSha256": "60025a3525974339bee34ebfda9309935e81e8f4beec892a82d321a42bcc618b",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.2/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.3/atomicassets.sql",
+      "blob": "0f725f04055e7b3ed71812883710b028d1a84fbb",
+      "bytes": 2076,
+      "sha256": "f0b852e439224fb10fb2acf434429f68b2604e40b568a55504c2d86321854677",
+      "observedWindowsWorkingBytes": 2125,
+      "observedWindowsWorkingSha256": "6a33a6d56da06240424fd1d8ddca534d56f9f6f65b25e5ecd53ffb914a06b0ac",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.3/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.3/database.sql",
+      "blob": "f7c9884198e966e3d0677e17261bd0dfe0fdcc3c",
+      "bytes": 396,
+      "sha256": "f435ada8187f81295858dbf7440624d9fb6c0101b9c8e8f06ecdc6e54d4d6662",
+      "observedWindowsWorkingBytes": 402,
+      "observedWindowsWorkingSha256": "04b59272811b9cec2f293cbc78e0d6f1333b6514a6e8e4416bc1f87dea89183f",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.3/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.4/atomicassets.sql",
+      "blob": "fc57ffaa90b3a7b6e97c2ccc65124a4f602a5943",
+      "bytes": 67,
+      "sha256": "2a5240535484e8a3a2ab58a1bb3fc8a442117774db4eec19460ce1a767bf1cbc",
+      "observedWindowsWorkingBytes": 68,
+      "observedWindowsWorkingSha256": "6862a36d70cb5d39c9ee62daf2696a977ac2060fb19e36d8418b409150cb4d00",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.4/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.4/atomicmarket.sql",
+      "blob": "601177d789987f38db4139800e2672e713db02e2",
+      "bytes": 205,
+      "sha256": "8943a1f3694b17b98d19fffc6c4cdc1c30ad5f565f199120552a733b95d0effe",
+      "observedWindowsWorkingBytes": 208,
+      "observedWindowsWorkingSha256": "010dec673d8da6e2516900abafcacdddfcfd282689739bb4f5b488181e300b1d",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.4/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.4/database.sql",
+      "blob": "006902f7b1e348b9db075765be1b0ec294a1dcaf",
+      "bytes": 60,
+      "sha256": "83368e160a6881b5f3bc67281dcf6304806af935d856db7d79aaab523d9aece4",
+      "observedWindowsWorkingBytes": 61,
+      "observedWindowsWorkingSha256": "38f22b053463f476e8b638514bf0158ce09ca3ea217aaf5d6ca793c75317cdee",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.4/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.5/atomicassets.sql",
+      "blob": "5a33b33d13aa87fd50db40fcfc0393afd47daac0",
+      "bytes": 168,
+      "sha256": "d4e36d5b45c9aafd4b71d06816cbce684927b22a8d10dfc17d95732f6708f92f",
+      "observedWindowsWorkingBytes": 171,
+      "observedWindowsWorkingSha256": "2f25e0526c7989be76356fb1513de9b7bf5113b8a0137e74deadb410acc61fd5",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.5/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.5/atomicmarket.sql",
+      "blob": "ccc66217d32cad6a0c808ec722a8e1906394315b",
+      "bytes": 225,
+      "sha256": "51be197ec1ea1ec66bc611a2538ee13da560c2f4fc7b86379f618f93827b64a4",
+      "observedWindowsWorkingBytes": 230,
+      "observedWindowsWorkingSha256": "8cf7e92235c0f4ec77d836cedef85c56122be784caa7850cddc4dda25dcea4e9",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.5/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.5/atomictools.sql",
+      "blob": "932994e8993b536ab247d7a21ee233dfcf7cf367",
+      "bytes": 270,
+      "sha256": "0a3e3e5f17b97c7f810583b234602c3972b824eb684a8bd0321c37c78efdb4c6",
+      "observedWindowsWorkingBytes": 275,
+      "observedWindowsWorkingSha256": "74d2b8f71005d760e8ed5509ec6d1d7f4329a69bba1428c3f25dd0cacdd8c4d9",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.5/atomictools.sql"
+    },
+    {
+      "path": "definitions/migrations/1.2.5/database.sql",
+      "blob": "30831af1e40c679d5131ea745d5b06eed32308eb",
+      "bytes": 254,
+      "sha256": "2198fb1ae4b657b7038d56d515c71530434c050c650b80702c2f7999b6f84f81",
+      "observedWindowsWorkingBytes": 261,
+      "observedWindowsWorkingSha256": "a3ef0d4d6a757a31114801cdb272b045ddc509dd1f9ef7a5d572d830bb79e57a",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.2.5/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.0/atomicmarket.sql",
+      "blob": "f8774cf8ae7baee5f7c0e0a9510d78ec0cd85593",
+      "bytes": 20292,
+      "sha256": "d43d61818baf7e7e8da8eae2706c4360402aa00b65fa431468af106529b4f225",
+      "observedWindowsWorkingBytes": 20706,
+      "observedWindowsWorkingSha256": "0ff4ee59ace2ab899ebbd97497247cadffeeb1715f515b70a43ee5b01a3f3fb5",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.0/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.0/database.sql",
+      "blob": "551c2e4709d6e01fbde1019936eb8adc81807672",
+      "bytes": 60,
+      "sha256": "c1ad3c9598f002fc5e7a323a0d2717f43f0c5b63e15f10796360a68e51b1294d",
+      "observedWindowsWorkingBytes": 61,
+      "observedWindowsWorkingSha256": "bc87b7ef9267307fa7ad5811b61456431fcaf411307adaafeba84a0c9237ab67",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.0/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.1/atomicmarket.sql",
+      "blob": "705d2cb1e6e912ce0c28b297491f1716fd095d45",
+      "bytes": 2992,
+      "sha256": "f4b3c25769e924da6c508ca677995327e5ff98394dc2ddc3e3c4123a560d8d43",
+      "observedWindowsWorkingBytes": 3053,
+      "observedWindowsWorkingSha256": "f10ca1832a11e5a30f146760567775977574952a8afe6ea48b331862e4817ed9",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.1/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.1/database.sql",
+      "blob": "70d7ab3d06ba6b37afc3ada8b44389ee66eeffe2",
+      "bytes": 60,
+      "sha256": "938eb101c828f7f823a320a7199101ddd000dbc4861adf65c3ddb21fbea79011",
+      "observedWindowsWorkingBytes": 61,
+      "observedWindowsWorkingSha256": "4d403536ab4f7ece35a099322ed5728c1d270e147ca4652dbe9a73c98d938fbb",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.1/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.11/database.sql",
+      "blob": "f20772d692fa77f87c3fbacb94a968fb3e48966a",
+      "bytes": 378,
+      "sha256": "16a6cc03d85b4c3898e1b46b0d0f70542b9e271ae972a43e6f962c0b7b830a84",
+      "observedWindowsWorkingBytes": 386,
+      "observedWindowsWorkingSha256": "96cb98d090cac0b8a83b3b1c82519c0b95062ac856d66e091ebf6e61bb536033",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.11/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.12/atomicassets.sql",
+      "blob": "151c6c313571ebba03d2205f43519d776f81b39f",
+      "bytes": 209,
+      "sha256": "a06c09afb87fa5e17495afda8b0e34ea3bb307a322a5e68f6215002ebd0d6c18",
+      "observedWindowsWorkingBytes": 214,
+      "observedWindowsWorkingSha256": "68a55d29e425e5cbaa44a4a9a45a7956dab39d831b347cd4dd87a4727c8fe629",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.12/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.12/atomicmarket.sql",
+      "blob": "4f77cf8666bf39602eb8b5686e34c66b58a0f112",
+      "bytes": 59,
+      "sha256": "e6834ea58b23a69fa8b0cc27dfa353cc72d8e8582ea398241ff01f4935b50858",
+      "observedWindowsWorkingBytes": 60,
+      "observedWindowsWorkingSha256": "3c09107a805a61bc20ab2b86f666567c70f63287057bede31230f17fcfa6f2c6",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.12/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.12/database.sql",
+      "blob": "2da9ff566e2c8c38bf39226e2b947e4ffccaf6f4",
+      "bytes": 61,
+      "sha256": "020518f94bb7dbf1f5d6dfab218e8a871158470071a613d0ee00923b5c6d7cba",
+      "observedWindowsWorkingBytes": 62,
+      "observedWindowsWorkingSha256": "50fe2736f418074dc8863929760989db634c033439fca110b05af133c43589e1",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.12/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.13/atomicmarket.sql",
+      "blob": "e8eee29e3947f95979b69755d98c9de49327cf5f",
+      "bytes": 19427,
+      "sha256": "ac749fef51b010a6ad13e05084d5d002a35e25a5ca8dace4c56d97a4e7f3f277",
+      "observedWindowsWorkingBytes": 19801,
+      "observedWindowsWorkingSha256": "23fd7758fad49b31cc5e2ad24900cca59a544416ee9d6f01ad21b4041ec5561c",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.13/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.13/database.sql",
+      "blob": "f8b2fbb82d976329f384b9e251c2238745fb86c5",
+      "bytes": 61,
+      "sha256": "7b430566151af140f6b9de556dfcb977dc2fbd383be38b8f14741fc9b0949d36",
+      "observedWindowsWorkingBytes": 62,
+      "observedWindowsWorkingSha256": "c14c3e49e7f886bb702dbd4e16afec5c09c8f68d62d4b37076ad0536a893aa97",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.13/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.14/atomicmarket.sql",
+      "blob": "11cc056cf965680aa63e74b95452ac2b61eb1102",
+      "bytes": 5438,
+      "sha256": "ca8c4f381f5c23ee8d18b38a123c456aacaf8ef3e59aa01cc9b46c02a37cf39b",
+      "observedWindowsWorkingBytes": 5569,
+      "observedWindowsWorkingSha256": "4a461e5bdcb81d2f1dce3b66f5928277249e7421ccd7ecaf2b1ae502e3e1a426",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.14/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.14/database.sql",
+      "blob": "ca069fb67b384ee35965dbbe13ea6b98d33ee569",
+      "bytes": 61,
+      "sha256": "29979f4045544dba06ba68da735839f2d0c2d45967668edbf3ce92f3842233e0",
+      "observedWindowsWorkingBytes": 62,
+      "observedWindowsWorkingSha256": "65d9b98c496460996676c2d660e0cb8d6ef7d329b87056424ab3c25aef36d97f",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.14/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.15/atomicassets.sql",
+      "blob": "74a3694b6b876500cf91771d62756ad73cdd3a8c",
+      "bytes": 3340,
+      "sha256": "e08678302db4f48c6327eea6815826738a081d73c71751445f628ed46b6c731e",
+      "observedWindowsWorkingBytes": 3418,
+      "observedWindowsWorkingSha256": "321bc36d196f4b7fc67cfe29d42aabe9b4a002dfa66942f8ce282e46ab3f9a72",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.15/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.15/atomicmarket.sql",
+      "blob": "d23bd4b1c0bfe65ed6ac8c28e626aa7b5630d99d",
+      "bytes": 8491,
+      "sha256": "f2ad153f152eb20e6243bc82d965a36ea0d370ad658b0dce433b822307fe74ac",
+      "observedWindowsWorkingBytes": 8653,
+      "observedWindowsWorkingSha256": "115c440950cfd01becc28b5050ed56c141c3f43b747c6d1f07a99b0e1b0e019e",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.15/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.15/database.sql",
+      "blob": "c9a709d0bb6a24564b0c2da9dd28b86265a95643",
+      "bytes": 61,
+      "sha256": "450ab2a1e056b9736a79cc5cf9fc3e21484b93d75801fcddad33f6f650dfb717",
+      "observedWindowsWorkingBytes": 62,
+      "observedWindowsWorkingSha256": "44f4dd21bf2793ea6b8953bbb8575653e7d924e395855992fa3fdc7a35daec1d",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.15/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.16/atomicassets.sql",
+      "blob": "57c8c1eac17533160322c42b824e30c444ac4d49",
+      "bytes": 588,
+      "sha256": "b8398f37d5a42eb67a2d59084a49903d1d64fd460e37d6573d4addb798327a6f",
+      "observedWindowsWorkingBytes": 595,
+      "observedWindowsWorkingSha256": "038ad5dbc38a48eea81155dbb40eae5fac287be79ac14a6505a822352c325610",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.16/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.16/atomicmarket.sql",
+      "blob": "c0ed4445618fc0568fe88cdd57624715a6a9c02c",
+      "bytes": 220,
+      "sha256": "ab29e91fd917a5fdb2a2a94894a17ad4266692497320c49bb6fa3bc074150fed",
+      "observedWindowsWorkingBytes": 222,
+      "observedWindowsWorkingSha256": "263cb5607e9e8c896d12d21f88139ab9cbd99d400f15c9a2a164b7d6eeffd5eb",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.16/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.16/database.sql",
+      "blob": "271a96a7450fd14089bf229c2fc20baecbca733b",
+      "bytes": 113,
+      "sha256": "1da25133ee9a04e5bd461dea18b0e1b7ded8ed7e54e5dc4c251cba389b5cd566",
+      "observedWindowsWorkingBytes": 116,
+      "observedWindowsWorkingSha256": "aabe1421df8ac522b53e74c1ebeb8e76429e40b30c84aecd4bc6a6e088a2139c",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.16/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.17/atomicassets.sql",
+      "blob": "6452323edd0e5aca5cb32e24ba5e4d87df2a1816",
+      "bytes": 2301,
+      "sha256": "abb317b5bad10d32525ffa76927b266df98a462b2f2092a63c17c369eae4e1a8",
+      "observedWindowsWorkingBytes": 2345,
+      "observedWindowsWorkingSha256": "ed15e707651c60a93153fa977d9acb3f6f7528d03f2f03650b7bc26c8cd5e59a",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.17/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.17/database.sql",
+      "blob": "ba525c48a9eb4de8f7b80d993f5602faae9cb5d0",
+      "bytes": 61,
+      "sha256": "577b44503202e9ac94f77b5ba1d0a5bc6696524c2d4d1b1c9caa210522bc9194",
+      "observedWindowsWorkingBytes": 62,
+      "observedWindowsWorkingSha256": "c8cf574ca1740e7da15a6f6ce94f030faf0299f6f36a17047fb9e4f3652cb806",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.17/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.18/database.sql",
+      "blob": "806732410ed35c0096ce5b99b6c80e452961f6e4",
+      "bytes": 645,
+      "sha256": "89a6def1b8711c8ccd990ca58a8dfb581fd9e9a530c67dae0a8ac009d1bc6454",
+      "observedWindowsWorkingBytes": 670,
+      "observedWindowsWorkingSha256": "36e1b2de3a4db795f4c04108e048232257b3c0f6095d19121843a99a8d5bbb38",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.18/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.19/atomicassets.sql",
+      "blob": "1b67b0513d72d65683784b723e6da80751ec6635",
+      "bytes": 367,
+      "sha256": "5811c86c24dcdf48179f3db900946f027170080079e31847206044ba983f6a99",
+      "observedWindowsWorkingBytes": 375,
+      "observedWindowsWorkingSha256": "234796c3c2b4a7b7bfecfb33baf0604f18650f2445316eebdc3bcfc3236e12a1",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.19/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.19/database.sql",
+      "blob": "7c9a5b839d6bdd589c9d4cc3e4b7a224154a01af",
+      "bytes": 63,
+      "sha256": "9f787899adeafc03484a7fde846a7e12b2c2fa1bec5c40c56ffcd8bf4457233b",
+      "observedWindowsWorkingBytes": 66,
+      "observedWindowsWorkingSha256": "1a5e4e8c7846634d7f4c38c64071946c3f8b7a6f50431c9cd5b6e50779d8ea70",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.19/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.20/database.sql",
+      "blob": "9fd6027b4241f55c2a7256073e6e89208c8c7996",
+      "bytes": 61,
+      "sha256": "22004463d53dc45ddb082f2745c2bc82d88679eeba654cff190b5d66e498393f",
+      "observedWindowsWorkingBytes": 62,
+      "observedWindowsWorkingSha256": "4cf986107103ba1b27726e1d0bafa3a47fe7155a11b6db15200638e04f595a0e",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.20/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.23/atomicmarket.sql",
+      "blob": "fe452bf46f3170b1e9d929cb42a72e53ab6e0646",
+      "bytes": 13781,
+      "sha256": "ec1ec6341630de44107a1814f17d8f2fdf849d64846c63be582898adab040fbd",
+      "observedWindowsWorkingBytes": 14035,
+      "observedWindowsWorkingSha256": "493786a156bd6165c31e7edd0c3284489f5dc3a1bcfdc54e877f5b03d1d2dcd2",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.23/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.23/database.sql",
+      "blob": "3768f1543519302a4d8262d3912e66c22fa85f98",
+      "bytes": 61,
+      "sha256": "1dbe3f8c011727dda6b1aed9e504c47c549299d47a785a0a9c718abe7cc57390",
+      "observedWindowsWorkingBytes": 62,
+      "observedWindowsWorkingSha256": "7a1c3dc0c218b9abcbd95f560d11f2abdd354117b22c26b0f96d34aea35b520b",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.23/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.24/atomicmarket.sql",
+      "blob": "c549f328161ed7c9e920bb42bf9de5b0bc65cf7a",
+      "bytes": 1417,
+      "sha256": "0429b83aa9e33dd29a67760ecc0b345220bd50942342b4ac01e195a71c963993",
+      "observedWindowsWorkingBytes": 1435,
+      "observedWindowsWorkingSha256": "0f1a5afb82a25f2b1fff0ac6468addae590a73881af4db867fac1277771bd7aa",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.24/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.24/database.sql",
+      "blob": "734355e07f27e4da4a79000ef9fc2f7bd0e00736",
+      "bytes": 61,
+      "sha256": "b8cc840363f33f4428459a2fbfe7d324fc6da16221bcf8dc0fce63d78a1af064",
+      "observedWindowsWorkingBytes": 62,
+      "observedWindowsWorkingSha256": "01aaa61cb3b86fedf27707a656af3d2c92e566da263211c1a8040ce319059efe",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.24/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.25/atomicmarket-deferred.sql",
+      "blob": "db8a8b3c6f72753ba04b7ca56b2dc825a76f36a5",
+      "bytes": 546,
+      "sha256": "c5631d4b4cb51bd64ea31648b740e010bab6da529b6eb1278ad350e9eaddbb87",
+      "observedWindowsWorkingBytes": 552,
+      "observedWindowsWorkingSha256": "ad59700ac76f11f3f83fe2c42c7ee1bc9f2f62578f320ca8ccd9b456ab2d3295",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.25/atomicmarket-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.25/atomicmarket.sql",
+      "blob": "a961d45c7ec4fc4be310bf4631c8b0287d2ccac7",
+      "bytes": 583,
+      "sha256": "4f73bbc461534b2bacfb91b1c678598205689554cbc5229baff252b7274e2460",
+      "observedWindowsWorkingBytes": 590,
+      "observedWindowsWorkingSha256": "5d9760d1fbd8951b962b25bce718f5fc1f5cfdc8f72f4f9e269cbdd9738a522b",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.25/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.25/database.sql",
+      "blob": "d71244fe9d6a1c64d6c447df2d98584f43a7503c",
+      "bytes": 61,
+      "sha256": "610f96635228a638072815038a943da6888c7dc2379cf4bceebe06f36b87a9a7",
+      "observedWindowsWorkingBytes": 62,
+      "observedWindowsWorkingSha256": "bb348a55584d6b1e9780c3d66f9ddb838a5db84b9fb6a0213249634419e91847",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.25/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.26/atomicmarket-deferred.sql",
+      "blob": "f536de95d4219dfda38c0b466b9214d8f8d6819b",
+      "bytes": 2479,
+      "sha256": "407ea017f06a55038c8238e21677d8b5da9a7190421e1c8fbfdbf4074d165064",
+      "observedWindowsWorkingBytes": 2529,
+      "observedWindowsWorkingSha256": "9c9aa78a3e79e96efbc4dec0b2d5a80aab275cb34d2eb8bacbbb71e3052030ea",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.26/atomicmarket-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.26/atomictools-deferred.sql",
+      "blob": "d6bc2b165986351eb51b3a8da2bf1056852914d0",
+      "bytes": 187,
+      "sha256": "e3a203979276bdeb4dd21dbecefef7cdc1ae1967ded1ab056391711ba11481bb",
+      "observedWindowsWorkingBytes": 190,
+      "observedWindowsWorkingSha256": "a47c8ab0c8b07db7904b5c61a49a8b09cb73f01d3a2f65a7118d96ebcf0e3b30",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.26/atomictools-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.26/database.sql",
+      "blob": "4f657d9ef039fb8716bba39ab048a3a946199110",
+      "bytes": 61,
+      "sha256": "d9ee5cf7dd3c1f14864168b81489ff70ceab4be160f42fc1b1a7e0a6f62eda52",
+      "observedWindowsWorkingBytes": 62,
+      "observedWindowsWorkingSha256": "f191cf2b35cfecc6e19c73da078b95569b27f72cef544a5f627e97fd259a5092",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.26/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.27/atomicassets-deferred.sql",
+      "blob": "2c7bc4e5259514f56aea5258ca26508953e8d4f8",
+      "bytes": 257,
+      "sha256": "780bf4e10f2fc5e6ca5573b951d13a58c1f66d4ba5b9210c8f690248e352de36",
+      "observedWindowsWorkingBytes": 261,
+      "observedWindowsWorkingSha256": "4ba7ca25917e87bfc1a932d1c013966ec1ad4e51accaf8ea64989f2f540ba185",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.27/atomicassets-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.27/atomicassets.sql",
+      "blob": "5f90ca194c38046b3cdf3c536705a16a38de022b",
+      "bytes": 336,
+      "sha256": "0e5754e7442b66ce796391a07c220d19e706d1db4c39bcc586afcdfe72990601",
+      "observedWindowsWorkingBytes": 341,
+      "observedWindowsWorkingSha256": "6e10f2ec426c82e9f936784efb2359a7f6ee3555f7730c2c5fa498f30bd4bb80",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.27/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.27/atomicmarket-deferred.sql",
+      "blob": "479685eda4bd68ea7c6f0993fade949d3456edf8",
+      "bytes": 185,
+      "sha256": "01db553554f1c6a3d3a10322acd4ad0af1814f01268c73d4cfade754500afb31",
+      "observedWindowsWorkingBytes": 187,
+      "observedWindowsWorkingSha256": "d14bc18d18ca00d339999ef5a0976e72cc33b8db23523ae25207294a080d7bc1",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.27/atomicmarket-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.27/database.sql",
+      "blob": "b9ff2bc27456c2ba862175632a1d6a0cb5cca50c",
+      "bytes": 61,
+      "sha256": "8d0348e9becf6551df542851610626a0ac804c62e4c2b41aab3891aaaf8ca464",
+      "observedWindowsWorkingBytes": 62,
+      "observedWindowsWorkingSha256": "ef310906538aa2a5ec4da771b654ae6db9cb75a7db75beb5ef7029b8a01ac869",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.27/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.28/atomicassets-deferred.sql",
+      "blob": "54ae09787740c9af969065ab8c7dc935ec49c75f",
+      "bytes": 520,
+      "sha256": "ffbfa26fd65c8a285266870f96c6345f3bc14b60b8f472b43120ffca73e58120",
+      "observedWindowsWorkingBytes": 527,
+      "observedWindowsWorkingSha256": "e72a7bc3cf8dc12a27bb9124fddf15a8fc2a329a158d92ce78fc33df2e02c635",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.28/atomicassets-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.28/database.sql",
+      "blob": "ef2c568a989122dd1272f14f8cef80dd64647746",
+      "bytes": 61,
+      "sha256": "295dec31bf7cf465b1d0239fe52fba57893a5589a547a8ba30452ec35b8318d7",
+      "observedWindowsWorkingBytes": 62,
+      "observedWindowsWorkingSha256": "2310c0e69ecb66db07c1f8fdcaf51a1adde3918fbc89b1de2e02492e23bcbec1",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.28/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.29/atomicmarket-deferred.sql",
+      "blob": "9ddffde297839b05dd4f16d8fbfb579fb2e647a8",
+      "bytes": 513,
+      "sha256": "b80d54a0a52e52bb50161cf2288635fd7985078c8e4624d17fecb3921d35cbb1",
+      "observedWindowsWorkingBytes": 521,
+      "observedWindowsWorkingSha256": "5994e1d41cb119862d301b9aabbd77a2c8114c96d366005e06567ba747183250",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.29/atomicmarket-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.29/database.sql",
+      "blob": "13b3bbfd06269efe2c49764a35d85c34684fb1ba",
+      "bytes": 61,
+      "sha256": "e6361520e0527c8d2d02e8c2deeb30ded04469eb70facb491234612e2126a917",
+      "observedWindowsWorkingBytes": 62,
+      "observedWindowsWorkingSha256": "94d58c06deba0b81ab6ca14cf1c69b8c65f7ba0a855ba779c394c27683724b38",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.29/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.3/atomicmarket.sql",
+      "blob": "9fecd77bc0f4bde0a440114cc448f2c6cfad87ba",
+      "bytes": 10114,
+      "sha256": "20b99afe871e7d1e0d5d9932ffdaf999b5d9d71d18e7a10e3f23e2f24a3406f8",
+      "observedWindowsWorkingBytes": 10316,
+      "observedWindowsWorkingSha256": "b6c9ec701afec603a875b46fb7200ba8408873d0d6aad5c9d8f8cacc29db8327",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.3/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.3/database.sql",
+      "blob": "4f3143903b535ab7a80294c4aee1cdbf0a88acd9",
+      "bytes": 60,
+      "sha256": "2089181ed987f2c19ab5ee4a46b76eddfee78fd9343cc18a372e01ffd6ed7690",
+      "observedWindowsWorkingBytes": 61,
+      "observedWindowsWorkingSha256": "a1ca40adddfb33f60b45d2c5845f73f9075c3c1ed59b160c0a49615aadaf8603",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.3/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.30/atomicassets-deferred.sql",
+      "blob": "d2ed5bd5e29274c81ad95acd5d82fb0b638eda0e",
+      "bytes": 915,
+      "sha256": "47035f62c3e9058680786a36757113c50d3e21441dd0a2e46c8c647a0e5cc7f7",
+      "observedWindowsWorkingBytes": 928,
+      "observedWindowsWorkingSha256": "0123e7e6232626f93e7f21a3cbe25b5b8e862b1ac7fb923f6801f0fffa3737d4",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.30/atomicassets-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.30/atomicmarket-deferred.sql",
+      "blob": "0f3985d8f94c9789b7cf0793da538e5fd675afff",
+      "bytes": 983,
+      "sha256": "244bd1c1b3bed8bf77c7026b974a4351be7159d1543755de4b73e7a4b499ab30",
+      "observedWindowsWorkingBytes": 997,
+      "observedWindowsWorkingSha256": "5e4966022f16446b2543626c669a1ff1b20f7e07e72debb58604903c92f3c57a",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.30/atomicmarket-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.30/database.sql",
+      "blob": "8eed0768a90f7cdf936b4f03bde0ea7ee49bed04",
+      "bytes": 61,
+      "sha256": "43ca4c6be0d41c310c69eb1e01ab904612b1e9b7d8fafc6d26fbab8657628928",
+      "observedWindowsWorkingBytes": 62,
+      "observedWindowsWorkingSha256": "2e972e1a42214f71626093aec6ad5328c1e95cb8dbe31c2e2e3b01e3430e1a9c",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.30/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.31/database.sql",
+      "blob": "07e9771a8ce3984b04762ba902910d528540f661",
+      "bytes": 2817,
+      "sha256": "4f8e730f0af151224733d78655fb86a64733cb4f43a81d261acf1ed93475f4c1",
+      "observedWindowsWorkingBytes": 2886,
+      "observedWindowsWorkingSha256": "baf452e542b6ad9366ac0ea683b4b19e205bfcf9584cf38b59200c8d293aae0c",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.31/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.32/database.sql",
+      "blob": "ec54700e67523006bed6cb0c287d895b7b2fb095",
+      "bytes": 2585,
+      "sha256": "1039b527552979b59986b5f6e861ce7686cf2bf7aa8af27aff5ef188cbb17b26",
+      "observedWindowsWorkingBytes": 2649,
+      "observedWindowsWorkingSha256": "05e37f7d6d33b7a39a4a3c3c1be296cd628dfbf05d5e23c7dad407963c5bcb42",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.32/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.33/database.sql",
+      "blob": "f548d009f6f5565093b2854a6f9380e4dc3bc6b4",
+      "bytes": 2173,
+      "sha256": "74901fa7fbb71e2b42867e886d116aa8ee5e814036eaa229c68481ac403c9440",
+      "observedWindowsWorkingBytes": 2217,
+      "observedWindowsWorkingSha256": "0b56d7e16d1491714bda922a5a6b5311bd3ee8ac7716d2258fec357904c86a1b",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.33/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.34/database.sql",
+      "blob": "548bc8ecc6d7013bc2ff2fb60ea5fc08ac723953",
+      "bytes": 3741,
+      "sha256": "a8f973299b602918efe23dd51b9e9ef3c8b3253e8907a13bccac9386426dd670",
+      "observedWindowsWorkingBytes": 3825,
+      "observedWindowsWorkingSha256": "71b0335c16c7f43b609a8ddbb54aa829728fd24ed83a2f9bd36c88e64b3a8312",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.34/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.35/database.sql",
+      "blob": "710c729530ee10a7c707710593b8abb444a8f9c7",
+      "bytes": 5355,
+      "sha256": "a5e87a14657e3fe7ce56f982555ba0088ff7767286d68973dd05eb26804de2f8",
+      "observedWindowsWorkingBytes": 5461,
+      "observedWindowsWorkingSha256": "2c8352c1da6b74084badfe34811ba2eb64ac04bff85f3ea8783c53dfc941fa01",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.35/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.4/database.sql",
+      "blob": "c96576fb400895ba2a8ba215f7fcd9d4a2e8e256",
+      "bytes": 60,
+      "sha256": "02674280d9a0bcfc77ea23b3d0adaec26109dfaaa4af7fc182564c0cf7595916",
+      "observedWindowsWorkingBytes": 61,
+      "observedWindowsWorkingSha256": "130f8071cb1be59e54fadac1fced3f97825a5f0d30a96c08d25bab783fa639bf",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.4/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.5/atomicmarket.sql",
+      "blob": "b76a8e2e088738f80079e908c6426f61d1c59668",
+      "bytes": 404,
+      "sha256": "62e295e7944b3b65668e725488c93cfd78e841beda7192a941ed50320fe97891",
+      "observedWindowsWorkingBytes": 419,
+      "observedWindowsWorkingSha256": "381e884eae4a9197881e3532cb8f3a7468ad92e7c08d6055af9b11b17d8c8d9d",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.5/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.5/database.sql",
+      "blob": "3a01e3c74b087fc6b5368de636e1b348ae3e3d16",
+      "bytes": 60,
+      "sha256": "628fe26d57fe1f90d09fca3d89d3fd46b0c378231c2eb821a3b2bde6f1704983",
+      "observedWindowsWorkingBytes": 61,
+      "observedWindowsWorkingSha256": "02cf56d82eb02243e907427ca47ec1274d7c8492fc3a20411b7dc9ebfde46791",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.5/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.7/atomicassets.sql",
+      "blob": "f9aec3c4e4fdfde2ecee5d1ad27ed55214459d5e",
+      "bytes": 304,
+      "sha256": "d80c98342eec8d135f6ec1f7dfed642e3650157e08c21f1b8730a1552083a0de",
+      "observedWindowsWorkingBytes": 306,
+      "observedWindowsWorkingSha256": "c8ddf0355755e4ca3629e4dd9c12dfdbb452f24b6919448dc8dde8375181a937",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.7/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.7/database.sql",
+      "blob": "4291703dd84cd21276a5c5dfc732b0212978977c",
+      "bytes": 60,
+      "sha256": "b4989b9cd23ee2315d7e5ce1035c6e7b3b8203406c43b51c148d7933c89b2d07",
+      "observedWindowsWorkingBytes": 61,
+      "observedWindowsWorkingSha256": "3f6c9b32a32528b4c8bac6fcfdb0955c660fd22b852b4aef90a0f4b47c313768",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.7/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.8/database.sql",
+      "blob": "d535aafba7c8f41d3625aacad2defe4854f2111c",
+      "bytes": 121,
+      "sha256": "1e3e264e1c99b14e867df0e9f3d8736a198fd0356ba632ecdbe12632e5787105",
+      "observedWindowsWorkingBytes": 124,
+      "observedWindowsWorkingSha256": "3c501f791333a7dcd8579df49b96399841dbfa210c25747d20533f26a003294b",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.8/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.9/atomicassets.sql",
+      "blob": "12f22ae0d3ddcf69be9bf947282ea7a28bed7998",
+      "bytes": 779,
+      "sha256": "ab53cfc58168b765c3904d52767a288d9e551006612892900e0163ab452d4515",
+      "observedWindowsWorkingBytes": 802,
+      "observedWindowsWorkingSha256": "c46b3b085d0d43b9d63b8a1c5d7f15d746218a436f69c8d0fc0b10c721fb3353",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.9/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.9/atomicmarket.sql",
+      "blob": "2f305c5acf57511323fac92d6df28a0432d745dd",
+      "bytes": 76,
+      "sha256": "a4bbc087b4c0cabd561032701806fe1d5d307e9251d558684323e5956815b91c",
+      "observedWindowsWorkingBytes": 77,
+      "observedWindowsWorkingSha256": "7899371af0b0b0fc80e21ebd9aa58711074898cb2575525cceb2e91156c9b42b",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.9/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.3.9/database.sql",
+      "blob": "76daae52fe7a07d10c4a7f0b246efc02fd9bbb2b",
+      "bytes": 822,
+      "sha256": "2c8563e62930ec23defda11e4528a28746aa079785cd7cf276bd632583a035f0",
+      "observedWindowsWorkingBytes": 842,
+      "observedWindowsWorkingSha256": "e42f6f933208db390c4f8075fdb54b5620039d787ec4bca91f4fa23934a90f6a",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.3.9/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.5.1/atomicpacksx.sql",
+      "blob": "a6d64e54df435b9120a450c0abb0b6d43534566d",
+      "bytes": 1932,
+      "sha256": "5fe77155d7dc94bbe671446c876dab9967b36590b8786952935eeb2351be6316",
+      "observedWindowsWorkingBytes": 1976,
+      "observedWindowsWorkingSha256": "f44890c8207e9aa7c6d596a35339e26d87d259e6e326c3de32a1ca035608484f",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.5.1/atomicpacksx.sql"
+    },
+    {
+      "path": "definitions/migrations/1.5.1/database.sql",
+      "blob": "b57ef72fc30f171a3f144930e87c395c5388b304",
+      "bytes": 652,
+      "sha256": "13f1de4048197454daeef5e44436e6f77099e33fdb49dac71faa0f09fda7d334",
+      "observedWindowsWorkingBytes": 663,
+      "observedWindowsWorkingSha256": "ed13ad62d43fcaed591daedf7dc827d764e527927d2f0842471dc519a7a43e7d",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.5.1/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.6.0/atomicpacksx.sql",
+      "blob": "0e96fefac31f0fa6e8b4e6409bc5f99da841d702",
+      "bytes": 1099,
+      "sha256": "b6b5c2e3e10abebe0f4f2417ea1bc64a9f37a8756f7e9e4df8eb5467200437fb",
+      "observedWindowsWorkingBytes": 1118,
+      "observedWindowsWorkingSha256": "b258c6832b86d8fadcd0b44821f48d31da03e43bc8796ec3023766e6b7a88036",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.6.0/atomicpacksx.sql"
+    },
+    {
+      "path": "definitions/migrations/1.6.0/database.sql",
+      "blob": "b86a2a50c7b24d23a2a2ed715bf4ac9117838b82",
+      "bytes": 520,
+      "sha256": "cc1a7bad057ed7fae42602f1cb9b09b29c74b5b01f0a027014b3d5c91d429ada",
+      "observedWindowsWorkingBytes": 529,
+      "observedWindowsWorkingSha256": "dd60dd4fc4daaca1efef2a2b401700a948d3f1a54990f0aedb3d6df23bb2af96",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.6.0/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.6.1/atomicassets-deferred.sql",
+      "blob": "cbabf72b889da4ae49120a06cf0800750e316276",
+      "bytes": 6813,
+      "sha256": "f61e0ca80cfbbaaf4e9a1e35ee8b8d18d8414a160aa4db8717bd2eab26281c87",
+      "observedWindowsWorkingBytes": 6941,
+      "observedWindowsWorkingSha256": "21e2b13cee92d7cf2bc6fb298e851169e6467dbc81960d749d64115dc4d23d65",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.6.1/atomicassets-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/1.6.1/atomicmarket-deferred.sql",
+      "blob": "209ed617557d03ba4fddd1a602706b56be0f1417",
+      "bytes": 3052,
+      "sha256": "d078fc4910b790895dd89733590ee24da5e7aecd28bb01526e56b3fa34fdefcc",
+      "observedWindowsWorkingBytes": 3107,
+      "observedWindowsWorkingSha256": "994af544bc51ee48f6aa4345c64cf8d4366e1e2e7270652cfe281e57df27d4a0",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.6.1/atomicmarket-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/1.6.1/database.sql",
+      "blob": "bc5f73fe1e3eea599f31bfc16211a596d603db0d",
+      "bytes": 890,
+      "sha256": "c38688b5f5724189123c21b03c97cdb19550ec97c67814edcafe8eacff332a3c",
+      "observedWindowsWorkingBytes": 904,
+      "observedWindowsWorkingSha256": "a61870d1691edb218d6487020e0f95edff0cdaab254588210c41a0533c3e5c79",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.6.1/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.6.2/database.sql",
+      "blob": "6e2eb93349a33a6c399e38f47fe36182c7249986",
+      "bytes": 828,
+      "sha256": "96aa482efd9b208613761f24269ddcf18a71a473b3752b21fca0f0ddd55f6d81",
+      "observedWindowsWorkingBytes": 842,
+      "observedWindowsWorkingSha256": "2149353409d8b11d4f45ed7be2e5c980011d0dd512cf2b64c5b76499ddbb78ad",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.6.2/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.6.3/atomicmarket-deferred.sql",
+      "blob": "6deb51875624ca602bad1d13aca4ebe80dcdb2e9",
+      "bytes": 1373,
+      "sha256": "b5517a74280a45b09c613d3e69766ee4245369d01922c64e850047557a294499",
+      "observedWindowsWorkingBytes": 1393,
+      "observedWindowsWorkingSha256": "17160d2802725c2d8bc139a6fb3c6770400f4ff5bab62a7527a444081c97a757",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.6.3/atomicmarket-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/1.6.3/atomicmarket.sql",
+      "blob": "4c410cada246d3223c3ed207b1e9ae955939d40e",
+      "bytes": 13378,
+      "sha256": "e8e2794bb1682a294368819e30b3d47e2b736fca0cc41ff78a6e90fa1d2317fa",
+      "observedWindowsWorkingBytes": 13629,
+      "observedWindowsWorkingSha256": "6cc2c813d41064f30a5c371f1f798e45a367ffcf917be083a7e9d4c1163d6871",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.6.3/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.6.3/database.sql",
+      "blob": "adab083fddd395d6657ca10f3d4b5081619e2b6f",
+      "bytes": 2425,
+      "sha256": "aa601974e2bfabca7afdd735041bfe30f56cc0c3a1551c1233e70efa2a081eff",
+      "observedWindowsWorkingBytes": 2468,
+      "observedWindowsWorkingSha256": "a604895002da8149ec144b541f50fdd87f2757de7bfcfa8a48a18928456bfcb3",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.6.3/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.6.4/atomicmarket.sql",
+      "blob": "4ddd06b41bc776b3c3ff77b1177b32a597b93602",
+      "bytes": 3040,
+      "sha256": "a2fb6378b5c0e1d7a5ab17eff5b55fdd9be11cc629569b0d882f144f8f0150ef",
+      "observedWindowsWorkingBytes": 3118,
+      "observedWindowsWorkingSha256": "8e6780d782a60a000bfa354ccc5e8c8b7e3a4c78c8da064b8b34a9e35a616d80",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.6.4/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.6.4/database.sql",
+      "blob": "b0d556ad2dd2ba8cb4e9f17fd2cd7ec6d2be9046",
+      "bytes": 3723,
+      "sha256": "1888e5c74f439e4b4a06578531e32ff07661ba75ffb4a880a0fa6d7aa20d4c73",
+      "observedWindowsWorkingBytes": 3798,
+      "observedWindowsWorkingSha256": "8eb7ba647285b02b65bbe93b8bda63bec19c5708327c2eea9e2b88cc5dba1096",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.6.4/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.6.5/atomicmarket.sql",
+      "blob": "9dcec36e979e7b8c36bb19cbb810acc53aedc72c",
+      "bytes": 7442,
+      "sha256": "fc6cecffb5f949297878b7ecaf400e8bee7b499f52f060f02454a5f97b4d76b7",
+      "observedWindowsWorkingBytes": 7600,
+      "observedWindowsWorkingSha256": "38d64b36cdbee2a2e62460350113ebab61a8748fb0031e36762965861e8482d9",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.6.5/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.6.5/database.sql",
+      "blob": "4c526eb98c775a2c6f4dbd079733162f3b349562",
+      "bytes": 578,
+      "sha256": "90eb6c6655faf38da881aa9276a4223df8aaf7ad379d216c68fbf6a8dde9771a",
+      "observedWindowsWorkingBytes": 591,
+      "observedWindowsWorkingSha256": "828137feb6c47ed26ba7a96aa7c0ee52b32f599dc0796478cafc12fb7287e80e",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.6.5/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.7.0/atomicassets.sql",
+      "blob": "cc3efde3f68d62addf1b172a2cbab029fc050872",
+      "bytes": 407,
+      "sha256": "d1ed9be23545fd28b631a90fa3c1f2e01a33be105845992fec3fddd7f1279296",
+      "observedWindowsWorkingBytes": 413,
+      "observedWindowsWorkingSha256": "9f44cbbcb318291c952b5ab01b37e2786b262fda8462bb55b3ab25ab53f76834",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.7.0/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.7.0/atomicmarket.sql",
+      "blob": "cf077fcb8b2b1d4fe067fd4d4ff16098d823e704",
+      "bytes": 521,
+      "sha256": "dec47c36cfb5bede78e5932f3ac199c36759c12094c8c43beb7ea50f5af454ca",
+      "observedWindowsWorkingBytes": 529,
+      "observedWindowsWorkingSha256": "4278af5b2e8e8d787dbb5f006b6ce0aa04e783c9cda7c54a2ebc7c5eb2a59a10",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.7.0/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.7.0/atomictools.sql",
+      "blob": "da7cccc4d0fa0f819a7f034bb1ad83f36deb089c",
+      "bytes": 228,
+      "sha256": "d15ff66b241824dfa8be608b33ae49dc5d0a065ea22d0ed85bb9dcf42852a574",
+      "observedWindowsWorkingBytes": 232,
+      "observedWindowsWorkingSha256": "3588bc9eb1d41ca6b2bc09117c88a39599ea00eccbfb8a8696968699bface461",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.7.0/atomictools.sql"
+    },
+    {
+      "path": "definitions/migrations/1.7.0/database.sql",
+      "blob": "5d63cd3f2696b1ad4a58f345a95502722bd66d25",
+      "bytes": 1798,
+      "sha256": "e6490afe27e658b5aed7886a3530dde7185f6928c53488cd3a0a70cfb976570d",
+      "observedWindowsWorkingBytes": 1829,
+      "observedWindowsWorkingSha256": "b153258bb8a97d76cdc3004b5a8b00c88cfd444e7de83fdae440b19ff36a4b1b",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.7.0/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.7.11/atomicmarket.sql",
+      "blob": "b34ece2b59c400781e20699cc8a3a5a877c81ced",
+      "bytes": 17673,
+      "sha256": "bffa5fc769e49f6d72de39a9918574323124cc5b2f043c17e29dcc30c21a5e25",
+      "observedWindowsWorkingBytes": 18016,
+      "observedWindowsWorkingSha256": "9c4b3e060d73b96878591e1d84791c5d30c988cd22430fb2d56c9a44014f6931",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.7.11/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.7.11/database.sql",
+      "blob": "76f285d23cd68ae58c9878a88493b49b2dc94a2e",
+      "bytes": 5287,
+      "sha256": "b0c146abc6b50277ccec784d9a4ae58777fedcc470cb9293e3895392917028f9",
+      "observedWindowsWorkingBytes": 5380,
+      "observedWindowsWorkingSha256": "1f574ea7904c1ae1b7ce91cb8e794f2ad7f466d6697e4f593d73e54b777406e5",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.7.11/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.7.12/atomicassets.sql",
+      "blob": "95df01743f4214d8425500741ad75d6e3fb1e67b",
+      "bytes": 3248,
+      "sha256": "a99b5ebded744c1ded8fffe071317947e73ec05aff6cb6f1c605f3d466fc2604",
+      "observedWindowsWorkingBytes": 3307,
+      "observedWindowsWorkingSha256": "84202f8bc2cfa98f74b80c7cc1df147b42e30c90b9469843a59167fd25706126",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.7.12/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/1.7.12/database.sql",
+      "blob": "6f6ce12c3eaa3cc69bbd782716939f12e1040de3",
+      "bytes": 411,
+      "sha256": "373689e4fb83554dcd3ddcfea6354f3bae91cdce6dfcbbcb5df621784f3d7147",
+      "observedWindowsWorkingBytes": 419,
+      "observedWindowsWorkingSha256": "f640ed74608fe4e2469aabc4e342d94345e12831c57431d1c9a7fbf11879f4fa",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.7.12/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.7.13/atomicmarket.sql",
+      "blob": "0d80d8d1bbd45f9c3d9360d98d077a43242de58b",
+      "bytes": 18959,
+      "sha256": "5216c672051fbab9a5a6e3335591464d1cf7d4d09ba81a2688369ac716e60bb7",
+      "observedWindowsWorkingBytes": 19321,
+      "observedWindowsWorkingSha256": "b6ee890c9fa1eabab5b06e917ad45f55f59084cba5ab24696127fdc24f28df27",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.7.13/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.7.13/database.sql",
+      "blob": "63c89b4b20259551d9bd6381017fbcda7a5a64f7",
+      "bytes": 2150,
+      "sha256": "5c0f035cd60d5e9f24f00515f687647b51ea29c95c9557bafc9e66a46d457e80",
+      "observedWindowsWorkingBytes": 2187,
+      "observedWindowsWorkingSha256": "294e52656f1bc9d942c578b42c27fd3d4c344591607cbee91dfff9e302a4a3cf",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.7.13/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.7.17/atomicmarket-deferred.sql",
+      "blob": "c8a513df56e1d91be58201efdbe6df4fbd01b91d",
+      "bytes": 4244,
+      "sha256": "14f683fa9fcb20be1aa1eb462ee94d90bf6519bf290e7e039b96867b0db5e5e9",
+      "observedWindowsWorkingBytes": 4310,
+      "observedWindowsWorkingSha256": "cf29c32465db11af856ced29ab4582e77a89fd8093affd4f3cef01ec541011bc",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.7.17/atomicmarket-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/1.7.17/database.sql",
+      "blob": "7b83d3fb0511f6fe4eddc3e36ae6a9c8cae35254",
+      "bytes": 1786,
+      "sha256": "e87afa259593f05e3e24682c3ce9fd8684480250a93038f8987d879c3277b214",
+      "observedWindowsWorkingBytes": 1821,
+      "observedWindowsWorkingSha256": "68836108bfda8f1031a1094208132f0ddaa143faee39e7ecdd1cde5bb65be033",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.7.17/database.sql"
+    },
+    {
+      "path": "definitions/migrations/1.7.5/atomicmarket.sql",
+      "blob": "16ea8a849cbbb4d4b6b329216f77be6470d5b7bf",
+      "bytes": 3057,
+      "sha256": "aedd4b2734ca31c67286b7e8e52872dd34578d4bc6d164b24376808c72841341",
+      "observedWindowsWorkingBytes": 3120,
+      "observedWindowsWorkingSha256": "d357fb35f8699b05228cab86f03b025deb90ae89f9d12f291392588b072e3f0a",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.7.5/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/1.7.5/database.sql",
+      "blob": "435a22f86ae7028fa156ecbc6e7ee78936b8309b",
+      "bytes": 1070,
+      "sha256": "02a4c6f6d6b2b6104bd8c1cf2ef9dec9d2f5728dc0f6c9c11d7179cc804e56e0",
+      "observedWindowsWorkingBytes": 1089,
+      "observedWindowsWorkingSha256": "ef8b3b1daceb48e5473af8cfa3f84b3b657ddc6c5623fc849048cdf346ba320b",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/1.7.5/database.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.0/atomicassets.sql",
+      "blob": "d5e48ae382064102ce6f6cf88d63913a97f983fa",
+      "bytes": 1558,
+      "sha256": "dc21efbfbd44ae6a5f9358e014f096c651538457abb0480c088bb9dc83163a29",
+      "observedWindowsWorkingBytes": 1582,
+      "observedWindowsWorkingSha256": "5697bbcb68024d60364931a51f2f2ece507db610e0eb97b0f23305574d35931c",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.0/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.0/database.sql",
+      "blob": "459e54979129beb00844a9d1a49996a2a4788296",
+      "bytes": 60,
+      "sha256": "e4a8064347a51d5283c6e7a6be6b25619e9fd9eea6e77b2786daf1512d0bca08",
+      "observedWindowsWorkingBytes": 61,
+      "observedWindowsWorkingSha256": "11164e7707eb031d63e24441a15e6825bfa1c577a412265f00e0b21b59fec6e0",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.0/database.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.1/atomicmarket.sql",
+      "blob": "a38e07c1d2007f5f1f0dcba3e8d4d9f2ec1d6460",
+      "bytes": 18486,
+      "sha256": "96952e74f5894fa09f784ea2cf91cb50e06bca0a104918db2f44de03a1178147",
+      "observedWindowsWorkingBytes": 18817,
+      "observedWindowsWorkingSha256": "78b5e563b594e624dd9fcd0f592cf1d0875ea28d0ab6478954961097ee0afb44",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.1/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.1/database.sql",
+      "blob": "bc381d98c0ba96a638c2946f74a8a0a9cc408351",
+      "bytes": 648,
+      "sha256": "559a34fb0e6bb04c27379f3c5c965d8a44715f52a79b33144cd509cb4720bab3",
+      "observedWindowsWorkingBytes": 661,
+      "observedWindowsWorkingSha256": "4fb11ee109f07ed7e6c3e878779bb446fb17e3b6b317aef7e2168874dcdf6dfd",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.1/database.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.10/atomicmarket.sql",
+      "blob": "f16886bc5f6beef888d43417a0cd455c2f076fb3",
+      "bytes": 30537,
+      "sha256": "27008bf0393996e45330bf78fdfb56263be174976570528bd53fc09932f2010b",
+      "observedWindowsWorkingBytes": 31127,
+      "observedWindowsWorkingSha256": "4e18cd5f0ca1617be9306a67bbdcb8eabbe1d37b1c2eaeaa802f0a12e01f01d5",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.10/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.10/database.sql",
+      "blob": "5e8812028a1c567e4933b7f197289966aa7c540e",
+      "bytes": 593,
+      "sha256": "70ee0829af5fc69a4dce3279cdc6681614ae441496397a28131e778fc53845c0",
+      "observedWindowsWorkingBytes": 606,
+      "observedWindowsWorkingSha256": "8c4fc7273b26804502e163f9a9455bb8a0c88bdf5f8583c0737fa1d1b018c559",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.10/database.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.11/database.sql",
+      "blob": "60ab483fcddd5cd304e501947d87be01b1ced80a",
+      "bytes": 628,
+      "sha256": "6ec32c0262133d426d7382d83f7cb1bd6bfece46392245fcfd2b5adb04a8d5ae",
+      "observedWindowsWorkingBytes": 642,
+      "observedWindowsWorkingSha256": "25d8117440f3331afc19f66e6f2a44ab754e3538d3d05385b4449a8b578aec19",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.11/database.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.11/simpleassets-deferred.sql",
+      "blob": "693d5dd5f36e73d200ba399100bdb69adcbe093c",
+      "bytes": 989,
+      "sha256": "bb1a1da8cfda29695880a4056302eb188390475a008cab45a9c9482839aceeeb",
+      "observedWindowsWorkingBytes": 1005,
+      "observedWindowsWorkingSha256": "cb0591eb268bc850cca77da0acc7b3d7299a94ce5345df18cdb14526eeb238dd",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.11/simpleassets-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.11/simpleassets.sql",
+      "blob": "31cd2eec7b3c54ca04656012f6afe4d80329f2be",
+      "bytes": 1512,
+      "sha256": "748218dcd5e80346a48446296da071e52ccc465ad8c61266e2edf60b12f844ae",
+      "observedWindowsWorkingBytes": 1547,
+      "observedWindowsWorkingSha256": "481b63daa21ceffd7c43bf8f612c6b3d45068ed50a73b490247952156558773d",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.11/simpleassets.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.12/atomicassets.sql",
+      "blob": "b8f49ddafcc8feae1b29d576855fd2ce2cc9367f",
+      "bytes": 1228,
+      "sha256": "cff7f2c162f8e2d52f6bb7cc031763ce89f1a112c80472131f8a5c79282d0c44",
+      "observedWindowsWorkingBytes": 1255,
+      "observedWindowsWorkingSha256": "5b40f4b5957972eb3dcdad26d55c145c9592c7af91e3c01de10ea638210ddb47",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.12/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.12/database.sql",
+      "blob": "22b0ab09c0cae5bfe2adb26b3925ecf081b7dbbd",
+      "bytes": 593,
+      "sha256": "40b71c99d4939cb7477536d522406f3e3839102ddc8ad5347f5c073865511209",
+      "observedWindowsWorkingBytes": 607,
+      "observedWindowsWorkingSha256": "4fac468c22f295f3853799190ed21c888665e5c56b2ae2f4f04b4bd5cb90ecf8",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.12/database.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.13/atomicassets.sql",
+      "blob": "d8ccef504dd980b05ce86b333c2b121cee1e80ff",
+      "bytes": 1047,
+      "sha256": "bc5fabc80e28ce27bd8cf29e11662f667f9edca34bceb2cd4bf7d3976ab88031",
+      "observedWindowsWorkingBytes": 1070,
+      "observedWindowsWorkingSha256": "1a69b8b5f1026c9733f43e5ab25bb108c53e160732b81598dd47dfe05b929867",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.13/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.13/database.sql",
+      "blob": "7830839737a7479726571ae1fdc52c7e01a86c4a",
+      "bytes": 491,
+      "sha256": "c7bda9d4fd7f9e159eec2dc293c677c383906a2d3e2931e8f29ff929d4cc94c6",
+      "observedWindowsWorkingBytes": 502,
+      "observedWindowsWorkingSha256": "4c722cc5bf8c3cce75b500c242efb35964d341dd7f3a7e37a2e9329c73c96c4b",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.13/database.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.2/atomicmarket.sql",
+      "blob": "706efcdef97cac2dba5d58888cf0df84e323a85a",
+      "bytes": 5074,
+      "sha256": "2394bdab1fed626dd4a61ccc5948162dd499ffe76eb6a0d43436be87b00aa980",
+      "observedWindowsWorkingBytes": 5183,
+      "observedWindowsWorkingSha256": "588b8eef619a44942e8362410c8449d14992d45c592ebf3404418324169b22aa",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.2/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.2/database.sql",
+      "blob": "240e4225acf941e64352db6df122482379a63f77",
+      "bytes": 596,
+      "sha256": "24af2a78ef004d2241b3313bf69af5e043d39788a1294044fe26dc556007cd94",
+      "observedWindowsWorkingBytes": 607,
+      "observedWindowsWorkingSha256": "fe35a8541a48e14ab2f55512289a4da434e186397d7f58458fc92925475333c1",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.2/database.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.3/atomicassets.sql",
+      "blob": "82b609023511d3dd58f0cf5fa29b3947bace4a7f",
+      "bytes": 532,
+      "sha256": "9530845139c9f0bece319e7f376c194b24853adaa160cba707002b68e06c8a44",
+      "observedWindowsWorkingBytes": 539,
+      "observedWindowsWorkingSha256": "bcaa5b7fe394821c61e0932eb13d5115c2b0ff37cc871aa50b3551e48457cedc",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.3/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.3/database.sql",
+      "blob": "7685eccd0bcc1bed573b0f44662551f9841ec235",
+      "bytes": 60,
+      "sha256": "897d04fa09dc1ac0ed3f53540ddbc653f774ab0157f01bffe36253fc1791aae0",
+      "observedWindowsWorkingBytes": 61,
+      "observedWindowsWorkingSha256": "b4119ce8168949db894f95a2609b905490f43e21371cf1dc8b0ea9823404c8cb",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.3/database.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.4/atomicmarket-deferred.sql",
+      "blob": "a13965722818babfb239e52080f106082de5e02a",
+      "bytes": 3571,
+      "sha256": "3ed13983cc4bc6251da3ffd3dded23d5a4c02ebe8503354fdcf71495a753f512",
+      "observedWindowsWorkingBytes": 3625,
+      "observedWindowsWorkingSha256": "9afdbf8fa06722335eacc5132de0298e5a5bb6ee4d0a5f13d8f1e8ca8a93c1a5",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.4/atomicmarket-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.4/database.sql",
+      "blob": "f0df3c8ca5be5ad90a26470ac5509fc554d9fa4e",
+      "bytes": 60,
+      "sha256": "6789b2385806a60a2c89fd51744686f41992f47385f7496a5eb1534967e9b07e",
+      "observedWindowsWorkingBytes": 61,
+      "observedWindowsWorkingSha256": "53570d34675fcf3686b617901994ea0ec08005cd29530bc3e50725d1c33c9057",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.4/database.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.5/atomicmarket.sql",
+      "blob": "bd03d3848fb70ef6bf9038e6cd4a3f8f10589855",
+      "bytes": 2294,
+      "sha256": "262c1476107fc6e33355b63c6773e2a01059f073287803d3a585c0d605619324",
+      "observedWindowsWorkingBytes": 2335,
+      "observedWindowsWorkingSha256": "1d1b26d15a53040940b39843d794746a5f3e3bbe04ef6d93a038077d7c3fb017",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.5/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.5/database.sql",
+      "blob": "31420920df2583b37e1445a12e476d9b30aaecd5",
+      "bytes": 60,
+      "sha256": "b9da8188baf2dc4b4ea3f05dd2a99e65ca187e01c3472c2b4f70227905ddc425",
+      "observedWindowsWorkingBytes": 61,
+      "observedWindowsWorkingSha256": "3ddd30aa230c909973319b210703081a7f8d0ee3f91640a5db91e877e6a13972",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.5/database.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.6/atomicmarket.sql",
+      "blob": "72839d98ea6c980e322056c57f06b0879231063e",
+      "bytes": 32120,
+      "sha256": "708923471c9ba3c6a400cd8038f11de18888c928796955cd6fafbcbf067bba31",
+      "observedWindowsWorkingBytes": 32714,
+      "observedWindowsWorkingSha256": "314e6cc5eae73790a7e01c9024d8a6b0299835f4efd8584d9d76c648097ab19f",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.6/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.6/database.sql",
+      "blob": "e68490e4b08ee99fcab42d1e86f99d4f4471e358",
+      "bytes": 3378,
+      "sha256": "21eb6939726bb898beb8c8c15d28725f5fed34dd30740e8b01e67ba95af0a129",
+      "observedWindowsWorkingBytes": 3435,
+      "observedWindowsWorkingSha256": "87807b31b7bd006279e2edd14e554f1bf141ee1b8b5c385867c91479dd73a0df",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.6/database.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.7/atomicmarket.sql",
+      "blob": "f6d24b912f601c15e86d72d94b3003da1be7c12e",
+      "bytes": 2500,
+      "sha256": "e8a66eaa7ae0a4f04b452a34c459f9ca6f9c22ce0120d0b123e3e495a0852cfc",
+      "observedWindowsWorkingBytes": 2549,
+      "observedWindowsWorkingSha256": "8103b5b2e512b24c86c2e6636c76c2f89aec6b0382588a190aaaf803b09f1391",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.7/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.7/database.sql",
+      "blob": "58cf4649973d1bd91d468b9eb1f4dbb50bac66aa",
+      "bytes": 2425,
+      "sha256": "ef551916ec991799fb768158ae954f8ca51ed79ecb06835f986d86ee0b8ede03",
+      "observedWindowsWorkingBytes": 2469,
+      "observedWindowsWorkingSha256": "9404cb77247b2d3ce017eb2dd3104cb90ba715f60858b01f4b031683d022a5f6",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.7/database.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.8/atomicassets-deferred.sql",
+      "blob": "56dec618cae7c960bae43a90c53701c252c201ed",
+      "bytes": 1572,
+      "sha256": "02a64f8d72b3f169da27858f29d510a1badb964db819fd60f6293aa7689aa305",
+      "observedWindowsWorkingBytes": 1596,
+      "observedWindowsWorkingSha256": "bed1c59ad5d72e05a1ec0462f4b044646f15533d5ff942f2bc6708642d3b63ac",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.8/atomicassets-deferred.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.8/atomicassets.sql",
+      "blob": "42f69d681c4c089f2b13f37d3a3a5c6e8e38d703",
+      "bytes": 5812,
+      "sha256": "3485ada047c44af5482e7af716f4a2562fedc763516cfb07a3b154a71383e9bb",
+      "observedWindowsWorkingBytes": 5921,
+      "observedWindowsWorkingSha256": "b9d54f0bc869eaf71ce98e1325b81c89a7763ed8779bfee63e9ee15f961a1ad6",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.8/atomicassets.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.8/database.sql",
+      "blob": "331f06f88d8c3c964d4773a73b5b92587c4150b2",
+      "bytes": 60,
+      "sha256": "5ccbaad1316818a035d3d5b671a3bd715aa1a1a693ca4a2bb1ccb783d2f2e32d",
+      "observedWindowsWorkingBytes": 61,
+      "observedWindowsWorkingSha256": "0b8182c49568b6250cfc7be6d95ff3951ff016733ce82b2286ffb87e61b8cd56",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.8/database.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.9/atomicmarket.sql",
+      "blob": "f2970df8339d3dece1073a82c175c5d32a8c2aa9",
+      "bytes": 3568,
+      "sha256": "aac1f42e28d1256f57c9156a95aeef789051d2fc621c5ee0b7e89aca208f9077",
+      "observedWindowsWorkingBytes": 3631,
+      "observedWindowsWorkingSha256": "b1e0fa2b7e58cee358b9fe98b74edad80d5e94d10cecf47c8d473b7f210d107d",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.9/atomicmarket.sql"
+    },
+    {
+      "path": "definitions/migrations/2.0.9/database.sql",
+      "blob": "c2af1c31bdddabed96dd290babaf678f8a9d9586",
+      "bytes": 382,
+      "sha256": "fbc22bd6a649d0d8634d6b9c1223cfee1b11efd68b648ac87dfc26402114fcbb",
+      "observedWindowsWorkingBytes": 391,
+      "observedWindowsWorkingSha256": "58e9e2052e5f2cd2175c646c976535cd22cf6a8e762ac0c50664ab7cdd73ed3b",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/migrations/2.0.9/database.sql"
+    },
+    {
+      "path": "definitions/procedures/atomicassets_mints.sql",
+      "blob": "b4494a20c745c29ef97b1745b8b237c5280c3581",
+      "bytes": 1692,
+      "sha256": "d4951ebbf1e6c35261c6a95b4831f84fd8ab917df4f0b2dd39375a2483fb847c",
+      "observedWindowsWorkingBytes": 1733,
+      "observedWindowsWorkingSha256": "f367f2f47213d50c8f084e2f33f0d25b57504ef94e03c8a15c21f491770fdb42",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/procedures/atomicassets_mints.sql"
+    },
+    {
+      "path": "definitions/procedures/atomicmarket_auction_mints.sql",
+      "blob": "a28376bdc86b4660bc26d42b8f1deccf7dbf4fac",
+      "bytes": 2235,
+      "sha256": "00bcc3ddbe68073b9f8e2de0d8bd269ae1a662ba44f0a8c4ffeefc673201f11e",
+      "observedWindowsWorkingBytes": 2282,
+      "observedWindowsWorkingSha256": "143048c7b8825d46f6f1a916a733342526e46bcff765be43c8dfea4db2dbae7d",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/procedures/atomicmarket_auction_mints.sql"
+    },
+    {
+      "path": "definitions/procedures/atomicmarket_buyoffer_mints.sql",
+      "blob": "47b6f3e70dd1ca00a05368e6f4b349bc60ddea2c",
+      "bytes": 2262,
+      "sha256": "1e188f550601fbf9fa5d66cd536e764f27fb48451860ff5b467aa8974c2df392",
+      "observedWindowsWorkingBytes": 2309,
+      "observedWindowsWorkingSha256": "512030b1c2ee3133f0305ae90270d749e1485b3590ea80d5e842c1de3ae18712",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/procedures/atomicmarket_buyoffer_mints.sql"
+    },
+    {
+      "path": "definitions/procedures/atomicmarket_sale_mints.sql",
+      "blob": "a1ffbca266ae063d8ff3faebc3e2c128e65ed921",
+      "bytes": 2183,
+      "sha256": "0dcb7ec72cab8e72754725580953c80958fb7b325ee47a3ba06092247722979f",
+      "observedWindowsWorkingBytes": 2230,
+      "observedWindowsWorkingSha256": "936ef0389568664684f5a233a7d21b19c6c7ec5c2368461a8e3e2d4a8551e33a",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/procedures/atomicmarket_sale_mints.sql"
+    },
+    {
+      "path": "definitions/procedures/atomicmarket_template_buyoffer_mints.sql",
+      "blob": "d7c99bdb963a481b5c907b652235ff0cc6204a8c",
+      "bytes": 2665,
+      "sha256": "b7e1fe045f860f0c07db046b4def4a48415721f5b18b705f5d8d65356b8c8c5f",
+      "observedWindowsWorkingBytes": 2717,
+      "observedWindowsWorkingSha256": "f489f60f31a6e5dc297fee4b61791deb6db410983eec463dc594a956c55431fe",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/procedures/atomicmarket_template_buyoffer_mints.sql"
+    },
+    {
+      "path": "definitions/tables/atomicassets_tables.sql",
+      "blob": "9a617ba385bbe701b4fe84dedf6b8cf7b1ad3f72",
+      "bytes": 17666,
+      "sha256": "d6efc1a8c02244d31e3cf1636d651dcb6c5035cde1f1a04cc7443896235de566",
+      "observedWindowsWorkingBytes": 17995,
+      "observedWindowsWorkingSha256": "9a5a056b497848c8a9464443ca89855fb8adbb82d97b2fdf3569211c4eab0ca9",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/tables/atomicassets_tables.sql"
+    },
+    {
+      "path": "definitions/tables/atomicdropsx_tables.sql",
+      "blob": "64a9f9bb80a5f780ad86634501881f77e53c9c6d",
+      "bytes": 3597,
+      "sha256": "33c301d43eaa72c693e2c9f84316e7a7492efe9ea41f2abb5a3e1369de451ab9",
+      "observedWindowsWorkingBytes": 3674,
+      "observedWindowsWorkingSha256": "8695b7942168cd6bc7f1e4527161d54d9091d33d2ada790ba902d9c244a5c781",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/tables/atomicdropsx_tables.sql"
+    },
+    {
+      "path": "definitions/tables/atomicmarket_tables.sql",
+      "blob": "d6c05dde13fce36a6250f22e5d9de14968ac4502",
+      "bytes": 28196,
+      "sha256": "bdcb96e1cf60bfac26d3b6cafd3645133cdbda21d16e269d95506074ab20d71d",
+      "observedWindowsWorkingBytes": 28760,
+      "observedWindowsWorkingSha256": "6a5833228ebdbee427cd4914b437aa567d7939ebe39eece417c5e80d9c03bdb7",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/tables/atomicmarket_tables.sql"
+    },
+    {
+      "path": "definitions/tables/atomicpacksx_tables.sql",
+      "blob": "a3e97e46580c2c773b282653cdcb3ab796a23ded",
+      "bytes": 6882,
+      "sha256": "8674ad7187d975dd40b84ee25929ddfdeb7d9f90b18a483f0658a8c3e814370d",
+      "observedWindowsWorkingBytes": 7014,
+      "observedWindowsWorkingSha256": "1a0ca7eb663bff231a29ef2383b5bbb01bbc31ceccf43ac8a2ad178f174cfdbd",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/tables/atomicpacksx_tables.sql"
+    },
+    {
+      "path": "definitions/tables/atomictools_tables.sql",
+      "blob": "341536c72a6b3773111909117fd03ac8aad15220",
+      "bytes": 2419,
+      "sha256": "40762c04ea3a538b2202f7ae685c114a4a50cb7fcbdaae98dfb02d467769a397",
+      "observedWindowsWorkingBytes": 2470,
+      "observedWindowsWorkingSha256": "9eb6a6a3532acac79e99a693a23ef2a43669e829f9a1c00f760dbab003560294",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/tables/atomictools_tables.sql"
+    },
+    {
+      "path": "definitions/tables/base_tables.sql",
+      "blob": "f1a5a5877d56de938f33146b2080eb94a4d4f4b2",
+      "bytes": 3001,
+      "sha256": "3a100cce3964c13fe372556f4d5533ca7a871d3cbd53a894901320bd161c49fd",
+      "observedWindowsWorkingBytes": 3078,
+      "observedWindowsWorkingSha256": "467a38b206a590e9c5c1d220adcc1a1a95b67976caf0e4cc6b057877d353922c",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/tables/base_tables.sql"
+    },
+    {
+      "path": "definitions/tables/delphioracle_tables.sql",
+      "blob": "98ab84b04e50483464527bf8a0b5a46f738044f1",
+      "bytes": 525,
+      "sha256": "798b0e357710b011f9d52ba7b288c4589391c20f598c1f4b05deac3d41f52d26",
+      "observedWindowsWorkingBytes": 538,
+      "observedWindowsWorkingSha256": "8d55d54573865649fa71c27d98b531db8d6618a67de9c6a46bb0fd69fc9e144d",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/tables/delphioracle_tables.sql"
+    },
+    {
+      "path": "definitions/tables/simpleassets_tables.sql",
+      "blob": "7b78ab0e8c02587dfc92650fad59fd4ac979ede1",
+      "bytes": 4167,
+      "sha256": "b4e01981fb7ed43708c36bd57ada53f7c343eacea6f46236acf2a6611b50c511",
+      "observedWindowsWorkingBytes": 4257,
+      "observedWindowsWorkingSha256": "e3ec93ce8780023db723cf13c22e557c39d81934b9235db8f9b9cfab2635bbac",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/tables/simpleassets_tables.sql"
+    },
+    {
+      "path": "definitions/views/atomicassets_asset_mints_master.sql",
+      "blob": "3d8efaaa58264a739fa60b0cd07cfe6e1ea5244e",
+      "bytes": 274,
+      "sha256": "417b7b0ef39c55b5eb3b1e65bf97493fc71d38052268849a9c0ea431effe74e4",
+      "observedWindowsWorkingBytes": 278,
+      "observedWindowsWorkingSha256": "f0f5a8ea528c58caf0dcc9f52ba29d234c8ef4eea8ea792ff5c43ab7f24415b6",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicassets_asset_mints_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicassets_assets_master.pre-original-mint.sql",
+      "blob": "010625154ed8b922a05f53f756d4bfaefa0cd6ab",
+      "bytes": 4439,
+      "sha256": "df355d98f5f354a0c6082b3d1bfe37a129ae0d5c0e2a3761b185bfac092a3bbf",
+      "observedWindowsWorkingBytes": 4524,
+      "observedWindowsWorkingSha256": "d7ca4b7c1f26886fc9ba642537733fa23e5162fb7e6a79f210ff11a18881bc18",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicassets_assets_master.pre-original-mint.sql"
+    },
+    {
+      "path": "definitions/views/atomicassets_assets_master.sql",
+      "blob": "181d5136a151b00fa59e015ae8cb11366af9562e",
+      "bytes": 4085,
+      "sha256": "a15cd23ec3ca69e09b303808b34efc49843436cdc75f299f9fdaaeabd1e64367",
+      "observedWindowsWorkingBytes": 4167,
+      "observedWindowsWorkingSha256": "b505eaafa18343af9561b4979971981466930c2c8c02975609f9cd89a5b03131",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicassets_assets_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicassets_collections_master.sql",
+      "blob": "d04286fba2a1b0e69dc6892d0c17b063b6d9cceb",
+      "bytes": 545,
+      "sha256": "ea3c9a2745d178974477a5de1f99a7f02f985c02329e16930637fe1647c60251",
+      "observedWindowsWorkingBytes": 556,
+      "observedWindowsWorkingSha256": "33230e6441129b67705fda7f0625a0ed226f1a1150db1f8925158f11fd85d20d",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicassets_collections_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicassets_offers_master.sql",
+      "blob": "07643ccb2fd3adb1651c65668de53a1e30b9ff92",
+      "bytes": 1212,
+      "sha256": "98d081c1d33b2b9831956a4267f0ed5bb980e974c3480668108c95851ae0aad1",
+      "observedWindowsWorkingBytes": 1239,
+      "observedWindowsWorkingSha256": "11ea0acb77836ac1c92612fec310519c99b7f4d1b1f1ead253bfd6805bf48346",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicassets_offers_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicassets_schemas_master.sql",
+      "blob": "77b50091cd02450f924643dd24aca0164a95ac9f",
+      "bytes": 1208,
+      "sha256": "dd1e769c1d8e5503320050ea8e1c08be05f278d9e31b38b412baf84ede24242e",
+      "observedWindowsWorkingBytes": 1230,
+      "observedWindowsWorkingSha256": "967add54c0ade316b120312beb73909cfc26b61dcdfda461526eecf366bfc6e5",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicassets_schemas_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicassets_templates_master.sql",
+      "blob": "e3e922d23d3b4ad540b0b9383a5f6976b85a0e07",
+      "bytes": 1957,
+      "sha256": "39a8c7d95880d35fa62cb7372719b053293efd614d9d4f23caa7efe5a6612717",
+      "observedWindowsWorkingBytes": 1992,
+      "observedWindowsWorkingSha256": "21dc2ff660ffefc6fbbf4012f307e13b83af3a3fa198b30ce6f45311f59f3728",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicassets_templates_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicassets_transfers_master.sql",
+      "blob": "997d4651c47f4b88952b1aa817f6a82724cc8b6b",
+      "bytes": 580,
+      "sha256": "dffc1197cec32e75e6009a330e7d856c0ca50a6ff384e3379f1a34a1d85605be",
+      "observedWindowsWorkingBytes": 592,
+      "observedWindowsWorkingSha256": "10f05d4b4856e62084e258da5c257dda3e3b5d7fc8b7a50cc9ac6c9432436ddb",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicassets_transfers_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicdropsx_claims_master.sql",
+      "blob": "f9c88b05ea7960ef002f77195e566ee884577ef5",
+      "bytes": 880,
+      "sha256": "c8a1fe1abd9715a8c8e0c365a7f992a12b86f9569b9e9f39b071332a91337fc2",
+      "observedWindowsWorkingBytes": 909,
+      "observedWindowsWorkingSha256": "8c9cf103a20b8da5ea1bfb804414ac838215444d755118d9261bbf59c636a1a3",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicdropsx_claims_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicdropsx_drops_master.sql",
+      "blob": "1afb3877b07e532bbd05aa43c66bfb4b1a31687d",
+      "bytes": 1308,
+      "sha256": "4691076ccc202f9f737067668006f409da0a5a77d7adedab9b1457dc118a5261",
+      "observedWindowsWorkingBytes": 1347,
+      "observedWindowsWorkingSha256": "4d7533e17e590607d3f8dd8249416a22e11b6efcf84cef08401e10730ee4c35c",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicdropsx_drops_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicmarket_assets_master.sql",
+      "blob": "2ffa37ebd25b19ae40a431d86efc4978b496d555",
+      "bytes": 2212,
+      "sha256": "b541d95b3b4219d7d8aa91e164e97cd77548f95bb9891b9615b7c9abbd329e1d",
+      "observedWindowsWorkingBytes": 2251,
+      "observedWindowsWorkingSha256": "ee650cdce8b82bfef396170785f77f63797cb84de30e1ed5f8b27b8f32f202f0",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicmarket_assets_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicmarket_auctions_master.sql",
+      "blob": "3dede36c9e05935a7666164e2cfde70736ac72d8",
+      "bytes": 3009,
+      "sha256": "c0ca67734c4d67a24c175c701e22dece1eeb313e5ddfebd8647fe50680b1cbcc",
+      "observedWindowsWorkingBytes": 3087,
+      "observedWindowsWorkingSha256": "425280ea40e3f0703346711e9082659b42f9d417362394fdd840b406455b15fd",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicmarket_auctions_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicmarket_buyoffers_master.sql",
+      "blob": "9351587f0e31a45f191a56a9cc7d387e2effbfbe",
+      "bytes": 2266,
+      "sha256": "16dc3cf8bab4e26fadf3596dfe59bd0be019c1df68bed263c6c392265a37a009",
+      "observedWindowsWorkingBytes": 2324,
+      "observedWindowsWorkingSha256": "f0fad7df3f2c5a13e567d1d651fe75b35820d25f95bc70a74f83766ee57e7b94",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicmarket_buyoffers_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicmarket_sale_prices_master.sql",
+      "blob": "0d93b25d59a68a46b159a16f54fa0005200f3dc6",
+      "bytes": 2027,
+      "sha256": "d5b056931b702b8b7cf76853a207abcd63fb8b48bd904da9eae2865855a2bfa4",
+      "observedWindowsWorkingBytes": 2069,
+      "observedWindowsWorkingSha256": "e5885ce7d0c9a6e64249d7d6677734f11ae5638ce5db9963c1c200716300fae3",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicmarket_sale_prices_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicmarket_sales_master.sql",
+      "blob": "f7cf65e370c623a30aed5da1d0a3dd8332c993e4",
+      "bytes": 3474,
+      "sha256": "34185bc4779e69daad131e069f3d08871a957774b17ccb1150ad18deb3219669",
+      "observedWindowsWorkingBytes": 3555,
+      "observedWindowsWorkingSha256": "bb78e7afb732dd7c6ab0d7cff9a0489f3c00211cfafe85a695393cf8d5ec84b0",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicmarket_sales_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicmarket_stats_prices_master.sql",
+      "blob": "9f7b9b1572f62da99e6a4fb98ef73fe0f6e3ccbd",
+      "bytes": 285,
+      "sha256": "147b16857e9ede2dd0029ca0a02b21fc6addcb23e39cc81411d50158ccfb8c02",
+      "observedWindowsWorkingBytes": 300,
+      "observedWindowsWorkingSha256": "3ff3cb3eb2cf676bc42198ed7297d152a4773d95e62d531ed9c49b4a16b7ac85",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicmarket_stats_prices_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicmarket_template_buyoffers_master.sql",
+      "blob": "3fb7caa7c2924348a7746d6727de71dc022f92e0",
+      "bytes": 2987,
+      "sha256": "c79d65ac95b34c115dfd877365e4760df1ca5c1a553583216e796a946be1d2c3",
+      "observedWindowsWorkingBytes": 3056,
+      "observedWindowsWorkingSha256": "e44d1f19c39ba20e8457a0e8b94157820c35978074b37122cdc94b10cbdba257",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicmarket_template_buyoffers_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicpacksx_claims_master.sql",
+      "blob": "777ebf9220ae65f2ae54989f901e108993d583b2",
+      "bytes": 1549,
+      "sha256": "26afceb99aecb338c68625abf0a82c1075e5c478455818bd1fb3a93cbfaf1b7c",
+      "observedWindowsWorkingBytes": 1591,
+      "observedWindowsWorkingSha256": "d0b976968b8e802bea192a93bb81dbaebe43de562e7570e7d797597259acb306",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicpacksx_claims_master.sql"
+    },
+    {
+      "path": "definitions/views/atomicpacksx_packs_master.sql",
+      "blob": "3a9d86e9a672e1ae4ff90bc083901543c6fb9852",
+      "bytes": 1360,
+      "sha256": "638d6d4fb7952a8a50d6bdfd06e0eae9ff5fb96b705142fbe3988917d3803ca3",
+      "observedWindowsWorkingBytes": 1401,
+      "observedWindowsWorkingSha256": "d7ea85acf341b49a962fb231ed05e4147e770d2db13bee44d9e3b2f916287432",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomicpacksx_packs_master.sql"
+    },
+    {
+      "path": "definitions/views/atomictools_links_master.sql",
+      "blob": "60136c2a77b8aebdb920a17c4470569bcf66a2ef",
+      "bytes": 597,
+      "sha256": "456a8baf063bb74d16a29ac44ee9de686fe892262600c5ace84377546874efbb",
+      "observedWindowsWorkingBytes": 611,
+      "observedWindowsWorkingSha256": "e4f71bba8e064581ee7d6ae184555bce08e3364c597d2d4795e364a105e386a8",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/definitions/views/atomictools_links_master.sql"
+    },
+    {
+      "path": "docker-compose.yml",
+      "blob": "0dc5b6b667deb0b2350e900da925925c469df316",
+      "bytes": 3078,
+      "sha256": "77fab1213c6d2862268ba5ad5d9fcf370f0fb243c8b095d015421a6d17fc4a13",
+      "observedWindowsWorkingBytes": 3174,
+      "observedWindowsWorkingSha256": "4680daacc0a87af25cb599291aed6173d9dd8c0c3793787e4bfe7da16a11a148",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/docker-compose.yml"
+    },
+    {
+      "path": "package.json",
+      "blob": "231a3a487871043bca76bdb4702793fc824f7925",
+      "bytes": 5162,
+      "sha256": "ac81fe7d5e2ddb1998f4e47a7762481eb003417edb665cdf26492a2494e91c02",
+      "observedWindowsWorkingBytes": 5276,
+      "observedWindowsWorkingSha256": "69ab7d542b762148ae6ab1fa527c810e844198ac242ca9f101223f30a405d270",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/package.json"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "blob": "5a9e859fb8fb14b8a79963cb7a46332cddc48ca4",
+      "bytes": 168997,
+      "sha256": "91dc5c040888673788bca9778b7a87ea285b5a5f1aa834da7707a2e6cdb52e5c",
+      "observedWindowsWorkingBytes": 174161,
+      "observedWindowsWorkingSha256": "33a306703c18aa5cbd9d55cdfc42b647b7af1c7cf989eefdd4699cd1ebfef73c",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/pnpm-lock.yaml"
+    },
+    {
+      "path": "src/api/actionhandler.ts",
+      "blob": "9a294a83a00141ea4e76f3d822def7d213d4efd5",
+      "bytes": 290,
+      "sha256": "904c0a69192ea3443cfdc7bf664a31d9242857816588a53157405e33f985084f",
+      "observedWindowsWorkingBytes": 300,
+      "observedWindowsWorkingSha256": "6408000dcad9f6c427bc0131cd7a1515909ccd7212d66187bb0251795d8ae75f",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/actionhandler.ts"
+    },
+    {
+      "path": "src/api/namespaces/atomicassets/format.ts",
+      "blob": "3ff18e143cf243e821d710160e5c0808148e6f43",
+      "bytes": 4424,
+      "sha256": "c37c327d594643ed49b3e4d2e8c5c799e6c352a46473193fea7ad992fa9dafef",
+      "observedWindowsWorkingBytes": 4547,
+      "observedWindowsWorkingSha256": "0c93a71cf9457e1a7f2f0531de48713a083c5266be6d639c68283b3b0f64661e",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/format.ts"
+    },
+    {
+      "path": "src/api/namespaces/atomicassets/handlers/assets.ts",
+      "blob": "d84605e65a59700334bbf722922128a23b885c56",
+      "bytes": 26540,
+      "sha256": "ca755b390f838f781f22f2e8d3930a41beb43b3d81e17ce0d444e89a406fd514",
+      "observedWindowsWorkingBytes": 27148,
+      "observedWindowsWorkingSha256": "3f0fc1526454bbf0c2b16c8928085edd29fd10892420d89ab7836524668c4655",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/handlers/assets.ts"
+    },
+    {
+      "path": "src/api/namespaces/atomicassets/index.ts",
+      "blob": "f6ee501922b3910dffd3c093de0d3676eb026681",
+      "bytes": 4849,
+      "sha256": "dee9e494d119c20080698090278a12466c8899bb54e13b86e50191d2083fb6f9",
+      "observedWindowsWorkingBytes": 4987,
+      "observedWindowsWorkingSha256": "8d64f948dedc452e63b0c8106cab374113b14265290fc37124dc2fadd775a3ec",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/index.ts"
+    },
+    {
+      "path": "src/api/namespaces/atomicassets/routes/assets.ts",
+      "blob": "81dca003ad20d0f3beee771d2c57788a9b47b508",
+      "bytes": 12659,
+      "sha256": "17adc862e1961020117812d608a856e4c0a4b06a501ba47209c9813419dde837",
+      "observedWindowsWorkingBytes": 12938,
+      "observedWindowsWorkingSha256": "1acefad4ffd0a1fd27e43f714ad9e696fe53461c0e6101bbaf0c2b99c0a31600",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/namespaces/atomicassets/routes/assets.ts"
+    },
+    {
+      "path": "src/api/server.ts",
+      "blob": "a5a2a3074fbee389207188eb3aa404a8201e546f",
+      "bytes": 18442,
+      "sha256": "df32f2055d45bcb3e055cf09b306aa97590e7b14defaea6899a166198b068e1d",
+      "observedWindowsWorkingBytes": 18944,
+      "observedWindowsWorkingSha256": "2763578d27ef87b2152913997515bd059b02d063dd537e1b091e1b0191c858dc",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/api/server.ts"
+    },
+    {
+      "path": "src/bin/init-test-db.ts",
+      "blob": "ed32191abdfbd5dd35cb21a47768ed835abd9cb0",
+      "bytes": 5112,
+      "sha256": "0bde0ac0285c8a3275c4bf0e15cac8afc6ff51beba95d8662cdee74139a57c89",
+      "observedWindowsWorkingBytes": 5231,
+      "observedWindowsWorkingSha256": "363709ae4905720ce762b8681e2bb900c1df29145eab924cd86ca690f81338b1",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/bin/init-test-db.ts"
+    },
+    {
+      "path": "src/connections/postgres.ts",
+      "blob": "7706f7728d58c59d230f7b332da8af7b593ae96f",
+      "bytes": 3640,
+      "sha256": "7fa7afa72f8edeccbcfa6927bc179759a190ffa0d95dadefaefa786f4ede53b0",
+      "observedWindowsWorkingBytes": 3757,
+      "observedWindowsWorkingSha256": "eb387f25550908793cc4ccc49bc9563433e76289076356e438492931014b5894",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/connections/postgres.ts"
+    },
+    {
+      "path": "src/filler/database.ts",
+      "blob": "cc407c99a3fc9b6755ec1fa5ffc8a307d9e79995",
+      "bytes": 50216,
+      "sha256": "24882decf0a6823cde7dd0d7c7c59df727fac64863c6ef3ff6380c3e232c5054",
+      "observedWindowsWorkingBytes": 51542,
+      "observedWindowsWorkingSha256": "2eb6f016e59424d56544f020e543ba83791dee0d9cd39213c221c4a9be73da5b",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/database.ts"
+    },
+    {
+      "path": "src/filler/handlers/atomicassets/index.ts",
+      "blob": "aae3582c4fa5ba0b13b94f5161e265b115ec4548",
+      "bytes": 26848,
+      "sha256": "3708ea3747446300fd27f81af83bb2552a3020b3fa9e04ddcba2bafce6c4f9be",
+      "observedWindowsWorkingBytes": 27398,
+      "observedWindowsWorkingSha256": "a7b50634dd840d6440e6b1ea2e415a06ed62f03582b9267bf57c776b851ef437",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/handlers/atomicassets/index.ts"
+    },
+    {
+      "path": "src/filler/handlers/atomicassets/processors/assets.ts",
+      "blob": "ecabcb4402d97fcd9c01e74212b5bda3b9a2a81c",
+      "bytes": 12082,
+      "sha256": "d1897e903b5bac3ee9dc379925b1efded412e7cb7bd381aaae61558143bc5c9f",
+      "observedWindowsWorkingBytes": 12323,
+      "observedWindowsWorkingSha256": "48ed4659781beda25d92d1012b0bfb223d28864f24767eba3d73dd9714c1e567",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/handlers/atomicassets/processors/assets.ts"
+    },
+    {
+      "path": "src/filler/handlers/atomicassets/processors/collections.ts",
+      "blob": "6dc3a3a3b10b9161b6996fe85b6a2ba4449db570",
+      "bytes": 2982,
+      "sha256": "55637545d54b155f012bb3fb182070a40db83484d8a9a5a034edcfe084b2881d",
+      "observedWindowsWorkingBytes": 3037,
+      "observedWindowsWorkingSha256": "b58d5dee5584c3abad0fbcfee8da305f87156020125e5f3c05ba7ff4fe3fc810",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/handlers/atomicassets/processors/collections.ts"
+    },
+    {
+      "path": "src/filler/handlers/atomicassets/processors/config.ts",
+      "blob": "4532cc80f22668b8456d7f7637a184d4bffd2170",
+      "bytes": 4432,
+      "sha256": "a1d1f9f13bce6d16fc1e53cb2906461cf6cadf40d1ede5b7cfac1de85f3ad37d",
+      "observedWindowsWorkingBytes": 4523,
+      "observedWindowsWorkingSha256": "9f717ee651c3388262c4a4e1e0d465a274845f7867bb37b1865b89c9ab437f56",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/handlers/atomicassets/processors/config.ts"
+    },
+    {
+      "path": "src/filler/handlers/atomicassets/processors/schemas.ts",
+      "blob": "cd90c4014f58523f8a355364f7bf03807229f99b",
+      "bytes": 2505,
+      "sha256": "c29562be9e90fd0d3e946b01810c014ea00cd0f09c152aa79a3f262b44511ee7",
+      "observedWindowsWorkingBytes": 2554,
+      "observedWindowsWorkingSha256": "bdbf12f2cb24dbf74687cf0b9b83e2483570220d067d9aa6b2cd6cef497ce1bb",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/handlers/atomicassets/processors/schemas.ts"
+    },
+    {
+      "path": "src/filler/handlers/atomicassets/processors/templates.ts",
+      "blob": "d1aacdcf7d9e29536a452f1b38517a98cd77e11f",
+      "bytes": 6169,
+      "sha256": "5d66b578b5f669fae361aeb1807c6497ba398541f8e4c31f81ec85bf3d5794a4",
+      "observedWindowsWorkingBytes": 6286,
+      "observedWindowsWorkingSha256": "d5818e084eba7634c738de2ae9fd6839f024cdcb39a285eb9cb96522e4566d47",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/handlers/atomicassets/processors/templates.ts"
+    },
+    {
+      "path": "src/filler/handlers/atomicdropsx/index.ts",
+      "blob": "aa4166650cbe2bb282640565d199bb515a4965c2",
+      "bytes": 3913,
+      "sha256": "e017ce1564a00077c073fbcc262f465396350d069e3d4a1c6ab855f6c1c60d11",
+      "observedWindowsWorkingBytes": 4029,
+      "observedWindowsWorkingSha256": "1b8862f4302796abf6d223036787e58b2b549e57b2bb60388e23ba1ba16d433f",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/handlers/atomicdropsx/index.ts"
+    },
+    {
+      "path": "src/filler/handlers/atomicmarket/index.ts",
+      "blob": "8028a5b370067257f054630d62b11d0fc6e62f82",
+      "bytes": 63339,
+      "sha256": "4d12d51af28be8cbb404c849b334e387c8bf32295c61c5e9d6f3ab32a87f8f09",
+      "observedWindowsWorkingBytes": 64587,
+      "observedWindowsWorkingSha256": "975ce10eaf239a270af115786f09096adf590f0294b80412d38222cef76194b2",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/handlers/atomicmarket/index.ts"
+    },
+    {
+      "path": "src/filler/handlers/atomicpacksx/index.ts",
+      "blob": "e406d180f8be1bd0231351a6c6d45001fbaf131e",
+      "bytes": 5986,
+      "sha256": "3933af3cb5565b917b60221acc2c6996c7a88074bc6d660f67456eddec297f41",
+      "observedWindowsWorkingBytes": 6140,
+      "observedWindowsWorkingSha256": "1896933e32175c780f011417cf5e15db49991ebbe15649905b75ac0ecadf0b94",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/handlers/atomicpacksx/index.ts"
+    },
+    {
+      "path": "src/filler/handlers/delphioracle/index.ts",
+      "blob": "7bd5a4df13016f1399697ed2e98144eee9edde4d",
+      "bytes": 7778,
+      "sha256": "b0a22ffb2c166e8278343f129d4733139ce7ce5ed001efa838d16cbb70b1193b",
+      "observedWindowsWorkingBytes": 7997,
+      "observedWindowsWorkingSha256": "ac33fab4de1a6b266a720d069ea553b114947909b7aa5d10017323064bc72cfa",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/handlers/delphioracle/index.ts"
+    },
+    {
+      "path": "src/filler/handlers/loader.ts",
+      "blob": "c064e24bde2ef7c0572e03e55ced9acae3ac258f",
+      "bytes": 624,
+      "sha256": "986cc431254bcc4a327d7f7bcba015141837d61f14cb2872ad8da740a1cb61cd",
+      "observedWindowsWorkingBytes": 643,
+      "observedWindowsWorkingSha256": "51f95a17784ecc969b78d2cd62646dfc5fcf7b29d242416f123c2d121c426a4d",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/handlers/loader.ts"
+    },
+    {
+      "path": "src/filler/handlers/simpleassets/index.ts",
+      "blob": "3e0c18b8d5646e9ede33ddb76a042735702af8e2",
+      "bytes": 6617,
+      "sha256": "9b54c47743fc2dea5c245d220e85f0dad2175140e56ea9991a1d3845f0cfe544",
+      "observedWindowsWorkingBytes": 6790,
+      "observedWindowsWorkingSha256": "f87fc93b9ee147b546ff6bf5c093f43162f28508005d8e1c9b6fe4bbc577551e",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/handlers/simpleassets/index.ts"
+    },
+    {
+      "path": "src/filler/handlers/test-helper.ts",
+      "blob": "a538b6c43eda2dce65b7e16377ef8ca010803e73",
+      "bytes": 9902,
+      "sha256": "40db36e37d5018d0c06b625609d771cc6b7e512fd6960871d48ac6d03eea7bda",
+      "observedWindowsWorkingBytes": 10194,
+      "observedWindowsWorkingSha256": "4f36ff6db7f77fb11f4ee17800a4d0f91269d342e020a8f924b131214799b9a8",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/handlers/test-helper.ts"
+    },
+    {
+      "path": "src/filler/processor.ts",
+      "blob": "65e9bdd70c2f070a616cb62e9a6f7bd347b4e0b9",
+      "bytes": 14186,
+      "sha256": "cf5c1432789322fd95b2ef9be34aae1635e18846690d1119e3894b069a744651",
+      "observedWindowsWorkingBytes": 14608,
+      "observedWindowsWorkingSha256": "ec5a7d8092f7c5e24887ddd9d66cf70ff13855fb7767551886d65161e9465a3c",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/processor.ts"
+    },
+    {
+      "path": "src/filler/upgrade-db.ts",
+      "blob": "7f42aa11118e05b95b313dc4b522145490db0e41",
+      "bytes": 16769,
+      "sha256": "78d1c8e556f2939be78c96ebeaef0ca8a3b7ea7cb3a94f4fdc0536c7af6d2d11",
+      "observedWindowsWorkingBytes": 17115,
+      "observedWindowsWorkingSha256": "aa9cd174ecab5147a8dfbe3f309999d1fe8310ccd0093b02cbd8d4935d1a2709",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/upgrade-db.ts"
+    },
+    {
+      "path": "src/filler/utils.ts",
+      "blob": "b01ee64e9febd881f61259cd1c9abc58a8d4288c",
+      "bytes": 124,
+      "sha256": "3b792f88013f17759dd02e39e5aaaad700defe81d1aad2cb6a6ee299013b3fcc",
+      "observedWindowsWorkingBytes": 128,
+      "observedWindowsWorkingSha256": "0496ed9f56802180954f9ace352bb2f84ac6f4501fee089504f6a999a7a245fb",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/filler/utils.ts"
+    },
+    {
+      "path": "src/utils/index.ts",
+      "blob": "f25be509de32a9a4551c33a2825d56e3e963a27e",
+      "bytes": 1602,
+      "sha256": "56f5c6ecda7cdf033e25dc3f3cc4bb4d5f0964b5407cb5b487c3085dac8e92ec",
+      "observedWindowsWorkingBytes": 1664,
+      "observedWindowsWorkingSha256": "17645e7b964e00857baba1f0316878cfe5f615bf7dfb5371f26bd1d76251fe09",
+      "url": "https://github.com/atomicassets/atomicassets-api/blob/0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e/src/utils/index.ts"
+    }
+  ],
+  "existingControlsUnchanged": [
+    {
+      "path": "harness/atomicassets/original-controls.cjs",
+      "bytes": 15803,
+      "sha256": "ebcae3741cad6849ca73abe51449558543ed9c7fe764d89f3e73f902ff624f62"
+    },
+    {
+      "path": "tests/original-asset-controls.test.mjs",
+      "bytes": 8419,
+      "sha256": "7c4d9dd782e56ee68eb7bc9de2f96674969c9067b0b5155ebe92c6abcc6c3d29"
+    },
+    {
+      "path": "fixtures/harness/atomicassets/lifecycle/input.json",
+      "bytes": 2908,
+      "sha256": "6c4a2a25d7d57afe043c18cb20b9c9125992a5d90965fa8409cc0d689f6cfbfe"
+    },
+    {
+      "path": "fixtures/harness/atomicassets/lifecycle/expected.json",
+      "bytes": 164029,
+      "sha256": "ae34a7231dc1af46a11e0ab6999d94f648f0b4581484db26823466a6427f753a"
+    },
+    {
+      "path": "fixtures/harness/atomicassets/lifecycle/provenance.json",
+      "bytes": 4730,
+      "sha256": "a599f2377100af6f490d120a6547b60f34d00afbd11e508318ff857b849085e3"
+    }
+  ],
+  "pending": [
+    "immutable image/server/resources/ownership pin",
+    "reviewed owned-empty-database admission and lifecycle runner",
+    "actual Node24/26 PostgreSQL processor/view/HTTP results",
+    "NUL/literal-backslash policy remains unresolved",
+    "SDK/stateful-runtime family is independent and not adopted"
+  ]
+}
