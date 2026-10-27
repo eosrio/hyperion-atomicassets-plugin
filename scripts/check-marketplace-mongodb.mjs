@@ -6,6 +6,7 @@ import {join} from 'node:path';
 import {engineeringHost} from '../harness/atomicmarket/contextual-host.mjs';
 import {runMarketplaceLifecycle} from '../harness/atomicmarket/contextual-lifecycle.mjs';
 import {runMarketplaceFailures} from '../harness/atomicmarket/contextual-failures.mjs';
+import {runMarketplaceProcess} from '../harness/atomicmarket/process-restart.mjs';
 
 const args = process.argv.slice(2);
 assert.equal(args.length, 6, 'Usage: node scripts/check-marketplace-mongodb.mjs --hapi-root PATH --reference-root PATH --output REPORT.json');
@@ -59,18 +60,19 @@ async function connect() {
 }
 const adapterFactory = binding => createMongoDbContextualRecoveryAdapter({client, databaseName, collectionPrefix: prefix,
   backendId: binding.backendId, operationTimeoutMS: 5000, transactionTimeoutMS: 15_000});
-async function physical(stage, {binding, view, expected}) {
+async function physical(stage, {binding, view, expected, collectionPrefix = prefix}) {
   fixture.ownedContainer('replica');
-  const metadata = await client.db(databaseName).collection(`${prefix}_metadata`).findOne({_id: slot(binding)},
+  const metadata = await client.db(databaseName).collection(`${collectionPrefix}_metadata`).findOne({_id: slot(binding)},
     {readConcern: {level: 'majority'}, readPreference: 'primary', timeoutMS: 5000});
   assert.equal(metadata.storageVersion, 'h45-contextual-mongodb-recovery-v1');
   assert.equal(metadata.revision, view.revision); assert.equal(metadata.checkpoint.blockNum, view.checkpoint.blockNum);
   assert.equal(metadata.checkpoint.blockId, view.checkpoint.blockId);
-  const records = await client.db(databaseName).collection(`${prefix}_r_${hash(binding)}`).find({},
+  const records = await client.db(databaseName).collection(`${collectionPrefix}_r_${hash(binding)}`).find({},
     {readConcern: {level: 'majority'}, readPreference: 'primary', timeoutMS: 5000}).limit(3).toArray();
   assert.equal(records.length, expected ? 1 : 0);
   if (expected) assert.deepEqual(records[0].value, {market_contract: 'atomicmarket', ...expected});
   report.physical.push({stage, projection: binding.projectionId, metadata, records});
+  return {metadata, records};
 }
 try {
   const kernel = fixture.command(['info', '--format', '{{.KernelVersion}}']); report.dockerKernel = kernel;
@@ -104,9 +106,40 @@ try {
   assert.ok(report.commandTrace.some(row => row.phase === 'failed' && row.code === 2));
   assert.ok(report.commandTrace.some(row => row.writeConcernErrorCode === 64));
   assert.equal(report.commandTraceTruncated, false);
+  // Add a graceful host-process restart; retain the original lifecycle/server restart and all seven failure cells above.
+  const collectionPrefix = 'h45_marketplaces_process';
+  fixture.ownedContainer('replica');
+  assert.equal(await client.db(databaseName).collection(`${collectionPrefix}_metadata`).countDocuments({}, {timeoutMS: 5000}), 0);
+  const job = {mode: 'index', parentPid: process.pid, run: fixture.run, uri: fixture.endpoint('replica'), databaseName,
+    collectionPrefix, backendId: `fixture-marketplace-process-${fixture.run}`, replicaSet: fixture.replicaSet,
+    hapiRoot: host.root, sourceDigest: null};
+  report.processRestart = {scope: {gracefulNodeHostRestart: true, crashOrLostAcknowledgement: false,
+    reconstructedInMemorySourceTransport: true, persistentElasticsearchQualified: false}, children: []};
+  const first = await runMarketplaceProcess(job); report.processRestart.children.push(first);
+  assert.deepEqual(first.result.expected, report.lifecycle.data.b);
+  assert.deepEqual(first.result.evidence.rows, report.lifecycle.source.rows.slice(0, 3));
+  assert.equal(first.result.binding.backendId, job.backendId);
+  const snapshot = await physical('process-index-b-closed', {...first.result, collectionPrefix});
+  const observeRecovered = async (stage, result) => {
+    fixture.ownedContainer('replica');
+    assert.deepEqual(result.binding, first.result.binding); assert.deepEqual(result.view, first.result.view);
+    assert.deepEqual(result.expected, first.result.expected); assert.equal(result.sourceDigest, first.result.sourceDigest);
+    assert.equal(result.admissionStatus, 'duplicate'); assert.deepEqual(result.writes, []);
+    assert.deepEqual(await physical(`process-${stage}`, {...result, collectionPrefix}), snapshot);
+  };
+  const second = await runMarketplaceProcess({...job, mode: 'recover', sourceDigest: first.result.sourceDigest}, observeRecovered);
+  report.processRestart.children.push(second);
+  assert.notEqual(first.identity.pid, second.identity.pid); assert.notEqual(first.identity.instance, second.identity.instance);
+  assert.ok(first.execution.closedAt <= second.execution.startedAt);
+  assert.deepEqual(second.result.evidence, first.result.evidence);
+  assert.equal(second.result.admissionStatus, 'duplicate'); assert.equal(second.result.replayStatus, 'duplicate');
+  assert.equal(second.result.recoveredReadAfterDuplicateAdmission, true); assert.deepEqual(second.result.writesAfterStartup, []);
+  assert.deepEqual(await physical('process-exact-replay-b-closed', {...second.result, collectionPrefix}), snapshot);
+  report.processRestart.verified = true;
   report.status = 'passed';
 } catch (error) {
   report.status = 'failed'; report.error = {name: error.name, message: error.message, stack: error.stack};
+  if (error.processReceipt) report.processRestart.failure = error.processReceipt;
   report.fixtureDiagnostics = fixture.diagnostics(); process.exitCode = 1;
 } finally {
   for (const value of clients) {

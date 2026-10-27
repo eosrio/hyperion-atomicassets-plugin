@@ -72,7 +72,8 @@ Repository documentation checks remain available through `npm run check:docs`.
 
 The [contextual Marketplace slice](docs/parity/atomicmarket/marketplace-indexing.md) adds an inert
 backend-neutral definition factory and separate source/runtime/read engineering controls. Its
-explicit owned MongoDB program awaits an actual engine run; issue #6 remains open.
+original owned MongoDB program passed on Node24/26. The additive actual Node host-process restart
+cell awaits root's engine run; issue #6 remains open.
 
 The [AtomicMarket inventory and scope](docs/parity/atomicmarket/README.md) joins the same package.
 The first Market read component is available at the development subpath

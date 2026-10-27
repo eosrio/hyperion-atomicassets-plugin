@@ -1,7 +1,9 @@
 # Contextual marketplace indexing: engineering slice
 
 [Issue #6](https://github.com/eosrio/hyperion-atomicassets-plugin/issues/6) remains open until the
-actual engine path passes. This adds the plugin-owned declarative factory and a source/runtime/read
+remaining actual Node host-process restart cell passes. The earlier complete owned MongoDB program
+passed on native Node24.19.0 and26.4.0; that program restarted MongoDB and reconstructed a runtime in
+the same Node process. This adds the plugin-owned declarative factory and a source/runtime/read
 component path. It provides no production activation, compatible plugin release or complete parity claim.
 
 `@eosrio/hyperion-atomicassets-plugin/atomicmarket/marketplace-indexing` exports
@@ -51,7 +53,7 @@ replaced by the Marketplace name. This does not qualify arbitrary deployed contr
 
 No Marketplace record is seeded. Every record comes from `processSource`, the contextual runtime,
 and the selected adapter. A creates metadata, repeated-key B changes the creator, exact replay and
-fresh process/runtime reconstruction preserve A, rollbackB restores A, rollbackA removes the record,
+fresh runtime reconstruction preserve A, rollbackB restores A, rollbackA removes the record,
 and replacementC gets C's time. Source revocation rejects reads through the actual source guard.
 Missing ABI/time/retained metadata, malformed/absent rows, capability refusal and failed/uncertain
 storage cannot advance affected completion; an independent healthy projection continues.
@@ -75,7 +77,7 @@ in-memory database boundary; component success does not establish MongoDB durabi
 The host's original error envelopes and generic absent-row error remain generic; this factory does
 not introduce a new error-hook API merely to duplicate an internal upstream log message.
 
-## Owned MongoDB program: not executed by the author
+## Owned MongoDB program and separate Node host restart
 
 ```sh
 node scripts/check-marketplace-mongodb.mjs --hapi-root /path/to/exact-hapi --reference-root /path/to/exact-reference --output marketplace-mongodb.json
@@ -94,3 +96,28 @@ Root owns actual engine execution. Writing this program is not a successful engi
 fork/finality activation remains HAPI #246 and serving context/headers/cache remain #221. Snapshot
 rows without proven first-creation metadata are not complete genesis initialization. PostgreSQL
 execution, real deployed Market capture, WormDB, transport and full domain parity remain unqualified.
+
+The additive process-restart cell uses two distinct children at the parent's actual native
+`process.execPath`, on that same exclusively owned MongoDB fixture and a separate fixed collection
+prefix. Child1 reconstructs the engineered source, indexes A and repeated-key B through the public
+`processSource` lifecycle, reads the original-reference expected rows and closes. Child2 rebuilds
+only the identical in-memory source journal/evidence prefix; it does not seed or re-index state.
+A fresh host must re-admit the already completed B through `processSource` before serving. That
+admission must return `duplicate`, issue zero effect-write commands after adapter initialization
+and preserve the exact recovery view. The parent independently compares complete physical metadata
+(including receipts/checkpoint/revision) and rows before permitting the first recovered read.
+After reading B with A's creation metadata, another physical-state gate precedes a second exact B
+duplicate. Full physical equality is required again after child2 exits.
+
+Both native PID/parent/instance/start identities and normal exits are retained; close/reaping and
+PID/process-group absence are checked before success, and child1 must exit before child2 starts.
+Failed children retain exit/cleanup receipts; only the owned child process group is terminated.
+Jobs accept only
+the exact run-derived fixture database/backend/replica-set, fixed prefix and loopback endpoint,
+with no executable input or production database URL option. JSON, logs, owner acknowledgements
+and whole-child lifetime have fixed bounds; the original readiness, operation and transaction
+deadlines are unchanged. All earlier fifteen physical stages and seven fault cells remain.
+Pure validation/native refusal controls do not execute MongoDB. Root will run the complete engine
+program after review. This cell is a graceful Node host restart with reconstructed in-memory ES
+transport, not persistent Elasticsearch, a process crash/lost acknowledgement, PostgreSQL execution,
+a deployed contract capture, production activation or full parity.
