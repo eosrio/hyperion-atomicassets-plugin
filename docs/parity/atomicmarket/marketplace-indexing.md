@@ -112,6 +112,9 @@ duplicate. Full physical equality is required again after child2 exits.
 Both native PID/parent/instance/start identities and normal exits are retained; close/reaping and
 PID/process-group absence are checked before success, and child1 must exit before child2 starts.
 Failed children retain exit/cleanup receipts; only the owned child process group is terminated.
+Child close immediately retires ordinary IPC and termination-timer authority. Pending physical
+observations settle without sending late acknowledgements or arming new escalation; a separate
+bounded finalization step reaps an owned surviving descendant group and clears timers again.
 Jobs accept only
 the exact run-derived fixture database/backend/replica-set, fixed prefix and loopback endpoint,
 with no executable input or production database URL option. JSON, logs, owner acknowledgements
