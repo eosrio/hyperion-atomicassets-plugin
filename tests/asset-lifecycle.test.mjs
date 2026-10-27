@@ -187,17 +187,21 @@ test('missing or non-record occurrence payloads remain explicitly unavailable',a
 
 
 test('cross-kind action config refuses the entire candidate instead of burning an existing asset',async()=>{
-  const s=await minted(),before=s.snapshot();let failure;
-  const spoof=action('config',{asset_id:input.assetId,asset_owner:'spoofed-burner'});
-  try {await s.run(reduce,block(7),[transfer('alice','bob'),spoof]);} catch(error) {failure=error;}
-  assert.deepEqual(s.snapshot(),before,'a malformed action must publish no asset or relationship changes');
-  assert.ok(failure instanceof AssetDomainUnavailable,'a table name is not an action discriminant');
+  for(const name of ['config',['logburnasset']]) {
+    const s=await minted(),before=s.snapshot();let failure;
+    const spoof=action(name,{asset_id:input.assetId,asset_owner:'spoofed-burner'});
+    try {await s.run(reduce,block(7),[transfer('alice','bob'),spoof]);} catch(error) {failure=error;}
+    assert.deepEqual(s.snapshot(),before,'malformed action '+JSON.stringify(name)+' must publish no changes');
+    assert.ok(failure instanceof AssetDomainUnavailable,'an action requires its own primitive string discriminant');
+  }
 });
 
 test('cross-kind row logmint refuses the entire candidate instead of updating schema media types',async()=>{
-  const s=await minted(),before=s.snapshot();let failure;
-  const spoof=row('logmint',{schema_name:input.schema,format_type:[{name:'image',mediatype:'video',info:'spoofed'}]});
-  try {await s.run(reduce,block(7),[collectionRow({...input.collectionData,name:'must not publish'}),spoof]);} catch(error) {failure=error;}
-  assert.deepEqual(s.snapshot(),before,'a malformed row must publish no asset or relationship changes');
-  assert.ok(failure instanceof AssetDomainUnavailable,'an action name is not a table discriminant');
+  for(const table of ['logmint',['schemas']]) {
+    const s=await minted(),before=s.snapshot();let failure;
+    const spoof=row(table,{schema_name:input.schema,format_type:[{name:'image',mediatype:'video',info:'spoofed'}]});
+    try {await s.run(reduce,block(7),[collectionRow({...input.collectionData,name:'must not publish'}),spoof]);} catch(error) {failure=error;}
+    assert.deepEqual(s.snapshot(),before,'malformed row '+JSON.stringify(table)+' must publish no changes');
+    assert.ok(failure instanceof AssetDomainUnavailable,'a table requires its own primitive string discriminant');
+  }
 });

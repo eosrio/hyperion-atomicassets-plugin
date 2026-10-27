@@ -17,8 +17,9 @@ indexing, transfers history and notifications are not implemented by this compon
 Jobs retain original priorities 10 (config), 20 (collection/schema), 50 (mint), and 60 (updates).
 Equal priorities retain insertion order. Mint-buffer completion precedes priority-60 updates and
 also runs when mint is the last priority. Same-block mutable data replaces the previous object.
-Runtime dispatch validates table names and action names separately; a name from the other kind
-refuses the entire candidate. Only explicit `logburnasset` occurrences enter burn handling.
+Runtime dispatch requires primitive string table/action names and validates them separately;
+coercible arrays and names from the other kind refuse the entire candidate. Only explicit
+`logburnasset` occurrences enter burn handling.
 Wrong-owner transfers leave asset state unchanged. Burn retains the asset with null owner and
 burn/update chronology; immutable mint/earlier transfer chronology remains separate. Collection and
 schema replacement preserves creation fields. Later relationship-only changes affect current read

@@ -69,11 +69,11 @@ export async function reduceAssetLifecycle(b: LifecycleBlock, events: readonly L
     record(value.value);
     let priority: number;
     if (value.kind === 'row') {
-      if (!Object.hasOwn(rowPriorities, value.table)) return unavailable('Unsupported lifecycle row');
+      if (typeof value.table !== 'string' || !Object.hasOwn(rowPriorities, value.table)) return unavailable('Unsupported lifecycle row');
       priority = rowPriorities[value.table];
       text(value.scope); bool(value.present);
     } else if (value.kind === 'action') {
-      if (!Object.hasOwn(actionPriorities, value.name)) return unavailable('Unsupported lifecycle action');
+      if (typeof value.name !== 'string' || !Object.hasOwn(actionPriorities, value.name)) return unavailable('Unsupported lifecycle action');
       priority = actionPriorities[value.name];
       hash(value.transactionId);
     } else return unavailable('Unsupported lifecycle kind');
