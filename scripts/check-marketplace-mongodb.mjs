@@ -125,6 +125,7 @@ try {
     assert.deepEqual(result.binding, first.result.binding); assert.deepEqual(result.view, first.result.view);
     assert.deepEqual(result.expected, first.result.expected); assert.equal(result.sourceDigest, first.result.sourceDigest);
     assert.equal(result.admissionStatus, 'duplicate'); assert.deepEqual(result.writes, []);
+    assert.deepEqual(result.commandFailures, []); assert.ok(Array.isArray(result.transactionControls));
     assert.deepEqual(await physical(`process-${stage}`, {...result, collectionPrefix}), snapshot);
   };
   const second = await runMarketplaceProcess({...job, mode: 'recover', sourceDigest: first.result.sourceDigest}, observeRecovered);
@@ -134,6 +135,7 @@ try {
   assert.deepEqual(second.result.evidence, first.result.evidence);
   assert.equal(second.result.admissionStatus, 'duplicate'); assert.equal(second.result.replayStatus, 'duplicate');
   assert.equal(second.result.recoveredReadAfterDuplicateAdmission, true); assert.deepEqual(second.result.writesAfterStartup, []);
+  assert.deepEqual(second.result.commandFailuresAfterStartup, []); assert.ok(Array.isArray(second.result.transactionControlsAfterStartup));
   assert.deepEqual(await physical('process-exact-replay-b-closed', {...second.result, collectionPrefix}), snapshot);
   report.processRestart.verified = true;
   report.status = 'passed';

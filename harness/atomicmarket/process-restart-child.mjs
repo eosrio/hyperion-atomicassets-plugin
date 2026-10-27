@@ -7,6 +7,7 @@ import {engineeringHost} from './contextual-host.mjs';
 import {marketplaceSource} from './contextual-source.mjs';
 import {readMarketplace} from '../../dist/atomicmarket/marketplace.js';
 import {PROCESS_RESTART_LIMITS as limits, validateProcessRestartJob} from './process-restart-job.mjs';
+import {recoveredCommandMonitor} from './recovered-command-monitor.mjs';
 
 assert.equal(typeof process.send, 'function', 'Private child requires its owning IPC parent');
 const identity = {pid: process.pid, parentPid: process.ppid, instance: randomUUID(),
@@ -19,7 +20,7 @@ async function send(event, result) {
   assert.ok(Buffer.byteLength(JSON.stringify(message)) <= limits.messageBytes);
   await new Promise((resolve, reject) => process.send(message, error => error ? reject(error) : resolve()));
 }
-let source, client;
+let source, client, monitor;
 try {
   let bytes = 0, text = '';
   for await (const chunk of process.stdin) {
@@ -44,17 +45,10 @@ try {
     abiSha256: source.definition.source.abiSha256, generation: 'genesis-marketplace-process-fixture'};
   const connections = new Set();
   try {
-    const writes = [];
-    let watchWrites = false;
     client = await waitForMongo(() => {
       const value = new MongoClient(job.uri, {appName: `h45-market-process-${job.run}`, directConnection: true,
         monitorCommands: true, retryWrites: false, maxPoolSize: 4, serverSelectionTimeoutMS: 1500, connectTimeoutMS: 1500, timeoutMS: 5000});
-      value.on('commandStarted', event => {
-        if (watchWrites && ['update', 'insert', 'delete', 'findAndModify', 'commitTransaction', 'abortTransaction'].includes(event.commandName)) {
-          assert.ok(writes.length < 16, 'Unexpected recovered-host write trace exceeds its budget');
-          writes.push({command: event.commandName, database: event.databaseName});
-        }
-      });
+      monitor = recoveredCommandMonitor(value);
       connections.add(value); return value;
     }, {primary: true, replicaSet: job.replicaSet});
     const adapter = createMongoDbContextualRecoveryAdapter({client, databaseName: job.databaseName,
@@ -86,21 +80,22 @@ try {
       beforeRead = await runtime.recovery(); assert.equal(beforeRead.checkpoint.blockNum, 4);
       assert.equal(beforeRead.checkpoint.blockId, source.retained.get(4).source.blockId);
       // Re-admit B through the public source lifecycle before serving. This must only validate its exact retained receipt.
-      watchWrites = true;
+      monitor.arm();
       admission = await runtime.processSource(source.source, 4); assert.equal(admission.status, 'duplicate');
-      assert.deepEqual(writes, []);
+      monitor.assertReadOnly();
       assert.deepEqual(await runtime.recovery(), beforeRead);
-      const stage = {binding, view: admission.view, expected, sourceDigest, admissionStatus: admission.status, writes};
+      const stage = {binding, view: admission.view, expected, sourceDigest, admissionStatus: admission.status, writes: monitor.writes,
+        transactionControls: monitor.transactionControls, commandFailures: monitor.commandFailures};
       await ownerGate('source-admitted-before-read', stage, 'continue-recovered-read');
       assert.deepEqual((await read()).data, expected);
-      assert.deepEqual(await runtime.recovery(), beforeRead); assert.deepEqual(writes, []);
+      assert.deepEqual(await runtime.recovery(), beforeRead); monitor.assertReadOnly();
       await ownerGate('recovered-before-replay', stage, 'continue-exact-b-replay');
       replay = await runtime.processSource(source.source, 4); assert.equal(replay.status, 'duplicate');
-      assert.deepEqual(await runtime.recovery(), beforeRead); assert.deepEqual(writes, []);
+      assert.deepEqual(await runtime.recovery(), beforeRead); monitor.assertReadOnly();
     }
     assert.deepEqual((await read()).data, expected);
     const result = {binding, view: await runtime.open(), expected, sourceDigest, evidence,
-      replayStatus: replay?.status ?? null, admissionStatus: admission?.status ?? null, writesAfterStartup: writes,
+      replayStatus: replay?.status ?? null, admissionStatus: admission?.status ?? null, ...monitor.evidence(),
       recoveredReadAfterDuplicateAdmission: job.mode === 'recover',
       host: {head: host.pins.head, tree: host.pins.tree, artifactProfile: host.artifactProfile}};
     await source.dispose(); source = undefined;
@@ -108,7 +103,7 @@ try {
     await send('process-complete', result);
   } finally {for (const value of connections) await value.close();}
 } catch (error) {
-  await send('process-error', {name: error.name, message: String(error.message).slice(0, 2048)}).catch(() => {});
+  await send('process-error', {name: error.name, message: String(error.message).slice(0, 2048), commandEvidence: monitor?.evidence() ?? null}).catch(() => {});
   process.exitCode = 1;
 } finally {
   await source?.dispose(); await client?.close(); clearTimeout(deadline);

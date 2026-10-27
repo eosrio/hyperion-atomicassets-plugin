@@ -110,3 +110,10 @@ bounded script; its recorded effects do not qualify PostgreSQL, MongoDB, source 
 rollback or coherent relationship serving. These controls run with the normal reference tests.
 
 Licensed under [MIT](LICENSE).
+
+The private process-restart qualifier records successful MongoDB transaction controls separately from data writes.
+After startup, the recovered child still refuses all data-write commands, output aggregates, unknown commands,
+and command failures, and retains the original physical metadata/receipt/checkpoint/record equality gates.
+Both successful and failed transaction-control evidence is retained in child and parent reports. The measured
+f1 Node24 run stopped at a commitTransaction-only monitor assertion; it did not establish recovered physical
+equality, and Node26 was skipped. Corrected real-engine qualification remains pending an independent rerun.

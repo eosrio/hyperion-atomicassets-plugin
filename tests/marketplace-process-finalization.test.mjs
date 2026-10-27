@@ -73,8 +73,12 @@ for (const rejects of [false, true]) test(`close fences a pending physical obser
 test('cleared deadline/escalation callbacks and late child events have no authority after settlement', async t => {
   const own = boundary(t);
   const work = runMarketplaceProcess({...own.job, mode: 'index', sourceDigest: null});
-  const completed = assert.rejects(work, error => error.processReceipt.exitCode === 1);
-  own.message('process-error', {message: 'owned reported failure'}); await Promise.resolve(); await Promise.resolve();
+  const commandEvidence = {writesAfterStartup: [{command: 'unknownUnsafe', database: 'owned-fixture'}],
+    transactionControlsAfterStartup: [{command: 'commitTransaction', database: 'admin', outcome: 'failed'}], commandFailuresAfterStartup: [{code: 2}]};
+  const completed = assert.rejects(work, error => {
+    assert.equal(error.processReceipt.exitCode, 1); assert.deepEqual(error.processReceipt.reportedFailure.commandEvidence, commandEvidence); return true;
+  });
+  own.message('process-error', {message: 'owned reported failure', commandEvidence}); await Promise.resolve(); await Promise.resolve();
   assert.ok(own.timers.some(timer => timer.ms === 2000));
   own.close(1); await completed; own.assertTerminal();
   own.fireClearedCallbacks(); own.child.emit('disconnect'); own.child.emit('error', new Error('late child error'));

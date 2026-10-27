@@ -12,7 +12,7 @@ export async function runMarketplaceProcess(job, observeRecovered) {
     const startedAt = new Date().toISOString();
     const child = spawn(process.execPath, [fileURLToPath(new URL('./process-restart-child.mjs', import.meta.url))],
       {env, detached: process.platform === 'linux', windowsHide: true, stdio: ['pipe', 'pipe', 'pipe', 'ipc']});
-    let result, admitted, recovered, identity, failure, logBytes = 0, log = '', processing = Promise.resolve();
+    let result, admitted, recovered, identity, failure, reportedFailure, logBytes = 0, log = '', processing = Promise.resolve();
     let closed = false, settled = false;
     const killOwned = signal => {
       if (closed || settled || !child.pid) return;
@@ -42,7 +42,7 @@ export async function runMarketplaceProcess(job, observeRecovered) {
         if (identity) assert.deepEqual(message.identity, identity); else identity = message.identity;
         if (message.event === 'process-error') {
           // Preserve a reported child's own failure exit and cleanup; bound a child that fails to close.
-          failure ??= new Error(message.result.message); terminate(); return;
+          reportedFailure = message.result; failure ??= new Error(message.result.message); terminate(); return;
         }
         if (message.event === 'source-admitted-before-read' || message.event === 'recovered-before-replay') {
           assert.equal(job.mode, 'recover'); assert.equal(recovered, undefined); assert.equal(result, undefined);
@@ -96,7 +96,7 @@ export async function runMarketplaceProcess(job, observeRecovered) {
           exitCode: code, signal, reaped: true, absentAfterClose, processGroupAbsent, logBytes, log}});
       } catch (error) {
         const failed = new Error(`Owned Marketplace process failed: ${error.message}; exit=${code}; signal=${signal}; ${log}`);
-        failed.processReceipt = {identity: identity ?? null, mode: job.mode, pid: child.pid ?? null, startedAt,
+        failed.processReceipt = {identity: identity ?? null, reportedFailure: reportedFailure ?? null, mode: job.mode, pid: child.pid ?? null, startedAt,
           closedAt: new Date().toISOString(), exitCode: code, signal, reaped: true, absentAfterClose, processGroupAbsent, logBytes, log};
         reject(failed);
       } finally {
