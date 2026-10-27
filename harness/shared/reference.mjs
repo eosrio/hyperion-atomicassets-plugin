@@ -71,3 +71,7 @@ export async function executeOriginalAssetControls({referenceRoot, nodePath, tim
 export async function executeOriginalMarketplaceControls({referenceRoot, input, nodePath, timeoutMs}) {
   return await execute({referenceRoot, nodePath, timeoutMs, command: {mode: 'marketplace-controls', input}});
 }
+
+export async function executeOriginalSaleControls({referenceRoot, nodePath, timeoutMs}) {
+  return await execute({referenceRoot, nodePath, timeoutMs, command: {mode: 'sale-controls'}});
+}

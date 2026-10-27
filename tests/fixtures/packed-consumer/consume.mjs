@@ -71,3 +71,5 @@ console.log(JSON.stringify({packedExport: resolved, successes: 1, compatibleMiss
 
 await assert.rejects(import('@eosrio/hyperion-atomicassets-plugin/atomicassets/internal/lifecycle'),
   error => error.code === 'ERR_PACKAGE_PATH_NOT_EXPORTED');
+await assert.rejects(import('@eosrio/hyperion-atomicassets-plugin/atomicmarket/internal/fixed-sale'),
+  error => error.code === 'ERR_PACKAGE_PATH_NOT_EXPORTED');

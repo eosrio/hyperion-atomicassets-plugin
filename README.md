@@ -149,3 +149,13 @@ constructed domain values selected from the closed original PostgreSQL oracle. N
 controls exercise the private emitted files; public exports and SDK pins are unchanged. The safe
 collection input differs from the original NUL-containing input, which the tracer refuses. This
 slice does not establish SDK recovery, physical MongoDB lifecycle, source admission or full parity.
+
+
+## Internal fixed-price sale lifecycle
+
+The [private fixed-sale component](docs/parity/atomicmarket/fixed-sale-lifecycle.md) follows original
+v1.2.2 callbacks for single-asset creation/start/cancel and zero-median settlement, with exact prices,
+source/version requirements and current relationship reads. Original callback controls execute on
+Node 24/26; restricted light-view tests use a declared SQL shape model and the original formatter.
+This adds no public export or route. Asset enrichment, full sale APIs, physical backend execution,
+SDK integration/recovery and complete AtomicMarket parity remain open.

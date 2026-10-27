@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "repository": "https://github.com/atomicassets/atomicassets-api",
+  "tag": "2.7.0",
+  "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+  "sources": [
+    {
+      "path": "src/filler/processor.ts",
+      "gitBlob": "65e9bdd70c2f070a616cb62e9a6f7bd347b4e0b9",
+      "bytes": 14186,
+      "sha256": "cf5c1432789322fd95b2ef9be34aae1635e18846690d1119e3894b069a744651"
+    },
+    {
+      "path": "src/filler/handlers/atomicmarket/processors/sales.ts",
+      "gitBlob": "5fe1e4d42fbdb38a0c38343b59654b54850c447e",
+      "bytes": 9666,
+      "sha256": "e34e5f1391bd2eeb5a68d035ee73a85cca29c8161454daea137db9165a0302e9"
+    },
+    {
+      "path": "src/filler/handlers/atomicmarket/index.ts",
+      "gitBlob": "8028a5b370067257f054630d62b11d0fc6e62f82",
+      "bytes": 63339,
+      "sha256": "4d12d51af28be8cbb404c849b334e387c8bf32295c61c5e9d6f3ab32a87f8f09"
+    },
+    {
+      "path": "src/filler/handlers/atomicassets/index.ts",
+      "gitBlob": "aae3582c4fa5ba0b13b94f5161e265b115ec4548",
+      "bytes": 26848,
+      "sha256": "3708ea3747446300fd27f81af83bb2552a3020b3fa9e04ddcba2bafce6c4f9be"
+    },
+    {
+      "path": "src/filler/handlers/delphioracle/index.ts",
+      "gitBlob": "7bd5a4df13016f1399697ed2e98144eee9edde4d",
+      "bytes": 7778,
+      "sha256": "b0a22ffb2c166e8278343f129d4733139ce7ce5ed001efa838d16cbb70b1193b"
+    },
+    {
+      "path": "src/filler/handlers/atomicmarket/legacy-bundles.ts",
+      "gitBlob": "6ec2a974ac5b6c1ecac59c3b6b1e124cf34cccd2",
+      "bytes": 8161,
+      "sha256": "3ddc12b4ee5a9e1ad0b6532cd7ad156f00fb935a811ea914b05e32b8f3b7749a"
+    },
+    {
+      "path": "src/filler/handlers/atomicassets/v2-guard.ts",
+      "gitBlob": "2f4754cab746b8ff62c36a85eceb5902970c5757",
+      "bytes": 2761,
+      "sha256": "2e423d548ed5280ad43d1cce37319a86ce9fd63d538859a6a0be573d15b84abe"
+    },
+    {
+      "path": "src/filler/handlers/atomicmarket/types/actions.ts",
+      "gitBlob": "c77cfd56ee00cda0470ca5b50dd5659ef6b28828",
+      "bytes": 3568,
+      "sha256": "19d1957e5766b20329255d31d8cee531734cb61e04a118a3c699d4904d4edcc5"
+    },
+    {
+      "path": "src/utils/eosio.ts",
+      "gitBlob": "9912e9d3a124075505dd19b999de33132e6aa6e3",
+      "bytes": 3099,
+      "sha256": "df7150c69bee8ffcbc9f6b13491b1cc10b00dc059b5ecc60d40b3d4e1c496121"
+    },
+    {
+      "path": "src/utils/binary.ts",
+      "gitBlob": "6474e1e2088e0f9b713afb6c1dcd1ce8869a0854",
+      "bytes": 1598,
+      "sha256": "26cd2fc42ed37b28ebb5dfaf513cd8ee12bcd27e022c5b4cf80f40dbb9af74a7"
+    },
+    {
+      "path": "src/utils/marketplace.ts",
+      "gitBlob": "36cdb202e6664452de20cd70a259ffc34f08e59a",
+      "bytes": 200,
+      "sha256": "01660cdf207a5023720abc886b1ef053a1c809246e005fc9e09af8b806db971e"
+    },
+    {
+      "path": "src/api/namespaces/atomicmarket/format.ts",
+      "gitBlob": "f4d05aaf7ae137b4c11b41fd2f1f3e725788845a",
+      "bytes": 11355,
+      "sha256": "b0e3062d2c0da87988e5ce18d1972d96c772ee66b080028ab206a477a74a91f2"
+    },
+    {
+      "path": "src/api/namespaces/atomicmarket/filler.ts",
+      "gitBlob": "151b4406ed6006e3f69ce3f21db93cac740a83ef",
+      "bytes": 2422,
+      "sha256": "4f3875e7dc4639db58f276e585374c23b82c5015f80f5c9e6697f5a589551f77"
+    },
+    {
+      "path": "src/api/namespaces/atomicmarket/handlers/sales.ts",
+      "gitBlob": "bc1fbd2d3ea4a01e9290568f81b6ee53c7a3a103",
+      "bytes": 6645,
+      "sha256": "076dd5f46a2bb78f4de33a0c45ffcffd43d5b31222cae35586cb192b7c8dc4f4"
+    },
+    {
+      "path": "definitions/views/atomicmarket_sales_master.sql",
+      "gitBlob": "f7cf65e370c623a30aed5da1d0a3dd8332c993e4",
+      "bytes": 3474,
+      "sha256": "34185bc4779e69daad131e069f3d08871a957774b17ccb1150ad18deb3219669"
+    },
+    {
+      "path": "definitions/views/atomicmarket_sale_prices_master.sql",
+      "gitBlob": "0d93b25d59a68a46b159a16f54fa0005200f3dc6",
+      "bytes": 2027,
+      "sha256": "d5b056931b702b8b7cf76853a207abcd63fb8b48bd904da9eae2865855a2bfa4"
+    },
+    {
+      "path": "package.json",
+      "gitBlob": "231a3a487871043bca76bdb4702793fc824f7925",
+      "bytes": 5162,
+      "sha256": "ac81fe7d5e2ddb1998f4e47a7762481eb003417edb665cdf26492a2494e91c02"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "gitBlob": "5a9e859fb8fb14b8a79963cb7a46332cddc48ca4",
+      "bytes": 168997,
+      "sha256": "91dc5c040888673788bca9778b7a87ea285b5a5f1aa834da7707a2e6cdb52e5c"
+    }
+  ],
+  "input": {
+    "bytes": 17420,
+    "sha256": "73df62166d5087132a66b1a699d4f8a5b9bad947a98672692bb959accee144a4"
+  },
+  "scope": {
+    "constructedInputs": true,
+    "originalCallbacks": true,
+    "originalScheduler": true,
+    "originalFormatter": true,
+    "viewShape": "source-derived restricted model, not SQL execution",
+    "postgres": false,
+    "mongo": false,
+    "chainAuthority": false,
+    "sdkRecovery": false,
+    "fullParity": false
+  },
+  "expected": {
+    "bytes": 180308,
+    "sha256": "12d4af2377f71bd15b2f0b16df2417c53b15f52d35d57afa92007105e78ffe68",
+    "capture": "unmodified original callbacks/scheduler and original formatter on declared view model",
+    "native24And26ControlsEqual": true
+  }
+}

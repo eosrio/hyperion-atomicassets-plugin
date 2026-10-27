@@ -1,0 +1,657 @@
+{
+  "schemaVersion": 1,
+  "fixtureKind": "constructed-original-sale-callbacks",
+  "marketContract": "atomicmarket",
+  "assetsContract": "atomicassets",
+  "version": "1.2.2",
+  "baseBlock": 123456,
+  "baseTime": "2026-10-26T12:00:00.500",
+  "saleId": "9007199254740993",
+  "offerId": "9007199254741993",
+  "assetId": "9007199254740993",
+  "cases": [
+    {
+      "name": "waiting",
+      "blocks": [
+        {
+          "offset": 0,
+          "events": [
+            {
+              "name": "lognewsale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "seller": "seller",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "listing_price": "900719925474.0993 WAX",
+                "settlement_symbol": "4,WAX",
+                "maker_marketplace": "",
+                "collection_name": "fixturecoll",
+                "collection_fee": 0.05
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "same-block-start-before-create",
+      "blocks": [
+        {
+          "offset": 0,
+          "events": [
+            {
+              "name": "logsalestart",
+              "data": {
+                "sale_id": "9007199254740993",
+                "offer_id": "9007199254741993"
+              }
+            },
+            {
+              "name": "lognewsale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "seller": "seller",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "listing_price": "900719925474.0993 WAX",
+                "settlement_symbol": "4,WAX",
+                "maker_marketplace": " Market.Name ",
+                "collection_name": "fixturecoll",
+                "collection_fee": 0.05
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "listed-then-canceled",
+      "blocks": [
+        {
+          "offset": 0,
+          "events": [
+            {
+              "name": "lognewsale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "seller": "seller",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "listing_price": "900719925474.0993 WAX",
+                "settlement_symbol": "4,WAX",
+                "maker_marketplace": "",
+                "collection_name": "fixturecoll",
+                "collection_fee": 0.05
+              }
+            },
+            {
+              "name": "logsalestart",
+              "data": {
+                "sale_id": "9007199254740993",
+                "offer_id": "9007199254741993"
+              }
+            }
+          ]
+        },
+        {
+          "offset": 1,
+          "events": [
+            {
+              "name": "cancelsale",
+              "data": {
+                "sale_id": "9007199254740993"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "sold-and-duplicate-replay",
+      "blocks": [
+        {
+          "offset": 0,
+          "events": [
+            {
+              "name": "lognewsale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "seller": "seller",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "listing_price": "900719925474.0993 WAX",
+                "settlement_symbol": "4,WAX",
+                "maker_marketplace": "",
+                "collection_name": "fixturecoll",
+                "collection_fee": 0.05
+              }
+            },
+            {
+              "name": "logsalestart",
+              "data": {
+                "sale_id": "9007199254740993",
+                "offer_id": "9007199254741993"
+              }
+            }
+          ]
+        },
+        {
+          "offset": 1,
+          "events": [
+            {
+              "name": "purchasesale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "buyer": "buyer",
+                "intended_delphi_median": "0",
+                "taker_marketplace": "market.one"
+              }
+            }
+          ]
+        },
+        {
+          "offset": 2,
+          "events": [
+            {
+              "name": "purchasesale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "buyer": "otherbuyer",
+                "intended_delphi_median": "18446744073709551615",
+                "taker_marketplace": "othermarket"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "absent-purchase-and-updates",
+      "blocks": [
+        {
+          "offset": 0,
+          "events": [
+            {
+              "name": "logsalestart",
+              "data": {
+                "sale_id": "9007199254740993",
+                "offer_id": "9007199254741993"
+              }
+            },
+            {
+              "name": "cancelsale",
+              "data": {
+                "sale_id": "9007199254740993"
+              }
+            },
+            {
+              "name": "purchasesale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "buyer": "buyer",
+                "intended_delphi_median": "0",
+                "taker_marketplace": "market.one"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "v1-purchase-without-start",
+      "blocks": [
+        {
+          "offset": 0,
+          "events": [
+            {
+              "name": "lognewsale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "seller": "seller",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "listing_price": "900719925474.0993 WAX",
+                "settlement_symbol": "4,WAX",
+                "maker_marketplace": "",
+                "collection_name": "fixturecoll",
+                "collection_fee": 0.05
+              }
+            }
+          ]
+        },
+        {
+          "offset": 1,
+          "events": [
+            {
+              "name": "purchasesale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "buyer": "buyer",
+                "intended_delphi_median": "0",
+                "taker_marketplace": "market.one"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "nullable-buyer-and-marketplaces",
+      "blocks": [
+        {
+          "offset": 0,
+          "events": [
+            {
+              "name": "lognewsale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "seller": "seller",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "listing_price": "900719925474.0993 WAX",
+                "settlement_symbol": "4,WAX",
+                "maker_marketplace": null,
+                "collection_name": "fixturecoll",
+                "collection_fee": 0.05
+              }
+            },
+            {
+              "name": "logsalestart",
+              "data": {
+                "sale_id": "9007199254740993",
+                "offer_id": "9007199254741993"
+              }
+            }
+          ]
+        },
+        {
+          "offset": 1,
+          "events": [
+            {
+              "name": "purchasesale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "buyer": null,
+                "intended_delphi_median": "0",
+                "taker_marketplace": null
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "listing-price-clamp",
+      "blocks": [
+        {
+          "offset": 0,
+          "events": [
+            {
+              "name": "lognewsale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "seller": "seller",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "listing_price": "922337203685477.5808 WAX",
+                "settlement_symbol": "4,WAX",
+                "maker_marketplace": "",
+                "collection_name": "fixturecoll",
+                "collection_fee": 0.05
+              }
+            },
+            {
+              "name": "logsalestart",
+              "data": {
+                "sale_id": "9007199254740993",
+                "offer_id": "9007199254741993"
+              }
+            }
+          ]
+        },
+        {
+          "offset": 1,
+          "events": [
+            {
+              "name": "purchasesale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "buyer": "buyer",
+                "intended_delphi_median": "0",
+                "taker_marketplace": "market.one"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "equal-priority-cancel-then-start",
+      "blocks": [
+        {
+          "offset": 0,
+          "events": [
+            {
+              "name": "cancelsale",
+              "data": {
+                "sale_id": "9007199254740993"
+              }
+            },
+            {
+              "name": "logsalestart",
+              "data": {
+                "sale_id": "9007199254740993",
+                "offer_id": "9007199254741993"
+              }
+            },
+            {
+              "name": "lognewsale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "seller": "seller",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "listing_price": "900719925474.0993 WAX",
+                "settlement_symbol": "4,WAX",
+                "maker_marketplace": "",
+                "collection_name": "fixturecoll",
+                "collection_fee": 0.05
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "equal-priority-start-then-cancel",
+      "blocks": [
+        {
+          "offset": 0,
+          "events": [
+            {
+              "name": "logsalestart",
+              "data": {
+                "sale_id": "9007199254740993",
+                "offer_id": "9007199254741993"
+              }
+            },
+            {
+              "name": "cancelsale",
+              "data": {
+                "sale_id": "9007199254740993"
+              }
+            },
+            {
+              "name": "lognewsale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "seller": "seller",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "listing_price": "900719925474.0993 WAX",
+                "settlement_symbol": "4,WAX",
+                "maker_marketplace": "",
+                "collection_name": "fixturecoll",
+                "collection_fee": 0.05
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "new-sale-upsert-replaces-created-time",
+      "blocks": [
+        {
+          "offset": 0,
+          "events": [
+            {
+              "name": "lognewsale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "seller": "seller",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "listing_price": "900719925474.0993 WAX",
+                "settlement_symbol": "4,WAX",
+                "maker_marketplace": "",
+                "collection_name": "fixturecoll",
+                "collection_fee": 0.05
+              }
+            },
+            {
+              "name": "logsalestart",
+              "data": {
+                "sale_id": "9007199254740993",
+                "offer_id": "9007199254741993"
+              }
+            }
+          ]
+        },
+        {
+          "offset": 1,
+          "events": [
+            {
+              "name": "lognewsale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "seller": "seller",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "listing_price": "0.0001 WAX",
+                "settlement_symbol": "4,WAX",
+                "maker_marketplace": "again",
+                "collection_name": "fixturecoll",
+                "collection_fee": 0.05
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "purchase-canceled-without-invented-state-guard",
+      "blocks": [
+        {
+          "offset": 0,
+          "events": [
+            {
+              "name": "lognewsale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "seller": "seller",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "listing_price": "900719925474.0993 WAX",
+                "settlement_symbol": "4,WAX",
+                "maker_marketplace": "",
+                "collection_name": "fixturecoll",
+                "collection_fee": 0.05
+              }
+            },
+            {
+              "name": "logsalestart",
+              "data": {
+                "sale_id": "9007199254740993",
+                "offer_id": "9007199254741993"
+              }
+            },
+            {
+              "name": "cancelsale",
+              "data": {
+                "sale_id": "9007199254740993"
+              }
+            }
+          ]
+        },
+        {
+          "offset": 1,
+          "events": [
+            {
+              "name": "purchasesale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "buyer": "buyer",
+                "intended_delphi_median": "0",
+                "taker_marketplace": "market.one"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "v2-bundle-original-only",
+      "blocks": [
+        {
+          "offset": 0,
+          "events": [
+            {
+              "name": "lognewsale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "seller": "seller",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "listing_price": "900719925474.0993 WAX",
+                "settlement_symbol": "4,WAX",
+                "maker_marketplace": "",
+                "collection_name": "fixturecoll",
+                "collection_fee": 0.05
+              }
+            },
+            {
+              "name": "logsalestart",
+              "data": {
+                "sale_id": "9007199254740993",
+                "offer_id": "9007199254741993"
+              }
+            }
+          ]
+        },
+        {
+          "offset": 1,
+          "events": [
+            {
+              "name": "purchasesale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "buyer": "buyer",
+                "intended_delphi_median": "0",
+                "taker_marketplace": "market.one"
+              }
+            }
+          ]
+        }
+      ],
+      "version": "2.0.0",
+      "markerBlock": 1,
+      "offerCounts": {
+        "9007199254741993": 2
+      },
+      "originalOnly": true
+    },
+    {
+      "name": "nonzero-delphi-original-query-refused",
+      "blocks": [
+        {
+          "offset": 0,
+          "events": [
+            {
+              "name": "lognewsale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "seller": "seller",
+                "asset_ids": [
+                  "9007199254740993"
+                ],
+                "listing_price": "900719925474.0993 WAX",
+                "settlement_symbol": "4,WAX",
+                "maker_marketplace": "",
+                "collection_name": "fixturecoll",
+                "collection_fee": 0.05
+              }
+            },
+            {
+              "name": "logsalestart",
+              "data": {
+                "sale_id": "9007199254740993",
+                "offer_id": "9007199254741993"
+              }
+            }
+          ]
+        },
+        {
+          "offset": 1,
+          "events": [
+            {
+              "name": "purchasesale",
+              "data": {
+                "sale_id": "9007199254740993",
+                "buyer": "buyer",
+                "intended_delphi_median": "1",
+                "taker_marketplace": "market.one"
+              }
+            }
+          ]
+        }
+      ],
+      "originalOnly": true
+    }
+  ],
+  "relationships": {
+    "offer": {
+      "contract": "atomicassets",
+      "offer_id": "9007199254741993",
+      "state": 0
+    },
+    "collection": {
+      "contract": "atomicassets",
+      "collection_name": "fixturecoll",
+      "data": {
+        "name": "current collection",
+        "img": "current.png",
+        "images": null,
+        "ignored": "not selected"
+      },
+      "author": "author",
+      "allow_notify": true,
+      "authorized_accounts": [
+        "author"
+      ],
+      "notify_accounts": [],
+      "market_fee": 0.075,
+      "created_at_block": "100",
+      "created_at_time": "1793016000000"
+    },
+    "token": {
+      "market_contract": "atomicmarket",
+      "token_symbol": "WAX",
+      "token_contract": "eosio.token",
+      "token_precision": 4
+    },
+    "offerAssets": {
+      "contract": "atomicassets",
+      "offer_id": "9007199254741993",
+      "asset_ids": [
+        "9007199254740993"
+      ]
+    },
+    "symbolPair": null,
+    "sellerCode": null
+  }
+}

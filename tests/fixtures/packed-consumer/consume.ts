@@ -67,3 +67,7 @@ import type {DomainReader, DomainStage} from './node_modules/@eosrio/hyperion-at
 const privateDomainReader: DomainReader = {async get() {return {status: 'covered-absent'};}};
 const privateDomainStage: DomainStage = {...privateDomainReader, put() {}, delete() {}};
 void privateDomainStage;
+
+import type {SaleStage} from './node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicmarket/internal/fixed-sale-port.js';
+const privateSaleStage: SaleStage = {async get() {return {status: 'covered-absent'};}, put() {}, delete() {}};
+void privateSaleStage;
