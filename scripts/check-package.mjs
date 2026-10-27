@@ -48,6 +48,7 @@ try {
   assert.equal(packed.name, name);
   const packedFiles = new Set(packed.files.map(file => file.path));
   const required = ['dist/atomicmarket/marketplace.js', 'dist/atomicmarket/marketplace.d.ts',
+    'dist/atomicassets/asset.js', 'dist/atomicassets/asset.d.ts',
     'README.md', 'LICENSE', 'harness/shared/LICENSE.atomicassets-api.txt',
     'harness/shared/NOTICE.atomicassets-api.txt', 'docs/parity/atomicmarket/UPSTREAM-LICENSE'];
   for (const path of required) assert.ok(packedFiles.has(path), `Packed artifact is missing ${path}`);
@@ -58,6 +59,9 @@ try {
     allowScripts: {'github:eosrio/hyperion-sdk#339b5c93d1338968c18ed14254961439dcab16a0': true}}, null, 2) + '\n');
   for (const file of ['consume.mjs', 'consume.ts', 'tsconfig.json'])
     await copyFile(join(root, 'tests/fixtures/packed-consumer', file), join(consumer, file));
+  for (const file of ['asset-formatter-cases.mjs', 'asset-formatter.expected.json'])
+    await copyFile(join(root, 'tests/fixtures', file), join(consumer, file));
+  await copyFile(join(root, 'fixtures/harness/atomicassets/single-asset.input.json'), join(consumer, 'single-asset.input.json'));
   await run([npmCli, 'install', '--package-lock-only', '--allow-git=all'], consumer, 'consumer-lock');
   await run([npmCli, 'ci', '--allow-git=all'], consumer, 'consumer-install');
   const installed = join(consumer, 'node_modules', name);
@@ -65,6 +69,8 @@ try {
   const installedPackage = JSON.parse(await readFile(join(installed, 'package.json'), 'utf8'));
   assert.equal(installedPackage.exports['./atomicmarket/marketplace'].import, './dist/atomicmarket/marketplace.js');
   assert.equal(installedPackage.exports['./atomicmarket/marketplace'].types, './dist/atomicmarket/marketplace.d.ts');
+  assert.equal(installedPackage.exports['./atomicassets/asset'].import, './dist/atomicassets/asset.js');
+  assert.equal(installedPackage.exports['./atomicassets/asset'].types, './dist/atomicassets/asset.d.ts');
   for (const path of required) assert.equal(sha(await readFile(join(installed, path))), sha(await readFile(join(root, path))), path);
   const runtime = await run([join(consumer, 'consume.mjs')], consumer, 'consumer-runtime');
   const declarations = await run([join(consumer, 'node_modules/typescript/bin/tsc'), '-p',
@@ -72,6 +78,8 @@ try {
   const slash = value => value.replaceAll('\\', '/').toLowerCase();
   assert.ok(slash(declarations).includes(slash(join(installed, 'dist/atomicmarket/marketplace.d.ts'))),
     'Consumer must resolve the installed packed declaration');
+  assert.ok(slash(declarations).includes(slash(join(installed, 'dist/atomicassets/asset.d.ts'))),
+    'Consumer must resolve the installed packed asset declaration');
   assert.ok(slash(declarations).includes(slash(join(consumer, 'node_modules/@eosrio/hyperion-sdk/dist/projection.d.ts'))),
     'Consumer must resolve its installed SDK declarations');
   const lockBytes = await readFile(join(consumer, 'package-lock.json'));

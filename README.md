@@ -85,4 +85,15 @@ fixtures are not required for the compiled consumer.
 Actual Hyperion HTTP routes remain zero. Source ingestion, PostgreSQL execution, MongoDB/WormDB
 adapter integration and complete AtomicAssets/AtomicMarket parity remain unqualified. The package
 is private development work and this validation does not publish or activate an extension.
+
+## Portable asset formatting
+
+The development subpath `@eosrio/hyperion-atomicassets-plugin/atomicassets/asset` exports
+`formatAsset` and its structured input/output types. It formats already decoded metadata and
+explicit collection/schema/template relationships without database queries or input mutation.
+Exact identifiers remain strings. The [formatter contract](docs/parity/atomicassets/formatter.md)
+records the pinned source rules, actual original HTTP controls and remaining integration work.
+Normal emitted ESM and the installed packed consumer run the same eight discriminating cases.
+This formatter grants no source coverage, serving readiness or Hyperion HTTP integration.
+
 Licensed under [MIT](LICENSE).

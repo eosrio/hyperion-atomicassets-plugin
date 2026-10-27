@@ -17,6 +17,10 @@
     "./atomicmarket/marketplace": {
       "types": "./dist/atomicmarket/marketplace.d.ts",
       "import": "./dist/atomicmarket/marketplace.js"
+    },
+    "./atomicassets/asset": {
+      "types": "./dist/atomicassets/asset.d.ts",
+      "import": "./dist/atomicassets/asset.js"
     }
   },
   "engines": {

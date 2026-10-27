@@ -1,0 +1,531 @@
+{
+  "layered": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "contract": "atomicassets",
+        "asset_id": "9007199254740993",
+        "owner": "alice",
+        "is_transferable": true,
+        "is_burnable": true,
+        "collection": {
+          "collection_name": "fixturecol",
+          "author": "alice",
+          "allow_notify": true,
+          "authorized_accounts": [
+            "alice"
+          ],
+          "notify_accounts": [],
+          "market_fee": 0.05,
+          "data": {
+            "name": "Fixture Collection"
+          }
+        },
+        "schema": {
+          "schema_name": "cards",
+          "collection": {
+            "collection_name": "fixturecol"
+          },
+          "format": [
+            {
+              "name": "name",
+              "type": "string",
+              "mediatype": "name",
+              "info": null
+            },
+            {
+              "name": "img",
+              "type": "image",
+              "mediatype": "image/png",
+              "info": "cover"
+            }
+          ]
+        },
+        "template": {
+          "template_id": "7",
+          "is_transferable": true,
+          "is_burnable": true,
+          "max_supply": "100",
+          "issued_supply": "1",
+          "mutable_data": {
+            "name": "template-mutable",
+            "description": "fallback"
+          },
+          "immutable_data": {
+            "name": "template-immutable"
+          },
+          "data": {
+            "name": "template-immutable",
+            "description": "fallback"
+          }
+        },
+        "mutable_data": {
+          "name": "asset-mutable",
+          "rank": 1
+        },
+        "immutable_data": {
+          "name": "asset-immutable",
+          "img": "fixture-image"
+        },
+        "backed_tokens": [],
+        "template_mint": "1",
+        "minted_at_block": "123",
+        "minted_at_time": "1700000000000",
+        "updated_at_block": "124",
+        "updated_at_time": "1700000000500",
+        "transferred_at_block": "123",
+        "transferred_at_time": "1700000000000",
+        "data": {
+          "name": "template-immutable",
+          "description": "fallback",
+          "rank": 1,
+          "img": "fixture-image"
+        },
+        "name": "template-immutable",
+        "original_mint": null
+      }
+    }
+  },
+  "untemplated-null": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "contract": "atomicassets",
+        "asset_id": "9007199254740993",
+        "owner": null,
+        "is_transferable": true,
+        "is_burnable": true,
+        "collection": null,
+        "schema": {
+          "schema_name": "cards",
+          "format": []
+        },
+        "template": null,
+        "mutable_data": {},
+        "immutable_data": {
+          "name": null,
+          "burned": true
+        },
+        "backed_tokens": [],
+        "template_mint": "1",
+        "minted_at_block": "123",
+        "minted_at_time": "1700000000000",
+        "updated_at_block": "124",
+        "updated_at_time": "1700000000500",
+        "transferred_at_block": "123",
+        "transferred_at_time": "1700000000000",
+        "original_mint": null,
+        "data": {
+          "name": null,
+          "burned": true
+        },
+        "name": null
+      }
+    }
+  },
+  "missing-metadata": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "contract": "atomicassets",
+        "asset_id": "9007199254740993",
+        "owner": "alice",
+        "is_transferable": true,
+        "is_burnable": true,
+        "collection": {
+          "collection_name": "fixturecol",
+          "author": "alice",
+          "allow_notify": true,
+          "authorized_accounts": [
+            "alice"
+          ],
+          "notify_accounts": [],
+          "market_fee": 0.05,
+          "data": {
+            "name": "Fixture Collection"
+          }
+        },
+        "schema": {
+          "schema_name": "cards",
+          "collection": {
+            "collection_name": "fixturecol"
+          },
+          "format": []
+        },
+        "backed_tokens": [],
+        "template_mint": "1",
+        "minted_at_block": "123",
+        "minted_at_time": "1700000000000",
+        "updated_at_block": "124",
+        "updated_at_time": "1700000000500",
+        "transferred_at_block": "123",
+        "transferred_at_time": "1700000000000",
+        "extension": {
+          "kept": [
+            false,
+            null,
+            "18446744073709551615"
+          ]
+        },
+        "mutable_data": {},
+        "immutable_data": {},
+        "data": {},
+        "original_mint": null
+      }
+    }
+  },
+  "typed-metadata": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "contract": "atomicassets",
+        "asset_id": "18446744073709551615",
+        "owner": "alice",
+        "is_transferable": true,
+        "is_burnable": true,
+        "collection": {
+          "collection_name": "fixturecol",
+          "author": "alice",
+          "allow_notify": true,
+          "authorized_accounts": [
+            "alice"
+          ],
+          "notify_accounts": [],
+          "market_fee": 0.05,
+          "data": {
+            "name": "Fixture Collection"
+          }
+        },
+        "schema": {
+          "schema_name": "cards",
+          "collection": {
+            "collection_name": "fixturecol"
+          },
+          "format": [
+            {
+              "name": "name",
+              "type": "string",
+              "mediatype": "name",
+              "info": null
+            },
+            {
+              "name": "img",
+              "type": "image",
+              "mediatype": "image/png",
+              "info": "cover"
+            }
+          ]
+        },
+        "template": {
+          "template_id": "2147483647",
+          "is_transferable": true,
+          "is_burnable": true,
+          "max_supply": "18446744073709551615",
+          "issued_supply": "1",
+          "mutable_data": {
+            "shared": "template mutable",
+            "fallback": false,
+            "array": [
+              1,
+              "2",
+              null
+            ]
+          },
+          "immutable_data": {
+            "shared": null,
+            "name": "",
+            "array": [
+              "template",
+              false
+            ]
+          },
+          "collection_name": "template-retained",
+          "schema_name": "template-retained",
+          "authorized_accounts": [
+            "template-author"
+          ],
+          "schema": {
+            "types": [
+              {
+                "name": "raw"
+              }
+            ]
+          },
+          "data": {
+            "shared": null,
+            "fallback": false,
+            "array": [
+              "template",
+              false
+            ],
+            "name": ""
+          }
+        },
+        "mutable_data": {
+          "shared": "asset mutable",
+          "mutable": 0,
+          "name": "mutable",
+          "nested": {
+            "a": 1
+          }
+        },
+        "immutable_data": {
+          "shared": "asset immutable",
+          "immutable": true,
+          "name": "immutable",
+          "nested": {
+            "b": 2
+          }
+        },
+        "backed_tokens": [],
+        "template_mint": "1",
+        "minted_at_block": "123",
+        "minted_at_time": "1700000000000",
+        "updated_at_block": "124",
+        "updated_at_time": "1700000000500",
+        "transferred_at_block": "123",
+        "transferred_at_time": "1700000000000",
+        "original_mint": "9007199254740999",
+        "data": {
+          "shared": null,
+          "fallback": false,
+          "array": [
+            "template",
+            false
+          ],
+          "mutable": 0,
+          "name": "",
+          "nested": {
+            "b": 2
+          },
+          "immutable": true
+        },
+        "name": ""
+      }
+    }
+  },
+  "media-descriptors": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "contract": "atomicassets",
+        "asset_id": "9007199254740993",
+        "owner": "alice",
+        "is_transferable": true,
+        "is_burnable": true,
+        "collection": {
+          "collection_name": "fixturecol",
+          "author": "alice",
+          "allow_notify": true,
+          "authorized_accounts": [
+            "alice"
+          ],
+          "notify_accounts": [],
+          "market_fee": 0.05,
+          "data": {
+            "name": "Fixture Collection"
+          }
+        },
+        "schema": {
+          "schema_name": "cards",
+          "collection": {
+            "collection_name": "fixturecol"
+          },
+          "format": [
+            {
+              "name": "name",
+              "type": "string",
+              "authored": true,
+              "mediatype": "name",
+              "info": null
+            },
+            {
+              "name": "Name",
+              "type": "string",
+              "authored": true,
+              "mediatype": null,
+              "info": null
+            },
+            {
+              "name": "IMAGEcover",
+              "type": "string",
+              "authored": true,
+              "mediatype": "image",
+              "info": null
+            },
+            {
+              "name": "previewVideo",
+              "type": "string",
+              "authored": true,
+              "mediatype": "application/custom",
+              "info": "first"
+            },
+            {
+              "name": "audioIMG",
+              "type": "string",
+              "authored": true,
+              "mediatype": "audio",
+              "info": null
+            },
+            {
+              "name": "unknown",
+              "type": "string",
+              "authored": true,
+              "mediatype": null,
+              "info": null
+            },
+            {
+              "name": "typed",
+              "type": "image",
+              "authored": true,
+              "mediatype": "image",
+              "info": null
+            }
+          ],
+          "extension": {
+            "kept": true
+          }
+        },
+        "template": {
+          "template_id": "7",
+          "is_transferable": true,
+          "is_burnable": true,
+          "max_supply": "100",
+          "issued_supply": "1",
+          "mutable_data": {
+            "name": "template-mutable",
+            "description": "fallback"
+          },
+          "immutable_data": {
+            "name": "template-immutable"
+          },
+          "data": {
+            "name": "template-immutable",
+            "description": "fallback"
+          }
+        },
+        "mutable_data": {
+          "name": "asset-mutable",
+          "rank": 1
+        },
+        "immutable_data": {
+          "name": "asset-immutable",
+          "img": "fixture-image"
+        },
+        "backed_tokens": [],
+        "template_mint": "1",
+        "minted_at_block": "123",
+        "minted_at_time": "1700000000000",
+        "updated_at_block": "124",
+        "updated_at_time": "1700000000500",
+        "transferred_at_block": "123",
+        "transferred_at_time": "1700000000000",
+        "data": {
+          "name": "template-immutable",
+          "description": "fallback",
+          "rank": 1,
+          "img": "fixture-image"
+        },
+        "name": "template-immutable",
+        "original_mint": null
+      }
+    }
+  },
+  "null-template-metadata": {
+    "status": 200,
+    "body": {
+      "success": true,
+      "data": {
+        "contract": "atomicassets",
+        "asset_id": "9007199254740993",
+        "owner": "alice",
+        "is_transferable": true,
+        "is_burnable": true,
+        "collection": {
+          "collection_name": "fixturecol",
+          "author": "alice",
+          "allow_notify": true,
+          "authorized_accounts": [
+            "alice"
+          ],
+          "notify_accounts": [],
+          "market_fee": 0.05,
+          "data": {
+            "name": "Fixture Collection"
+          }
+        },
+        "schema": {
+          "schema_name": "cards",
+          "collection": {
+            "collection_name": "fixturecol"
+          },
+          "format": [
+            {
+              "name": "name",
+              "type": "string",
+              "mediatype": "name",
+              "info": null
+            },
+            {
+              "name": "img",
+              "type": "image",
+              "mediatype": "image/png",
+              "info": "cover"
+            }
+          ]
+        },
+        "template": {
+          "template_id": "7",
+          "is_transferable": true,
+          "is_burnable": true,
+          "max_supply": "100",
+          "issued_supply": "1",
+          "mutable_data": {},
+          "immutable_data": {},
+          "data": {}
+        },
+        "mutable_data": {
+          "name": false
+        },
+        "immutable_data": {},
+        "backed_tokens": [
+          {
+            "token_contract": "eosio.token",
+            "amount": "9999999999999999"
+          }
+        ],
+        "template_mint": "1",
+        "minted_at_block": "123",
+        "minted_at_time": "1700000000000",
+        "updated_at_block": "124",
+        "updated_at_time": "1700000000500",
+        "transferred_at_block": "123",
+        "transferred_at_time": "1700000000000",
+        "original_mint": "",
+        "data": {
+          "name": false
+        },
+        "name": false
+      }
+    }
+  },
+  "invalid-null-schema": {
+    "status": 500,
+    "body": {
+      "success": false,
+      "message": "Internal Server Error"
+    }
+  },
+  "invalid-schema-field": {
+    "status": 500,
+    "body": {
+      "success": false,
+      "message": "Internal Server Error"
+    }
+  }
+}

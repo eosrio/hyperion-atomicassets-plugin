@@ -1,9 +1,12 @@
 import assert from 'node:assert/strict';
 import {realpathSync} from 'node:fs';
+import {readFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {PROJECTION_CAPABILITIES} from '@eosrio/hyperion-sdk/projection';
 import {MarketplaceNotFoundError, readMarketplace} from '@eosrio/hyperion-atomicassets-plugin/atomicmarket/marketplace';
+import {formatAsset} from '@eosrio/hyperion-atomicassets-plugin/atomicassets/asset';
+import {assetFormatterCases} from './asset-formatter-cases.mjs';
 
 const resolved = fileURLToPath(import.meta.resolve('@eosrio/hyperion-atomicassets-plugin/atomicmarket/marketplace'));
 assert.equal(realpathSync(resolved), realpathSync(join(process.cwd(), 'node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicmarket/marketplace.js')));
@@ -22,4 +25,22 @@ assert.deepEqual(result.data, {marketplace_name: 'marketplace1', creator: 'alice
 assert.equal(result.view, view);
 await assert.rejects(readMarketplace({async query() {return {view, rows: []};}}, view, 'atomicmarket', 'missing'),
   error => error instanceof MarketplaceNotFoundError && error.statusCode === 416);
-console.log(JSON.stringify({packedExport: resolved, successes: 1, compatibleMissingError: true, sdkRuntimeImport: true}));
+const assetExport = fileURLToPath(import.meta.resolve('@eosrio/hyperion-atomicassets-plugin/atomicassets/asset'));
+assert.equal(realpathSync(assetExport), realpathSync(join(process.cwd(), 'node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicassets/asset.js')));
+const base = JSON.parse(await readFile(new URL('./single-asset.input.json', import.meta.url)));
+const golden = JSON.parse(await readFile(new URL('./asset-formatter.expected.json', import.meta.url)));
+const assetCases = assetFormatterCases(base);
+for (const {name, fixture, invalid} of assetCases) {
+  const input = fixture.queries[0].rows[0], original = structuredClone(input);
+  if (invalid) {assert.equal(golden[name].status, 500); assert.throws(() => formatAsset(input), TypeError);}
+  else {
+    assert.equal(golden[name].status, 200);
+    const formatted = formatAsset(input);
+    assert.equal(Object.hasOwn(formatted, 'template'), Object.hasOwn(input, 'template'));
+    assert.deepEqual(JSON.parse(JSON.stringify(formatted)), golden[name].body.data);
+    assert.equal(JSON.stringify(formatted), JSON.stringify(golden[name].body.data));
+  }
+  assert.deepEqual(input, original);
+}
+console.log(JSON.stringify({packedExport: resolved, successes: 1, compatibleMissingError: true,
+  sdkRuntimeImport: true, packedAssetExport: assetExport, assetFormatterReferenceCases: assetCases.length}));
