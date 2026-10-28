@@ -7,7 +7,7 @@ import {join,resolve,dirname} from 'node:path';
 import {pathToFileURL,fileURLToPath} from 'node:url';
 import {hash,hex,point,stable,validatePrior} from './guard.mjs';
 import {BRIDGE_HEAD,MARKER,validatePlan,validateDomainPins,loadDomain} from './domain.mjs';
-import {verifyUndoInventory,verifyFailureTrace} from './runner.mjs';
+import {verifyUndoInventory,verifyFailureTrace,captureTransactionIdentity} from './runner.mjs';
 const clone=v=>JSON.parse(JSON.stringify(v));
 const sourcePins=JSON.parse(readFileSync(new URL('./source-pins.json',import.meta.url)));
 const plan=JSON.parse(readFileSync(new URL('./plan.json',import.meta.url)));
@@ -41,20 +41,24 @@ test('failure observation must be the exact late marker delete after both domain
   const rows=[{kind:'asset',key:'asset-key'},{kind:'market-sale',key:'sale-key'}],collection='owned_rows';
   const targets=rows.map(r=>hash(JSON.stringify([r.kind,r.key]))),marker=hash(JSON.stringify([MARKER.kind,MARKER.key]));
   const binding={rowCollection:collection,metadataCollection:'owned_metadata',metadataId:hex(10),candidateDigest:hex(11),sourceDigest:hex(12)};
+  const identity={lsid:{id:{type:'binary',subtype:'04',hex:'ab'.repeat(16)}},txnNumber:{type:'int64',decimal:'9007199254740993'}};
   const trace=[
     {seq:1,event:'commandStarted',command:'update',requestId:1,transactional:false,collection:binding.metadataCollection,targets:[binding.metadataId],pending:[{candidateDigest:binding.candidateDigest,sourceDigest:binding.sourceDigest}]},
     {seq:2,event:'commandSucceeded',command:'update',requestId:1,writeErrors:[]},
-    ...targets.flatMap((target,i)=>[{seq:3+2*i,event:'commandStarted',command:'update',requestId:2+i,transactional:true,transaction:'9',collection,targets:[target]},
+    ...targets.flatMap((target,i)=>[{seq:3+2*i,event:'commandStarted',command:'update',requestId:2+i,transactional:true,transaction:clone(identity),collection,targets:[target]},
       {seq:4+2*i,event:'commandSucceeded',command:'update',requestId:2+i,writeErrors:[]}]),
-    {seq:7,event:'commandStarted',command:'delete',requestId:4,transactional:true,transaction:'9',collection,targets:[marker]},
+    {seq:7,event:'commandStarted',command:'delete',requestId:4,transactional:true,transaction:clone(identity),collection,targets:[marker]},
     {seq:8,event:'commandFailed',command:'delete',requestId:4,code:2,labels:[]},
-    {seq:9,event:'commandStarted',command:'abortTransaction',requestId:5,transactional:true,transaction:'9'},
+    {seq:9,event:'commandStarted',command:'abortTransaction',requestId:5,transactional:true,transaction:clone(identity)},
     {seq:10,event:'commandSucceeded',command:'abortTransaction',requestId:5,writeErrors:[]},
   ];
   verifyFailureTrace(trace,binding,rows);
-  for(const mutate of [t=>t.splice(7,1),t=>{t[6].targets=[hex(55)];},t=>{t[4].transaction='8';},t=>{t[5].writeErrors=[11000];},
+  for(const mutate of [t=>t.splice(7,1),t=>{t[6].targets=[hex(55)];},t=>{t[4].transaction.txnNumber.decimal='8';},t=>{t[5].writeErrors=[11000];},
     t=>{t[7].labels=['TransientTransactionError'];},t=>{t[9].seq=1;},t=>{t[2].collection='foreign';},
-    t=>{t[0].pending[0].candidateDigest=hex(100);},t=>{t[8].transaction='8';}]) {
+    t=>{t[0].pending[0].candidateDigest=hex(100);},t=>{t[8].transaction.txnNumber.decimal='8';},
+    t=>{t[2].transaction.lsid.id.hex='cd'.repeat(16);},t=>{t[4].transaction.lsid.id.hex='cd'.repeat(16);},
+    t=>{t[8].transaction.lsid.id.hex='cd'.repeat(16);},t=>{delete t[6].transaction.lsid;},
+    t=>{for(const i of [2,4,6,8])delete t[i].transaction.txnNumber;},t=>{t[4].transaction.lsid.id.subtype='00';}]) {
     const bad=clone(trace);mutate(bad);assert.throws(()=>verifyFailureTrace(bad,binding,rows));
   }
 });
@@ -85,6 +89,20 @@ class Custody {
   async load(d,s){const raw=this.values.get(d+s);return raw?JSON.parse(raw):null;}
   async retain(c){const key=c.declarationDigest+c.source.digest,raw=JSON.stringify(c);if(this.values.has(key))assert.equal(this.values.get(key),raw);this.values.set(key,raw);}
 }
+selected('native BSON transaction identity preserves UUID subtype and exact int64 without session aliasing',()=>{
+  const id=new BSON.Binary(Buffer.from('ab'.repeat(16),'hex'),BSON.Binary.SUBTYPE_UUID);
+  const command={autocommit:false,lsid:{id},txnNumber:BSON.Long.fromString('9007199254740993')};
+  const fixed=captureTransactionIdentity(command,BSON);
+  assert.deepEqual(fixed,{lsid:{id:{type:'binary',subtype:'04',hex:'ab'.repeat(16)}},txnNumber:{type:'int64',decimal:'9007199254740993'}});
+  id.buffer[0]=0;assert.equal(fixed.lsid.id.hex,'ab'.repeat(16),'Captured session bytes must detach from native mutable buffer');
+  const second=captureTransactionIdentity({...command,lsid:{id:new BSON.Binary(Buffer.from('cd'.repeat(16),'hex'),4)}},BSON);
+  assert.equal(second.txnNumber.decimal,fixed.txnNumber.decimal);assert.notEqual(stable(second),stable(fixed));
+  assert.equal(captureTransactionIdentity({autocommit:true},BSON),null);
+  for(const bad of [{...command,lsid:null},{...command,txnNumber:9007199254740993},{...command,txnNumber:'9007199254740993'},
+    {...command,txnNumber:BSON.Long.fromString('9223372036854775808')},{...command,txnNumber:BSON.Long.fromString('9',true)},
+    {...command,lsid:{id:new BSON.Binary(Buffer.alloc(16),0)}},{...command,lsid:{id:new BSON.Binary(Buffer.alloc(15),4)}},
+    {...command,lsid:{id:Buffer.alloc(16)}},{...command,lsid:{...command.lsid,unknown:true}}])assert.throws(()=>captureTransactionIdentity(bad,BSON));
+});
 async function setup() {
   const m={caseId:'h45_stateful_eeeeeeeeeeee',input:{sha256:hex(10)},bounds:{candidateBytes:262144}};
   const def=domain.definition(m,hex(11),hex(12)),limits=domain.limits(m),configured=await sdk.captureStatefulDeclaration(def,limits),f=databaseFixture();

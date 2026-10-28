@@ -68,11 +68,35 @@ function assertReceipt(p,candidate) {
     assert.equal(r.sourceDigest,candidate.source.digest);assert.equal(r.candidateDigest,candidate.digest);
 }
 
+/** Detached typed identity from this pinned driver's native command; never Number coercion. */
+export function captureTransactionIdentity(command,BSON) {
+    if(command.autocommit!==false)return null;
+    assert.deepEqual(Object.keys(command.lsid??{}),['id'],'Complete native session identity required');
+    const id=command.lsid.id,number=command.txnNumber;
+    assert.ok(id instanceof BSON.Binary&&id.sub_type===BSON.Binary.SUBTYPE_UUID,'Native UUID session subtype required');
+    const bytes=Buffer.from(id.value());assert.equal(bytes.length,16);
+    assert.ok(number instanceof BSON.Long&&number.unsigned===false,'Exact signed BSON int64 transaction number required');
+    const decimal=number.toString();assert.match(decimal,/^(0|[1-9][0-9]*)$/);assert.ok(BigInt(decimal)<=9223372036854775807n);
+    return Object.freeze({lsid:Object.freeze({id:Object.freeze({type:'binary',subtype:'04',hex:bytes.toString('hex')})}),
+        txnNumber:Object.freeze({type:'int64',decimal})});
+}
+function checkedTransactionIdentity(value) {
+    assert.deepEqual(Object.keys(value??{}).sort(),['lsid','txnNumber']);
+    assert.deepEqual(Object.keys(value.lsid??{}),['id']);
+    assert.deepEqual(Object.keys(value.lsid.id??{}).sort(),['hex','subtype','type']);
+    assert.equal(value.lsid.id.type,'binary');assert.equal(value.lsid.id.subtype,'04');assert.match(value.lsid.id.hex,/^[0-9a-f]{32}$/);
+    assert.deepEqual(Object.keys(value.txnNumber??{}).sort(),['decimal','type']);assert.equal(value.txnNumber.type,'int64');
+    assert.match(value.txnNumber.decimal,/^(0|[1-9][0-9]*)$/);assert.ok(BigInt(value.txnNumber.decimal)<=9223372036854775807n);
+    return stable(value);
+}
+
 /** Observation verifier only: constructed controls cannot establish that MongoDB executed it. */
 export function verifyFailureTrace(trace,{rowCollection,metadataCollection,metadataId,candidateDigest,sourceDigest},domainRows) {
     const failed=trace.find(e=>e.event==='commandFailed'&&e.command==='delete'&&e.code===2);assert.ok(failed,'Native marker failpoint must fire');
     assert.ok(!failed.labels.includes('TransientTransactionError'));
     const started=trace.find(e=>e.requestId===failed.requestId&&e.event==='commandStarted');assert.equal(started.transactional,true);
+    const transaction=checkedTransactionIdentity(started.transaction);
+    const sameTransaction=s=>s.transactional&&checkedTransactionIdentity(s.transaction)===transaction;
     assert.ok(trace.some(e=>e.seq<started.seq&&e.command==='update'&&e.event==='commandSucceeded'&&e.writeErrors.length===0&&
         trace.some(s=>s.requestId===e.requestId&&s.event==='commandStarted'&&!s.transactional&&s.collection===metadataCollection&&
             s.targets.includes(metadataId)&&s.pending.some(p=>p?.candidateDigest===candidateDigest&&p.sourceDigest===sourceDigest))),
@@ -82,11 +106,11 @@ export function verifyFailureTrace(trace,{rowCollection,metadataCollection,metad
     for(const row of domainRows.filter(r=>['asset','market-sale'].includes(r.kind))) {
         const target=hash(JSON.stringify([row.kind,row.key]));
         assert.ok(trace.some(e=>e.seq<started.seq&&e.event==='commandSucceeded'&&e.command==='update'&&e.writeErrors.length===0&&
-            trace.some(s=>s.requestId===e.requestId&&s.event==='commandStarted'&&s.transactional&&s.transaction===started.transaction&&
+            trace.some(s=>s.requestId===e.requestId&&s.event==='commandStarted'&&sameTransaction(s)&&
                 s.collection===rowCollection&&s.targets.includes(target))),'Actual domain replacement must succeed in the failed transaction before marker DELETE');
     }
     assert.ok(trace.some(e=>e.command==='abortTransaction'&&e.event==='commandSucceeded'&&e.seq>failed.seq&&
-        trace.some(s=>s.requestId===e.requestId&&s.event==='commandStarted'&&s.transactional&&s.transaction===started.transaction)));
+        trace.some(s=>s.requestId===e.requestId&&s.event==='commandStarted'&&sameTransaction(s))));
     return failed;
 }
 
@@ -140,8 +164,8 @@ export async function runPhase(phase,manifestPath,manifestSha256) {
     const originalDomain=await loadDomain(join(m.modules.root,plan.pluginRoot));
     assert.equal(fileURLToPath(import.meta.url),join(m.modules.root,m.modules.entries.runner));
     assert.equal(fileURLToPath(new URL('./guard.mjs',import.meta.url)),join(m.modules.root,m.modules.entries.guard));
-    let traceOverflow=false;
-    const guard=()=>{assert.ok(!traceOverflow,'Command observation bound exceeded');assert.ok(Date.now()-start<m.bounds.phaseMS,'Phase deadline exceeded; no retry/kill/cleanup authorized');assertOwner(m);};
+    let traceOverflow=false,traceIdentityInvalid=false;
+    const guard=()=>{assert.ok(!traceOverflow,'Command observation bound exceeded');assert.ok(!traceIdentityInvalid,'Incomplete native transaction observation');assert.ok(Date.now()-start<m.bounds.phaseMS,'Phase deadline exceeded; no retry/kill/cleanup authorized');assertOwner(m);};
     const file=n=>join(m.caseRoot,n+'.json');
     let prior=null;if(priorPhase(phase))prior=validatePrior(boundedJson(file(priorPhase(phase)),m.bounds.outputBytes),phase,manifestSha256);
     freshJson(file(phase+'.intent'),{phase,manifestSha256,process:processIdentity(process.pid)},m.bounds.outputBytes);
@@ -160,8 +184,9 @@ export async function runPhase(phase,manifestPath,manifestSha256) {
     for(const event of ['commandStarted','commandSucceeded','commandFailed'])writer.on(event,e=>{
         if(!['insert','update','delete','commitTransaction','abortTransaction'].includes(e.commandName))return;
         if(trace.length>=128){traceOverflow=true;return;}
+        let transaction=null;if(event==='commandStarted')try {transaction=captureTransactionIdentity(e.command,BSON);}catch {traceIdentityInvalid=true;}
         trace.push({seq:++seq,event,command:e.commandName,requestId:e.requestId,
-            ...(event==='commandStarted'?{transactional:e.command.autocommit===false,transaction:e.command.txnNumber?.toString()??null,
+            ...(event==='commandStarted'?{transactional:e.command.autocommit===false,transaction,
                 collection:e.command[e.commandName]??null,targets:(e.command.updates??e.command.deletes??[]).map(v=>v.q?._id??null),
                 pending:(e.command.updates??[]).map(v=>v.u?.$set?.pending??null)}:{}),
             ...(event==='commandFailed'?{code:e.failure?.code??null,labels:e.failure?.errorLabels??[]}:{}),

@@ -90,8 +90,9 @@ counts are A11, B14, rollback A11, C13, D2 and E0.
 The runner retains raw `physical-A`, `physical-failed-B-A`, `physical-B`,
 `physical-rollback-A`, `physical-C`, `physical-D`, `physical-E` and final
 unavailable-E captures, alongside bounded command observations and phase
-receipts. It observes real request targets and transaction numbers to reject
-an unrelated DELETE failure. Root custody still requires closed native/outer
+receipts. It observes real request targets and complete typed UUID session and
+exact BSON int64 transaction identities to reject unrelated writes, DELETE or abort.
+Root custody still requires closed native/outer
 streams, actual wait results, original deadlines and guarded physical cleanup.
 There is no database crash, HA/failover or unknown-commit claim.
 
