@@ -95,6 +95,14 @@ for (const {disableV1Sales, result} of inspections) {
 }
 for (const anchor of anchors) assert(routes.has(anchor.registeredMethod + ' ' + anchor.path),
   'Source-declared route was not registered: ' + anchor.path);
+// Plugin implementation frontier accompanies, and never replaces, original route observations.
+const saleIdRoute = routes.get('ALL /atomicmarket/v1/sales/:sale_id');
+assert(saleIdRoute?.source.some(entry => entry.handler === 'getSaleAction'), 'Original sale-ID handler must remain registered');
+saleIdRoute.componentCoverage = {
+  privateUntemplatedAssetComposition: 'sale-nested-assets.md',
+  templatedAssets: 'unsupported; template and pricing indexing remain required',
+  publicHttp: 'unimplemented', physicalSameInputComparison: 'pending', fullEndpointParity: false,
+};
 const socketCoverage = inventorySocketContracts({referenceRoot, namespace: 'atomicmarket', ts});
 const sockets = socketCoverage.registrations;
 const sourceStats = {

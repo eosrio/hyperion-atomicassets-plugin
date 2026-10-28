@@ -73,3 +73,5 @@ await assert.rejects(import('@eosrio/hyperion-atomicassets-plugin/atomicassets/i
   error => error.code === 'ERR_PACKAGE_PATH_NOT_EXPORTED');
 await assert.rejects(import('@eosrio/hyperion-atomicassets-plugin/atomicmarket/internal/fixed-sale'),
   error => error.code === 'ERR_PACKAGE_PATH_NOT_EXPORTED');
+await assert.rejects(import('@eosrio/hyperion-atomicassets-plugin/atomicmarket/internal/sale-assets'),
+  error => error.code === 'ERR_PACKAGE_PATH_NOT_EXPORTED');
