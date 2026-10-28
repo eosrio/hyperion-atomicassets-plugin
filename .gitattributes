@@ -2,6 +2,8 @@
 /fixtures/harness/atomicassets/lifecycle/original/** -text
 # Sanitized domain oracle/provenance hashes also cover exact retained bytes.
 /fixtures/harness/atomicassets/domain/** -text
+# The explicitly named safe-input profile has one pinned raw representation.
+/fixtures/harness/atomicassets/lifecycle/input-safe-image.json -text
 # Source-pinned AtomicMarket callback/control bytes.
 /fixtures/harness/atomicmarket/lifecycle/** -text
 # OCI content digests cover original bytes, including newlines.

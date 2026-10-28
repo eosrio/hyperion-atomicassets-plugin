@@ -1,13 +1,13 @@
 "use strict";
 const assert = require('node:assert/strict');
-const {readFileSync} = require('node:fs');
-const {join} = require('node:path');
 const {once} = require('node:events');
 const {createHash} = require('node:crypto');
 const copy = value => structuredClone(value);
 const json = value => JSON.parse(JSON.stringify(value, (_, v) => typeof v === 'bigint' ? String(v) : v));
-module.exports = async function scenario(fromReference, connection, config, record) {
-  const input = JSON.parse(readFileSync(join(__dirname, '../../../fixtures/harness/atomicassets/lifecycle/input.json')));
+module.exports = async function scenario(fromReference, connection, config, record, inputProfile) {
+  const profiles = require('../lifecycle-input.cjs');
+  const selected = inputProfile === undefined ? profiles.loadInputProfile() : profiles.validateInputProfile(inputProfile);
+  const {input, descriptor} = selected;
   const codec = fromReference('@atomichub/atomicassets');
   const {encodeDatabaseJson} = fromReference('./src/filler/utils.ts');
   const {default: DataProcessor, ProcessingState} = fromReference('./src/filler/processor.ts');
@@ -21,7 +21,7 @@ module.exports = async function scenario(fromReference, connection, config, reco
   require('./query-observer.cjs')(client,record,'lifecycle-sql');
   const rpc = [], notifications = [], stages = [], queue = [], executed = [];
   const {contract, collection, schema, assetId} = input;
-  record({kind:'constructed-lifecycle-input',sequenceStart:'9007199254741093',
+  record({kind:'constructed-lifecycle-input',sequenceStart:'9007199254741093',inputProfile:descriptor,
     input:Object.fromEntries(['fixtureKind','contract','collection','schema','assetId','block','collectionFormat','collectionData','format','immutableAttributes','mutableAttributes','updatedAttributes','codecAttributes'].map(key=>[key,input[key]]))});
   assert.equal(assetId, '9007199254740993');
   const rpcBoundary = {async get_table_rows(args) {
@@ -163,7 +163,7 @@ module.exports = async function scenario(fromReference, connection, config, reco
     const constraints=(await client.query("SELECT conname,condeferrable,condeferred,pg_get_constraintdef(oid) AS definition FROM pg_constraint WHERE conrelid='atomicassets_assets'::regclass ORDER BY conname")).rows;
     for (const name of ['atomicassets_assets_collections_fkey','atomicassets_assets_schemas_fkey']) assert.ok(constraints.some(row=>row.conname===name&&row.condeferrable&&row.condeferred));
     record({kind:'original-pg-scenario-complete',stages:stages.length});
-    return {stages,negatives,codec:{converted:json(converted),negativeZero:Object.is(converted.fv[3],-0),probes},queue,executed,notifications,
+    return {inputProfile:descriptor,stages,negatives,codec:{converted:json(converted),negativeZero:Object.is(converted.fv[3],-0),probes},queue,executed,notifications,
       bootstrapRpc:{constructedInputs:true,requests:rpc,maintenanceSkippedForUnknownReader:true},schemaAudit:{currentView,constraints},healthCalls,
       scope:{originalProcessors:true,originalHandlerBootstrap:true,originalViewAndHttp:true,realPostgres:true,reversibleBookkeeping:false,
         constructedInputs:true,mongoParity:false,postgresFixtureCleanupQualified:false,fullParity:false}};

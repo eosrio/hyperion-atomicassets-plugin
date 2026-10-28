@@ -1,0 +1,53 @@
+{
+  "fixtureKind": "constructed-original-processor-inputs",
+  "contract": "atomicassets",
+  "collection": "fixturecoll",
+  "schema": "fixture",
+  "assetId": "9007199254740993",
+  "templatedAssetId": "18446744073709551615",
+  "templateId": 42,
+  "sequence": "18446744073709551000",
+  "block": {"block_num": 123456, "timestamp": "2026-10-26T12:00:00.500"},
+  "collectionFormat": [
+    {"name": "name", "type": "string"},
+    {"name": "img", "type": "string"},
+    {"name": "images", "type": "string"},
+    {"name": "rank", "type": "uint64"}
+  ],
+  "collectionData": {"name": "original collection", "img": "image hash", "images": "{\"banner\":\"ipfs\"}", "rank": "18446744073709551615"},
+  "format": [
+    {"name": "name", "type": "string"},
+    {"name": "image", "type": "string"},
+    {"name": "signed", "type": "int64"},
+    {"name": "unsigned", "type": "uint64"},
+    {"name": "sv", "type": "int64[]"},
+    {"name": "uv", "type": "uint64[]"},
+    {"name": "f32", "type": "float"},
+    {"name": "f64", "type": "double"},
+    {"name": "fv", "type": "float[]"},
+    {"name": "dv", "type": "double[]"}
+  ],
+  "templateData": {"name": "template immutable", "signed": "-9223372036854775808", "unsigned": "18446744073709551615"},
+  "mutableTemplateData": {"name": "template mutable", "image": "template.png"},
+  "serializedData": {
+    "name": "serialized\u0000name", "image": "image.png", "signed": "-9223372036854775808", "unsigned": "18446744073709551615",
+    "sv": ["-9223372036854775808", "9007199254740993"], "uv": ["0", "18446744073709551615"],
+    "f32": 0.1, "f64": 0.1, "fv": [0.1, -1.25], "dv": [0.1, 1.7976931348623157e308]
+  },
+  "immutableAttributes": [{"key": "name", "value": ["string", "asset immutable"]}, {"key": "serial", "value": ["uint64", "18446744073709551615"]}],
+  "mutableAttributes": [{"key": "name", "value": ["string", "asset mutable"]}, {"key": "old", "value": ["string", "remove me"]}],
+  "updatedAttributes": [{"key": "name", "value": ["string", "replacement mutable"]}, {"key": "signed", "value": ["int64", "-9223372036854775808"]}],
+  "codecAttributes": [
+    {"key": "signed", "value": ["int64", "-9223372036854775808"]},
+    {"key": "unsigned", "value": ["uint64", "18446744073709551615"]},
+    {"key": "sv", "value": ["INT64_VEC", ["-9223372036854775808", "9007199254740993"]]},
+    {"key": "uv", "value": ["UINT64_VEC", ["0", "18446744073709551615"]]},
+    {"key": "f32", "value": ["float32", "0.1"]},
+    {"key": "f64", "value": ["float64", "0.1"]},
+    {"key": "fv", "value": ["FLOAT_VEC", ["0.1", "1e-60", "3.4028236e38", "-0", "NaN"]]},
+    {"key": "dv", "value": ["DOUBLE_VEC", ["0.1", "1e-400", "1e400", "-0", "Infinity"]]},
+    {"first": "nul", "second": ["string", "before\u0000after"]},
+    {"key": "text", "value": ["string", "left"]},
+    {"key": "text", "value": ["string", "last duplicate wins"]}
+  ]
+}
