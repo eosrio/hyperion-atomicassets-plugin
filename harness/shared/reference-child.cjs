@@ -22,6 +22,8 @@ async function main(command) {
     return await require('../atomicmarket/original-marketplace-controls.cjs')(fromReference, referenceRoot, command.input);
   if (command.mode === 'sale-controls')
     return await require('../atomicmarket/original-sale-controls.cjs')(fromReference, referenceRoot);
+  if (command.mode === 'sale-asset-controls')
+    return await require('../atomicmarket/original-sale-assets.cjs')(fromReference, referenceRoot, command.input);
   const fixture = command.fixture;
   const namespace = fixture?.namespace ?? command.namespace;
   if (!['atomicassets', 'atomicmarket'].includes(namespace)) throw new Error('Unsupported bounded reference namespace');
@@ -114,7 +116,7 @@ async function main(command) {
     chunks.push(chunk);
   }
   const command = JSON.parse(Buffer.concat(chunks).toString('utf8'));
-    if (!['request', 'inventory', 'asset-controls', 'marketplace-controls', 'sale-controls'].includes(command.mode)) throw new Error('Invalid reference mode');
+  if (!['request', 'inventory', 'asset-controls', 'marketplace-controls', 'sale-controls', 'sale-asset-controls'].includes(command.mode)) throw new Error('Invalid reference mode');
   const result = await main(command);
   finish('reference_result', result, 0);
 })().catch(error => finish('reference_error', error, 1));

@@ -5,7 +5,7 @@ import {formatAsset, type AtomicAssetInput, type AtomicValue}
   from '@eosrio/hyperion-atomicassets-plugin/atomicassets/asset';
 import {createMarketplaceDefinition}
   from '@eosrio/hyperion-atomicassets-plugin/atomicmarket/marketplace-indexing';
-import {formatSale, type AtomicSaleInput, type AtomicSaleState}
+import {formatSale, type AtomicSale, type AtomicSaleInput, type AtomicSaleState}
   from '@eosrio/hyperion-atomicassets-plugin/atomicmarket/sale';
 
 declare const view: ProjectionRollbackReadView;
@@ -71,3 +71,7 @@ void privateDomainStage;
 import type {SaleStage} from './node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicmarket/internal/fixed-sale-port.js';
 const privateSaleStage: SaleStage = {async get() {return {status: 'covered-absent'};}, put() {}, delete() {}};
 void privateSaleStage;
+
+import {readFixedSaleWithAssets} from './node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicmarket/internal/sale-assets.js';
+const privateNestedSale: Promise<AtomicSale | null> = readFixedSaleWithAssets(privateSaleStage, 'atomicmarket', '9007199254740993');
+void privateNestedSale;

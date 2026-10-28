@@ -55,6 +55,7 @@ try {
     'dist/atomicassets/internal/lifecycle-port.js', 'dist/atomicassets/internal/lifecycle-port.d.ts',
     'dist/atomicmarket/internal/fixed-sale.js', 'dist/atomicmarket/internal/fixed-sale.d.ts',
     'dist/atomicmarket/internal/fixed-sale-port.js', 'dist/atomicmarket/internal/fixed-sale-port.d.ts',
+    'dist/atomicmarket/internal/sale-assets.js', 'dist/atomicmarket/internal/sale-assets.d.ts',
     'README.md', 'LICENSE', 'harness/shared/LICENSE.atomicassets-api.txt',
     'harness/shared/NOTICE.atomicassets-api.txt', 'docs/parity/atomicmarket/UPSTREAM-LICENSE'];
   for (const path of required) assert.ok(packedFiles.has(path), `Packed artifact is missing ${path}`);
@@ -102,6 +103,8 @@ try {
     {...env, AA_DOMAIN_MODULE_ROOT: join(installed, 'dist')});
   await run(['--test', join(root, 'tests/fixed-sale-lifecycle.test.mjs')], root, 'consumer-fixed-sale',
     {...env, AM_DOMAIN_MODULE_ROOT: join(installed, 'dist')});
+  await run(['--test', join(root, 'tests/sale-nested-assets.test.mjs')], root, 'consumer-sale-assets',
+    {...env, AM_DOMAIN_MODULE_ROOT: join(installed, 'dist')});
   const declarations = await run([join(consumer, 'node_modules/typescript/bin/tsc'), '-p',
     join(consumer, 'tsconfig.json'), '--listFiles'], consumer, 'consumer-declarations');
   const slash = value => value.replaceAll('\\', '/').toLowerCase();
@@ -115,6 +118,8 @@ try {
     'Consumer must resolve the installed packed sale declaration');
   assert.ok(slash(declarations).includes(slash(join(installed, 'dist/atomicmarket/internal/fixed-sale-port.d.ts'))),
     'Private declaration control must use the installed file');
+  assert.ok(slash(declarations).includes(slash(join(installed, 'dist/atomicmarket/internal/sale-assets.d.ts'))),
+    'Private nested sale declaration must use the installed file');
   assert.ok(slash(declarations).includes(slash(join(consumer, 'node_modules/@eosrio/hyperion-sdk/dist/projection.d.ts'))),
     'Consumer must resolve its installed SDK declarations');
   const lockBytes = await readFile(join(consumer, 'package-lock.json'));
@@ -128,6 +133,7 @@ try {
     installedFromTarball: true, runtimeImport: JSON.parse(runtime), declarationConsumerExit: 0,
     internalDomainRegression: true, internalDomainPublicExport: false,
     internalFixedSaleRegression: true, internalFixedSalePublicExport: false,
+    internalSaleAssetsRegression: true, internalSaleAssetsPublicExport: false,
     statefulPackedCaller: {optInComponentSelected: Boolean(env.ATOMIC_STATEFUL_COMPONENT_ROOT), actualMongo: false},
     consumerLockSha256: sha(lockBytes), sdkResolved, commands,
     scope: 'Packed query component and declarations; no Hyperion HTTP, source ingestion, database or full parity qualification'};

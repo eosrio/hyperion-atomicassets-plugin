@@ -99,6 +99,11 @@ values on replacement. Seeding a projection with those fields does not qualify t
 
 ## Remaining capability and endpoint work
 
+The [private sale-ID asset composition](sale-nested-assets.md) reuses the current coherent asset
+reader for untemplated nested values. Templates/pricing and the complete sale-ID HTTP route remain
+unimplemented. Its direct original handler/filler controls are scripted-row evidence, not a
+PostgreSQL view, physical MongoDB or public API qualification.
+
 [capabilities.md](capabilities.md) maps the concrete source/context, transform, relationship, query
 and serving requirements to pinned upstream and SDK code. It records requirements without choosing
 a database-native layout or pretending a JSON-string field implements typed attributes.

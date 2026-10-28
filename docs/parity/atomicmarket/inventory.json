@@ -1349,6 +1349,13 @@
       "path": "/atomicmarket/v1/sales/:sale_id",
       "registeredMethod": "ALL",
       "implementationStatus": "not_implemented",
+      "componentCoverage": {
+        "privateUntemplatedAssetComposition": "sale-nested-assets.md",
+        "templatedAssets": "unsupported; template and pricing indexing remain required",
+        "publicHttp": "unimplemented",
+        "physicalSameInputComparison": "pending",
+        "fullEndpointParity": false
+      },
       "referenceBehaviorStatus": "registered_original_namespace",
       "source": [
         {
