@@ -1,0 +1,115 @@
+{
+  "sdkHead": "b64bac478fc8015d409d44aa6f100668e0e091d2",
+  "adapterHead": "e4a46cfa69f0a0cf7f6ca51847a0efa51da80795",
+  "kind": "qualification-only-emission-and-controlled-native-fixture-pins",
+  "files": {
+    "dist/contract.js": {
+      "bytes": 7247,
+      "sha256": "a550fa7e3e0237192c871c8aa53cee871762e13c0a1386aa1971fd463b4e6e6c"
+    },
+    "dist/index.js": {
+      "bytes": 16924,
+      "sha256": "275e1031d5ce48141f7573f5caf6f954cec5eb870e7d098eab1e2f43f59b499b"
+    },
+    "dist/rollback-contract.js": {
+      "bytes": 9011,
+      "sha256": "06d97fe507a3dc68cb3b11c4d2382f078ca6e184f3123985d9e170d62a447baf"
+    },
+    "dist/rollback.js": {
+      "bytes": 28851,
+      "sha256": "9b99a85bffc7d018b30af73190516290bf161200ed758d7015f95962d6d8a305"
+    },
+    "dist/stateful-contract.js": {
+      "bytes": 10593,
+      "sha256": "9ea2b233974340bd6bcae43582ab687808757c09665b4da852f40e0d770efcf6"
+    },
+    "dist/stateful.js": {
+      "bytes": 25678,
+      "sha256": "f6add02d5ce26cacffca04d4d375576947dc4b92ce9f6690749ad7c98838f60f"
+    },
+    "dist/storage.js": {
+      "bytes": 7524,
+      "sha256": "ec4a4af6c2b2e7c5e6750ab827eadc51ffb5a4ed1289b9aff7ea560b771f8399"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/component-manifest.schema.json": {
+      "bytes": 2347,
+      "sha256": "7e0ff66b1f6d33517d39380742a917634fadd2e8bd44e1891d69e5197e580c99"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/examples/table-projection.d.ts": {
+      "bytes": 1221,
+      "sha256": "4d5ae54f674f7df451a669fdae9a10ca7b70a47dfd887dd8cb128ecc2b8a0fcc"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/examples/table-projection.js": {
+      "bytes": 3674,
+      "sha256": "24e9a6e3f7ff54e0e527066476d97eb1f459c44c67d5e7a7e79777dde6701809"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/index.d.ts": {
+      "bytes": 95,
+      "sha256": "88077596a7b9eed41bb34955d0009de3196e7fc7d24b37ff52c688c45ce77370"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/index.js": {
+      "bytes": 95,
+      "sha256": "88077596a7b9eed41bb34955d0009de3196e7fc7d24b37ff52c688c45ce77370"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/internal/structured-values.d.ts": {
+      "bytes": 1614,
+      "sha256": "de6c3242cccaa68ce6d48497144666d78942643e997093d03a82d7d0242ec21a"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/internal/structured-values.js": {
+      "bytes": 11219,
+      "sha256": "7e0ad313a4cd59cdb8cfc75644c5d08f5811fda90f9fa50de86057eb96fb6c91"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/manifest.d.ts": {
+      "bytes": 1547,
+      "sha256": "645c1ebf2af5b7cc98101d7e15e34c54c951471d8a68682ea6dbc4440dd4cb55"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/manifest.js": {
+      "bytes": 5271,
+      "sha256": "fbcff747d2c7a8ba891fa971ef0203bfed13d2f1fae85a828997bb5c46b72786"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/projection-stateful.d.ts": {
+      "bytes": 4699,
+      "sha256": "778eb1a856d34f3ab36891be052384a10831a2e9c1319510c6ac33468942a367"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/projection-stateful.js": {
+      "bytes": 32145,
+      "sha256": "0eff7e35801f6c4d7ad04554e3be55dc219ebc002d72581babf539ee2471a333"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/projection.d.ts": {
+      "bytes": 32733,
+      "sha256": "9ce6af6a657cf6acd5d3c5aae4cd043ce119518017994171d09513d65d7f63d1"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/projection.js": {
+      "bytes": 58369,
+      "sha256": "b34d739fc141d053030c8f6a2c4f24c81fef790a3db7b962356ca4774bc7a2ff"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/protocol-native-actions.d.ts": {
+      "bytes": 3779,
+      "sha256": "15a969392e4d059e468ecaa352a3c6b0d1562c4afd10e43c45e021b0e7f24c94"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/protocol-native-actions.js": {
+      "bytes": 10326,
+      "sha256": "8ed6567ceb9f414474a8e36eb4aed98c3d46575b0d2c29ebc67a09d10bb2c593"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/protocol.d.ts": {
+      "bytes": 11433,
+      "sha256": "c916f29a7ad97926a7651b10ad1f0a896421d3d13c48466cd15ed772c5f5bfb9"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/protocol.js": {
+      "bytes": 11022,
+      "sha256": "491dc37f993e671980155238a3d36ccfcaeaecd7456f2d60a7e337220d9b9924"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/stateful-types.d.ts": {
+      "bytes": 8656,
+      "sha256": "b8cd792e1aaa5a6ad275383a18025e812ea0f9a9a028160879d237c9d861940d"
+    },
+    "node_modules/@eosrio/hyperion-sdk/dist/stateful-types.js": {
+      "bytes": 11,
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
+    "tests/fixture.mjs": {
+      "bytes": 10494,
+      "sha256": "a56c794f2f1c5143e50cff6edfe6f2e7df6476e8d504cb3ad2aee18edae16005"
+    }
+  }
+}

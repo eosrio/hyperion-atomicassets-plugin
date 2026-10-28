@@ -159,3 +159,10 @@ source/version requirements and current relationship reads. Original callback co
 Node 24/26; restricted light-view tests use a declared SQL shape model and the original formatter.
 This adds no public export or route. Asset enrichment, full sale APIs, physical backend execution,
 SDK integration/recovery and complete AtomicMarket parity remain open.
+
+## Opt-in combined stateful qualification
+
+The [combined component bridge](docs/parity/stateful-bridge.md) runs the real asset/sale reducers
+through a separately pinned opt-in SDK/native-adapter path and one coherent read view. It leaves
+production activation, installed dependencies and public exports unchanged. Controlled native-caller
+tests and packed emissions do not establish real MongoDB execution or full parity.
