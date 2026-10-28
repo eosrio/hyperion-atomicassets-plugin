@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "kind": "atomic-stateful-engine-qualification",
+  "pluginRoot": "atomic-plugin",
+  "bridgeHead": "294abcd51a16a5d6ea4f0e00fe1531300402bf99",
+  "buildPath": "atomic-plugin/engine-build.json"
+}
