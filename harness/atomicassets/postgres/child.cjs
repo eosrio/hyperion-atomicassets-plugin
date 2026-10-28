@@ -9,14 +9,17 @@ const record=value=>{assert.ok(report.events.length<2048,'Original PG event budg
 (async()=>{
  let bytes=0;const chunks=[];
  for await(const chunk of process.stdin){bytes+=chunk.length;assert.ok(bytes<=16384);chunks.push(chunk);}
- const job=JSON.parse(Buffer.concat(chunks).toString());assert.deepEqual(Object.keys(job).sort(),['parentPid','receipt','referenceRoot']);
- assert.equal(job.parentPid,process.ppid);assert.equal(process.platform,'linux');
+ const job=JSON.parse(Buffer.concat(chunks).toString());assert.deepEqual(Object.keys(job).sort(),['inputProfile','parentPid','receipt','referenceRoot']);
+ assert.equal(job.parentPid,process.ppid);
+ const selected=require('../lifecycle-input.cjs').validateInputProfile(job.inputProfile);report.inputProfile=selected.descriptor;
+ assert.equal(process.platform,'linux');
  assert.equal(process.release.name,'node');assert.ok([24,26].includes(Number(process.versions.node.split('.')[0])));assert.equal(process.versions.bun,undefined);
  const {originalSource,sha}=await import('./source.mjs');
  const {verifyObservedFixture,observeFixture,admitEmptyDatabase,PIN}=await import('./admission.mjs');
  const reference=originalSource(job.referenceRoot),config=verifyObservedFixture(job.receipt,observeFixture(job.receipt));
  report.harness={files:['admission.mjs','child.cjs','fixture-pin.json','image-identity.mjs','postgres-16.15-linux-amd64.manifest.json','postgres-16.15-linux-amd64.config.json','query-observer.cjs','run.mjs','scenario.cjs','schema.cjs','source.mjs'].map(path=>{const data=fs.readFileSync(join(__dirname,path));return{path,bytes:data.length,sha256:sha(data)};}),
-  fixtureInputSha256:sha(fs.readFileSync(join(__dirname,'../../../fixtures/harness/atomicassets/lifecycle/input.json'))),
+  fixtureInputSha256:selected.descriptor.selectedInput.sha256,
+  inputProfileLoader:{path:'harness/atomicassets/lifecycle-input.cjs',sha256:sha(fs.readFileSync(join(__dirname,'../lifecycle-input.cjs')))},
   auditManifestSha256:sha(fs.readFileSync(join(__dirname,'../../../docs/parity/atomicassets/postgres-oracle-sources.json'))),
   nodeExecutableSha256:sha(fs.readFileSync(process.execPath))};
  assert.equal(process.env.SWC_NODE_PROJECT,join(reference.root,'tsconfig.json'));
@@ -30,7 +33,7 @@ const record=value=>{assert.ok(report.events.length<2048,'Original PG event budg
  report.reference={commit:reference.commit,lockSha256:reference.lockSha256,actualWorkingLockSha256:reference.actualWorkingLockSha256,sources:reference.observed};
  report.schema=await require('./schema.cjs')(reference.fromReference,connection,report.admission,record);
  const privateConfig={host:config.host,port:config.port,user:config.user,password:config.password,database:config.database};
- report.result=await require('./scenario.cjs')(reference.fromReference,connection,privateConfig,record);
+ report.result=await require('./scenario.cjs')(reference.fromReference,connection,privateConfig,record,selected.descriptor);
  report.status='passed';report.fixtureCleanup={requiredFromRoot:true,performedByHarness:false,qualified:false};
 })().catch(error=>{report.status='failed';report.error={name:error.name,code:error.code??null,message:String(error.message).slice(0,2048),stack:String(error.stack).slice(0,8192)};process.exitCode=1;}).finally(async()=>{
  try{await connection?.end();report.originalConnectionEnded=Boolean(connection);}catch(error){report.status='failed';report.connectionCloseError=String(error.message);process.exitCode=1;}

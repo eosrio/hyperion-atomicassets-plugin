@@ -73,6 +73,15 @@ Runtime credentials, logs, HTTP headers and whole reports are excluded.
 The original input's `collectionData.img` contains NUL; its legacy stored value is `image hash`.
 The successful tracer fixture deliberately starts with that safe space-containing value. Thus its
 inputs differ from the original physical PG run: **no new same-input physical PG comparison occurred**.
+
+The portable tracer now reads the full named `portable-safe-image` input through
+the same pinned loader used by the original PostgreSQL/view/HTTP harness. That
+driver requires an explicit `--input-profile portable-safe-image` selection; its
+default NUL-bearing original input is unchanged. The new raw fixture differs
+from the original at exactly the declared image field, retains all codec probes,
+and reports both digests and the unresolved conversion exception. This removes
+the need to edit frozen fixtures before a later same-input run. It does not
+replace the existing expected fixture or establish a new physical comparison.
 The seven output comparisons cover the supported subset. A local control also invokes the unmodified
 original collection callback/codec on that safe input and the original formatter on all seven views.
 Git blobs and installed codec hashes are checked; Windows Git checkout newline differences are

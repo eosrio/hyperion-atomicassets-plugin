@@ -9,7 +9,8 @@ export const codec = {sha256: '2dfe332031728c475622ae510d7ea78246a9592a9da6cf70b
   attributes: value => original.convertAttributeMapToObject(value),
   collection: (hex, format) => original.deserialize(hex, original.CachedObjectSchema(format))};
 export const fixture = JSON.parse(readFileSync(new URL('../../fixtures/harness/atomicassets/domain/expected.json', import.meta.url)));
-export const input = fixture.input;
+// The physical original driver can select this exact full input profile too.
+export const input = require('../../harness/atomicassets/lifecycle-input.cjs').loadInputProfile('portable-safe-image').input;
 export const key = (...parts) => JSON.stringify(parts);
 export const digest = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 export const schemaDigest = digest(input.format);

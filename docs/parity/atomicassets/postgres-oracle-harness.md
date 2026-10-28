@@ -71,6 +71,37 @@ With the exact reference and its frozen pnpm 11.13.1 development dependencies in
 node harness/atomicassets/postgres/run.mjs --execute --admission receipt.json --reference-root ORIGINAL --evidence-parent OWNED_DIRECTORY
 ```
 
+The default `original-lifecycle` input remains the exact existing
+`lifecycle/input.json`. Its Git-LF blob is 2,855 bytes/SHA-256
+`8006d4c79506d19bbdad4cab6f794368be960f30f90b673e07e1cc42e1fc7f6a`;
+the established Windows CRLF checkout is 2,908 bytes/SHA-256
+`6c4a2a25d7d57afe043c18cb20b9c9125992a5d90965fa8409cc0d689f6cfbfe`.
+Only those two existing exact byte variants are admitted, and the actual raw
+digest and checkout variant are reported. The loader rewrites neither one.
+The portable lifecycle tracer and this original driver can now explicitly select
+the same full `portable-safe-image` input:
+
+```sh
+node harness/atomicassets/postgres/run.mjs --execute --admission receipt.json --reference-root ORIGINAL --evidence-parent OWNED_DIRECTORY --input-profile portable-safe-image
+```
+
+This named fixture is pinned LF, 2,850 bytes/SHA-256
+`612d44a7dfab5d722aeafc07ab768f9abc05875aac4992265b1ac9fff95d1115`.
+Its raw JSON differs from the Git-LF original only by the declared `collectionData.img` change from
+`image\u0000hash` to `image hash`. It retains the complete original input,
+including the unchanged codec probes. No arbitrary input path or input
+normalization is accepted. Unknown profile names or changed raw fixture digests
+refuse before fixture observation or SQL.
+
+The shared input loader records both raw input digests, the explicit substitution
+choice and the unresolved NUL/literal-backslash exceptions. The parent binds
+that descriptor into the child request and terminal receipt; the child and
+scenario independently validate and report the same descriptor. Missing or
+changed exception evidence refuses. Original expected outputs and older physical
+reports remain unchanged. This adds a selectable same-input execution path;
+**a new same-input PostgreSQL/view/HTTP versus physical MongoDB comparison has
+not been run or qualified by these source controls**.
+
 Each actual native-version run needs its own fresh run/receipt/container/database. Reusing a
 populated fixture is refused, not reset. The evidence parent must already exist. The runner exclusively creates its own `aa-pg-RUN`
 subdirectory and copies the 176 pinned original definition files by value. Original code runs
