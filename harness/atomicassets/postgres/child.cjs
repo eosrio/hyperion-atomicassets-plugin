@@ -9,9 +9,13 @@ const record=value=>{assert.ok(report.events.length<2048,'Original PG event budg
 (async()=>{
  let bytes=0;const chunks=[];
  for await(const chunk of process.stdin){bytes+=chunk.length;assert.ok(bytes<=16384);chunks.push(chunk);}
- const job=JSON.parse(Buffer.concat(chunks).toString());assert.deepEqual(Object.keys(job).sort(),['inputProfile','parentPid','receipt','referenceRoot']);
+ const job=JSON.parse(Buffer.concat(chunks).toString());assert.deepEqual(Object.keys(job).sort(),['inputProfile','parentPid','receipt','referenceRoot',...(Object.hasOwn(job,'captureProfile')?['captureProfile']:[])].sort());
  assert.equal(job.parentPid,process.ppid);
  const selected=require('../lifecycle-input.cjs').validateInputProfile(job.inputProfile);report.inputProfile=selected.descriptor;
+ if(Object.hasOwn(job,'captureProfile')){
+  report.captureProfile=require('../mint-capture-profile.cjs').validateMintCapture(job.captureProfile);
+  assert.deepEqual(report.captureProfile.inputProfile,selected.descriptor);
+ }
  assert.equal(process.platform,'linux');
  assert.equal(process.release.name,'node');assert.ok([24,26].includes(Number(process.versions.node.split('.')[0])));assert.equal(process.versions.bun,undefined);
  const {originalSource,sha}=await import('./source.mjs');
@@ -33,7 +37,7 @@ const record=value=>{assert.ok(report.events.length<2048,'Original PG event budg
  report.reference={commit:reference.commit,lockSha256:reference.lockSha256,actualWorkingLockSha256:reference.actualWorkingLockSha256,sources:reference.observed};
  report.schema=await require('./schema.cjs')(reference.fromReference,connection,report.admission,record);
  const privateConfig={host:config.host,port:config.port,user:config.user,password:config.password,database:config.database};
- report.result=await require('./scenario.cjs')(reference.fromReference,connection,privateConfig,record,selected.descriptor);
+ report.result=await require('./scenario.cjs')(reference.fromReference,connection,privateConfig,record,selected.descriptor,report.captureProfile);
  report.status='passed';report.fixtureCleanup={requiredFromRoot:true,performedByHarness:false,qualified:false};
 })().catch(error=>{report.status='failed';report.error={name:error.name,code:error.code??null,message:String(error.message).slice(0,2048),stack:String(error.stack).slice(0,8192)};process.exitCode=1;}).finally(async()=>{
  try{await connection?.end();report.originalConnectionEnded=Boolean(connection);}catch(error){report.status='failed';report.connectionCloseError=String(error.message);process.exitCode=1;}

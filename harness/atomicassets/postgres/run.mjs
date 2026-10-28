@@ -7,16 +7,22 @@ import {createRequire} from 'node:module';
 import {originalSource,copyDefinitions,sha} from './source.mjs';
 import {PIN,validateReceipt,verifyObservedFixture,observeFixture} from './admission.mjs';
 const {PROFILES,loadInputProfile} = createRequire(import.meta.url)('../lifecycle-input.cjs');
+const {MINT_CAPTURE,mintCaptureProfile} = createRequire(import.meta.url)('../mint-capture-profile.cjs');
 export function parseArgs(args){
- assert.ok([7,9].includes(args.length) && args[0]==='--execute' && args[1]==='--admission' && args[3]==='--reference-root' && args[5]==='--evidence-parent',
-  'Usage: --execute --admission RECEIPT --reference-root ORIGINAL --evidence-parent OWNED_DIRECTORY [--input-profile NAME]');
+ assert.ok([7,9,11].includes(args.length) && args[0]==='--execute' && args[1]==='--admission' && args[3]==='--reference-root' && args[5]==='--evidence-parent',
+  'Usage: --execute --admission RECEIPT --reference-root ORIGINAL --evidence-parent OWNED_DIRECTORY [--input-profile NAME] [--capture-profile constructed-genesis-mint-v1]');
  const value={receipt:args[2],referenceRoot:args[4],evidenceParent:args[6]};
- if(args.length===9){assert.equal(args[7],'--input-profile');assert.ok(PROFILES.includes(args[8]),'Unknown lifecycle input profile');value.inputProfile=args[8];}
+ for(let i=7;i<args.length;i+=2){
+  if(args[i]==='--input-profile'){assert.equal(value.inputProfile,undefined);assert.ok(PROFILES.includes(args[i+1]),'Unknown lifecycle input profile');value.inputProfile=args[i+1];}
+  else {assert.equal(args[i],'--capture-profile');assert.equal(value.captureProfile,undefined);assert.equal(args[i+1],MINT_CAPTURE);value.captureProfile=args[i+1];}
+ }
+ if(value.captureProfile)mintCaptureProfile(loadInputProfile(value.inputProfile).descriptor);
  return value;
 }
 export function execute(args){
  assert.equal(process.release.name,'node');assert.ok([24,26].includes(Number(process.versions.node.split('.')[0])));assert.equal(process.versions.bun,undefined);
  const options=parseArgs(args),inputProfile=loadInputProfile(options.inputProfile).descriptor,input=readFileSync(options.receipt);assert.ok(input.length<=4096);
+ const capture=options.captureProfile?{captureProfile:mintCaptureProfile(inputProfile)}:{};
  const receipt=validateReceipt(JSON.parse(input));
  // Admission reads only the fixed local Docker socket; no create/drop/pull/stop/remove operation exists here.
  verifyObservedFixture(receipt,observeFixture(receipt));
@@ -26,7 +32,7 @@ export function execute(args){
  const env={...process.env,NODE_ENV:'production',LOG_LEVEL:'error',PGSSLMODE:'disable',PG_POOL_MAX:'4',SWC_NODE_PROJECT:join(reference.root,'tsconfig.json'),SWC_NODE_CACHE_DIR:join(directory,'swc-cache')};
  for(const key of Object.keys(env))if(key.startsWith('POSTGRES_TEST_')||key.startsWith('REDIS_TEST_')||key.startsWith('PG')&&!['PGSSLMODE','PG_POOL_MAX'].includes(key)||['NODE_OPTIONS','NODE_PATH','TS_NODE_PROJECT'].includes(key))delete env[key];
  const child=spawnSync(process.execPath,[fileURLToPath(new URL('./child.cjs',import.meta.url))],{cwd:directory,env,detached:true,windowsHide:true,
-  input:JSON.stringify({receipt,referenceRoot:reference.root,parentPid:process.pid,inputProfile}),stdio:['pipe','pipe','pipe','pipe'],timeout:PIN.childDeadlineMS,
+  input:JSON.stringify({receipt,referenceRoot:reference.root,parentPid:process.pid,inputProfile,...capture}),stdio:['pipe','pipe','pipe','pipe'],timeout:PIN.childDeadlineMS,
   killSignal:'SIGKILL',maxBuffer:PIN.reportBytes});
  const stdout=child.stdout??Buffer.alloc(0),stderr=child.stderr??Buffer.alloc(0),data=child.output?.[3]??Buffer.alloc(0);
  writeFileSync(join(directory,'stdout'),stdout,{flag:'wx'});writeFileSync(join(directory,'stderr'),stderr,{flag:'wx'});writeFileSync(join(directory,'report.json'),data,{flag:'wx'});
@@ -35,14 +41,15 @@ export function execute(args){
   try{process.kill(-child.pid,0);}catch(error){if(error.code==='ESRCH')groupAbsent=true;else throw error;}}
  const terminal={node:process.version,pid:child.pid??null,exitCode:child.status,signal:child.signal,error:child.error?.code??null,
   pidAbsent:absent,groupAbsent,reaped:Boolean(child.pid)&&(child.status!==null||child.signal!==null),reportBytes:data.length,reportSha256:sha(data),stdoutBytes:stdout.length,stderrBytes:stderr.length,
-  fixtureCleanupRequiredFromRoot:true,qualified:false,inputProfile};
+  fixtureCleanupRequiredFromRoot:true,qualified:false,inputProfile,...capture};
  writeFileSync(join(directory,'terminal.json'),JSON.stringify(terminal,null,2)+'\n',{flag:'wx'});
  assert.ok(stdout.length+stderr.length<=256*1024,'Original PG log budget');
  assert.ok(!child.error&&child.status===0&&child.signal===null&&absent&&groupAbsent,'Owned original PG child did not complete; preserve all evidence');
  const result=JSON.parse(data);assert.equal(result.status,'passed');assert.equal(result.identity.pid,child.pid);assert.equal(result.identity.parentPid,process.pid);
  assert.deepEqual(result.inputProfile,inputProfile);assert.deepEqual(result.result.inputProfile,inputProfile);
+ if(options.captureProfile){assert.deepEqual(result.captureProfile,capture.captureProfile);assert.deepEqual(result.result.captureProfile,capture.captureProfile);}
  verifyObservedFixture(receipt,observeFixture(receipt));
  for(const row of reference.definitions)assert.equal(sha(readFileSync(join(directory,row.path))),row.workingSha256);
- return{directory,terminal,inputProfile,scope:'Original PostgreSQL only; external fixture cleanup and qualification pending root'};
+ return{directory,terminal,inputProfile,...capture,scope:'Original PostgreSQL only; external fixture cleanup and qualification pending root'};
 }
 if(process.argv[1]&&pathToFileURL(resolve(process.argv[1])).href===import.meta.url){try{console.log(JSON.stringify(execute(process.argv.slice(2))));}catch(error){console.error(error);process.exitCode=1;}}

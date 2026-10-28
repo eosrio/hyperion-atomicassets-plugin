@@ -102,6 +102,10 @@ reports remain unchanged. This adds a selectable same-input execution path;
 **a new same-input PostgreSQL/view/HTTP versus physical MongoDB comparison has
 not been run or qualified by these source controls**.
 
+The separate [paired constructed mint capture](paired-mint-capture.md) adds an explicit
+`--capture-profile constructed-genesis-mint-v1` opt-in for one shared engineering chronology.
+It preserves this default lifecycle and keeps its actual physical comparison pending.
+
 Each actual native-version run needs its own fresh run/receipt/container/database. Reusing a
 populated fixture is refused, not reset. The evidence parent must already exist. The runner exclusively creates its own `aa-pg-RUN`
 subdirectory and copies the 176 pinned original definition files by value. Original code runs
