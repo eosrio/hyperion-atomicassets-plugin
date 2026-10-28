@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {existsSync, lstatSync} from 'node:fs';
-import {copyFile, mkdir, mkdtemp, readFile, writeFile} from 'node:fs/promises';
+import {copyFile, cp, mkdir, mkdtemp, readFile, writeFile} from 'node:fs/promises';
 import {delimiter, dirname, join} from 'node:path';
 import {fileURLToPath} from 'node:url';
 
@@ -78,6 +78,15 @@ try {
   assert.deepEqual(installedPackage.exports, JSON.parse(await readFile(join(root, 'package.json'), 'utf8')).exports,
     'The internal domain slice must not change public exports');
   assert.deepEqual(installedPackage.dependencies, JSON.parse(await readFile(join(root, 'package.json'), 'utf8')).dependencies);
+  // Qualification host stays outside the distributed package. Its exact source
+  // can also run against actual tarball emissions without changing SDK pins.
+  const stateful = join(evidence, 'stateful-packed');
+  await mkdir(join(stateful, 'harness/stateful'), {recursive: true});
+  await writeFile(join(stateful, 'package.json'), '{"type":"module"}\n');
+  await cp(join(installed, 'dist'), join(stateful, 'dist'), {recursive: true});
+  await copyFile(join(root, 'harness/stateful/bridge.mjs'), join(stateful, 'harness/stateful/bridge.mjs'));
+  await run(['--test', 'tests/atomic-stateful-bridge.test.mjs'], root, 'stateful-packed-caller',
+    {...env, ATOMIC_STATEFUL_BRIDGE_MODULE: join(stateful, 'harness/stateful/bridge.mjs')});
   assert.equal(installedPackage.exports['./atomicmarket/marketplace'].import, './dist/atomicmarket/marketplace.js');
   assert.equal(installedPackage.exports['./atomicmarket/marketplace'].types, './dist/atomicmarket/marketplace.d.ts');
   assert.equal(installedPackage.exports['./atomicmarket/marketplace-indexing'].import, './dist/atomicmarket/marketplace-indexing.js');
@@ -119,6 +128,7 @@ try {
     installedFromTarball: true, runtimeImport: JSON.parse(runtime), declarationConsumerExit: 0,
     internalDomainRegression: true, internalDomainPublicExport: false,
     internalFixedSaleRegression: true, internalFixedSalePublicExport: false,
+    statefulPackedCaller: {optInComponentSelected: Boolean(env.ATOMIC_STATEFUL_COMPONENT_ROOT), actualMongo: false},
     consumerLockSha256: sha(lockBytes), sdkResolved, commands,
     scope: 'Packed query component and declarations; no Hyperion HTTP, source ingestion, database or full parity qualification'};
   await writeFile(join(evidence, 'result.json'), JSON.stringify(result, null, 2) + '\n');
