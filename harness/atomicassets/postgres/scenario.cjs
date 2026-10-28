@@ -4,10 +4,12 @@ const {once} = require('node:events');
 const {createHash} = require('node:crypto');
 const copy = value => structuredClone(value);
 const json = value => JSON.parse(JSON.stringify(value, (_, v) => typeof v === 'bigint' ? String(v) : v));
-module.exports = async function scenario(fromReference, connection, config, record, inputProfile) {
+module.exports = async function scenario(fromReference, connection, config, record, inputProfile, captureProfile) {
   const profiles = require('../lifecycle-input.cjs');
   const selected = inputProfile === undefined ? profiles.loadInputProfile() : profiles.validateInputProfile(inputProfile);
   const {input, descriptor} = selected;
+  const capture = captureProfile === undefined ? null : require('../mint-capture-profile.cjs').validateMintCapture(captureProfile);
+  if(capture) assert.deepEqual(capture.inputProfile,descriptor);
   const codec = fromReference('@atomichub/atomicassets');
   const {encodeDatabaseJson} = fromReference('./src/filler/utils.ts');
   const {default: DataProcessor, ProcessingState} = fromReference('./src/filler/processor.ts');
@@ -61,7 +63,7 @@ module.exports = async function scenario(fromReference, connection, config, reco
     {atomicassets_account: contract, connected_reader: 'original-pg-oracle'});
   let sequence = 9007199254741093n;
   const tx = {id: 'ab'.repeat(32)};
-  const block = n => ({block_num: input.block.block_num + n, block_id: BigInt(n + 1).toString(16).padStart(64, '0'),
+  const block = n => ({block_num: (capture?.appliedBlock.blockNum ?? input.block.block_num) + n, block_id: BigInt(n + 1).toString(16).padStart(64, '0'),
     timestamp: new Date(Date.parse(input.block.timestamp + 'Z') + n * 1000).toISOString().slice(0, -1)});
   const action = (name, data) => ({kind: 'action', value: {act: {account: contract, name, data}, global_sequence: String(sequence++)}});
   const delta = (table, value, scope = collection, present = true) => ({kind: 'row', value: {code: contract, scope, table, present, value}});
@@ -103,13 +105,16 @@ module.exports = async function scenario(fromReference, connection, config, reco
       action('logmint',{asset_id:assetId,collection_name:collection,schema_name:schema,template_id:-1,new_asset_owner:'alice',authorized_minter:'author',
         immutable_data:input.immutableAttributes,mutable_data:input.mutableAttributes}),
       delta('schemas',{schema_name:schema,format:input.format}), coll(input.collectionData),
-      delta('config',{supported_tokens:[{sym:'4,WAX',contract:'eosio.token'}],collection_format:input.collectionFormat})]);
+      delta('config',capture?.configData ?? {supported_tokens:[{sym:'4,WAX',contract:'eosio.token'}],collection_format:input.collectionFormat})]);
     assert.deepEqual(executed.filter(row=>row.kind!=='priority-complete').slice(0,5).map(row=>row.name),['config','schemas','collections','logmint','logsetdata']);
     const completedMintIndex=executed.findIndex(row=>row.kind==='priority-complete'&&row.threshold===50);
     assert.ok(completedMintIndex>=0&&completedMintIndex<executed.findIndex(row=>row.name==='logsetdata'));
     const minted = await snapshot('mint-and-replacement'); assert.equal(minted.asset.template_id,null);
     assert.equal(minted.asset.mutable_data.name,'replacement mutable'); assert.equal(Object.hasOwn(minted.asset.mutable_data,'old'),false);
     assert.equal(minted.asset.immutable_data.serial,'18446744073709551615');
+    if(capture)return {inputProfile:descriptor,captureProfile:capture,stages,queue,executed,notifications,
+      scope:{originalProcessors:true,originalViewAndHttp:true,realPostgres:true,constructedInputs:true,
+        originalDefaultLifecycleQualified:false,mongoParity:false,fullParity:false}};
     const transfer = (from,to) => action('logtransfer',{from,to,asset_ids:[assetId],memo:'original PG transfer'});
     await commit('wrong-owner-transfer',1,[transfer('mallory','wrong')]); const wrong = await snapshot('wrong-owner-transfer');
     assert.deepEqual(wrong.asset,minted.asset); assert.equal(wrong.transfers.length,1); assert.equal(typeof wrong.transfers[0].transfer_id,'string');

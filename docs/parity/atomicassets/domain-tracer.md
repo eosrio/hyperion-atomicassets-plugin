@@ -82,6 +82,9 @@ from the original at exactly the declared image field, retains all codec probes,
 and reports both digests and the unresolved conversion exception. This removes
 the need to edit frozen fixtures before a later same-input run. It does not
 replace the existing expected fixture or establish a new physical comparison.
+The [paired mint capture](paired-mint-capture.md) provides the separately gated original/portable
+execution and inventory-keyed differ for the first constructed mint stage. Its source controls
+do not establish a new physical or public HTTP parity result.
 The seven output comparisons cover the supported subset. A local control also invokes the unmodified
 original collection callback/codec on that safe input and the original formatter on all seven views.
 Git blobs and installed codec hashes are checked; Windows Git checkout newline differences are
