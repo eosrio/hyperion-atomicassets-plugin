@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "sourceHead": "294abcd51a16a5d6ea4f0e00fe1531300402bf99",
+  "platform": "linux",
+  "compiler": "7.0.2",
+  "npmCiExecuted": false,
+  "files": {
+    "dist/atomicassets/asset.d.ts": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicassets/asset.js": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicassets/asset.js.map": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicassets/internal/lifecycle-port.d.ts": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicassets/internal/lifecycle-port.js": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicassets/internal/lifecycle-port.js.map": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicassets/internal/lifecycle.d.ts": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicassets/internal/lifecycle.js": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicassets/internal/lifecycle.js.map": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicmarket/internal/fixed-sale-port.d.ts": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicmarket/internal/fixed-sale-port.js": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicmarket/internal/fixed-sale-port.js.map": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicmarket/internal/fixed-sale.d.ts": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicmarket/internal/fixed-sale.js": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicmarket/internal/fixed-sale.js.map": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicmarket/marketplace-indexing.d.ts": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicmarket/marketplace-indexing.js": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicmarket/marketplace-indexing.js.map": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicmarket/marketplace.d.ts": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicmarket/marketplace.js": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicmarket/marketplace.js.map": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicmarket/sale.d.ts": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicmarket/sale.js": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/atomicmarket/sale.js.map": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/reference-baseline.d.ts": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/reference-baseline.js": {
+      "bytes": null,
+      "sha256": null
+    },
+    "dist/reference-baseline.js.map": {
+      "bytes": null,
+      "sha256": null
+    }
+  }
+}

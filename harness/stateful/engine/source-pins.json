@@ -1,0 +1,114 @@
+{
+  "sourceHead": "294abcd51a16a5d6ea4f0e00fe1531300402bf99",
+  "sources": {
+    "package.json": {
+      "bytes": 2145,
+      "sha256": "8231bd4aa43e25244cf8df1d147169ba1584a2b93a6d0661c2657a0f2580b414"
+    },
+    "package-lock.json": {
+      "bytes": 15734,
+      "sha256": "fa87d336bd44e821329b753ed8b920d3b4543335f94ed84cad5156e5e662c5e0"
+    },
+    "tsconfig.json": {
+      "bytes": 389,
+      "sha256": "9d208e3e49682ff5e7f35a396348adc80c50b3bb11cd037df69809602b725948"
+    },
+    "harness/stateful/bridge.mjs": {
+      "bytes": 6588,
+      "sha256": "91e6e1f7c0605835d6929cd3c1482a2fd8f5bd1b470e7a10c7a8fe6c484b7454"
+    },
+    "harness/stateful/scenario.mjs": {
+      "bytes": 4119,
+      "sha256": "673239f775c14f5298507f1ed8afdf25bdf81e100d276351fc8d97c155802067"
+    },
+    "tests/fixtures/asset-domain-cases.mjs": {
+      "bytes": 4709,
+      "sha256": "8743440c776468909b38a0e800c17c228284733c8b57cb9b4a5beae5f637b4d3"
+    },
+    "tests/fixtures/fixed-sale-cases.mjs": {
+      "bytes": 3245,
+      "sha256": "4a9d17eb8f403af86dd1a242dd0435bed9f31badfffb6914b58badf5ae603cb7"
+    },
+    "fixtures/harness/atomicassets/domain/expected.json": {
+      "bytes": 68584,
+      "sha256": "4488cb4acad269d5d72b2f8927a21332b1492d17db60ed9f49865ab73ef007a6"
+    },
+    "fixtures/harness/atomicmarket/lifecycle/input.json": {
+      "bytes": 17420,
+      "sha256": "73df62166d5087132a66b1a699d4f8a5b9bad947a98672692bb959accee144a4"
+    },
+    "fixtures/harness/atomicmarket/lifecycle/expected.json": {
+      "bytes": 180308,
+      "sha256": "12d4af2377f71bd15b2f0b16df2417c53b15f52d35d57afa92007105e78ffe68"
+    },
+    "fixtures/harness/atomicassets/lifecycle/original/codec/build/index.cjs": {
+      "bytes": 107772,
+      "sha256": "2dfe332031728c475622ae510d7ea78246a9592a9da6cf70ba8a1abd7fa2e573"
+    },
+    "src/atomicassets/asset.ts": {
+      "bytes": 5217,
+      "sha256": "e76d9eb2d6311de8a5597ebc4cdf0cdaab02fbc252d26de8561ab98409617364"
+    },
+    "src/atomicassets/internal/lifecycle-port.ts": {
+      "bytes": 6148,
+      "sha256": "108f002a1824b33197d3789d60d745dba48d8b0ffb19d97cd45a471386f93722"
+    },
+    "src/atomicassets/internal/lifecycle.ts": {
+      "bytes": 14793,
+      "sha256": "017c0a496e3dca7b3fc4e864f1a7e96d6c04bbf690491f68914dbc1f57963f82"
+    },
+    "src/atomicmarket/internal/fixed-sale-port.ts": {
+      "bytes": 5162,
+      "sha256": "1fa0d95dcefabacb812cb82b7fb731eecd1056c6d13b6d82630f1924ac393685"
+    },
+    "src/atomicmarket/internal/fixed-sale.ts": {
+      "bytes": 14386,
+      "sha256": "526dbaf2e987719cbb6f6d8bde05778735fc185445467b7953a0ad211ca7ee59"
+    },
+    "src/atomicmarket/marketplace-indexing.ts": {
+      "bytes": 2304,
+      "sha256": "5ec7f0e10c45ae374eb69efd9cdb98ca8897866a6a80fd40f5c3a2112e389ef7"
+    },
+    "src/atomicmarket/marketplace.ts": {
+      "bytes": 2044,
+      "sha256": "fd4c270f233b2a95437492718ec198e7b22bcbf7e4e31bf9d3334d2eaa1d651a"
+    },
+    "src/atomicmarket/sale.ts": {
+      "bytes": 1995,
+      "sha256": "cce516c252c81ee55aaabcda7ac30bf00d0afb1ade25257dc7506ebe8f1a07fb"
+    },
+    "src/reference-baseline.ts": {
+      "bytes": 278,
+      "sha256": "da84b9b68eb307bdf5b57e89392dae7659979ff5d303c596125fb77d55a6daff"
+    }
+  },
+  "emissions": [
+    "dist/atomicassets/asset.d.ts",
+    "dist/atomicassets/asset.js",
+    "dist/atomicassets/asset.js.map",
+    "dist/atomicassets/internal/lifecycle-port.d.ts",
+    "dist/atomicassets/internal/lifecycle-port.js",
+    "dist/atomicassets/internal/lifecycle-port.js.map",
+    "dist/atomicassets/internal/lifecycle.d.ts",
+    "dist/atomicassets/internal/lifecycle.js",
+    "dist/atomicassets/internal/lifecycle.js.map",
+    "dist/atomicmarket/internal/fixed-sale-port.d.ts",
+    "dist/atomicmarket/internal/fixed-sale-port.js",
+    "dist/atomicmarket/internal/fixed-sale-port.js.map",
+    "dist/atomicmarket/internal/fixed-sale.d.ts",
+    "dist/atomicmarket/internal/fixed-sale.js",
+    "dist/atomicmarket/internal/fixed-sale.js.map",
+    "dist/atomicmarket/marketplace-indexing.d.ts",
+    "dist/atomicmarket/marketplace-indexing.js",
+    "dist/atomicmarket/marketplace-indexing.js.map",
+    "dist/atomicmarket/marketplace.d.ts",
+    "dist/atomicmarket/marketplace.js",
+    "dist/atomicmarket/marketplace.js.map",
+    "dist/atomicmarket/sale.d.ts",
+    "dist/atomicmarket/sale.js",
+    "dist/atomicmarket/sale.js.map",
+    "dist/reference-baseline.d.ts",
+    "dist/reference-baseline.js",
+    "dist/reference-baseline.js.map"
+  ]
+}
