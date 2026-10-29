@@ -19,7 +19,7 @@ export default class AtomicPlugin {
   constructor(config: AtomicPluginOptions) {
     this.baseConfig = config;
     this.plugin = createAtomicStatefulPlugin(config);
-    this.dynamicContracts = Object.freeze([config.assetsContract ?? 'atomicassets', config.marketContract ?? 'atomicmarket']);
+    this.dynamicContracts = Object.freeze([config.assetsContract ?? 'atomicassets', config.marketContract ?? 'atomicmarket',config.systemContract ?? 'eosio']);
   }
   getStatefulProjectionsV2(context: AtomicPluginHostContext) {return this.plugin.getStatefulProjectionsV2(context);}
   addRoutes(server: FastifyInstance, context?: AtomicPluginApiContext): void {this.plugin.addRoutes(server, context);}

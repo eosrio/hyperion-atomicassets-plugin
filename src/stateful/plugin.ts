@@ -4,9 +4,11 @@ import type {StatefulDefinition, StatefulLimits, StatefulSelector} from '@eosrio
 import type {StatefulReductionV2, StatefulQueryHostV2} from '@eosrio/hyperion-sdk/projection-stateful-owner-v2';
 import {registerAtomicIdRoutes} from '../http/id-routes.js';
 import {reduceAssetLifecycle} from '../atomicassets/internal/lifecycle.js';
-import {domainKey, format, record, required, text, unavailable,
+import {domainKey, format, record, required, strings, text, unavailable,
   type LifecycleEvent, type MetadataCodec} from '../atomicassets/internal/lifecycle-port.js';
 import {reduceFixedSales} from '../atomicmarket/internal/fixed-sale.js';
+import {reduceOffers, finishOfferMoves, reduceMarketConfig, reduceContractCode, isOfferAction,
+  type OfferOccurrence} from '../atomicmarket/internal/relationships.js';
 import type {FixedSaleOccurrence} from '../atomicmarket/internal/fixed-sale-port.js';
 import {ATOMIC_HOOK_INVENTORY} from './hook-inventory.js';
 import {createAtomicMetadataCodec} from './metadata-codec.js';
@@ -18,6 +20,8 @@ export interface AtomicPluginOptions {
   readonly projectionId?: string;
   readonly assetsContract?: string;
   readonly marketContract?: string;
+  /** Actual chain system contract providing original setcode observations. */
+  readonly systemContract?: string;
   /** Explicit finite host-negotiated bounds; the package does not invent an operator budget. */
   readonly limits: StatefulLimits;
 }
@@ -33,7 +37,7 @@ export interface AtomicPluginRegistration {
     readonly limits: StatefulLimits; readonly reduce: (port: StatefulReductionV2) => Promise<void>}[];
 }
 const kinds = ['config','collection','schema','asset','mint','template-link','backed-tokens','original-mint',
-  'market-sale','market-config','offer','market-token','symbol-pair','offer-assets','contract-code'] as const;
+  'market-sale','market-config','offer','market-token','symbol-pair','offer-assets','contract-code','asset-offers'] as const;
 const assetTables = ['config','collections','schemas','schematypes'] as const;
 const assetActions = ['logmint','logsetdata','logtransfer','logburnasset'] as const;
 const saleActions = ['lognewsale','logsalestart','cancelsale','purchasesale'] as const;
@@ -41,7 +45,7 @@ const has = (values: readonly string[], value: string) => values.includes(value)
 const schemaDigest = (value: unknown) => createHash('sha256').update(JSON.stringify(format(value))).digest('hex');
 
 export const ATOMIC_CAPABILITY_GAPS = Object.freeze(['full original processor effects and block hooks',
-  'templates/backing/mint reconciliation', 'offers/tokens/symbol-pairs/contract-code production reducers',
+  'templates/backing/mint reconciliation', 'multi-asset offers/exchanges and symbol-pair pricing',
   'currency conversion/pricing/bundles', 'scope-less table domain interpretation',
   'NUL/literal-backslash conversion', 'remaining API/log/stat/socket parity'] as const);
 
@@ -49,7 +53,8 @@ export const ATOMIC_CAPABILITY_GAPS = Object.freeze(['full original processor ef
 export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
   const projectionId = text(options.projectionId ?? 'atomicassets');
   const assets = text(options.assetsContract ?? 'atomicassets'), market = text(options.marketContract ?? 'atomicmarket');
-  if (assets === market) unavailable('Atomic contracts must differ');
+  const system = text(options.systemContract ?? 'eosio');
+  if (new Set([assets,market,system]).size !== 3) unavailable('Atomic/system contracts must differ');
   const limits = JSON.parse(JSON.stringify(options.limits)) as StatefulLimits;
   if (!limits || typeof limits !== 'object') unavailable('Explicit stateful limits required');
   const codec = createAtomicMetadataCodec();
@@ -57,10 +62,12 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
     const contract = hook.domain === 'atomicassets' ? assets : market;
     const id = contract + ':' + hook.kind + ':' + hook.name;
     return [id, Object.freeze({id, contract, kind: hook.kind, name: hook.name})] as const;
-  })).values()]);
+  })).values(),Object.freeze({id:system+':action:setcode',contract:system,kind:'action' as const,name:'setcode'})]);
 
   async function reduce(port: StatefulReductionV2): Promise<void> {
     const assetEvents: LifecycleEvent[] = [], sales: FixedSaleOccurrence[] = [];
+    const offers: OfferOccurrence[] = [], moved: string[] = [], configs: {value: import('../atomicassets/asset.js').AtomicObject;
+      evidence: import('../atomicassets/asset.js').AtomicObject}[] = [], codes: import('../atomicassets/asset.js').AtomicObject[] = [];
     const formats = new Map<string, string>(), mints = new Map<string, {collection: string; schema: string}>();
     // All schema priority-20 rows precede priority-50/60 asset actions in the existing reducer.
     for (const input of port.source.inputs) {
@@ -79,6 +86,8 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
       return formats.get(key) ?? text((await required(port, 'schema', key)).schema_digest);
     }
     for (const input of port.source.inputs) {
+      if (input.contract === market && input.kind === 'table' && input.name === 'config' && !input.present)
+        unavailable('Original market config cannot be erased');
       const value = record(input.data), evidence = {occurrence: input.sourceEvidence,
         abiDeployment: input.abiDeployment, abiSha256: input.abiSha256};
       if (input.contract === assets) {
@@ -89,7 +98,12 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
           assetEvents.push({kind: 'row', table: input.name as typeof assetTables[number], scope: input.identity.scope,
             present: input.present, value, evidence: {...evidence, ...(schema ? {schemaDigest: schema} : {})}});
         } else {
+          if (isOfferAction(input.name)) {offers.push({name:input.name,value});continue;}
           if (!has(assetActions, input.name)) unavailable('Unimplemented AtomicAssets action: ' + input.name);
+          if (input.name === 'logtransfer') {
+            moved.push(...strings(value.asset_ids));
+          }
+          if (input.name === 'logburnasset') moved.push(text(value.asset_id));
           let schema: string | undefined;
           if (input.name === 'logmint') schema = await digestFor(text(value.collection_name), text(value.schema_name));
           if (input.name === 'logsetdata') {
@@ -105,16 +119,20 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
         }
       } else if (input.contract === market) {
         if (input.kind === 'table' && input.name === 'config') {
-          if (!input.present || value.version !== '1.2.2') unavailable('Unsupported AtomicMarket config/version');
-          port.put('market-config', domainKey(market), {version: value.version, ...evidence});
+          configs.push({value,evidence});
         } else if (input.kind === 'action' && has(saleActions, input.name)) {
           sales.push({kind: 'action', contract: market, name: input.name as typeof saleActions[number],
             transactionId: input.transactionId, evidence, value});
         } else unavailable('Unimplemented AtomicMarket occurrence: ' + input.name);
-      } else unavailable('Occurrence outside configured Atomic contracts');
+      } else if (input.contract === system && input.kind === 'action' && input.name === 'setcode') codes.push(value);
+      else unavailable('Occurrence outside configured Atomic/system contracts');
     }
     const b = port.source.block;
+    const relations = {assets,market,blockNum:String(b.blockNum),timeMs:b.timeMs};
+    for (const code of codes) await reduceContractCode(code,port);
     await reduceAssetLifecycle({contract: assets, blockNum: String(b.blockNum), blockTimeMs: b.timeMs, blockId: b.blockId}, assetEvents, port, codec);
+    await reduceOffers(relations,offers,port);
+    for (const config of configs) await reduceMarketConfig(relations,config.value,config.evidence,port);
     if (sales.length) {
       const version = await required(port, 'market-config', domainKey(market));
       if (version.version !== '1.2.2') unavailable('Missing supported source-bound market version');
@@ -122,6 +140,7 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
         blockId: b.blockId, contractVersion: {version: '1.2.2', occurrence: text(version.occurrence),
           abiDeployment: text(version.abiDeployment), abiSha256: text(version.abiSha256)}}, sales, port);
     }
+    await finishOfferMoves(relations,moved,port);
   }
   return Object.freeze({
     getStatefulProjectionsV2(_context: AtomicPluginHostContext): AtomicPluginRegistration {
