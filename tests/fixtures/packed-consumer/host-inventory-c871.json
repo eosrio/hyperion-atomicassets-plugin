@@ -1,0 +1,31 @@
+{
+  "hostHead": "c8711ee327a1522871192a36e5d1ef6d288fa0e6",
+  "hostTree": "310ab3f84d12c7ac8a957dcf26e16e32f02c77a9",
+  "files": [
+    {
+      "path": "indexer/projection/stateful-inventory.js",
+      "bytes": 4221,
+      "sha256": "1185f3510697ef80bc771c71f957a41c7f1eb5112be68a61aa6d14ad5f40e588"
+    },
+    {
+      "path": "indexer/protocol/immutable-bundle-store.js",
+      "bytes": 26482,
+      "sha256": "c9621b6f9e07812ee39a9eb8e80195211317a61bde4ddf034fbd9636b588f45d"
+    },
+    {
+      "path": "indexer/protocol/proof-consumer-scope.js",
+      "bytes": 6371,
+      "sha256": "c902853fa7b364c3b6340c3f8cc9805a5a451e3465cc9e5bf263f8b6261123fd"
+    },
+    {
+      "path": "indexer/helpers/bounded-json.js",
+      "bytes": 3757,
+      "sha256": "df798a743a2eb0a39066b8a157d29ac5a549d041692ce9c87e7beaa5a36cc690"
+    },
+    {
+      "path": "indexer/protocol/bounded-document-read.js",
+      "bytes": 6464,
+      "sha256": "f3704d89ddad24d3c71493fb5f9e544ac40430c1f8ecc1fc53f91e59b4cce292"
+    }
+  ]
+}

@@ -1,1 +1,11 @@
-{"type":"module"}
+{
+  "name": "@eosrio/hyperion-atomicassets-plugin-legacy",
+  "version": "0.0.0-dev.1",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=24"},
+  "dependencies": {"@eosrio/hyperion-atomicassets-plugin": "0.0.0-dev.1"},
+  "allowScripts": {
+    "github:eosrio/hyperion-sdk#ffb368bbcfbeb0821a85e5a38dfe3b18ca402473": true
+  }
+}

@@ -10,9 +10,36 @@ Configuration accepts `projectionId`, `assetsContract`, `marketContract`, `syste
 `limits: StatefulLimits`. The host validates/negotiates these limits; none are a qualified default
 budget. Operator enablement remains the existing per-chain plugin configuration and `.state.json`.
 
-The existing loader still imports `plugins/<key>/build/index.js`. Install the package in that
-plugin directory, and copy the distributed `legacy/package.json` and `legacy/build/index.js` to
-the same relative locations there. The wrapper contains only:
+The existing loader still imports `plugins/<key>/build/index.js`. The same reviewed plugin
+tarball contains the `legacy/package.json` and `legacy/build/index.js` used at that location.
+The wrapper has its own private package identity, the same version as the contained plugin,
+and an exact dependency on `@eosrio/hyperion-atomicassets-plugin`. It is not a second release.
+Do not replace its manifest with a type-only or name-only package: the host inventories the
+wrapper and its declared installed dependency graph before registering the projection.
+
+From the Hyperion directory, with an absolute path to the reviewed tarball, a new empty
+staging directory and a new disabled plugin directory, install the single operator package
+as follows (POSIX shell example):
+
+```sh
+artifact=/absolute/path/to/reviewed/hyperion-atomicassets-plugin.tgz
+stage=/absolute/path/to/empty/staging-directory
+mkdir -p "$stage" plugins/atomicassets/build
+tar -xzf "$artifact" -C "$stage"
+cp "$stage/package/legacy/package.json" plugins/atomicassets/package.json
+cp "$stage/package/legacy/build/index.js" plugins/atomicassets/build/index.js
+cd plugins/atomicassets
+npm install --package-lock-only --save-exact --allow-git=all "$artifact"
+npm ci --allow-git=all
+```
+
+The resulting layout is `plugins/atomicassets/{package.json,package-lock.json,build/index.js,
+node_modules/@eosrio/hyperion-atomicassets-plugin/...}`. npm records that same tarball in the
+wrapper dependency and lock; retain it at its recorded location for repeatable `npm ci`.
+Its manifest also retains the pinned SDK Git prepare-script allowance. A development tarball
+does not establish a qualified release. Keep the plugin disabled until the matching host and
+chain configuration are qualified; no enablement or readiness is granted by installation.
+The wrapper code remains:
 
 ```js
 export {default} from '@eosrio/hyperion-atomicassets-plugin';
@@ -60,3 +87,14 @@ actual scope-less identities; this restricted domain adapter refuses them instea
 a scope. Offer/token/code relationships now come from actual selected occurrences; no synthetic
 relation rows are accepted. Native
 engine success and source controls do not establish same-input PostgreSQL/view/HTTP parity.
+
+`npm run test:package` installs this exact wrapper layout from the actual packed plugin,
+then imports the wrapper, registers its compound descriptor and both ID routes. To additionally
+check the real host inventory without adding Hyperion as a dependency, set
+`ATOMIC_HOST_INVENTORY_ROOT` to the separately built HAPI emission root at
+`c8711ee327a1522871192a36e5d1ef6d288fa0e6`. The check verifies all five transitive runtime blobs
+against `tests/fixtures/packed-consumer/host-inventory-c871.json` in the source checkout
+before importing the inventory function. It changes only disposable installed copies to prove
+that imported domain-code changes affect the digest, and that missing identity still refuses.
+An unselected cross-repository check is reported as not run. This proves installed code identity,
+not actual HAPI worker attachment, source authority or physical/parity acceptance.
