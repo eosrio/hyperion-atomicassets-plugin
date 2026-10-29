@@ -16,6 +16,28 @@ const assetKey = key(input.contract,input.assetId);
 const asset = s => s.snapshot().get('asset:'+assetKey);
 async function minted() {const s=storage();await s.run(reduce,block(0),initial());return s;}
 
+test('ABI-decoded collection byte arrays match legacy hex and reject malformed bytes',async()=>{
+  const legacy=initial(), decoded=initial(), original=legacy[3].value.serialized_data;
+  decoded[3].value.serialized_data=Array.from(Buffer.from(original,'hex'));
+  const a=storage(),b=storage();await a.run(reduce,block(0),legacy);await b.run(reduce,block(0),decoded);
+  assert.deepEqual(b.snapshot(),a.snapshot());
+  assert.deepEqual(await read(b.reader(),input.contract,input.assetId),await read(a.reader(),input.contract,input.assetId));
+  // This exact row is from the retained node-abieos ABI decode probe; compare codec behavior too.
+  const probe={collection_name:'test',author:'alice',allow_notify:true,authorized_accounts:['alice'],notify_accounts:[],market_fee:0.1,serialized_data:[0,1,255]};
+  const probeEvents=()=>[row('collections',probe),row('config',{collection_format:input.collectionFormat})];
+  const outcomes=[];
+  for(const value of [probe.serialized_data,'0001ff']) {
+    const s=storage(),events=probeEvents();events[0].value={...probe,collection_name:input.collection,serialized_data:value};
+    try {await s.run(reduce,block(0),events);outcomes.push({snapshot:s.snapshot()});}
+    catch(e) {outcomes.push({name:e.name,message:e.message});}
+  }
+  assert.deepEqual(outcomes[0],outcomes[1]);
+  for(const value of [[,1], [1.5], [-1], [256], [NaN], [Infinity], ['1'], [null], [true], [[1]]]) {
+    const s=storage(),events=initial();events[3].value.serialized_data=value;
+    await rejects(s.run(reduce,block(0),events));assert.equal(s.snapshot().size,0);
+  }
+});
+
 test('seven original native24/26 PG stage rows, light views and formatted HTTP domain values match the supported subset',async()=>{
   const s=storage(), plan=stages();
   for(let n=0;n<plan.length;n++) {
