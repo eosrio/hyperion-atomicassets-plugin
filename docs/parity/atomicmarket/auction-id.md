@@ -27,7 +27,8 @@ The caller owns staging, atomic publication, source coverage and rollback. Any r
 requires discarding its entire candidate, including earlier changes in that block. Existing
 host-negotiated structured-value, record, mutation and candidate bounds apply to the complete bid
 array; exceeding one leaves the affected projection unavailable. No bid history is truncated.
-The integrated compound descriptor now has 18 record kinds, including the AA template kind.
+The earlier template/auction combination required 18 record kinds. The current compound descriptor
+requires 19 after the separate marketplace addition; an explicit old 18-kind limit remains refused.
 Operators must negotiate sufficient explicit
 bounds; this component does not automatically enlarge configured limits.
 

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {createRequire} from 'node:module';
 import {EventEmitter} from 'node:events';
-import {readFileSync,mkdtempSync,realpathSync,rmSync,writeFileSync} from 'node:fs';
+import {readFileSync,mkdtempSync,realpathSync,rmSync,writeFileSync,existsSync} from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import {tmpdir} from 'node:os';
 import {dirname,resolve} from 'node:path';
@@ -10,6 +10,7 @@ import {fileURLToPath} from 'node:url';
 import {join} from 'node:path';
 import {PIN,validateReceipt,verifyObservedFixture,admitEmptyDatabase} from '../harness/atomicassets/postgres/admission.mjs';
 import {parseArgs} from '../harness/atomicassets/postgres/run.mjs';
+import {persistSourceProbeTerminal,persistSourceProbeCleanup} from '../harness/atomicassets/postgres/source-probe-evidence.mjs';
 const require=createRequire(import.meta.url),observe=require('../harness/atomicassets/postgres/query-observer.cjs');
 const cases=require('../harness/atomicassets/postgres/scenario.cjs').codecProbeCases;
 const run='a'.repeat(32),labels={'io.eosrio.qualifier':'atomicassets-original-postgres','io.eosrio.run':run};
@@ -110,15 +111,28 @@ test('actual codec-boundary inputs distinguish NUL from literal escape before an
 
 test('original loader/handler/migration/HTTP modules work from isolated SQL CWD without engine or socket',()=>{
  const root=process.env.AA_REFERENCE_ROOT;assert.ok(root);const owned=mkdtempSync(join(tmpdir(),'aa-pg-source-control-'));
+ let evidence;
  try{
+  const childOptions={cwd:owned,env:{...process.env,NODE_ENV:'production',LOG_LEVEL:'error'},stdio:['pipe','pipe','pipe','pipe'],timeout:60000,maxBuffer:2*1024**2,windowsHide:true};
+  const started=process.hrtime.bigint();
   const child=spawnSync(process.execPath,[fileURLToPath(new URL('./fixtures/asset-postgres-source.cjs',import.meta.url)),root],
-   {cwd:owned,env:{...process.env,NODE_ENV:'production',LOG_LEVEL:'error'},stdio:['pipe','pipe','pipe','pipe'],timeout:60000,maxBuffer:2*1024**2,windowsHide:true});
+   childOptions);
+  evidence=persistSourceProbeTerminal(fileURLToPath(new URL('../out/postgres-source-probe/',import.meta.url)),child,
+   {parentPid:process.pid,nodeVersion:process.version,executable:process.execPath,child:fileURLToPath(new URL('./fixtures/asset-postgres-source.cjs',import.meta.url)),
+    referenceRoot:root,cwd:owned,requestedTimeoutMs:childOptions.timeout,requestedMaxBufferBytes:childOptions.maxBuffer,elapsedNs:String(process.hrtime.bigint()-started),
+    sources:['tests/asset-postgres-admission.test.mjs','tests/fixtures/asset-postgres-source.cjs','harness/atomicassets/postgres/source-probe-evidence.mjs'].map(path=>{
+      const raw=readFileSync(new URL('../'+path,import.meta.url));return {path,bytes:raw.length,sha256:createHash('sha256').update(raw).digest('hex')};})});
   assert.ifError(child.error);assert.equal(child.status,0,child.stderr?.toString());assert.ok(child.output[3]?.length,child.stderr?.toString()+'\n'+child.stdout?.toString());const proof=JSON.parse(child.output[3]);
   assert.equal(proof.postgresExecuted,false);assert.equal(proof.serverStarted,false);assert.equal(proof.sourceRecords,206);assert.equal(proof.definitionFiles,176);
   assert.equal(proof.codecBoundary.literalInvalidJson,true);assert.ok(proof.queryCalls>100);
   if(process.env.AA_PG_SOURCE_EVIDENCE_DIRECTORY)writeFileSync(join(process.env.AA_PG_SOURCE_EVIDENCE_DIRECTORY,'source-control.json'),child.output[3],{flag:'wx'});
  }finally{
-  assert.equal(dirname(realpathSync(owned)),realpathSync(tmpdir()));assert.ok(resolve(owned).includes('aa-pg-source-control-'));
-  rmSync(owned,{recursive:true});
+  let cleanupError;
+  try{assert.equal(dirname(realpathSync(owned)),realpathSync(tmpdir()));assert.ok(resolve(owned).includes('aa-pg-source-control-'));
+   rmSync(owned,{recursive:true});}catch(error){cleanupError=error;}
+  if(evidence)persistSourceProbeCleanup(evidence.directory,{status:cleanupError?'failed':'removed',temporaryCwd:owned,
+   temporaryCwdAbsent:!existsSync(owned),
+   error:cleanupError?{name:cleanupError.name,message:cleanupError.message}:null});
+  if(cleanupError)throw cleanupError;
  }
 });

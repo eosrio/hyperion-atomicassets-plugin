@@ -10,6 +10,8 @@ The [bounded auction-ID component](docs/parity/atomicmarket/auction-id.md) adds 
 single-asset auction/bid/claim state and a coherent ID route against original callback controls.
 The [collection-ID component](docs/parity/atomicassets/collection-id.md) adds current collection
 responses and real pending-author swap effects, with original handler/callback controls.
+The [marketplace-ID component](docs/parity/atomicmarket/marketplace-id.md) adds real marketplace
+table effects and the coherent ID route, with an explicit 19-kind declaration upgrade.
 
 One EOS Rio operator package for AtomicAssets and AtomicMarket indexing and APIs, with modular
 internal components.

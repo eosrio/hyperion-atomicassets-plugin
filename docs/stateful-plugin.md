@@ -12,7 +12,7 @@ budget. Operator enablement remains the existing per-chain plugin configuration 
 
 The [bounded auction-ID slice](parity/atomicmarket/auction-id.md) adds one `market-auction` kind,
 and the [template slice](parity/atomicassets/templates.md) adds one `template` kind, bringing the
-combined descriptor to 18 kinds. The auction slice adds the auction-ID route and seven partial processor
+earlier combined descriptor to 18 kinds. The auction slice adds the auction-ID route and seven partial processor
 hooks; bundles, v2 continuity, templated pricing and full parity remain open. Explicit negotiated
 record and array limits bound the complete bid sequence without truncation.
 Its changed declaration and executable inventory require compatible generation admission and
@@ -20,6 +20,13 @@ initialization/replay through the existing host lifecycle. Old explicit 16- and 
 are preserved and refused. The independent AA template and auction children each required 17;
 their integrated declaration requires 18. This is an explicit operator budget and reviewed
 generation change, never an automatic raise.
+
+The [compound marketplace-ID component](parity/atomicmarket/marketplace-id.md) adds the genuine
+`marketplace` record kind, bringing the current declaration to **19**. Explicit old 18-kind budgets
+remain unchanged and are refused alongside 16/17; explicit 19 admits. Operators need a compatible
+new declaration/generation and qualified state initialization/replay, with no automatic budget raise.
+The earlier integrated template/auction declaration above required 18; its old generation does not
+acquire marketplace coverage by installing new code.
 
 The [collection-ID component](parity/atomicassets/collection-id.md) uses the existing `collection`
 kind and actual scoped `authorswaps` table updates; it adds no record kind or limit default.
@@ -66,7 +73,7 @@ No additional executable loader is introduced. The constructor exposes empty leg
 delta and stream handler lists: state reduction uses the host's optional
 `getStatefulProjectionsV2({binding})` path. A host lacking that v2 path cannot index this component.
 Its existing `addRoutes(server, context)` path requires `context.statefulQueryHost(request)`;
-missing context refuses registration. Both ID endpoints use the same projection ID. The wrapper
+missing context refuses registration. All ID endpoints use the same projection ID. The wrapper
 never opens an adapter or constructs a serving grant.
 
 Templates omit all binding and ABI deployment/hash fields. The host resolves actual ABI epochs,

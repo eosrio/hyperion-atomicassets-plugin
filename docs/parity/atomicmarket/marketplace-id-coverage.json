@@ -1,0 +1,16 @@
+{
+  "baseline": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+  "issue": 38,
+  "scope": "Constructed source component; native and packed controls are not release qualification",
+  "cells": [
+    {"cell":"actual scoped marketplaces create/replacement/preserved creation", "implementation":"implemented", "evidence":"actual original callback and replace SQL-generator controls"},
+    {"cell":"forbidden deletion and failed candidate staging", "implementation":"refused", "evidence":"original negative callback and caller/actual SDK staging controls"},
+    {"cell":"marketplace ID four fields/success/416/exact name/GET/POST/HEAD", "implementation":"implemented", "evidence":"original namespace/router/HTTP and coherent factory controls"},
+    {"cell":"explicit old18 refusal/new19 admission", "implementation":"implemented", "evidence":"actual SDK declaration with unchanged supplied budgets; new generation required"},
+    {"cell":"unknown coverage/caller publication/error/malformed row", "implementation":"refused", "evidence":"one caller-owned coherent composition; no fabricated absence"},
+    {"cell":"NUL/literal-backslash source and original database string behavior", "implementation":"unsupported", "evidence":"existing explicit compatibility gap; no normalization"},
+    {"cell":"marketplace list/config/aggregates/logs/history/socket", "implementation":"unimplemented", "evidence":"not-run by this component"},
+    {"cell":"physical PostgreSQL/MongoDB/WormDB comparison", "implementation":"not-run", "evidence":"finite callback/SQL collaborators only"},
+    {"cell":"actual source/worker/recovery/fork/host serving and full parity", "implementation":"not-run", "evidence":"separate release gates"}
+  ]
+}

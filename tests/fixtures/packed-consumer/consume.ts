@@ -78,6 +78,16 @@ async function consumePrivateCollectionDeclaration() {
 }
 void consumePrivateCollectionDeclaration;
 
+import {readMarketplaceState} from './node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicmarket/internal/marketplace-state.js';
+async function consumePrivateMarketplaceDeclaration() {
+  const result = await readMarketplaceState(privateDomainReader, 'atomicmarket', 'marketplace1');
+  const name: AtomicValue | undefined = result?.marketplace_name;
+  // @ts-expect-error The original marketplace ID is text, not a numeric ID.
+  await readMarketplaceState(privateDomainReader, 'atomicmarket', 123);
+  return name;
+}
+void consumePrivateMarketplaceDeclaration;
+
 import type {SaleStage} from './node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicmarket/internal/fixed-sale-port.js';
 const privateSaleStage: SaleStage = {async get() {return {status: 'covered-absent'};}, put() {}, delete() {}};
 void privateSaleStage;

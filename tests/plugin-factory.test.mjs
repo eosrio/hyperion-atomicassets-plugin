@@ -13,7 +13,7 @@ import {input as marketInput, scenario} from './fixtures/fixed-sale-cases.mjs';
 const hash = x => createHash('sha256').update(x).digest('hex');
 const binding = {chainId:'a'.repeat(64),backendId:'host-owned',generation:'host-generation',mappingRevision:'b'.repeat(64),
   hookArtifact:'c'.repeat(64),hookRevision:'d'.repeat(64),codecRevision:'e'.repeat(64),normalizerRevision:'f'.repeat(64)};
-const options = () => ({limits:{...atomicLimits,selectors:128,recordKinds:18}});
+const options = () => ({limits:{...atomicLimits,selectors:128,recordKinds:19}});
 const descriptor = plugin => plugin.getStatefulProjectionsV2({binding});
 function source(events) {
   return {previous:{blockNum:0,blockId:'0'.repeat(64)},block:{blockNum:1,blockId:'1'.repeat(64),previousBlockId:'0'.repeat(64),timeMs:'1700000000000'},

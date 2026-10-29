@@ -82,5 +82,6 @@ open. Historical safe-profile fixtures and failing reports are not rewritten.
 
 The installed hook inventory changes with this encoder module. The host must bind the actual
 new executable inventory in a new declaration/generation as required by its normal activation
-rules; an old declaration is not silently relabeled. The existing 18 record kinds and all explicit
-operator limits are unchanged. Rebuild state projections separately from retained history.
+rules; an old declaration is not silently relabeled. This encoder adds no record kind. The current
+combined marketplace declaration requires 19; old explicit 18-kind limits remain 18 and are refused.
+Operator limits are never silently raised. Rebuild state projections separately from retained history.
