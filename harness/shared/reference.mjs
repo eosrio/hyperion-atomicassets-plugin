@@ -20,6 +20,10 @@ export async function executeOriginalTemplateControls({referenceRoot, input, nod
   return await execute({referenceRoot, nodePath, timeoutMs, command: {mode:'templates-controls',input}});
 }
 
+export async function executeOriginalBuyofferControls({referenceRoot, input, nodePath, timeoutMs}) {
+  return await execute({referenceRoot, nodePath, timeoutMs, command: {mode:'buyoffer-controls',input}});
+}
+
 export async function executeOriginalAuctionControls({referenceRoot, input, nodePath, timeoutMs}) {
   return await execute({referenceRoot, nodePath, timeoutMs, command: {mode:'auction-controls',input}});
 }

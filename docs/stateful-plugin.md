@@ -22,11 +22,20 @@ their integrated declaration requires 18. This is an explicit operator budget an
 generation change, never an automatic raise.
 
 The [compound marketplace-ID component](parity/atomicmarket/marketplace-id.md) adds the genuine
-`marketplace` record kind, bringing the current declaration to **19**. Explicit old 18-kind budgets
+`marketplace` record kind, bringing that declaration to **19**. Explicit old 18-kind budgets
 remain unchanged and are refused alongside 16/17; explicit 19 admits. Operators need a compatible
 new declaration/generation and qualified state initialization/replay, with no automatic budget raise.
 The earlier integrated template/auction declaration above required 18; its old generation does not
 acquire marketplace coverage by installing new code.
+
+The [buyoffer-ID component](parity/atomicmarket/buyoffer-id.md) adds the genuine
+`market-buyoffer` kind, bringing the current declaration to **20**. Explicit old 19-kind
+(and smaller) budgets remain unchanged and are refused; explicit 20 admits. A new reviewed
+host declaration/generation and qualified replay are required. No default is raised.
+The getter requires the actual host's `original-action-authorization-v1` source capability
+and declares it in `requiredSourceCapabilities`; an old host context refuses immediately.
+SDK source-v2 metadata version 1 and both host/native SDK consumers must be installed and
+qualified before activation. Contract data never supplies action authorization.
 
 The [collection-ID component](parity/atomicassets/collection-id.md) uses the existing `collection`
 kind and actual scoped `authorswaps` table updates; it adds no record kind or limit default.
@@ -71,7 +80,7 @@ export {default} from '@eosrio/hyperion-atomicassets-plugin';
 
 No additional executable loader is introduced. The constructor exposes empty legacy action,
 delta and stream handler lists: state reduction uses the host's optional
-`getStatefulProjectionsV2({binding})` path. A host lacking that v2 path cannot index this component.
+`getStatefulProjectionsV2({binding, sourceCapabilities})` path. A host lacking that v2 path cannot index this component.
 Its existing `addRoutes(server, context)` path requires `context.statefulQueryHost(request)`;
 missing context refuses registration. All ID endpoints use the same projection ID. The wrapper
 never opens an adapter or constructs a serving grant.

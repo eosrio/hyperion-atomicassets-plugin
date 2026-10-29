@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const name = '@eosrio/hyperion-atomicassets-plugin';
-const sdkPin = 'git+https://github.com/eosrio/hyperion-sdk.git#ffb368bbcfbeb0821a85e5a38dfe3b18ca402473';
+const sdkPin = 'git+https://github.com/eosrio/hyperion-sdk.git#dd85ee590dcd1e359509c6c41ee99b541706b1f6';
 const npmCli = process.env.npm_execpath ?? join(dirname(process.execPath), 'node_modules/npm/bin/npm-cli.js');
 assert.ok(existsSync(npmCli), 'Run through npm so its actual CLI path is available');
 await mkdir(join(root, 'out'), {recursive: true});
@@ -52,6 +52,8 @@ try {
     'dist/atomicmarket/internal/relationships.js', 'dist/atomicmarket/internal/relationships.d.ts',
     'dist/atomicmarket/internal/auctions.js', 'dist/atomicmarket/internal/auctions.d.ts',
     'dist/atomicmarket/internal/auction-assets.js', 'dist/atomicmarket/internal/auction-assets.d.ts',
+    'dist/atomicmarket/internal/buyoffers.js', 'dist/atomicmarket/internal/buyoffers.d.ts',
+    'dist/atomicmarket/internal/buyoffer-assets.js', 'dist/atomicmarket/internal/buyoffer-assets.d.ts',
     'dist/atomicmarket/internal/marketplace-state.js', 'dist/atomicmarket/internal/marketplace-state.d.ts',
     'vendor/atomicassets-2.2.0/build/index.cjs', 'vendor/atomicassets-2.2.0/LICENSE',
     'vendor/atomicassets-2.2.0/NOTICE', 'vendor/atomicassets-2.2.0/licenses/Apache-2.0.txt',
@@ -73,7 +75,7 @@ try {
   const tarballBytes = await readFile(tarball);
   await writeFile(join(consumer, 'package.json'), JSON.stringify({name: 'atomic-parity-packed-consumer',
     private: true, type: 'module', dependencies: {[name]: 'file:' + tarball}, devDependencies: {typescript: '7.0.2', fastify: '5.12.7', '@types/node': '25.5.0'},
-    allowScripts: {'github:eosrio/hyperion-sdk#ffb368bbcfbeb0821a85e5a38dfe3b18ca402473': true}}, null, 2) + '\n');
+    allowScripts: {'github:eosrio/hyperion-sdk#dd85ee590dcd1e359509c6c41ee99b541706b1f6': true}}, null, 2) + '\n');
   for (const file of ['consume.mjs', 'consume.ts', 'tsconfig.json'])
     await copyFile(join(root, 'tests/fixtures/packed-consumer', file), join(consumer, file));
   for (const file of ['asset-formatter-cases.mjs', 'asset-formatter.expected.json',
@@ -135,6 +137,8 @@ try {
   await run(['--test', join(root, 'tests/json-compatibility.test.mjs')], root, 'consumer-original-metadata-json',
     {...env, AA_DOMAIN_MODULE_ROOT: join(installed, 'dist'), ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   await run(['--test', join(root, 'tests/marketplace-id.test.mjs')], root, 'consumer-marketplace-id',
+    {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
+  await run(['--test', join(root, 'tests/buyoffers.test.mjs')], root, 'consumer-buyoffers',
     {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   const declarations = await run([join(consumer, 'node_modules/typescript/bin/tsc'), '-p',
     join(consumer, 'tsconfig.json'), '--listFiles'], consumer, 'consumer-declarations');

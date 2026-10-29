@@ -2,13 +2,15 @@ import {createHash} from 'node:crypto';
 import type {FastifyInstance, FastifyRequest} from 'fastify';
 import type {StatefulDefinition, StatefulLimits, StatefulSelector} from '@eosrio/hyperion-sdk/projection-stateful';
 import type {StatefulReductionV2, StatefulQueryHostV2} from '@eosrio/hyperion-sdk/projection-stateful-owner-v2';
+import {negotiateStatefulActionMetadataV2, STATEFUL_ACTION_AUTHORIZATION_CAPABILITY_V1} from '@eosrio/hyperion-sdk/projection-stateful-source-v2';
 import {registerAtomicIdRoutes} from '../http/id-routes.js';
 import {actionMetadataInput} from '../atomicassets/internal/database-json.js';
 import {reduceAssetLifecycle} from '../atomicassets/internal/lifecycle.js';
-import {domainKey, format, record, required, strings, text, unavailable,
+import {domainKey, format, metadataInputRecord, record, required, strings, text, unavailable,
   type LifecycleEvent, type MetadataCodec} from '../atomicassets/internal/lifecycle-port.js';
 import {reduceFixedSales} from '../atomicmarket/internal/fixed-sale.js';
 import {reduceAuctions, type AuctionName, type AuctionOccurrence} from '../atomicmarket/internal/auctions.js';
+import {reduceBuyoffers, type BuyofferName, type BuyofferOccurrence} from '../atomicmarket/internal/buyoffers.js';
 import {reduceMarketplace} from '../atomicmarket/internal/marketplace-state.js';
 import {reduceOffers, finishOfferMoves, reduceMarketConfig, reduceContractCode, isOfferAction,
   type OfferOccurrence} from '../atomicmarket/internal/relationships.js';
@@ -31,20 +33,26 @@ export interface AtomicPluginOptions {
 export interface AtomicPluginApiContext {
   readonly statefulQueryHost: (request: FastifyRequest) => StatefulQueryHostV2;
 }
-export interface AtomicPluginHostContext {readonly binding: StatefulDefinition['binding']}
+export interface AtomicPluginHostContext {
+  readonly binding: StatefulDefinition['binding'];
+  readonly sourceCapabilities?: readonly string[];
+}
 export interface AtomicPluginRegistration {
   readonly interfaceVersion: 2;
   readonly sourceInputVersion: 2;
   readonly projections: readonly {readonly definition: Omit<StatefulDefinition, 'binding' | 'selectors'> & {
     readonly selectors: readonly Omit<StatefulSelector, 'abiDeployment' | 'abiSha256'>[]};
-    readonly limits: StatefulLimits; readonly reduce: (port: StatefulReductionV2) => Promise<void>}[];
+    readonly limits: StatefulLimits; readonly requiredSourceCapabilities: readonly string[];
+    readonly reduce: (port: StatefulReductionV2) => Promise<void>}[];
 }
 const kinds = ['config','collection','schema','template','asset','mint','template-link','backed-tokens','original-mint',
-  'market-sale','market-config','offer','market-token','symbol-pair','offer-assets','contract-code','asset-offers','market-auction','marketplace'] as const;
+  'market-sale','market-config','offer','market-token','symbol-pair','offer-assets','contract-code','asset-offers','market-auction','marketplace','market-buyoffer'] as const;
 const assetTables = ['config','collections','authorswaps','schemas','schematypes','templates','templates2'] as const;
 const assetActions = ['logmint','logsetdata','logtransfer','logburnasset'] as const;
 const saleActions = ['lognewsale','logsalestart','cancelsale','purchasesale'] as const;
 const auctionActions = ['lognewauct','logauctstart','cancelauct','auctionbid','auctclaimbuy','auctclaimsel'] as const;
+const buyofferActions = ['lognewbuyo','cancelbuyo','acceptbuyo','declinebuyo'] as const;
+const sourceCapabilities = Object.freeze([STATEFUL_ACTION_AUTHORIZATION_CAPABILITY_V1]);
 const has = (values: readonly string[], value: string) => values.includes(value);
 const schemaDigest = (value: unknown) => createHash('sha256').update(JSON.stringify(format(value))).digest('hex');
 
@@ -52,6 +60,7 @@ export const ATOMIC_CAPABILITY_GAPS = Object.freeze(['full original processor ef
   'template mint reconciliation/backing', 'multi-asset offers/exchanges and symbol-pair pricing',
   'currency conversion/pricing/bundles', 'scope-less table domain interpretation',
   'templated sale price enrichment', 'templated auction price enrichment',
+  'buyoffer bundles, newer contract versions and templated pricing',
   'nontext collection display metadata',
   'schema/scalar NUL and nontext JSONB text extraction', 'remaining API/log/stat/socket parity'] as const);
 
@@ -71,7 +80,7 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
   })).values(),Object.freeze({id:system+':action:setcode',contract:system,kind:'action' as const,name:'setcode'})]);
 
   async function reduce(port: StatefulReductionV2): Promise<void> {
-    const assetEvents: LifecycleEvent[] = [], sales: FixedSaleOccurrence[] = [], auctions: AuctionOccurrence[] = [];
+    const assetEvents: LifecycleEvent[] = [], sales: FixedSaleOccurrence[] = [], auctions: AuctionOccurrence[] = [], buyoffers: BuyofferOccurrence[] = [];
     const offers: OfferOccurrence[] = [], moved: string[] = [], marketRows: {name: 'config' | 'marketplaces'; value: import('../atomicassets/asset.js').AtomicObject;
       evidence: import('../atomicassets/asset.js').AtomicObject}[] = [], codes: import('../atomicassets/asset.js').AtomicObject[] = [];
     const formats = new Map<string, string>(), mints = new Map<string, {collection: string; schema: string}>();
@@ -92,6 +101,15 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
       return formats.get(key) ?? text((await required(port, 'schema', key)).schema_digest);
     }
     for (const input of port.source.inputs) {
+      if (input.contract === market && input.kind === 'action' && has(buyofferActions,input.name)) {
+        if (input.name === 'lognewbuyo' && port.source.actionMetadataVersion !== 1)
+          unavailable('Buyoffer creation requires negotiated original action authorization');
+        // Preserve original guard-before-data semantics, including invalid-auth actions carrying unsupported text.
+        buyoffers.push({kind:'action',name:input.name as BuyofferName,value:metadataInputRecord(input.data),
+          evidence:{occurrence:input.sourceEvidence,abiDeployment:input.abiDeployment,abiSha256:input.abiSha256},
+          ...(input.authorization ? {authorization:input.authorization.map(value=>({...value}))} : {})});
+        continue;
+      }
       if (input.contract === market && input.kind === 'table' && input.name === 'config' && !input.present)
         unavailable('Original market config cannot be erased');
       if (input.contract === market && input.kind === 'table' && input.name === 'marketplaces' && !input.present)
@@ -153,7 +171,7 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
       if (row.name === 'config') await reduceMarketConfig(relations,row.value,row.evidence,port);
       else await reduceMarketplace({contract:market,blockNum:String(b.blockNum),blockTimeMs:b.timeMs},row.value,port);
     }
-    if (sales.length || auctions.length) {
+    if (sales.length || auctions.length || buyoffers.length) {
       const version = await required(port, 'market-config', domainKey(market));
       if (version.version !== '1.2.2') unavailable('Missing supported source-bound market version');
       const context = {marketContract: market, assetsContract: assets, blockNum: String(b.blockNum), blockTimeMs: b.timeMs,
@@ -161,15 +179,17 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
           abiDeployment: text(version.abiDeployment), abiSha256: text(version.abiSha256)}} as const;
       if (sales.length) await reduceFixedSales(context,sales,port);
       if (auctions.length) await reduceAuctions(context,auctions,port);
+      if (buyoffers.length) await reduceBuyoffers(context,buyoffers,port);
     }
     await finishOfferMoves(relations,moved,port);
   }
   return Object.freeze({
-    getStatefulProjectionsV2(_context: AtomicPluginHostContext): AtomicPluginRegistration {
+    getStatefulProjectionsV2(context: AtomicPluginHostContext): AtomicPluginRegistration {
+      negotiateStatefulActionMetadataV2(sourceCapabilities,context?.sourceCapabilities);
       return {interfaceVersion: 2, sourceInputVersion: 2, projections: [{definition: {
         family: 'stateful-projection-recovery', interfaceVersion: 1, id: projectionId, selectors,
         records: kinds.map(kind => ({kind, integers: kind === 'asset' ? [{path: ['asset_id'], type: 'uint64', vector: false}] : []}))},
-        limits: JSON.parse(JSON.stringify(limits)) as StatefulLimits, reduce}]};
+        limits: JSON.parse(JSON.stringify(limits)) as StatefulLimits, requiredSourceCapabilities:sourceCapabilities, reduce}]};
     },
     addRoutes(server: FastifyInstance, context?: AtomicPluginApiContext): void {
       if (!context || typeof context.statefulQueryHost !== 'function') throw new Error('Atomic routes require the host request-scoped query context');

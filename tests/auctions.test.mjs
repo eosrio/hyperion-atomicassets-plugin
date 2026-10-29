@@ -14,7 +14,7 @@ const {createAtomicStatefulPlugin}=await import(pathToFileURL(join(dist,'index.j
 const {readAuctionWithAssets}=await import(pathToFileURL(join(dist,'atomicmarket/internal/auction-assets.js')).href);
 const {reduceAuctions}=await import(pathToFileURL(join(dist,'atomicmarket/internal/auctions.js')).href);
 const market='atomicmarket',assets=aa.contract,auctionId='9007199254740993',time=1700000000000,end=time/1000+60;
-const hash=x=>createHash('sha256').update(x).digest('hex'),limits={...atomicLimits,selectors:128,recordKinds:19,readAttempts:128,mutations:64};
+const hash=x=>createHash('sha256').update(x).digest('hex'),limits={...atomicLimits,selectors:128,recordKinds:20,readAttempts:128,mutations:64};
 const json=v=>JSON.parse(JSON.stringify(v));
 const act=(name,value={auction_id:auctionId})=>({kind:'action',contract:market,name,value});
 const create=(overrides={})=>act('lognewauct',{auction_id:auctionId,seller:'seller',asset_ids:[aa.assetId],starting_bid:'90071992547.40993 WAX',
@@ -31,7 +31,7 @@ const assetView=rebase(structuredClone(fixture.stages[0].view)),collection=rebas
 const relations={collection,token:{market_contract:market,token_contract:'eosio.token',token_symbol:'WAX',token_precision:8},code:null};
 let referenceNumber=0;
 async function setup({selectedLimits=limits}={}){
-  const plugin=createAtomicStatefulPlugin({limits:selectedLimits}),registered=plugin.getStatefulProjectionsV2({binding:{}}).projections[0];
+  const plugin=createAtomicStatefulPlugin({limits:selectedLimits}),registered=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0];
   const binding={chainId:'a'.repeat(64),backendId:'controlled',generation:'genesis',mappingRevision:'b'.repeat(64),hookArtifact:'c'.repeat(64),
     hookRevision:'d'.repeat(64),codecRevision:'e'.repeat(64),normalizerRevision:'f'.repeat(64)};
   const declaration=await captureStatefulDeclaration({...registered.definition,binding,
@@ -147,12 +147,12 @@ test('host record bounds reject complete oversized bid history without truncatin
 
 test('an old explicit16 record-kind budget remains unchanged and fails actual SDK admission',async()=>{
   const selected={...limits,recordKinds:16},before=structuredClone(selected),plugin=createAtomicStatefulPlugin({limits:selected});
-  const registered=plugin.getStatefulProjectionsV2({binding:{}}).projections[0],binding={chainId:'a'.repeat(64),backendId:'controlled',generation:'new-reviewed-declaration',
+  const registered=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0],binding={chainId:'a'.repeat(64),backendId:'controlled',generation:'new-reviewed-declaration',
     mappingRevision:'b'.repeat(64),hookArtifact:'c'.repeat(64),hookRevision:'d'.repeat(64),codecRevision:'e'.repeat(64),normalizerRevision:'f'.repeat(64)};
   assert.ok(registered.definition.records.length>16);assert.equal(registered.limits.recordKinds,16);
   await assert.rejects(captureStatefulDeclaration({...registered.definition,binding,
     selectors:registered.definition.selectors.map(s=>({...s,abiDeployment:s.contract,abiSha256:hash(s.contract)}))},registered.limits),/Record kind bound/);
-  assert.deepEqual(selected,before);assert.equal(plugin.getStatefulProjectionsV2({binding:{}}).projections[0].limits.recordKinds,16);
+  assert.deepEqual(selected,before);assert.equal(plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0].limits.recordKinds,16);
 });
 
 test('captured auction inputs/context and nested relationship outputs detach across awaits',async()=>{
