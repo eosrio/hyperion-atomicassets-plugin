@@ -6,7 +6,7 @@ using SDK owner/source interface version 2. It is not production readiness or fu
 The root default export is the constructor used by the existing Hyperion plugin loader.
 `createAtomicStatefulPlugin` is also exported at `./plugin`. Both return one compound
 AtomicAssets/AtomicMarket projection, so a sale and its nested assets use one completed view.
-Configuration accepts `projectionId`, `assetsContract`, `marketContract`, and required explicit
+Configuration accepts `projectionId`, `assetsContract`, `marketContract`, `systemContract`, and required explicit
 `limits: StatefulLimits`. The host validates/negotiates these limits; none are a qualified default
 budget. Operator enablement remains the existing per-chain plugin configuration and `.state.json`.
 
@@ -47,13 +47,16 @@ decoder or asset/sale lifecycle is reimplemented.
 `0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e`. Source hashes use raw Git blobs. Repeated registrations
 are retained in the inventory but produce one logical selector per contract/kind/name. Every
 implemented handler remains **partial**, including original history/notification side effects.
-The original mint-priority flush is reused; original commit/fork hooks remain unimplemented here.
+The original mint-priority flush is reused. The
+[chronological relationship slice](parity/atomicmarket/source-relationships.md) adds offer commit
+validity and actual token/code inputs; other commit/fork effects remain open.
 
 All original contract/action hooks are selected. An unsupported occurrence fails the affected
 candidate explicitly rather than silently dropping that event. As a result, this component is
 not ready to serve arbitrary production contracts. Templates, backing, mint reconciliation,
-offer/token/symbol-pair/code relationships, conversion/pricing, scope-less table domain mapping,
+multi-asset offers/symbol-pair pricing, scope-less table domain mapping,
 remaining APIs and NUL/literal-backslash conversion remain explicit gaps. The v2 source retains
 actual scope-less identities; this restricted domain adapter refuses them instead of inventing
-a scope. Missing offer/token reducers cannot be replaced by synthetic relation rows. Native
+a scope. Offer/token/code relationships now come from actual selected occurrences; no synthetic
+relation rows are accepted. Native
 engine success and source controls do not establish same-input PostgreSQL/view/HTTP parity.

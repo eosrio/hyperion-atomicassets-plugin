@@ -8,6 +8,10 @@ export const REFERENCE = Object.freeze({
   tag: '2.7.0', commit: '0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e',
 });
 
+export async function executeOriginalRelationshipControls({referenceRoot, input, nodePath, timeoutMs}) {
+  return await execute({referenceRoot, nodePath, timeoutMs, command: {mode:'relationships-controls',input}});
+}
+
 function verifyReference(root) {
   const directory = realpathSync(root);
   const git = (...args) => execFileSync('git', args, {cwd: directory, encoding: 'utf8', timeout: 10000}).trim();

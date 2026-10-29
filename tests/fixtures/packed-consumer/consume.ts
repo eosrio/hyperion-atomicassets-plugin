@@ -98,6 +98,7 @@ const pluginRegistration: {interfaceVersion: 2; sourceInputVersion: 2; projectio
 }[]} = createAtomicStatefulPlugin({limits}).getStatefulProjectionsV2({binding});
 const packagedRegistration: AtomicPluginRegistration = new AtomicPlugin({limits}).getStatefulProjectionsV2({binding});
 const exactCodecHash: string = createAtomicMetadataCodec().sha256;
+new AtomicPlugin({limits, systemContract:'sysio'});
 // @ts-expect-error Finite host-negotiated limits must be supplied explicitly.
 createAtomicStatefulPlugin({});
 void [pluginRegistration, packagedRegistration, exactCodecHash];

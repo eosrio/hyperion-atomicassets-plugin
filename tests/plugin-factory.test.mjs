@@ -13,7 +13,7 @@ import {input as marketInput, scenario} from './fixtures/fixed-sale-cases.mjs';
 const hash = x => createHash('sha256').update(x).digest('hex');
 const binding = {chainId:'a'.repeat(64),backendId:'host-owned',generation:'host-generation',mappingRevision:'b'.repeat(64),
   hookArtifact:'c'.repeat(64),hookRevision:'d'.repeat(64),codecRevision:'e'.repeat(64),normalizerRevision:'f'.repeat(64)};
-const options = () => ({limits:{...atomicLimits,selectors:128}});
+const options = () => ({limits:{...atomicLimits,selectors:128,recordKinds:16}});
 const descriptor = plugin => plugin.getStatefulProjectionsV2({binding});
 function source(events) {
   return {previous:{blockNum:0,blockId:'0'.repeat(64)},block:{blockNum:1,blockId:'1'.repeat(64),previousBlockId:'0'.repeat(64),timeMs:'1700000000000'},
@@ -66,7 +66,7 @@ test('one actual reducer callback dispatches combined AA lifecycle and source-bo
   const reduce=descriptor(createAtomicStatefulPlugin(options())).projections[0].reduce,s=source(initial());
   const evidence={sourceEvidence:hash('retained market config'),abiDeployment:'market-abi',abiSha256:'b'.repeat(64)};
   s.inputs.push({kind:'table',contract:marketInput.marketContract,name:'config',present:true,
-    data:{version:'1.2.2'},...evidence});
+    data:{version:'1.2.2',atomicassets_account:input.contract,supported_tokens:[],supported_symbol_pairs:[]},...evidence});
   for(const event of scenario('same-block-start-before-create').blocks[0].events)
     s.inputs.push({kind:'action',contract:marketInput.marketContract,name:event.name,data:event.data,
       transactionId:'c'.repeat(64),...evidence});
@@ -95,7 +95,7 @@ test('unsupported original hooks and missing market relationships refuse instead
 });
 test('legacy constructor and both ID routes use only the request-scoped host and shared projection',async()=>{
   const plugin=new AtomicPlugin({...options(),projectionId:'both',assetsContract:'assets',marketContract:'market'});
-  assert.deepEqual(plugin.dynamicContracts,['assets','market']);assert.deepEqual(plugin.actionHandlers,[]);assert.deepEqual(plugin.deltaHandlers,[]);
+  assert.deepEqual(plugin.dynamicContracts,['assets','market','eosio']);assert.deepEqual(plugin.actionHandlers,[]);assert.deepEqual(plugin.deltaHandlers,[]);
   const api=Fastify(),calls=[];
   assert.throws(()=>plugin.addRoutes(api),/request-scoped/);
   plugin.addRoutes(api,{statefulQueryHost(request){calls.push(request.url);return {async compose(id,read){assert.equal(id,'both');

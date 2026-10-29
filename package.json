@@ -14,7 +14,8 @@
     "docs/parity/atomicmarket/UPSTREAM-LICENSE",
     "vendor/atomicassets-2.2.0",
     "legacy",
-    "docs/stateful-plugin.md"
+    "docs/stateful-plugin.md",
+    "docs/parity/atomicmarket/source-relationships.md"
   ],
   "exports": {
     "./atomicmarket/sale": {

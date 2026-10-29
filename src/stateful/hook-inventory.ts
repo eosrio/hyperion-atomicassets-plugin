@@ -493,7 +493,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "offers",
       "source": "src/filler/handlers/atomicassets/processors/offers.ts",
       "line": 20,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicassets",
@@ -502,7 +502,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "offers",
       "source": "src/filler/handlers/atomicassets/processors/offers.ts",
       "line": 57,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicassets",
@@ -511,7 +511,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "offers",
       "source": "src/filler/handlers/atomicassets/processors/offers.ts",
       "line": 71,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicassets",
@@ -520,7 +520,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "offers",
       "source": "src/filler/handlers/atomicassets/processors/offers.ts",
       "line": 85,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicassets",
@@ -529,7 +529,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "offers",
       "source": "src/filler/handlers/atomicassets/processors/offers.ts",
       "line": 108,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicassets",
@@ -538,7 +538,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "offers",
       "source": "src/filler/handlers/atomicassets/processors/offers.ts",
       "line": 116,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicassets",
@@ -1056,7 +1056,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "method": "onCommit",
       "source": "src/filler/handlers/atomicassets/processors/offers.ts",
       "line": 124,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicmarket",
@@ -1064,6 +1064,16 @@ export const ATOMIC_HOOK_INVENTORY = {
       "source": "src/filler/handlers/atomicmarket/processors/config.ts",
       "line": 142,
       "coverage": "unimplemented"
+    }
+  ],
+  "receiverHooks": [
+    {
+      "contract": "eosio",
+      "action": "setcode",
+      "method": "handleCodeUpdate",
+      "source": "src/filler/receiver.ts",
+      "sha256": "39263060066ba50a74f60732a0d16016afbacc950f1d5325af6e6d6c20090d2a",
+      "coverage": "partial"
     }
   ]
 } as const;
