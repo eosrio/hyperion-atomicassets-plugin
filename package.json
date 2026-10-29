@@ -54,7 +54,7 @@
   },
   "devDependencies": {
     "typescript": "7.0.2",
-    "fastify": "5.8.5",
+    "fastify": "5.12.7",
     "@types/node": "25.5.0"
   },
   "allowScripts": {

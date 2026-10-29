@@ -62,7 +62,7 @@ try {
   const tarball = join(evidence, packed.filename);
   const tarballBytes = await readFile(tarball);
   await writeFile(join(consumer, 'package.json'), JSON.stringify({name: 'atomic-parity-packed-consumer',
-    private: true, type: 'module', dependencies: {[name]: 'file:' + tarball}, devDependencies: {typescript: '7.0.2', fastify: '5.8.5', '@types/node': '25.5.0'},
+    private: true, type: 'module', dependencies: {[name]: 'file:' + tarball}, devDependencies: {typescript: '7.0.2', fastify: '5.12.7', '@types/node': '25.5.0'},
     allowScripts: {'github:eosrio/hyperion-sdk#f15dc3aa333ff526e24482650b685ebaa02eda4e': true}}, null, 2) + '\n');
   for (const file of ['consume.mjs', 'consume.ts', 'tsconfig.json'])
     await copyFile(join(root, 'tests/fixtures/packed-consumer', file), join(consumer, file));

@@ -32,3 +32,8 @@ propagate for the HAPI retryable-unavailable policy; no arbitrary exception beco
 The two inventory cells gain partial HTTP component annotations. Their original registrations,
 source observations and full endpoint parity remain unchanged/unqualified. Controlled injected compose
 is not proof of production admission, durable indexing, physical paired parity or all93 routes.
+
+The final development/injection and packed-consumer Fastify pin is 5.12.7. The 5.8.5 host comparison
+at component 061dc4a and the intermediate 5.12.5 results are retained separately. Current HAPI runtime
+qualification is tracked in [HAPI #385](https://github.com/eosrio/hyperion-history-api/issues/385);
+this slice does not change its runtime or frozen qualification profiles.
