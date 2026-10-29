@@ -6,6 +6,8 @@ current reducers and exact metadata codec; missing domain capabilities remain ex
 a production integration component, with activation and full parity still pending. The
 [chronological fixed-sale relationship slice](docs/parity/atomicmarket/source-relationships.md) adds
 real offer/token/code inputs and coherent single-asset sale responses; physical parity remains separate.
+The [bounded auction-ID component](docs/parity/atomicmarket/auction-id.md) adds chronological
+single-asset auction/bid/claim state and a coherent ID route against original callback controls.
 
 One EOS Rio operator package for AtomicAssets and AtomicMarket indexing and APIs, with modular
 internal components.

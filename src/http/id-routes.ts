@@ -4,6 +4,7 @@ import {readLifecycleAsset} from '../atomicassets/internal/lifecycle.js';
 import {AssetDomainUnavailable} from '../atomicassets/internal/lifecycle-port.js';
 import {readFixedSaleWithAssets} from '../atomicmarket/internal/sale-assets.js';
 import {FixedSaleUnavailable} from '../atomicmarket/internal/fixed-sale-port.js';
+import {readAuctionWithAssets} from '../atomicmarket/internal/auction-assets.js';
 
 export interface AtomicIdRoutesOptions {
   readonly atomicassets: {readonly projectionId: string; readonly contract: string};
@@ -14,11 +15,12 @@ export interface AtomicIdRoutesOptions {
 
 /** Additive routes on the existing host. This neither opens an adapter view nor grants readiness. */
 export function registerAtomicIdRoutes(fastify: FastifyInstance, options: AtomicIdRoutesOptions): void {
-  for (const family of ['atomicassets', 'atomicmarket'] as const) {
-    const asset = family === 'atomicassets', parameter = asset ? 'asset_id' : 'sale_id';
-    const configured = options[family];
+  for (const family of ['asset', 'sale', 'auction'] as const) {
+    const asset = family === 'asset', auction = family === 'auction', parameter = family + '_id';
+    const namespace = asset ? 'atomicassets' : 'atomicmarket';
+    const configured = options[namespace];
     if (!configured.projectionId || !configured.contract) throw new Error('Atomic route configuration is incomplete');
-    fastify.all<{Params: Record<string, string>}>('/' + family + '/v1/' + (asset ? 'assets/:' : 'sales/:') + parameter,
+    fastify.all<{Params: Record<string, string>}>('/' + namespace + '/v1/' + (asset ? 'assets/:' : auction ? 'auctions/:' : 'sales/:') + parameter,
       async (request, reply) => {
         const host = await options.queryHost(request);
         let status = 200;
@@ -36,10 +38,11 @@ export function registerAtomicIdRoutes(fastify: FastifyInstance, options: Atomic
           if (exact < 0n || exact > 9223372036854775807n) return unsupported();
           const identity = exact.toString();
           const data = asset ? await readLifecycleAsset(reader, configured.contract, identity)
+            : auction ? await readAuctionWithAssets(reader, configured.contract, identity, Date.now)
             : await readFixedSaleWithAssets(reader, configured.contract, identity);
           // Original AssetFiller indexes canonical returned rows using the untouched request text.
           if (data === null || asset && identity !== input) {
-            status = 416; return {success: false, message: asset ? 'Asset not found' : 'Sale not found'};
+            status = 416; return {success: false, message: asset ? 'Asset not found' : auction ? 'Auction not found' : 'Sale not found'};
           }
           // The SDK host captures and bounds this complete JSON body; onSend/headers remain host-owned.
           return {success: true, data: JSON.parse(JSON.stringify(data)) as StatefulRecord, query_time: Date.now()};
