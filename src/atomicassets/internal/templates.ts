@@ -1,3 +1,4 @@
+import {databaseMetadata} from './database-json.js';
 import {createHash} from 'node:crypto';
 import {decimal,domainKey,format,hash,read,record,required,text,unavailable,
   type DomainReader,type DomainStage,type LifecycleBlock,type LifecycleEvent,type MetadataCodec} from './lifecycle-port.js';
@@ -17,7 +18,7 @@ async function decode(b: LifecycleBlock,event: Extract<LifecycleEvent,{kind:'row
     unavailable('Template schema format evidence differs');
   const raw=event.value[field],hex=typeof raw==='string' ? raw : unavailable('Invalid serialized template metadata');
   if (!/^(?:[0-9a-f]{2})*$/.test(hex)) unavailable('Invalid serialized template metadata');
-  try {return record(codec.collection(hex,fields));}
+  try {return databaseMetadata(codec.collection(hex,fields));}
   catch {return unavailable('Template codec refused the supported input');}
 }
 

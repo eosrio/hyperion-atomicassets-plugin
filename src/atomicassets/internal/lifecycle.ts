@@ -1,7 +1,8 @@
 import {formatAsset, type AtomicAsset, type AtomicAssetInput, type AtomicObject} from '../asset.js';
 import {reduceTemplateRow,readTemplateForAsset,templateId} from './templates.js';
+import {actionMetadataInput, databaseMetadata} from './database-json.js';
 import {reduceAuthorSwap} from './collections.js';
-import {block, decimal, domainKey, evidence, format, hash, read, record, records, required, strings, text,
+import {block, decimal, domainKey, evidence, format, hash, read, record, records, metadataInputRecord, required, strings, text,
   unavailable, type DomainReader, type DomainStage, type LifecycleBlock, type LifecycleEvent,
   type MetadataCodec} from './lifecycle-port.js';
 
@@ -13,7 +14,8 @@ const bool = (v: unknown): boolean => typeof v === 'boolean' ? v : unavailable('
 const fraction = (v: unknown): number => typeof v === 'number' && Number.isFinite(v) ? v : unavailable('Expected finite fraction');
 
 function attributes(codec: MetadataCodec, value: unknown): AtomicObject {
-  const rows = records(value);
+  if (!Array.isArray(value)) return unavailable('Expected metadata attribute array');
+  const rows = value.map(metadataInputRecord);
   // Restrict this engineering tracer before the legacy codec can stringify an already
   // rounded numeric uint64, or pass an unknown variant through as successful metadata.
   for (const row of rows) {
@@ -40,7 +42,7 @@ function attributes(codec: MetadataCodec, value: unknown): AtomicObject {
         if (typeof item !== 'string' && typeof item !== 'number') unavailable('Malformed float attribute');
     } else unavailable('Attribute variant outside this tracer');
   }
-  try {return record(codec.attributes(rows));}
+  try {return databaseMetadata(codec.attributes(rows));}
   catch {return unavailable('Metadata codec refused the supported input');}
 }
 
@@ -66,9 +68,10 @@ export async function reduceAssetLifecycle(b: LifecycleBlock, events: readonly L
   if (!Array.isArray(events)) unavailable('Missing lifecycle occurrences');
   // Detach before awaits; later caller mutation must not change an occurrence being reduced.
   const jobs = events.map((event, index) => {
-    const value = record(event) as unknown as LifecycleEvent;
+    const raw = metadataInputRecord(event), {value: payload, ...header} = raw;
+    const checked = record(header);
+    const value = {...checked, value: checked.kind === 'action' ? actionMetadataInput(text(checked.name), payload) : record(payload)} as unknown as LifecycleEvent;
     evidence(value.evidence);
-    record(value.value);
     let priority: number;
     if (value.kind === 'row') {
       if (typeof value.table !== 'string' || !Object.hasOwn(rowPriorities, value.table)) return unavailable('Unsupported lifecycle row');
@@ -111,7 +114,7 @@ export async function reduceAssetLifecycle(b: LifecycleBlock, events: readonly L
         const hex = typeof v.serialized_data === 'string' ? v.serialized_data : unavailable('Missing serialized collection data');
         if (!/^(?:[0-9a-f]{2})*$/.test(hex)) unavailable('Invalid serialized collection data');
         let data: AtomicObject;
-        try {data = record(codec.collection(hex, format(config.collection_format)));}
+        try {data = databaseMetadata(codec.collection(hex, format(config.collection_format)));}
         catch {return unavailable('Collection codec refused the supported input');}
         const old = await read(stage, 'collection', key);
         stage.put('collection', key, {contract: b.contract, collection_name: name, author: text(v.author),

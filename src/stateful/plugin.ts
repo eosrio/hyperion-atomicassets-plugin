@@ -3,6 +3,7 @@ import type {FastifyInstance, FastifyRequest} from 'fastify';
 import type {StatefulDefinition, StatefulLimits, StatefulSelector} from '@eosrio/hyperion-sdk/projection-stateful';
 import type {StatefulReductionV2, StatefulQueryHostV2} from '@eosrio/hyperion-sdk/projection-stateful-owner-v2';
 import {registerAtomicIdRoutes} from '../http/id-routes.js';
+import {actionMetadataInput} from '../atomicassets/internal/database-json.js';
 import {reduceAssetLifecycle} from '../atomicassets/internal/lifecycle.js';
 import {domainKey, format, record, required, strings, text, unavailable,
   type LifecycleEvent, type MetadataCodec} from '../atomicassets/internal/lifecycle-port.js';
@@ -51,7 +52,7 @@ export const ATOMIC_CAPABILITY_GAPS = Object.freeze(['full original processor ef
   'currency conversion/pricing/bundles', 'scope-less table domain interpretation',
   'templated sale price enrichment', 'templated auction price enrichment',
   'nontext collection display metadata',
-  'NUL/literal-backslash conversion', 'remaining API/log/stat/socket parity'] as const);
+  'schema/scalar NUL and nontext JSONB text extraction', 'remaining API/log/stat/socket parity'] as const);
 
 /** One compound projection; this module owns domain conversion, never source/owner/native authority. */
 export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
@@ -81,7 +82,7 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
         const value = record(input.data);
         formats.set(domainKey(assets, input.identity.scope, text(value.schema_name)), schemaDigest(value.format));
       } else if (input.kind === 'action' && input.name === 'logmint') {
-        const value = record(input.data);
+        const value = actionMetadataInput(input.name, input.data);
         mints.set(text(value.asset_id), {collection: text(value.collection_name), schema: text(value.schema_name)});
       }
     }
@@ -92,7 +93,8 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
     for (const input of port.source.inputs) {
       if (input.contract === market && input.kind === 'table' && input.name === 'config' && !input.present)
         unavailable('Original market config cannot be erased');
-      const value = record(input.data), evidence = {occurrence: input.sourceEvidence,
+      const value = input.contract === assets && input.kind === 'action' ? actionMetadataInput(input.name, input.data) : record(input.data);
+      const evidence = {occurrence: input.sourceEvidence,
         abiDeployment: input.abiDeployment, abiSha256: input.abiSha256};
       if (input.contract === assets) {
         if (input.kind === 'table') {

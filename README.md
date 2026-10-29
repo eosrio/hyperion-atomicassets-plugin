@@ -186,3 +186,8 @@ tests and packed emissions do not establish real MongoDB execution or full parit
 instance using a caller-issued SDK query host. It does not create a listener or issue readiness.
 Original-handler/Fastify inject controls cover a bounded subset; the full 93-route parity gate and
 actual HAPI admission/final publication remain open.
+
+The field-specific [original metadata JSON boundary](docs/parity/atomicassets/json-compatibility.md)
+now has direct 2.7.0 encoder controls for raw NUL and literal escapes. Older safe-input captures
+remain unchanged historical evidence. Actual PostgreSQL display bytes, nontext display formatting,
+and full original/default-profile physical parity remain pending.

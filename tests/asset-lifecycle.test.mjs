@@ -121,8 +121,8 @@ test('coherence failures at the supplied read fence propagate; no partial respon
   await assert.rejects(read({async get(kind,k){if(++calls===3)throw Error('SDK view revision changed');return reader.get(kind,k);}},input.contract,input.assetId),/view revision changed/);
 });
 
-test('NUL and literal escape inputs are refused, never normalized; original failing controls remain intact',async()=>{
-  for(const value of ['a\0b','a\\u0000b']) {
+test('literal escape metadata is refused; original failing controls remain intact',async()=>{
+  for(const value of ['a\\u0000b']) {
     const s=storage(),events=initial();events[0].value.new_data=[{key:'name',value:['string',value]}];
     await rejects(s.run(reduce,block(0),events));assert.equal(s.snapshot().size,0);
     const decoded=storage(),events2=initial();events2[3]=collectionRow({...input.collectionData,img:value});

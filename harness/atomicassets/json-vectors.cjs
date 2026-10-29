@@ -1,0 +1,25 @@
+"use strict";
+// Independent inputs, never fabricated PostgreSQL outputs. Fresh objects on every call.
+module.exports.jsonVectors=()=>[
+  ['text',{name:'plain',img:'image'}],
+  ['nul-value',{name:'a\u0000b',img:'image\u0000hash'}],
+  ['literal-escape',{name:'a\\u0000b'}],
+  ['mixed-nul-literal',{name:'a\u0000b\\u0000c'}],
+  ['nul-key',{'a\u0000b':'nul key'}],
+  ['colliding-keys-later-space',{'a\u0000b':'first','a b':'last'}],
+  ['colliding-keys-later-nul',{'a b':'first','a\u0000b':'last'}],
+  ['nested-values',{name:{longer:[null,true,0,-0,1.25,1e-7,1e21],a:'n\u0000l'},img:[{z:1,a:2},null,'q"\\']}],
+  ['zero',{name:0,img:-0}],
+  ['fraction',{name:0.1,img:1e-7}],
+  ['exponent',{name:1e21,img:1e-20}],
+  ['booleans',{name:true,img:false}],
+  ['null',{name:null,img:null}],
+  ['missing',{other:'present'}],
+  ['ordered-unicode',{name:{'\u00e9':1,'e\u0301':2,'\u77ed':3,a:4},img:'emoji \ud83e\udded'}],
+  ['controls',{name:'tab\tline\nquote"slash\\end',img:'\u0001'}],
+  ['literal-other-escape',{name:'\\u0041',img:'\\u0001'}],
+  ['valid-surrogate-pair',{name:'\ud83e\udded'}],
+  ['unpaired-surrogate-value',{name:'\ud800'}],
+  ['unpaired-surrogate-key',{'\udc00':'value'}],
+  ['prototype-key',JSON.parse('{"__proto__":{"name":"owned"},"constructor":"data","name":"plain"}')],
+];

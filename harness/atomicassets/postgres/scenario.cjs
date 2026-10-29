@@ -156,6 +156,19 @@ module.exports = async function scenario(fromReference, connection, config, reco
       catch(error) {probes.push({name,encoded,accepted:false,code:error.code,message:error.message});}
       finally {await client.query('ROLLBACK');}
     }
+    // Independent JSONB/display vectors. Only this real client records engine outcomes;
+    // source controls never synthesize SQL text, rejection codes or accepted rows.
+    const jsonDisplay=[];
+    for (const [name,input] of require('../json-vectors.cjs').jsonVectors()) {
+      const encoded=encodeDatabaseJson(input);
+      record({kind:'json-display-input',name,input,encoded});await client.query('BEGIN');
+      try {
+        const result=await client.query(module.exports.jsonDisplaySql,[encoded]);
+        const value={name,input,encoded,accepted:true,rows:result.rows};jsonDisplay.push(value);record({kind:'json-display-result',value});
+      } catch(error) {
+        const value={name,input,encoded,accepted:false,code:error.code,message:error.message};jsonDisplay.push(value);record({kind:'json-display-result',value});
+      } finally {await client.query('ROLLBACK');}
+    }
     const nativeInput='{"integer":9007199254740993,"fraction":0.1,"nil":null,"nested":{"values":[1,null]}}';
     const nativeRows=(await client.query("SELECT $1::jsonb AS native_value, $1::jsonb::text AS postgres_text, $1::jsonb->>'integer' AS integer_text",[nativeInput])).rows;
     assert.equal(nativeRows[0].integer_text,'9007199254740993'); assert.equal(nativeRows[0].native_value.nil,null);
@@ -168,7 +181,7 @@ module.exports = async function scenario(fromReference, connection, config, reco
     const constraints=(await client.query("SELECT conname,condeferrable,condeferred,pg_get_constraintdef(oid) AS definition FROM pg_constraint WHERE conrelid='atomicassets_assets'::regclass ORDER BY conname")).rows;
     for (const name of ['atomicassets_assets_collections_fkey','atomicassets_assets_schemas_fkey']) assert.ok(constraints.some(row=>row.conname===name&&row.condeferrable&&row.condeferred));
     record({kind:'original-pg-scenario-complete',stages:stages.length});
-    return {inputProfile:descriptor,stages,negatives,codec:{converted:json(converted),negativeZero:Object.is(converted.fv[3],-0),probes},queue,executed,notifications,
+    return {inputProfile:descriptor,stages,negatives,codec:{converted:json(converted),negativeZero:Object.is(converted.fv[3],-0),probes,jsonDisplay},queue,executed,notifications,
       bootstrapRpc:{constructedInputs:true,requests:rpc,maintenanceSkippedForUnknownReader:true},schemaAudit:{currentView,constraints},healthCalls,
       scope:{originalProcessors:true,originalHandlerBootstrap:true,originalViewAndHttp:true,realPostgres:true,reversibleBookkeeping:false,
         constructedInputs:true,mongoParity:false,postgresFixtureCleanupQualified:false,fullParity:false}};
@@ -181,3 +194,5 @@ module.exports = async function scenario(fromReference, connection, config, reco
 };
 
 module.exports.codecProbeCases=converted=>[['locked-codec',converted],['nul',{text:'a\u0000b'}],['literal-escape',{text:'a\\u0000b'}]];
+
+module.exports.jsonDisplaySql="SELECT $1::jsonb AS native_value, $1::jsonb::text AS postgres_text, $1::jsonb->>'name' AS name_text, $1::jsonb->>'img' AS img_text";

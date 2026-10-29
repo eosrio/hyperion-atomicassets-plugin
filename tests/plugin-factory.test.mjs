@@ -84,8 +84,8 @@ test('missing schema, unsupported metadata and scope-less domain identity cannot
   await assert.rejects(reduce(port(source(initial().filter(e=>e.table!=='schemas')))),/Missing required relationship/);
   const s=source(initial());s.inputs.find(e=>e.name==='schemas').identity={kind:'kv-primary',tableId:1,keyHex:'00'};
   await assert.rejects(reduce(port(s)),/actual scoped/);
-  for(const value of ['a\0b','a\\u0000b']) {const events=initial();events[0].value.new_data=[{key:'name',value:['string',value]}];
-    await assert.rejects(reduce(port(source(events))),/NUL/);}
+  for(const value of ['a\\u0000b']) {const events=initial();events[0].value.new_data=[{key:'name',value:['string',value]}];
+    await assert.rejects(reduce(port(source(events))),/Metadata codec refused/);}
 });
 test('unsupported original hooks and missing market relationships refuse instead of manufacturing rows',async()=>{
   const reduce=descriptor(createAtomicStatefulPlugin(options())).projections[0].reduce;
