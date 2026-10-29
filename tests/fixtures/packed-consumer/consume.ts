@@ -68,6 +68,16 @@ const privateDomainReader: DomainReader = {async get() {return {status: 'covered
 const privateDomainStage: DomainStage = {...privateDomainReader, put() {}, delete() {}};
 void privateDomainStage;
 
+import {readCollectionId} from './node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicassets/internal/collections.js';
+async function consumePrivateCollectionDeclaration() {
+  const result = await readCollectionId(privateDomainReader, 'atomicassets', 'collection');
+  const contract: AtomicValue | undefined = result?.contract;
+  // @ts-expect-error A path name is textual; numeric identities do not belong to this family.
+  await readCollectionId(privateDomainReader, 'atomicassets', 123);
+  return contract;
+}
+void consumePrivateCollectionDeclaration;
+
 import type {SaleStage} from './node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicmarket/internal/fixed-sale-port.js';
 const privateSaleStage: SaleStage = {async get() {return {status: 'covered-absent'};}, put() {}, delete() {}};
 void privateSaleStage;

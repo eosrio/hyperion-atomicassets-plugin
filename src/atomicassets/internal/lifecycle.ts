@@ -1,11 +1,12 @@
 import {formatAsset, type AtomicAsset, type AtomicAssetInput, type AtomicObject} from '../asset.js';
 import {reduceTemplateRow,readTemplateForAsset,templateId} from './templates.js';
+import {reduceAuthorSwap} from './collections.js';
 import {block, decimal, domainKey, evidence, format, hash, read, record, records, required, strings, text,
   unavailable, type DomainReader, type DomainStage, type LifecycleBlock, type LifecycleEvent,
   type MetadataCodec} from './lifecycle-port.js';
 
 const CODEC = '2dfe332031728c475622ae510d7ea78246a9592a9da6cf70ba8a1abd7fa2e573';
-const rowPriorities = {config: 10, collections: 20, schemas: 20, schematypes: 20, templates:40, templates2:40} as const;
+const rowPriorities = {config: 10, collections: 20, authorswaps:20, schemas: 20, schematypes: 20, templates:40, templates2:40} as const;
 const actionPriorities = {logmint: 50, logsetdata: 60, logtransfer: 60, logburnasset: 60} as const;
 const updated = (b: LifecycleBlock) => ({updated_at_block: b.blockNum, updated_at_time: b.blockTimeMs});
 const bool = (v: unknown): boolean => typeof v === 'boolean' ? v : unavailable('Expected boolean');
@@ -94,6 +95,9 @@ export async function reduceAssetLifecycle(b: LifecycleBlock, events: readonly L
     if (priority > 50 && mintBuffer.length) await flushMints();
     const v = event.value;
     if (event.kind === 'row') {
+      if (event.table === 'authorswaps') {
+        await reduceAuthorSwap(b,event,stage);continue;
+      }
       if (event.table === 'templates' || event.table === 'templates2') {
         await reduceTemplateRow(b,event,stage,codec);continue;
       }

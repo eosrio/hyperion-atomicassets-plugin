@@ -60,6 +60,7 @@ try {
     'dist/atomicassets/asset.js', 'dist/atomicassets/asset.d.ts',
     'dist/atomicassets/internal/lifecycle.js', 'dist/atomicassets/internal/lifecycle.d.ts',
     'dist/atomicassets/internal/templates.js', 'dist/atomicassets/internal/templates.d.ts',
+    'dist/atomicassets/internal/collections.js', 'dist/atomicassets/internal/collections.d.ts',
     'dist/atomicassets/internal/lifecycle-port.js', 'dist/atomicassets/internal/lifecycle-port.d.ts',
     'dist/atomicmarket/internal/fixed-sale.js', 'dist/atomicmarket/internal/fixed-sale.d.ts',
     'dist/atomicmarket/internal/fixed-sale-port.js', 'dist/atomicmarket/internal/fixed-sale-port.d.ts',
@@ -128,6 +129,8 @@ try {
     {...env, AA_DOMAIN_MODULE_ROOT: join(installed, 'dist'), ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   await run(['--test', join(root, 'tests/auctions.test.mjs')], root, 'consumer-auctions',
     {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
+  await run(['--test', join(root, 'tests/collections.test.mjs')], root, 'consumer-collections',
+    {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   const declarations = await run([join(consumer, 'node_modules/typescript/bin/tsc'), '-p',
     join(consumer, 'tsconfig.json'), '--listFiles'], consumer, 'consumer-declarations');
   const slash = value => value.replaceAll('\\', '/').toLowerCase();
@@ -137,6 +140,8 @@ try {
     'Consumer must resolve the installed contextual factory declaration');
   assert.ok(slash(declarations).includes(slash(join(installed, 'dist/atomicassets/asset.d.ts'))),
     'Consumer must resolve the installed packed asset declaration');
+  assert.ok(slash(declarations).includes(slash(join(installed, 'dist/atomicassets/internal/collections.d.ts'))),
+    'Private collection declaration control must use the installed file');
   assert.ok(slash(declarations).includes(slash(join(installed, 'dist/atomicmarket/sale.d.ts'))),
     'Consumer must resolve the installed packed sale declaration');
   assert.ok(slash(declarations).includes(slash(join(installed, 'dist/atomicmarket/internal/fixed-sale-port.d.ts'))),
@@ -161,6 +166,7 @@ try {
     inputDrivenRelationshipsPackedRegression: true, physicalRelationshipParity: false,
     inputDrivenTemplatePackedRegression: true, physicalTemplateParity: false,
     inputDrivenAuctionPackedRegression: true, physicalAuctionParity: false,
+    inputDrivenCollectionPackedRegression: true, physicalCollectionParity: false,
     statefulPackedCaller: {optInComponentSelected: Boolean(env.ATOMIC_STATEFUL_COMPONENT_ROOT), actualMongo: false},
     consumerLockSha256: sha(lockBytes), sdkResolved, commands,
     scope: 'Packed query component and declarations; no Hyperion HTTP, source ingestion, database or full parity qualification'};

@@ -21,6 +21,12 @@ are preserved and refused. The independent AA template and auction children each
 their integrated declaration requires 18. This is an explicit operator budget and reviewed
 generation change, never an automatic raise.
 
+The [collection-ID component](parity/atomicassets/collection-id.md) uses the existing `collection`
+kind and actual scoped `authorswaps` table updates; it adds no record kind or limit default.
+Pending-author changes, erase and unknown-row behavior follow the original collection processor.
+Its changed executable inventory still needs normal host declaration/generation admission and
+qualified state initialization/replay. Source, recovery and final query authority remain host-owned.
+
 The existing loader still imports `plugins/<key>/build/index.js`. The same reviewed plugin
 tarball contains the `legacy/package.json` and `legacy/build/index.js` used at that location.
 The wrapper has its own private package identity, the same version as the contained plugin,
@@ -101,7 +107,7 @@ relation rows are accepted. Native
 engine success and source controls do not establish same-input PostgreSQL/view/HTTP parity.
 
 `npm run test:package` installs this exact wrapper layout from the actual packed plugin,
-then imports the wrapper, registers its compound descriptor and both ID routes. To additionally
+then imports the wrapper, registers its compound descriptor and the ID routes. To additionally
 check the real host inventory without adding Hyperion as a dependency, set
 `ATOMIC_HOST_INVENTORY_ROOT` to the separately built HAPI emission root at
 `c8711ee327a1522871192a36e5d1ef6d288fa0e6`. The check verifies all five transitive runtime blobs

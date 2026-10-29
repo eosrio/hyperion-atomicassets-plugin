@@ -39,7 +39,7 @@ export interface AtomicPluginRegistration {
 }
 const kinds = ['config','collection','schema','template','asset','mint','template-link','backed-tokens','original-mint',
   'market-sale','market-config','offer','market-token','symbol-pair','offer-assets','contract-code','asset-offers','market-auction'] as const;
-const assetTables = ['config','collections','schemas','schematypes','templates','templates2'] as const;
+const assetTables = ['config','collections','authorswaps','schemas','schematypes','templates','templates2'] as const;
 const assetActions = ['logmint','logsetdata','logtransfer','logburnasset'] as const;
 const saleActions = ['lognewsale','logsalestart','cancelsale','purchasesale'] as const;
 const auctionActions = ['lognewauct','logauctstart','cancelauct','auctionbid','auctclaimbuy','auctclaimsel'] as const;
@@ -50,6 +50,7 @@ export const ATOMIC_CAPABILITY_GAPS = Object.freeze(['full original processor ef
   'template mint reconciliation/backing', 'multi-asset offers/exchanges and symbol-pair pricing',
   'currency conversion/pricing/bundles', 'scope-less table domain interpretation',
   'templated sale price enrichment', 'templated auction price enrichment',
+  'nontext collection display metadata',
   'NUL/literal-backslash conversion', 'remaining API/log/stat/socket parity'] as const);
 
 /** One compound projection; this module owns domain conversion, never source/owner/native authority. */
