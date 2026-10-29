@@ -84,6 +84,15 @@ try {
   assert.deepEqual(installedPackage.exports, JSON.parse(await readFile(join(root, 'package.json'), 'utf8')).exports,
     'Installed tarball must retain the declared public exports');
   assert.deepEqual(installedPackage.dependencies, JSON.parse(await readFile(join(root, 'package.json'), 'utf8')).dependencies);
+  // Reproduce the documented existing-loader layout from this same real tarball.
+  const wrapper = join(evidence, 'plugins/atomicassets');
+  await mkdir(join(wrapper, 'build'), {recursive: true});
+  for (const path of ['package.json', 'build/index.js'])
+    await copyFile(join(installed, 'legacy', path), join(wrapper, path));
+  await run([npmCli, 'install', '--package-lock-only', '--save-exact', '--allow-git=all', tarball], wrapper, 'wrapper-lock');
+  await run([npmCli, 'ci', '--allow-git=all'], wrapper, 'wrapper-install');
+  await run([join(root, 'tests/fixtures/packed-consumer/wrapper.mjs'), wrapper, join(evidence, 'wrapper-result.json')],
+    root, 'wrapper-runtime');
   // Qualification host stays outside the distributed package. Its exact source
   // can also run against actual tarball emissions without changing SDK pins.
   const stateful = join(evidence, 'stateful-packed');
@@ -138,6 +147,7 @@ try {
   const result = {nodeVersion: process.version, package: name, packedFiles: [...packedFiles].sort(),
     tarball: {path: tarball, bytes: tarballBytes.length, sha256: sha(tarballBytes), integrity: packed.integrity},
     installedFromTarball: true, runtimeImport: JSON.parse(runtime), declarationConsumerExit: 0,
+    installedWrapper: JSON.parse(await readFile(join(evidence, 'wrapper-result.json'))),
     internalDomainRegression: true, internalDomainPublicExport: false,
     internalFixedSaleRegression: true, internalFixedSalePublicExport: false,
     internalSaleAssetsRegression: true, internalSaleAssetsPublicExport: false,
