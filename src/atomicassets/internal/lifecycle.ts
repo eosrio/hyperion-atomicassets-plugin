@@ -1,10 +1,11 @@
 import {formatAsset, type AtomicAsset, type AtomicAssetInput, type AtomicObject} from '../asset.js';
+import {reduceTemplateRow,readTemplateForAsset,templateId} from './templates.js';
 import {block, decimal, domainKey, evidence, format, hash, read, record, records, required, strings, text,
   unavailable, type DomainReader, type DomainStage, type LifecycleBlock, type LifecycleEvent,
   type MetadataCodec} from './lifecycle-port.js';
 
 const CODEC = '2dfe332031728c475622ae510d7ea78246a9592a9da6cf70ba8a1abd7fa2e573';
-const rowPriorities = {config: 10, collections: 20, schemas: 20, schematypes: 20} as const;
+const rowPriorities = {config: 10, collections: 20, schemas: 20, schematypes: 20, templates:40, templates2:40} as const;
 const actionPriorities = {logmint: 50, logsetdata: 60, logtransfer: 60, logburnasset: 60} as const;
 const updated = (b: LifecycleBlock) => ({updated_at_block: b.blockNum, updated_at_time: b.blockTimeMs});
 const bool = (v: unknown): boolean => typeof v === 'boolean' ? v : unavailable('Expected boolean');
@@ -52,7 +53,7 @@ async function schemaFor(stage: DomainReader, b: LifecycleBlock, collection: str
 }
 
 /**
- * INTERNAL restricted untemplated reducer. The caller supplies the pinned codec and an
+ * INTERNAL restricted asset/template reducer. The caller supplies the pinned codec and an
  * SDK-owned transactional staging view. Any throw discards that entire view, including
  * already staged writes. This function owns no commit, retry, identity fence or rollback.
  */
@@ -93,6 +94,9 @@ export async function reduceAssetLifecycle(b: LifecycleBlock, events: readonly L
     if (priority > 50 && mintBuffer.length) await flushMints();
     const v = event.value;
     if (event.kind === 'row') {
+      if (event.table === 'templates' || event.table === 'templates2') {
+        await reduceTemplateRow(b,event,stage,codec);continue;
+      }
       if (!event.present) unavailable('Original processor refuses deletion of ' + event.table);
       if (event.table === 'config') {
         // This private row holds only the collection decoder dependency. Token indexing is outside this slice.
@@ -123,11 +127,11 @@ export async function reduceAssetLifecycle(b: LifecycleBlock, events: readonly L
         } else if (old) stage.put('schema', key, {...old, types: records(v.format_type)});
       }
     } else if (event.name === 'logmint') {
-      if (v.template_id !== -1) unavailable('Templates are outside this tracer');
+      const template = v.template_id === -1 ? null : templateId(v.template_id);
       const collection = text(v.collection_name), schema = text(v.schema_name), id = decimal(v.asset_id);
       await schemaFor(stage, b, collection, schema, event.evidence.schemaDigest);
       const asset = {contract: b.contract, asset_id: id, collection_name: collection, schema_name: schema,
-        template_id: null, owner: text(v.new_asset_owner), mutable_data: attributes(codec, v.mutable_data),
+        template_id: template, owner: text(v.new_asset_owner), mutable_data: attributes(codec, v.mutable_data),
         immutable_data: attributes(codec, v.immutable_data), template_mint: null,
         burned_by_account: null, burned_at_block: null, burned_at_time: null,
         transferred_at_block: b.blockNum, transferred_at_time: b.blockTimeMs,
@@ -157,10 +161,16 @@ export async function reduceAssetLifecycle(b: LifecycleBlock, events: readonly L
   if (mintBuffer.length) await flushMints();
   // Deferred original FK constraints: validate final staged dependencies, not intermediate order.
   for (const {event} of jobs) {
+    if (event.kind === 'row' && event.table === 'templates' && event.present) {
+      const template = await required(stage,'template',domainKey(b.contract,templateId(event.value.template_id)));
+      await required(stage,'collection',domainKey(b.contract,text(template.collection_name)));
+    }
     if (event.kind === 'row' && event.table === 'schemas')
       await required(stage, 'collection', domainKey(b.contract, event.scope));
-    if (event.kind === 'action' && event.name === 'logmint')
+    if (event.kind === 'action' && event.name === 'logmint') {
       await required(stage, 'collection', domainKey(b.contract, text(event.value.collection_name)));
+      if (event.value.template_id !== -1) await required(stage,'template',domainKey(b.contract,templateId(event.value.template_id)));
+    }
   }
 }
 
@@ -172,8 +182,9 @@ export async function assembleAssetLightView(reader: DomainReader, contract: str
   text(contract); decimal(assetId);
   const key = domainKey(contract, assetId), asset = await read(reader, 'asset', key);
   if (!asset) return null;
-  if (asset.contract !== contract || asset.asset_id !== assetId || asset.template_id !== null)
+  if (asset.contract !== contract || asset.asset_id !== assetId)
     return unavailable('Unsupported or mismatched asset row');
+  const template = asset.template_id === null ? null : await readTemplateForAsset(reader,contract,text(asset.template_id));
   const collection = await required(reader, 'collection', domainKey(contract, text(asset.collection_name)));
   const schema = await required(reader, 'schema', domainKey(contract, text(asset.collection_name), text(asset.schema_name)));
   if (collection.contract !== contract || collection.collection_name !== asset.collection_name || schema.contract !== contract ||
@@ -184,14 +195,14 @@ export async function assembleAssetLightView(reader: DomainReader, contract: str
     if (await read(reader, kind, key) !== null) unavailable('Unsupported relationship: ' + kind);
   const data = record(collection.data), view: AtomicObject = {
     contract, asset_id: assetId, owner: asset.owner === null ? null : text(asset.owner),
-    is_transferable: true, is_burnable: true, collection_name: asset.collection_name,
+    is_transferable: template?.is_transferable ?? true, is_burnable: template?.is_burnable ?? true, collection_name: asset.collection_name,
     collection: {collection_name: collection.collection_name, name: pgText(data.name), img: pgText(data.img), images: pgText(data.images),
       author: text(collection.author), allow_notify: bool(collection.allow_notify), authorized_accounts: strings(collection.authorized_accounts),
       notify_accounts: strings(collection.notify_accounts), market_fee: fraction(collection.market_fee),
       created_at_block: decimal(collection.created_at_block), created_at_time: decimal(collection.created_at_time)},
     schema_name: asset.schema_name, schema: {schema_name: schema.schema_name, format: format(schema.format), types: records(schema.types),
       created_at_block: decimal(schema.created_at_block), created_at_time: decimal(schema.created_at_time)},
-    template_id: null, template: null, mutable_data: record(asset.mutable_data), immutable_data: record(asset.immutable_data),
+    template_id: asset.template_id, template, mutable_data: record(asset.mutable_data), immutable_data: record(asset.immutable_data),
     template_mint: asset.template_mint === null ? '0' : decimal(asset.template_mint), backed_tokens: [],
     burned_by_account: asset.burned_by_account, burned_at_block: asset.burned_at_block, burned_at_time: asset.burned_at_time,
     updated_at_block: decimal(asset.updated_at_block), updated_at_time: decimal(asset.updated_at_time),

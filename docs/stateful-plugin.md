@@ -80,7 +80,8 @@ validity and actual token/code inputs; other commit/fork effects remain open.
 
 All original contract/action hooks are selected. An unsupported occurrence fails the affected
 candidate explicitly rather than silently dropping that event. As a result, this component is
-not ready to serve arbitrary production contracts. Templates, backing, mint reconciliation,
+not ready to serve arbitrary production contracts. [Template state and asset enrichment](parity/atomicassets/templates.md)
+are partial; templated sale price enrichment, backing, mint reconciliation,
 multi-asset offers/symbol-pair pricing, scope-less table domain mapping,
 remaining APIs and NUL/literal-backslash conversion remain explicit gaps. The v2 source retains
 actual scope-less identities; this restricted domain adapter refuses them instead of inventing

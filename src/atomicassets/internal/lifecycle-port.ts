@@ -31,7 +31,7 @@ export interface LifecycleBlock {
   readonly blockId: string;
 }
 export type LifecycleEvent = {readonly evidence: OccurrenceEvidence; readonly value: AtomicObject} & (
-  {readonly kind: 'row'; readonly table: 'config' | 'collections' | 'schemas' | 'schematypes';
+  {readonly kind: 'row'; readonly table: 'config' | 'collections' | 'schemas' | 'schematypes' | 'templates' | 'templates2';
     readonly scope: string; readonly present: boolean}
   | {readonly kind: 'action'; readonly name: 'logmint' | 'logsetdata' | 'logtransfer' | 'logburnasset';
     readonly transactionId: string});

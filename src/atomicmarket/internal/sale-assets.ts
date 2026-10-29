@@ -1,5 +1,6 @@
 import {formatAsset} from '../../atomicassets/asset.js';
 import {assembleAssetLightView} from '../../atomicassets/internal/lifecycle.js';
+import {unavailable} from '../../atomicassets/internal/lifecycle-port.js';
 import type {AtomicSale} from '../sale.js';
 import {formatSale} from '../sale.js';
 import {assembleFixedSaleLight} from './fixed-sale.js';
@@ -16,6 +17,7 @@ export async function readFixedSaleWithAssets(reader: SaleReader, market: string
   const assets = [];
   for (const assetId of strings(sale.assets)) {
     const asset = await assembleAssetLightView(reader, sale.assets_contract, assetId);
+    if (asset?.template) unavailable('Templated sale price enrichment requires actual template-price state');
     // Original AssetFiller retains unresolved IDs only when the view row is absent.
     // Unknown coverage and unsupported templates propagate their existing errors.
     assets.push(asset === null ? assetId : formatAsset({...asset, sales: [], auctions: []}));

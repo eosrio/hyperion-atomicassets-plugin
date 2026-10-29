@@ -565,7 +565,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "templates",
       "source": "src/filler/handlers/atomicassets/processors/templates.ts",
       "line": 15,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicassets",
@@ -574,7 +574,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "templates",
       "source": "src/filler/handlers/atomicassets/processors/templates.ts",
       "line": 82,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicmarket",

@@ -92,7 +92,7 @@ assert.deepEqual(createAtomicMetadataCodec().attributes([{key:'exact',value:['ui
 const {createAtomicStatefulPlugin} = await import('@eosrio/hyperion-atomicassets-plugin/plugin');
 const packedValueLimits = {depth:16,nodes:256,fields:32,arrayElements:32,stringBytes:1024,recordBytes:4096,integerFields:4,pathSegments:8};
 const packedLimits = {value:packedValueLimits,envelope:{...packedValueLimits,depth:32,nodes:8192,fields:64,arrayElements:128,stringBytes:262144,recordBytes:262144},
-  selectors:128,recordKinds:16,inputOccurrences:64,inputBytes:262144,keyBytes:128,readKeys:8,readAttempts:32,mutations:16,
+  selectors:128,recordKinds:17,inputOccurrences:64,inputBytes:262144,keyBytes:128,readKeys:8,readAttempts:32,mutations:16,
   candidateBytes:262144,responseRecords:32,responseBytes:262144};
 const registration = createAtomicStatefulPlugin({limits:packedLimits}).getStatefulProjectionsV2({binding:{}});
 assert.equal(registration.projections.length, 1);

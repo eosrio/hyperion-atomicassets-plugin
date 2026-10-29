@@ -194,3 +194,5 @@ module.exports = async function originalAssetControls(fromReference, referenceRo
   assert(Buffer.byteLength(JSON.stringify(result)) < 1024 * 1024, 'Bounded original result');
   return result;
 };
+// The same finite SQL collaborator can support additional original callback slices.
+module.exports.scriptedTransaction = scriptedTransaction;
