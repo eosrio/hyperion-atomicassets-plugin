@@ -21,8 +21,9 @@ source evidence or pending-author state. The supported acceptance date is the ac
 uint32 seconds value; milliseconds are retained as exact decimal text. Erase does not read the
 unused author/date fields, matching the original callback's conditional branches.
 
-There is no new record kind. The compound declaration still needs 18 kinds, with operator-selected
-limits preserved. No budget is silently raised. A changed hook inventory requires normal compatible
+This collection component adds no record kind. The current compound declaration needs 19 kinds
+after the separate marketplace addition; explicit old 18-kind limits stay unchanged and are refused.
+No budget is silently raised. A changed hook inventory requires normal compatible
 declaration/generation admission and qualified initialization/replay; unchanged kind count does not
 grant source coverage. Existing Elasticsearch history remains usable.
 

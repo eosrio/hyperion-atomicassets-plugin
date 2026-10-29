@@ -907,7 +907,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "marketplaces",
       "source": "src/filler/handlers/atomicmarket/processors/marketplaces.ts",
       "line": 13,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicmarket",

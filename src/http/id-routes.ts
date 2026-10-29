@@ -6,6 +6,7 @@ import {readFixedSaleWithAssets} from '../atomicmarket/internal/sale-assets.js';
 import {FixedSaleUnavailable} from '../atomicmarket/internal/fixed-sale-port.js';
 import {readAuctionWithAssets} from '../atomicmarket/internal/auction-assets.js';
 import {readCollectionId} from '../atomicassets/internal/collections.js';
+import {readMarketplaceState} from '../atomicmarket/internal/marketplace-state.js';
 
 export interface AtomicIdRoutesOptions {
   readonly atomicassets: {readonly projectionId: string; readonly contract: string};
@@ -61,5 +62,17 @@ export function registerAtomicIdRoutes(fastify: FastifyInstance, options: Atomic
       return {success:true,data:data as StatefulRecord,query_time:Date.now()};
     });
     reply.code(status);return result.value;
+  });
+  const market = options.atomicmarket;
+  fastify.all<{Params: {name: string}}>('/atomicmarket/v1/marketplaces/:name', async (request, reply) => {
+    const host = await options.queryHost(request);
+    let status = 200;
+    const result = await host.compose(market.projectionId, async reader => {
+      const data = await readMarketplaceState(reader, market.contract, request.params.name);
+      if (data === null) {status = 416; return {success: false, message: 'Marketplace not found'};}
+      return {success: true, data: data as StatefulRecord, query_time: Date.now()};
+    });
+    reply.code(status);
+    return result.value;
   });
 }

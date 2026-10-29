@@ -107,19 +107,26 @@ function source(events){return{previous:{blockNum:0,blockId:'0'.repeat(64)},bloc
  inputs:events.map((e,i)=>({kind:e.kind==='row'?'table':'action',contract:input.contract,name:e.table??e.name,data:structuredClone(e.value),sourceEvidence:createHash('sha256').update('json39 '+i).digest('hex'),
   abiDeployment:'actual-input-epoch',abiSha256:'a'.repeat(64),transactionId:e.transactionId??null,...(e.kind==='row'?{identity:{kind:'contract-row',scope:e.scope,primaryKey:String(i)},present:e.present}:{})}))};}
 
-test('packaged factory and coherent asset/collection routes accept only encoded metadata fields',async()=>{
- const p=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:18}}),reduce=p.getStatefulProjectionsV2({binding:{}}).projections[0].reduce;
+test('combined19 packaged factory preserves metadata encoding and coherent asset/collection/marketplace routes',async()=>{
+ const p=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:19}}),reduce=p.getStatefulProjectionsV2({binding:{}}).projections[0].reduce;
  const events=initial();events[0].value.new_data=[{key:'name',value:['string','current\0name']}];events[1].value.immutable_data=[{key:'image',value:['string','raw\0image']}];
  events[3]=collectionRow(profiles.loadInputProfile().input.collectionData);let state=new Map();
  const port=map=>({async get(kind,k){return map.has(kind+k)?{status:'present',value:structuredClone(map.get(kind+k))}:{status:'covered-absent'};},
   put(kind,k,v){map.set(kind+k,structuredClone(v));},delete(kind,k){map.delete(kind+k);}});
- const next=structuredClone(state);await reduce({...port(next),source:source(events)});state=next;
+ const combined=source(events);
+ combined.inputs.push({kind:'table',contract:'atomicmarket',name:'marketplaces',present:true,
+  identity:{kind:'contract-row',scope:'atomicmarket',primaryKey:'0'},data:{marketplace_name:'metadata-combined',creator:'alice'},
+  sourceEvidence:'b'.repeat(64),abiDeployment:'actual-marketplace-epoch',abiSha256:'c'.repeat(64),transactionId:null});
+ const next=structuredClone(state);await reduce({...port(next),source:combined});state=next;
  const api=Fastify();api.setErrorHandler((_e,_r,reply)=>reply.code(503).send({success:false}));let fenced=false;
  p.addRoutes(api,{statefulQueryHost(){return{async compose(id,query){assert.equal(id,'atomicassets');const value=await query(port(state));if(fenced)throw Error('actual caller final fence');return{value};}};}});
  try{
   const a=await api.inject('/atomicassets/v1/assets/'+input.assetId);assert.equal(a.statusCode,200);assert.equal(a.json().data.mutable_data.name,'current name');
   const c=await api.inject('/atomicassets/v1/collections/'+input.collection);assert.equal(c.statusCode,200);assert.equal(c.json().data.img,'image hash');
+  const m=await api.inject('/atomicmarket/v1/marketplaces/metadata-combined');assert.equal(m.statusCode,200);
+  assert.deepEqual(m.json().data,{marketplace_name:'metadata-combined',creator:'alice',created_at_block:'1',created_at_time:'1700000000000'});
   fenced=true;assert.equal((await api.inject('/atomicassets/v1/assets/'+input.assetId)).statusCode,503);
+  assert.equal((await api.inject('/atomicmarket/v1/marketplaces/metadata-combined')).statusCode,503);
  }finally{await api.close();}
  for(const field of ['new_asset_owner','collection_name']){const bad=initial();bad[1].value[field]='bad\0scalar';
   await assert.rejects(reduce({...port(new Map()),source:source(bad)}),AssetDomainUnavailable);}

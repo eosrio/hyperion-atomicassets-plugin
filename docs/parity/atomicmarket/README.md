@@ -8,6 +8,11 @@ and [portable marketplace read #2](https://github.com/eosrio/hyperion-atomicasse
 AtomicAssets and AtomicMarket remain one operator package. No complete domain parity, chain indexing,
 MongoDB/WormDB qualification or public host activation is claimed here.
 
+The [compound marketplace-ID component](marketplace-id.md) now ingests actual scoped marketplace
+rows and serves the ID through the existing coherent query host. Its declaration explicitly needs
+19 kinds; old 18-kind budgets are preserved and refused. The older contextual mapping/query path
+below remains separate. [Coverage](marketplace-id-coverage.json) keeps physical/full parity open.
+
 ## What is inventoried
 
 [inventory.json](inventory.json) reconciles the original namespace's actual Express registrations
