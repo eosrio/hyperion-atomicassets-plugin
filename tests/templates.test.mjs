@@ -133,7 +133,7 @@ test('combined factory serves a templated asset while sale and auction refuse ab
     s.inputs.push({kind:'action',contract:market.marketContract,name:event.name,data:structuredClone(event.data),...common});
   const auctionId='9007199254740993';
   s.inputs.push({kind:'action',contract:market.marketContract,name:'lognewauct',data:{auction_id:auctionId,seller:'alice',
-    asset_ids:[input.assetId],starting_bid:'1.00000000 WAX',duration:60,end_time:Number(b.blockTimeMs)/1000+60,
+    asset_ids:[input.assetId],starting_bid:'1.00000000 WAX',duration:60,end_time:Math.floor(Number(b.blockTimeMs)/1000)+60,
     maker_marketplace:'',collection_name:input.collection,collection_fee:.05},...common});
   const port={async get(kind,k){return state.has(kind+k)?{status:'present',value:structuredClone(state.get(kind+k))}:{status:'covered-absent'};},
     put(kind,k,v){state.set(kind+k,structuredClone(v));},delete(kind,k){state.delete(kind+k);}};
