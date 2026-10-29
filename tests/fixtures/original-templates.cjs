@@ -11,6 +11,10 @@ const copy=structuredClone,json=x=>JSON.parse(JSON.stringify(x)),hash=x=>createH
 module.exports=async function(fromReference,referenceRoot,input){
   const selected=validateInputProfile(input.inputProfile);
   assert.equal(input.contract,selected.input.contract);assert.ok(input.cases.length<=12);
+  const codec={package:'@atomichub/atomicassets',version:fromReference('@atomichub/atomicassets/package.json').version,
+    sha256:hash(readFileSync(fromReference.resolve('@atomichub/atomicassets')))};
+  assert.equal(codec.version,'2.2.0');
+  assert.equal(codec.sha256,'2dfe332031728c475622ae510d7ea78246a9592a9da6cf70ba8a1abd7fa2e573');
   const {default:Processor,ProcessingState}=fromReference('./src/filler/processor.ts');
   const {configProcessor}=fromReference('./src/filler/handlers/atomicassets/processors/config.ts');
   const {collectionProcessor}=fromReference('./src/filler/handlers/atomicassets/processors/collections.ts');
@@ -66,7 +70,7 @@ module.exports=async function(fromReference,referenceRoot,input){
     assert.deepEqual(processor.getActiveListeners(),{trace_listeners:[],table_listeners:[]});
     cases.push({name:item.name,snapshots,calls:boundary.calls,listenersReleased:true});
   }
-  const result={nodeVersion:process.version,inputProfile:selected.descriptor,inputSha256:hash(JSON.stringify(input)),sources,cases,
+  const result={nodeVersion:process.version,codec,inputProfile:selected.descriptor,inputSha256:hash(JSON.stringify(input)),sources,cases,
     scope:{originalProcessors:true,originalPriorityScheduler:true,originalAssetFormatter:true,viewShape:'finite independent model of pinned SQL SELECT',
       postgres:false,mongo:false,sourceAuthority:false,templateMintMaintenance:false,nestedSalePriceParity:false,fullParity:false}};
   assert.ok(Buffer.byteLength(JSON.stringify(result))<=1024*1024);return result;
