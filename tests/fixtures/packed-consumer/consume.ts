@@ -75,3 +75,13 @@ void privateSaleStage;
 import {readFixedSaleWithAssets} from './node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicmarket/internal/sale-assets.js';
 const privateNestedSale: Promise<AtomicSale | null> = readFixedSaleWithAssets(privateSaleStage, 'atomicmarket', '9007199254740993');
 void privateNestedSale;
+
+import {registerAtomicIdRoutes, type AtomicIdRoutesOptions} from '@eosrio/hyperion-atomicassets-plugin/http';
+import type {FastifyInstance} from 'fastify';
+import type {StatefulQueryHost} from '@eosrio/hyperion-sdk/projection-stateful';
+function installIdRoutes(server:FastifyInstance, host:StatefulQueryHost):void {
+  const options:AtomicIdRoutesOptions={atomicassets:{projectionId:'packed',contract:'atomicassets'},
+    atomicmarket:{projectionId:'packed',contract:'atomicmarket'},queryHost:()=>host};
+  registerAtomicIdRoutes(server,options);
+}
+void installIdRoutes;

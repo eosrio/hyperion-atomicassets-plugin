@@ -1515,7 +1515,17 @@
         }
       ],
       "pluginStatus": "not implemented",
-      "referenceConformance": "pending except the separately captured single-asset controls"
+      "referenceConformance": "pending except the separately captured single-asset controls",
+      "httpComponent": {
+        "module": "http/id-routes",
+        "registration": "registerAtomicIdRoutes on existing Fastify host",
+        "scope": "controlled original-handler and Fastify inject subset; not production admission",
+        "supported": "untemplated fixed lifecycle records, compatible 200/400/416 bodies and leading-zero distinction",
+        "unavailable": "null, negative nonzero, overflow, templates, pricing or unknown coverage",
+        "productionHost": "pending HAPI request authority, final onSend gate and shared headers",
+        "physicalSameInputComparison": "pending",
+        "fullEndpointParity": false
+      }
     },
     {
       "path": "/atomicassets/v1/assets/:asset_id/stats",

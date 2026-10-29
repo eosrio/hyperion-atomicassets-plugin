@@ -79,3 +79,7 @@ export async function executeOriginalSaleControls({referenceRoot, nodePath, time
 export async function executeOriginalSaleAssetControls({referenceRoot, input, nodePath, timeoutMs}) {
   return await execute({referenceRoot, nodePath, timeoutMs, command: {mode: 'sale-asset-controls', input}});
 }
+
+export async function executeOriginalIdHttpControls({referenceRoot, input, nodePath, timeoutMs}) {
+  return await execute({referenceRoot, nodePath, timeoutMs, command: {mode: 'id-http-controls', input}});
+}

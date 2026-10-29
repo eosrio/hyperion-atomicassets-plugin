@@ -73,6 +73,18 @@ const endpoints = runtime.inventory.routes.map(route => {
     openapi: documented ?? null, sourceHandlers: dependencies.map(({calls, ...rest}) => rest),
     pluginStatus: 'not implemented', referenceConformance: 'pending except the separately captured single-asset controls'};
 });
+const idRoute = endpoints.find(e => e.path === '/atomicassets/v1/assets/:asset_id');
+if (!idRoute) throw new Error('Original asset-ID handler registration is absent');
+idRoute.httpComponent = {
+  "module": "http/id-routes",
+  "registration": "registerAtomicIdRoutes on existing Fastify host",
+  "scope": "controlled original-handler and Fastify inject subset; not production admission",
+  "supported": "untemplated fixed lifecycle records, compatible 200/400/416 bodies and leading-zero distinction",
+  "unavailable": "null, negative nonzero, overflow, templates, pricing or unknown coverage",
+  "productionHost": "pending HAPI request authority, final onSend gate and shared headers",
+  "physicalSameInputComparison": "pending",
+  "fullEndpointParity": false
+};
 const result = {schemaVersion: 1, baseline: REFERENCE,
   inventoryScope: 'Every path registered by the original AtomicAssetsNamespace.router with default namespace limits; registrations, original OpenAPI declarations and source validation/error dependencies, not executed conformance for every route.',
   runtime: {node: runtime.nodeVersion, originalHttpServer: true, databaseQueries: runtime.database.executed.length,
