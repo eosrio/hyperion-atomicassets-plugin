@@ -59,6 +59,7 @@ try {
     'dist/atomicmarket/marketplace-indexing.js', 'dist/atomicmarket/marketplace-indexing.d.ts',
     'dist/atomicassets/asset.js', 'dist/atomicassets/asset.d.ts',
     'dist/atomicassets/internal/lifecycle.js', 'dist/atomicassets/internal/lifecycle.d.ts',
+    'dist/atomicassets/internal/templates.js', 'dist/atomicassets/internal/templates.d.ts',
     'dist/atomicassets/internal/lifecycle-port.js', 'dist/atomicassets/internal/lifecycle-port.d.ts',
     'dist/atomicmarket/internal/fixed-sale.js', 'dist/atomicmarket/internal/fixed-sale.d.ts',
     'dist/atomicmarket/internal/fixed-sale-port.js', 'dist/atomicmarket/internal/fixed-sale-port.d.ts',
@@ -123,6 +124,8 @@ try {
     {...env, AM_DOMAIN_MODULE_ROOT: join(installed, 'dist')});
   await run(['--test', join(root, 'tests/relationships.test.mjs')], root, 'consumer-source-relationships',
     {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
+  await run(['--test', join(root, 'tests/templates.test.mjs')], root, 'consumer-template-lifecycle',
+    {...env, AA_DOMAIN_MODULE_ROOT: join(installed, 'dist'), ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   await run(['--test', join(root, 'tests/auctions.test.mjs')], root, 'consumer-auctions',
     {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   const declarations = await run([join(consumer, 'node_modules/typescript/bin/tsc'), '-p',
@@ -156,6 +159,7 @@ try {
     internalFixedSaleRegression: true, internalFixedSalePublicExport: false,
     internalSaleAssetsRegression: true, internalSaleAssetsPublicExport: false,
     inputDrivenRelationshipsPackedRegression: true, physicalRelationshipParity: false,
+    inputDrivenTemplatePackedRegression: true, physicalTemplateParity: false,
     inputDrivenAuctionPackedRegression: true, physicalAuctionParity: false,
     statefulPackedCaller: {optInComponentSelected: Boolean(env.ATOMIC_STATEFUL_COMPONENT_ROOT), actualMongo: false},
     consumerLockSha256: sha(lockBytes), sdkResolved, commands,

@@ -14,7 +14,7 @@ const {createAtomicStatefulPlugin}=await import(pathToFileURL(join(dist,'index.j
 const {readAuctionWithAssets}=await import(pathToFileURL(join(dist,'atomicmarket/internal/auction-assets.js')).href);
 const {reduceAuctions}=await import(pathToFileURL(join(dist,'atomicmarket/internal/auctions.js')).href);
 const market='atomicmarket',assets=aa.contract,auctionId='9007199254740993',time=1700000000000,end=time/1000+60;
-const hash=x=>createHash('sha256').update(x).digest('hex'),limits={...atomicLimits,selectors:128,recordKinds:17,readAttempts:128,mutations:64};
+const hash=x=>createHash('sha256').update(x).digest('hex'),limits={...atomicLimits,selectors:128,recordKinds:18,readAttempts:128,mutations:64};
 const json=v=>JSON.parse(JSON.stringify(v));
 const act=(name,value={auction_id:auctionId})=>({kind:'action',contract:market,name,value});
 const create=(overrides={})=>act('lognewauct',{auction_id:auctionId,seller:'seller',asset_ids:[aa.assetId],starting_bid:'90071992547.40993 WAX',

@@ -13,7 +13,7 @@ import {input as marketInput, scenario} from './fixtures/fixed-sale-cases.mjs';
 const hash = x => createHash('sha256').update(x).digest('hex');
 const binding = {chainId:'a'.repeat(64),backendId:'host-owned',generation:'host-generation',mappingRevision:'b'.repeat(64),
   hookArtifact:'c'.repeat(64),hookRevision:'d'.repeat(64),codecRevision:'e'.repeat(64),normalizerRevision:'f'.repeat(64)};
-const options = () => ({limits:{...atomicLimits,selectors:128,recordKinds:17}});
+const options = () => ({limits:{...atomicLimits,selectors:128,recordKinds:18}});
 const descriptor = plugin => plugin.getStatefulProjectionsV2({binding});
 function source(events) {
   return {previous:{blockNum:0,blockId:'0'.repeat(64)},block:{blockNum:1,blockId:'1'.repeat(64),previousBlockId:'0'.repeat(64),timeMs:'1700000000000'},
@@ -45,7 +45,7 @@ test('inventory covers all 99 original processor registrations and retains expli
   assert.equal(ATOMIC_HOOK_INVENTORY.baseline.commit,'0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e');
   assert.equal(ATOMIC_HOOK_INVENTORY.hooks.length,99);assert.equal(ATOMIC_HOOK_INVENTORY.sources.length,34);
   assert.equal(ATOMIC_HOOK_INVENTORY.lifecycleHooks.length,4);
-  assert.ok(ATOMIC_HOOK_INVENTORY.hooks.some(h=>h.name==='templates2'&&h.coverage==='unimplemented'));
+  assert.ok(ATOMIC_HOOK_INVENTORY.hooks.some(h=>h.name==='templates2'&&h.coverage==='partial'));
   assert.ok(ATOMIC_HOOK_INVENTORY.hooks.some(h=>h.name==='lognewbuyo'&&h.coverage==='unimplemented'));
   assert.equal(ATOMIC_HOOK_INVENTORY.hooks.filter(h=>h.processor==='auctions'&&h.coverage==='partial').length,7);
   assert.ok(ATOMIC_HOOK_INVENTORY.hooks.every(h=>h.coverage!=='complete'));

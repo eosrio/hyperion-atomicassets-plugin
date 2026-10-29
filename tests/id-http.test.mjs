@@ -96,12 +96,13 @@ test('unknown projection/open and late completion failures preserve host error o
     }finally{await p.app.close();}
   }
 });
-test('relationship scope failures and unsupported templates cannot become absence or success',async()=>{
+test('relationship scope failures and missing template joins cannot become absence or success',async()=>{
   for(const kind of ['asset','sale']){
     const error=Error('reader fence changed'),p=controlled({failRead:k=>k==='schema',error});
     try{assert.equal((await p.app.inject({url:route(kind,asset.input.assetId)})).statusCode,503);assert.equal(p.errors.at(-1),error);}
     finally{await p.app.close();}
     const q=controlled();q.set('asset',key(asset.input.contract,asset.input.assetId),{...stage.asset,template_id:'1'});
+    q.set('template',key(asset.input.contract,'1'),null);
     try{assert.equal((await q.app.inject({url:route(kind,asset.input.assetId)})).statusCode,503);assert.equal(q.errors.at(-1).name,'AssetDomainUnavailable');}
     finally{await q.app.close();}
   }
