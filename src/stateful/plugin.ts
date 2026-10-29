@@ -7,6 +7,7 @@ import {reduceAssetLifecycle} from '../atomicassets/internal/lifecycle.js';
 import {domainKey, format, record, required, strings, text, unavailable,
   type LifecycleEvent, type MetadataCodec} from '../atomicassets/internal/lifecycle-port.js';
 import {reduceFixedSales} from '../atomicmarket/internal/fixed-sale.js';
+import {reduceAuctions, type AuctionName, type AuctionOccurrence} from '../atomicmarket/internal/auctions.js';
 import {reduceOffers, finishOfferMoves, reduceMarketConfig, reduceContractCode, isOfferAction,
   type OfferOccurrence} from '../atomicmarket/internal/relationships.js';
 import type {FixedSaleOccurrence} from '../atomicmarket/internal/fixed-sale-port.js';
@@ -37,10 +38,11 @@ export interface AtomicPluginRegistration {
     readonly limits: StatefulLimits; readonly reduce: (port: StatefulReductionV2) => Promise<void>}[];
 }
 const kinds = ['config','collection','schema','asset','mint','template-link','backed-tokens','original-mint',
-  'market-sale','market-config','offer','market-token','symbol-pair','offer-assets','contract-code','asset-offers'] as const;
+  'market-sale','market-config','offer','market-token','symbol-pair','offer-assets','contract-code','asset-offers','market-auction'] as const;
 const assetTables = ['config','collections','schemas','schematypes'] as const;
 const assetActions = ['logmint','logsetdata','logtransfer','logburnasset'] as const;
 const saleActions = ['lognewsale','logsalestart','cancelsale','purchasesale'] as const;
+const auctionActions = ['lognewauct','logauctstart','cancelauct','auctionbid','auctclaimbuy','auctclaimsel'] as const;
 const has = (values: readonly string[], value: string) => values.includes(value);
 const schemaDigest = (value: unknown) => createHash('sha256').update(JSON.stringify(format(value))).digest('hex');
 
@@ -65,7 +67,7 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
   })).values(),Object.freeze({id:system+':action:setcode',contract:system,kind:'action' as const,name:'setcode'})]);
 
   async function reduce(port: StatefulReductionV2): Promise<void> {
-    const assetEvents: LifecycleEvent[] = [], sales: FixedSaleOccurrence[] = [];
+    const assetEvents: LifecycleEvent[] = [], sales: FixedSaleOccurrence[] = [], auctions: AuctionOccurrence[] = [];
     const offers: OfferOccurrence[] = [], moved: string[] = [], configs: {value: import('../atomicassets/asset.js').AtomicObject;
       evidence: import('../atomicassets/asset.js').AtomicObject}[] = [], codes: import('../atomicassets/asset.js').AtomicObject[] = [];
     const formats = new Map<string, string>(), mints = new Map<string, {collection: string; schema: string}>();
@@ -123,6 +125,11 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
         } else if (input.kind === 'action' && has(saleActions, input.name)) {
           sales.push({kind: 'action', contract: market, name: input.name as typeof saleActions[number],
             transactionId: input.transactionId, evidence, value});
+        } else if (input.kind === 'table' && input.name === 'auctions') {
+          if (input.identity.kind !== 'contract-row') return unavailable('Auction requires actual scoped table identity');
+          auctions.push({kind:'table',name:'auctions',present:input.present,evidence,value});
+        } else if (input.kind === 'action' && has(auctionActions,input.name)) {
+          auctions.push({kind:'action',name:input.name as AuctionName,transactionId:input.transactionId,evidence,value});
         } else unavailable('Unimplemented AtomicMarket occurrence: ' + input.name);
       } else if (input.contract === system && input.kind === 'action' && input.name === 'setcode') codes.push(value);
       else unavailable('Occurrence outside configured Atomic/system contracts');
@@ -133,12 +140,14 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
     await reduceAssetLifecycle({contract: assets, blockNum: String(b.blockNum), blockTimeMs: b.timeMs, blockId: b.blockId}, assetEvents, port, codec);
     await reduceOffers(relations,offers,port);
     for (const config of configs) await reduceMarketConfig(relations,config.value,config.evidence,port);
-    if (sales.length) {
+    if (sales.length || auctions.length) {
       const version = await required(port, 'market-config', domainKey(market));
       if (version.version !== '1.2.2') unavailable('Missing supported source-bound market version');
-      await reduceFixedSales({marketContract: market, assetsContract: assets, blockNum: String(b.blockNum), blockTimeMs: b.timeMs,
+      const context = {marketContract: market, assetsContract: assets, blockNum: String(b.blockNum), blockTimeMs: b.timeMs,
         blockId: b.blockId, contractVersion: {version: '1.2.2', occurrence: text(version.occurrence),
-          abiDeployment: text(version.abiDeployment), abiSha256: text(version.abiSha256)}}, sales, port);
+          abiDeployment: text(version.abiDeployment), abiSha256: text(version.abiSha256)}} as const;
+      if (sales.length) await reduceFixedSales(context,sales,port);
+      if (auctions.length) await reduceAuctions(context,auctions,port);
     }
     await finishOfferMoves(relations,moved,port);
   }

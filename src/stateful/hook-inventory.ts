@@ -583,7 +583,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "auctions",
       "source": "src/filler/handlers/atomicmarket/processors/auctions.ts",
       "line": 24,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicmarket",
@@ -592,7 +592,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "auctions",
       "source": "src/filler/handlers/atomicmarket/processors/auctions.ts",
       "line": 63,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicmarket",
@@ -601,7 +601,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "auctions",
       "source": "src/filler/handlers/atomicmarket/processors/auctions.ts",
       "line": 77,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicmarket",
@@ -610,7 +610,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "auctions",
       "source": "src/filler/handlers/atomicmarket/processors/auctions.ts",
       "line": 93,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicmarket",
@@ -619,7 +619,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "auctions",
       "source": "src/filler/handlers/atomicmarket/processors/auctions.ts",
       "line": 109,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicmarket",
@@ -628,7 +628,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "auctions",
       "source": "src/filler/handlers/atomicmarket/processors/auctions.ts",
       "line": 169,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicmarket",
@@ -637,7 +637,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "auctions",
       "source": "src/filler/handlers/atomicmarket/processors/auctions.ts",
       "line": 205,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicmarket",

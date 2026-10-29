@@ -50,6 +50,8 @@ try {
   const required = ['dist/index.js', 'dist/index.d.ts', 'dist/stateful/plugin.js', 'dist/stateful/plugin.d.ts',
     'dist/stateful/metadata-codec.js', 'dist/stateful/hook-inventory.js', 'legacy/build/index.js', 'legacy/package.json',
     'dist/atomicmarket/internal/relationships.js', 'dist/atomicmarket/internal/relationships.d.ts',
+    'dist/atomicmarket/internal/auctions.js', 'dist/atomicmarket/internal/auctions.d.ts',
+    'dist/atomicmarket/internal/auction-assets.js', 'dist/atomicmarket/internal/auction-assets.d.ts',
     'vendor/atomicassets-2.2.0/build/index.cjs', 'vendor/atomicassets-2.2.0/LICENSE',
     'vendor/atomicassets-2.2.0/NOTICE', 'vendor/atomicassets-2.2.0/licenses/Apache-2.0.txt',
     'dist/http/id-routes.js', 'dist/http/id-routes.d.ts', 'dist/atomicmarket/marketplace.js', 'dist/atomicmarket/marketplace.d.ts',
@@ -121,6 +123,8 @@ try {
     {...env, AM_DOMAIN_MODULE_ROOT: join(installed, 'dist')});
   await run(['--test', join(root, 'tests/relationships.test.mjs')], root, 'consumer-source-relationships',
     {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
+  await run(['--test', join(root, 'tests/auctions.test.mjs')], root, 'consumer-auctions',
+    {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   const declarations = await run([join(consumer, 'node_modules/typescript/bin/tsc'), '-p',
     join(consumer, 'tsconfig.json'), '--listFiles'], consumer, 'consumer-declarations');
   const slash = value => value.replaceAll('\\', '/').toLowerCase();
@@ -152,6 +156,7 @@ try {
     internalFixedSaleRegression: true, internalFixedSalePublicExport: false,
     internalSaleAssetsRegression: true, internalSaleAssetsPublicExport: false,
     inputDrivenRelationshipsPackedRegression: true, physicalRelationshipParity: false,
+    inputDrivenAuctionPackedRegression: true, physicalAuctionParity: false,
     statefulPackedCaller: {optInComponentSelected: Boolean(env.ATOMIC_STATEFUL_COMPONENT_ROOT), actualMongo: false},
     consumerLockSha256: sha(lockBytes), sdkResolved, commands,
     scope: 'Packed query component and declarations; no Hyperion HTTP, source ingestion, database or full parity qualification'};

@@ -10,6 +10,11 @@ Configuration accepts `projectionId`, `assetsContract`, `marketContract`, `syste
 `limits: StatefulLimits`. The host validates/negotiates these limits; none are a qualified default
 budget. Operator enablement remains the existing per-chain plugin configuration and `.state.json`.
 
+The [bounded auction-ID slice](parity/atomicmarket/auction-id.md) adds one `market-auction` kind,
+bringing this descriptor to 17 kinds. It adds the auction-ID route and seven partial processor
+hooks; bundles, v2 continuity, templated pricing and full parity remain open. Explicit negotiated
+record and array limits bound the complete bid sequence without truncation.
+
 The existing loader still imports `plugins/<key>/build/index.js`. The same reviewed plugin
 tarball contains the `legacy/package.json` and `legacy/build/index.js` used at that location.
 The wrapper has its own private package identity, the same version as the contained plugin,

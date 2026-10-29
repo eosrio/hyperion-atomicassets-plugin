@@ -15,7 +15,9 @@
     "vendor/atomicassets-2.2.0",
     "legacy",
     "docs/stateful-plugin.md",
-    "docs/parity/atomicmarket/source-relationships.md"
+    "docs/parity/atomicmarket/source-relationships.md",
+    "docs/parity/atomicmarket/auction-id.md",
+    "docs/parity/atomicmarket/auction-id-coverage.json"
   ],
   "exports": {
     "./atomicmarket/sale": {
