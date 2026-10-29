@@ -5,6 +5,7 @@ import {AssetDomainUnavailable} from '../atomicassets/internal/lifecycle-port.js
 import {readFixedSaleWithAssets} from '../atomicmarket/internal/sale-assets.js';
 import {FixedSaleUnavailable} from '../atomicmarket/internal/fixed-sale-port.js';
 import {readAuctionWithAssets} from '../atomicmarket/internal/auction-assets.js';
+import {readCollectionId} from '../atomicassets/internal/collections.js';
 
 export interface AtomicIdRoutesOptions {
   readonly atomicassets: {readonly projectionId: string; readonly contract: string};
@@ -51,4 +52,14 @@ export function registerAtomicIdRoutes(fastify: FastifyInstance, options: Atomic
         return result.value;
       });
   }
+  const {contract,projectionId}=options.atomicassets;
+  fastify.all<{Params:{collection_name:string}}>('/atomicassets/v1/collections/:collection_name',async(request,reply)=>{
+    const host=await options.queryHost(request);let status=200;
+    const result=await host.compose(projectionId,async reader=>{
+      const data=await readCollectionId(reader,contract,request.params.collection_name);
+      if(data===null){status=416;return {success:false,message:'Collection not found'};}
+      return {success:true,data:data as StatefulRecord,query_time:Date.now()};
+    });
+    reply.code(status);return result.value;
+  });
 }

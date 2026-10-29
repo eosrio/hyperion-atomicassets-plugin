@@ -8,6 +8,8 @@ a production integration component, with activation and full parity still pendin
 real offer/token/code inputs and coherent single-asset sale responses; physical parity remains separate.
 The [bounded auction-ID component](docs/parity/atomicmarket/auction-id.md) adds chronological
 single-asset auction/bid/claim state and a coherent ID route against original callback controls.
+The [collection-ID component](docs/parity/atomicassets/collection-id.md) adds current collection
+responses and real pending-author swap effects, with original handler/callback controls.
 
 One EOS Rio operator package for AtomicAssets and AtomicMarket indexing and APIs, with modular
 internal components.
@@ -99,7 +101,7 @@ isolated consumer, imports the public subpath, and typechecks its installed decl
 checks run on Node 24 and 26. The package includes the upstream license/notice files; source and
 fixtures are not required for the compiled consumer.
 
-The additive asset-ID and sale-ID HTTP component is available from `./http`; actual Hyperion host
+The additive asset, sale, auction and collection ID HTTP component is available from `./http`; actual Hyperion host
 admission and production route activation remain pending. Full source coverage, PostgreSQL execution, WormDB,
 production backend activation and complete AtomicAssets/AtomicMarket parity remain unqualified. The package
 is private development work and this validation does not publish or activate an extension.
@@ -180,7 +182,7 @@ tests and packed emissions do not establish real MongoDB execution or full parit
 
 ## Request-scoped ID HTTP component
 
-[The HTTP slice](docs/parity/id-http.md) registers asset-ID and sale-ID routes on an existing Fastify
+[The initial HTTP slice](docs/parity/id-http.md), auction and collection components register ID routes on an existing Fastify
 instance using a caller-issued SDK query host. It does not create a listener or issue readiness.
 Original-handler/Fastify inject controls cover a bounded subset; the full 93-route parity gate and
 actual HAPI admission/final publication remain open.

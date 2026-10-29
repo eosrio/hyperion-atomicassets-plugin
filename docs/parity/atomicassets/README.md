@@ -77,6 +77,10 @@ explicit. Existing Elasticsearch history is retained; new state initializes sepa
 
 ## Next bounded slices
 
+The [collection-ID source component](collection-id.md) implements a coherent collection response
+and actual `authorswaps` effects against original callback/handler controls. Its physical database,
+source/recovery and Hyperion serving gates remain open; this does not close the inventory below.
+
 1. Complete the structured asset/relationship projection and its compatible read through the
    existing Hyperion host, with the selected backend and immutable source/ABI context.
 2. Add collection/schema/template families with their required initialization and query semantics.

@@ -16,6 +16,8 @@ function finish(event, value, code) {
 }
 
 async function main(command) {
+  if (command.mode === 'collection-controls')
+    return await require('../../tests/fixtures/original-collections.cjs')(fromReference, referenceRoot, command.input);
   if (command.mode === 'templates-controls')
     return await require('../../tests/fixtures/original-templates.cjs')(fromReference, referenceRoot, command.input);
   if (command.mode === 'auction-controls')
@@ -124,7 +126,7 @@ async function main(command) {
     chunks.push(chunk);
   }
   const command = JSON.parse(Buffer.concat(chunks).toString('utf8'));
-  if (!['request', 'inventory', 'asset-controls', 'marketplace-controls', 'sale-controls', 'sale-asset-controls', 'id-http-controls', 'relationships-controls', 'templates-controls', 'auction-controls'].includes(command.mode)) throw new Error('Invalid reference mode');
+  if (!['request', 'inventory', 'asset-controls', 'marketplace-controls', 'sale-controls', 'sale-asset-controls', 'id-http-controls', 'relationships-controls', 'templates-controls', 'auction-controls', 'collection-controls'].includes(command.mode)) throw new Error('Invalid reference mode');
   const result = await main(command);
   finish('reference_result', result, 0);
 })().catch(error => finish('reference_error', error, 1));

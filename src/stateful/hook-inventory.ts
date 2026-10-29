@@ -214,7 +214,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "collections",
       "source": "src/filler/handlers/atomicassets/processors/collections.ts",
       "line": 41,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicassets",

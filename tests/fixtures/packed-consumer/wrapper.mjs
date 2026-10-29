@@ -47,9 +47,9 @@ try {
       return {value:await read({async get() {return {status:'covered-absent'};}})};
     }};
   }});
-  for (const url of ['/atomicassets/v1/assets/1','/atomicmarket/v1/sales/1'])
+  for (const url of ['/atomicassets/v1/assets/1','/atomicmarket/v1/sales/1','/atomicmarket/v1/auctions/1','/atomicassets/v1/collections/missing'])
     assert.equal((await api.inject(url)).statusCode, 416);
-  assert.equal(requests.length, 2);
+  assert.equal(requests.length, 4);
 } finally {await api.close();}
 
 let inventory = {status:'not-run', reason:'ATOMIC_HOST_INVENTORY_ROOT not selected'};
