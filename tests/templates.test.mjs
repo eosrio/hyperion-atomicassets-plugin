@@ -18,6 +18,7 @@ const {AssetDomainUnavailable} = await import(new URL('atomicassets/internal/lif
 const pluginDist=process.env.ATOMIC_PLUGIN_DIST_ROOT ? pathToFileURL(process.env.ATOMIC_PLUGIN_DIST_ROOT.replaceAll('\\','/')+'/') : new URL('../dist/',import.meta.url);
 const {createAtomicStatefulPlugin}=await import(new URL('index.js',pluginDist));
 const {readFixedSaleWithAssets}=await import(new URL('atomicmarket/internal/sale-assets.js',pluginDist));
+const {readAuctionWithAssets}=await import(new URL('atomicmarket/internal/auction-assets.js',pluginDist));
 const cases=caseInputs(),hash=b=>createHash('sha256').update(b).digest('hex'),json=x=>JSON.parse(JSON.stringify(x));
 let reference;
 const original=()=>reference??=(async()=>{
@@ -89,7 +90,7 @@ function source(b,events){return{previous:{blockNum:Number(b.blockNum)-1,blockId
     transactionId:e.transactionId??null,...(e.kind==='row'?{present:e.present,identity:{kind:'contract-row',scope:e.scope,primaryKey:String(i)}}:{})}))};}
 
 test('actual packaged factory dispatch and asset ID route expose the original templated asset body through one caller reader',async()=>{
-  const plugin=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:17,readAttempts:128,mutations:64}}),
+  const plugin=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:18,readAttempts:128,mutations:64}}),
     descriptor=plugin.getStatefulProjectionsV2({binding:{}}),reduce=descriptor.projections[0].reduce;
   assert.ok(descriptor.projections[0].definition.records.some(r=>r.kind==='template'));
   let state=new Map();const calls=[];const port=target=>({async get(kind,k){calls.push(kind);return target.has(kind+k)?{status:'present',value:structuredClone(target.get(kind+k))}:{status:'covered-absent'};},
@@ -103,18 +104,26 @@ test('actual packaged factory dispatch and asset ID route expose the original te
   assert.ok(calls.includes('template'));
 });
 
-test('new template declaration refuses the old explicit record-kind limit instead of raising it',async()=>{
-  const supplied={...atomicLimits,selectors:128,recordKinds:16},descriptor=createAtomicStatefulPlugin({limits:supplied}).getStatefulProjectionsV2({binding:{}}).projections[0];
-  assert.equal(descriptor.limits.recordKinds,16);assert.equal(supplied.recordKinds,16);
-  const binding={chainId:'a'.repeat(64),backendId:'fixture',generation:'new-declaration-required',mappingRevision:'b'.repeat(64),
+test('combined template and auction declaration refuses explicit16 and17 without raising either budget',async()=>{
+  const binding={chainId:'a'.repeat(64),backendId:'fixture',generation:'combined18-new-declaration-required',mappingRevision:'b'.repeat(64),
     hookArtifact:'c'.repeat(64),hookRevision:'d'.repeat(64),codecRevision:'e'.repeat(64),normalizerRevision:'f'.repeat(64)};
-  const definition={...descriptor.definition,binding,selectors:descriptor.definition.selectors.map(s=>({...s,abiDeployment:'host-bound',abiSha256:'a'.repeat(64)}))};
-  await assert.rejects(captureStatefulDeclaration(definition,descriptor.limits));
-  const accepted=await captureStatefulDeclaration(definition,{...supplied,recordKinds:17});assert.equal(accepted.definition.records.length,17);
+  let accepted;
+  for(const recordKinds of [16,17,18]){
+    const supplied={...atomicLimits,selectors:128,recordKinds},before=structuredClone(supplied),
+      plugin=createAtomicStatefulPlugin({limits:supplied}),descriptor=plugin.getStatefulProjectionsV2({binding:{}}).projections[0];
+    assert.equal(descriptor.limits.recordKinds,recordKinds);
+    const definition={...descriptor.definition,binding,selectors:descriptor.definition.selectors.map(s=>({...s,abiDeployment:'host-bound',abiSha256:'a'.repeat(64)}))};
+    assert.equal(definition.records.length,18);assert.ok(definition.records.some(r=>r.kind==='template'));
+    assert.ok(definition.records.some(r=>r.kind==='market-auction'));
+    if(recordKinds<18)await assert.rejects(captureStatefulDeclaration(definition,descriptor.limits),/Record kind bound/);
+    else accepted=await captureStatefulDeclaration(definition,descriptor.limits);
+    assert.deepEqual(supplied,before);assert.equal(plugin.getStatefulProjectionsV2({binding:{}}).projections[0].limits.recordKinds,recordKinds);
+  }
+  assert.equal(accepted.definition.records.length,18);
 });
 
-test('source-driven templated sale remains unavailable until real original price enrichment exists',async()=>{
-  const plugin=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:17,readAttempts:128,mutations:64}}),
+test('combined factory serves a templated asset while sale and auction refuse absent original price enrichment',async()=>{
+  const plugin=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:18,readAttempts:128,mutations:64}}),
     reduce=plugin.getStatefulProjectionsV2({binding:{}}).projections[0].reduce,b=block(0),s=source(b,begin()),state=new Map();
   const common={sourceEvidence:'constructed-market',abiDeployment:'market-abi',abiSha256:'a'.repeat(64),transactionId:'a'.repeat(64)};
   s.inputs.push({kind:'table',contract:market.marketContract,name:'config',present:true,identity:{kind:'contract-row',scope:market.marketContract,primaryKey:'0'},
@@ -122,8 +131,24 @@ test('source-driven templated sale remains unavailable until real original price
     {kind:'action',contract:input.contract,name:'lognewoffer',data:{offer_id:market.offerId,sender:'alice',recipient:market.marketContract,memo:'actual offer input',sender_asset_ids:[input.assetId],recipient_asset_ids:[]},...common});
   for(const event of marketScenario('same-block-start-before-create').blocks[0].events)
     s.inputs.push({kind:'action',contract:market.marketContract,name:event.name,data:structuredClone(event.data),...common});
+  const auctionId='9007199254740993';
+  s.inputs.push({kind:'action',contract:market.marketContract,name:'lognewauct',data:{auction_id:auctionId,seller:'alice',
+    asset_ids:[input.assetId],starting_bid:'1.00000000 WAX',duration:60,end_time:Number(b.blockTimeMs)/1000+60,
+    maker_marketplace:'',collection_name:input.collection,collection_fee:.05},...common});
   const port={async get(kind,k){return state.has(kind+k)?{status:'present',value:structuredClone(state.get(kind+k))}:{status:'covered-absent'};},
     put(kind,k,v){state.set(kind+k,structuredClone(v));},delete(kind,k){state.delete(kind+k);}};
   await reduce({...port,source:s});assert.ok(await readLifecycleAsset(port,input.contract,input.assetId));
   await assert.rejects(readFixedSaleWithAssets(port,market.marketContract,market.saleId),/Templated sale price enrichment/);
+  await assert.rejects(readAuctionWithAssets(port,market.marketContract,auctionId,Number(b.blockTimeMs)),/Auction template pricing/);
+  const api=Fastify(),reads=[];
+  api.setErrorHandler((_error,_request,reply)=>reply.code(503).send({success:false,message:'State unavailable'}));
+  plugin.addRoutes(api,{statefulQueryHost(){return {async compose(id,read){assert.equal(id,'atomicassets');reads.push(id);return {value:await read(port)};}};}});
+  try{
+    assert.equal((await api.inject('/atomicassets/v1/assets/'+input.assetId)).statusCode,200);
+    for(const path of ['sales/'+market.saleId,'auctions/'+auctionId]){
+      const response=await api.inject('/atomicmarket/v1/'+path);assert.equal(response.statusCode,503);
+      assert.deepEqual(response.json(),{success:false,message:'State unavailable'});
+    }
+    assert.deepEqual(reads,['atomicassets','atomicassets','atomicassets']);
+  }finally{await api.close();}
 });

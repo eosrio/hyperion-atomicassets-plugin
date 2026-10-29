@@ -20,13 +20,13 @@ asset formatter is unchanged, including template/asset metadata precedence, exac
 nulls and deletion fields. Template mint numbers retain the original pre-maintenance zero value;
 the original asynchronous mint reconciliation job remains unimplemented.
 
-The definition adds one `template` record kind: **17 kinds in this slice**. A deployment needs a
+The definition adds one `template` record kind. The independently reviewed template child required
+17 kinds; the integrated template and auction definition requires **18**. A deployment needs a
 new captured declaration/generation and qualified initialization/replay of the affected state
 projection. Existing Elasticsearch history remains usable. Do not reuse the old incomplete
-projection or silently upgrade its record-kind allowance: an explicit limit of 16 is preserved
+projection or silently upgrade its record-kind allowance: explicit limits of 16 or 17 are preserved
 and refused by the actual SDK declaration validator. Operators must deliberately configure a
-sufficient limit and pass normal host negotiation. The parallel auction component adds another
-kind; the combined definition requires **18**, with its own validated declaration and limits.
+sufficient limit and pass normal host negotiation with its own validated declaration and limits.
 These counts describe definition requirements, not qualified operator budget defaults.
 
 Template support here permits the scoped AtomicAssets asset-ID path. Nested AtomicMarket sale

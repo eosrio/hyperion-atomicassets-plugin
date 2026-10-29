@@ -10,6 +10,17 @@ Configuration accepts `projectionId`, `assetsContract`, `marketContract`, `syste
 `limits: StatefulLimits`. The host validates/negotiates these limits; none are a qualified default
 budget. Operator enablement remains the existing per-chain plugin configuration and `.state.json`.
 
+The [bounded auction-ID slice](parity/atomicmarket/auction-id.md) adds one `market-auction` kind,
+and the [template slice](parity/atomicassets/templates.md) adds one `template` kind, bringing the
+combined descriptor to 18 kinds. The auction slice adds the auction-ID route and seven partial processor
+hooks; bundles, v2 continuity, templated pricing and full parity remain open. Explicit negotiated
+record and array limits bound the complete bid sequence without truncation.
+Its changed declaration and executable inventory require compatible generation admission and
+initialization/replay through the existing host lifecycle. Old explicit 16- and 17-kind budgets
+are preserved and refused. The independent AA template and auction children each required 17;
+their integrated declaration requires 18. This is an explicit operator budget and reviewed
+generation change, never an automatic raise.
+
 The existing loader still imports `plugins/<key>/build/index.js`. The same reviewed plugin
 tarball contains the `legacy/package.json` and `legacy/build/index.js` used at that location.
 The wrapper has its own private package identity, the same version as the contained plugin,
@@ -81,7 +92,7 @@ validity and actual token/code inputs; other commit/fork effects remain open.
 All original contract/action hooks are selected. An unsupported occurrence fails the affected
 candidate explicitly rather than silently dropping that event. As a result, this component is
 not ready to serve arbitrary production contracts. [Template state and asset enrichment](parity/atomicassets/templates.md)
-are partial; templated sale price enrichment, backing, mint reconciliation,
+are partial; templated sale and auction price enrichment, backing, mint reconciliation,
 multi-asset offers/symbol-pair pricing, scope-less table domain mapping,
 remaining APIs and NUL/literal-backslash conversion remain explicit gaps. The v2 source retains
 actual scope-less identities; this restricted domain adapter refuses them instead of inventing

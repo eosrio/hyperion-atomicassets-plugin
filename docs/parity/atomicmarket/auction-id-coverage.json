@@ -1,0 +1,17 @@
+{
+  "baseline": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+  "issue": 32,
+  "scope": "Bounded constructed source component; native24/26 and packed controls, not release qualification",
+  "cells": [
+    {"cell":"v1.2.2 single-asset create/start/cancel/bid/buyer-claim/seller-claim", "implementation":"implemented", "evidence":"actual original chronological callback and priority controls"},
+    {"cell":"scoped auctions table including erased-row end-time updates", "implementation":"implemented", "evidence":"actual original table callback and priority1030"},
+    {"cell":"auction ID current joins, ordered complete bids and untemplated assets", "implementation":"implemented", "evidence":"source-derived view model and actual original handler/filler/formatter"},
+    {"cell":"auction ID 400/416/success and end-time boundary", "implementation":"implemented", "evidence":"original middleware and Fastify injection"},
+    {"cell":"unknown coverage, invalid ABI/version, record bounds and failed staging", "implementation":"refused", "evidence":"native emitted and packed caller controls"},
+    {"cell":"bundle, repeated-create changed link, v2 and templated pricing", "implementation":"unsupported", "evidence":"explicit refusal; original changed-link positive control retained"},
+    {"cell":"null/negative/out-of-range original accepted ID forms", "implementation":"unsupported", "evidence":"awaits physical original database behavior"},
+    {"cell":"lists/counts/logs/socket/history/royalties", "implementation":"unimplemented", "evidence":"not-run"},
+    {"cell":"physical PostgreSQL view/HTTP versus MongoDB and WormDB", "implementation":"not-run", "evidence":"no physical engines in this source component"},
+    {"cell":"actual worker source/recovery/fork/HTTP serving and full parity", "implementation":"not-run", "evidence":"separate release qualification"}
+  ]
+}

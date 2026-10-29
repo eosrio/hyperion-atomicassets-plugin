@@ -99,6 +99,10 @@ values on replacement. Seeding a projection with those fields does not qualify t
 
 ## Remaining capability and endpoint work
 
+The [bounded auction-ID component](auction-id.md) implements the v1.2.2 single-asset lifecycle,
+complete bounded bids and a coherent request-scoped ID route. Original callback/handler controls
+remain separate from physical engines, production serving and the complete parity requirement.
+
 The [private sale-ID asset composition](sale-nested-assets.md) reuses the current coherent asset
 reader for untemplated nested values. Templates/pricing and the complete sale-ID HTTP route remain
 unimplemented. Its direct original handler/filler controls are scripted-row evidence, not a
