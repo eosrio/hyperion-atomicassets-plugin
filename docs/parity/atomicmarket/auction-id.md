@@ -30,6 +30,14 @@ array; exceeding one leaves the affected projection unavailable. No bid history 
 The compound descriptor now has 17 record kinds. Operators must negotiate sufficient explicit
 bounds; this component does not automatically enlarge configured limits.
 
+Adding this record kind changes the projection declaration and executable inventory. Admit a
+compatible declaration/generation and initialize or replay its state from covered inputs under
+the existing host lifecycle; do not reuse a previously serving generation as if its declaration
+and auction coverage were unchanged. The parallel AA template component adds its own kind:
+their reviewed combination needs 18, while each independent child needs 17. An old explicit
+16-kind budget remains 16 and the SDK refuses admission. Only an operator-selected sufficient
+budget may be admitted; raising a bound grants no source coverage or readiness.
+
 ## Coherent reads and HTTP
 
 The private read assembles the source-derived `atomicmarket_auctions_master` shape from the auction,

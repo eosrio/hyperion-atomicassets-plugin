@@ -145,6 +145,16 @@ test('host record bounds reject complete oversized bid history without truncatin
   await assert.rejects(s.run([act('cancelauct'),bid()]));assert.deepEqual(s.snapshot(),before);assert.equal(s.rows()[0].bids.length,4);
 });
 
+test('an old explicit16 record-kind budget remains unchanged and fails actual SDK admission',async()=>{
+  const selected={...limits,recordKinds:16},before=structuredClone(selected),plugin=createAtomicStatefulPlugin({limits:selected});
+  const registered=plugin.getStatefulProjectionsV2({binding:{}}).projections[0],binding={chainId:'a'.repeat(64),backendId:'controlled',generation:'new-reviewed-declaration',
+    mappingRevision:'b'.repeat(64),hookArtifact:'c'.repeat(64),hookRevision:'d'.repeat(64),codecRevision:'e'.repeat(64),normalizerRevision:'f'.repeat(64)};
+  assert.ok(registered.definition.records.length>16);assert.equal(registered.limits.recordKinds,16);
+  await assert.rejects(captureStatefulDeclaration({...registered.definition,binding,
+    selectors:registered.definition.selectors.map(s=>({...s,abiDeployment:s.contract,abiSha256:hash(s.contract)}))},registered.limits),/Record kind bound/);
+  assert.deepEqual(selected,before);assert.equal(plugin.getStatefulProjectionsV2({binding:{}}).projections[0].limits.recordKinds,16);
+});
+
 test('captured auction inputs/context and nested relationship outputs detach across awaits',async()=>{
   const s=await setup();await s.run(begin());const stored=s.rows()[0],b={marketContract:market,assetsContract:assets,blockNum:'2',blockTimeMs:String(time+1000),blockId:'a'.repeat(64),
     contractVersion:{version:'1.2.2',occurrence:'version',abiDeployment:market,abiSha256:hash(market)}};
