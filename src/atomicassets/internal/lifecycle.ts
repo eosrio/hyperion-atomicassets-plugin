@@ -111,7 +111,11 @@ export async function reduceAssetLifecycle(b: LifecycleBlock, events: readonly L
       } else if (event.table === 'collections') {
         const name = text(v.collection_name), key = domainKey(b.contract, name);
         const config = await required(stage, 'config', domainKey(b.contract));
-        const hex = typeof v.serialized_data === 'string' ? v.serialized_data : unavailable('Missing serialized collection data');
+        const bytes = v.serialized_data;
+        const hex = typeof bytes === 'string' ? bytes : Array.isArray(bytes)
+          ? bytes.map(byte => typeof byte === 'number' && Number.isInteger(byte) && byte >= 0 && byte <= 255
+            ? byte.toString(16).padStart(2, '0') : unavailable('Invalid serialized collection data')).join('')
+          : unavailable('Missing serialized collection data');
         if (!/^(?:[0-9a-f]{2})*$/.test(hex)) unavailable('Invalid serialized collection data');
         let data: AtomicObject;
         try {data = databaseMetadata(codec.collection(hex, format(config.collection_format)));}
