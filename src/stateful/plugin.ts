@@ -8,6 +8,7 @@ import {domainKey, format, record, required, strings, text, unavailable,
   type LifecycleEvent, type MetadataCodec} from '../atomicassets/internal/lifecycle-port.js';
 import {reduceFixedSales} from '../atomicmarket/internal/fixed-sale.js';
 import {reduceAuctions, type AuctionName, type AuctionOccurrence} from '../atomicmarket/internal/auctions.js';
+import {reduceMarketplace} from '../atomicmarket/internal/marketplace-state.js';
 import {reduceOffers, finishOfferMoves, reduceMarketConfig, reduceContractCode, isOfferAction,
   type OfferOccurrence} from '../atomicmarket/internal/relationships.js';
 import type {FixedSaleOccurrence} from '../atomicmarket/internal/fixed-sale-port.js';
@@ -38,7 +39,7 @@ export interface AtomicPluginRegistration {
     readonly limits: StatefulLimits; readonly reduce: (port: StatefulReductionV2) => Promise<void>}[];
 }
 const kinds = ['config','collection','schema','template','asset','mint','template-link','backed-tokens','original-mint',
-  'market-sale','market-config','offer','market-token','symbol-pair','offer-assets','contract-code','asset-offers','market-auction'] as const;
+  'market-sale','market-config','offer','market-token','symbol-pair','offer-assets','contract-code','asset-offers','market-auction','marketplace'] as const;
 const assetTables = ['config','collections','authorswaps','schemas','schematypes','templates','templates2'] as const;
 const assetActions = ['logmint','logsetdata','logtransfer','logburnasset'] as const;
 const saleActions = ['lognewsale','logsalestart','cancelsale','purchasesale'] as const;
@@ -70,7 +71,7 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
 
   async function reduce(port: StatefulReductionV2): Promise<void> {
     const assetEvents: LifecycleEvent[] = [], sales: FixedSaleOccurrence[] = [], auctions: AuctionOccurrence[] = [];
-    const offers: OfferOccurrence[] = [], moved: string[] = [], configs: {value: import('../atomicassets/asset.js').AtomicObject;
+    const offers: OfferOccurrence[] = [], moved: string[] = [], marketRows: {name: 'config' | 'marketplaces'; value: import('../atomicassets/asset.js').AtomicObject;
       evidence: import('../atomicassets/asset.js').AtomicObject}[] = [], codes: import('../atomicassets/asset.js').AtomicObject[] = [];
     const formats = new Map<string, string>(), mints = new Map<string, {collection: string; schema: string}>();
     // All schema priority-20 rows precede priority-50/60 asset actions in the existing reducer.
@@ -92,6 +93,8 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
     for (const input of port.source.inputs) {
       if (input.contract === market && input.kind === 'table' && input.name === 'config' && !input.present)
         unavailable('Original market config cannot be erased');
+      if (input.contract === market && input.kind === 'table' && input.name === 'marketplaces' && !input.present)
+        unavailable('AtomicMarket: Marketplace deleted. Should not be possible');
       const value = record(input.data), evidence = {occurrence: input.sourceEvidence,
         abiDeployment: input.abiDeployment, abiSha256: input.abiSha256};
       if (input.contract === assets) {
@@ -122,8 +125,10 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
             value, evidence: {...evidence, ...(schema ? {schemaDigest: schema} : {})}});
         }
       } else if (input.contract === market) {
-        if (input.kind === 'table' && input.name === 'config') {
-          configs.push({value,evidence});
+        if (input.kind === 'table' && (input.name === 'config' || input.name === 'marketplaces')) {
+          if (input.name === 'marketplaces' && input.identity.kind !== 'contract-row')
+            return unavailable('Marketplace requires actual scoped table identity');
+          marketRows.push({name:input.name,value,evidence});
         } else if (input.kind === 'action' && has(saleActions, input.name)) {
           sales.push({kind: 'action', contract: market, name: input.name as typeof saleActions[number],
             transactionId: input.transactionId, evidence, value});
@@ -141,7 +146,11 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
     for (const code of codes) await reduceContractCode(code,port);
     await reduceAssetLifecycle({contract: assets, blockNum: String(b.blockNum), blockTimeMs: b.timeMs, blockId: b.blockId}, assetEvents, port, codec);
     await reduceOffers(relations,offers,port);
-    for (const config of configs) await reduceMarketConfig(relations,config.value,config.evidence,port);
+    // Both original table callbacks have equal +10 priority; retain their source order.
+    for (const row of marketRows) {
+      if (row.name === 'config') await reduceMarketConfig(relations,row.value,row.evidence,port);
+      else await reduceMarketplace({contract:market,blockNum:String(b.blockNum),blockTimeMs:b.timeMs},row.value,port);
+    }
     if (sales.length || auctions.length) {
       const version = await required(port, 'market-config', domainKey(market));
       if (version.version !== '1.2.2') unavailable('Missing supported source-bound market version');
