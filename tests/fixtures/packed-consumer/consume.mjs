@@ -83,3 +83,20 @@ http.setErrorHandler((error,request,reply)=>{assert.equal(error,unavailable);rep
 registerAtomicIdRoutes(http,{atomicassets:{projectionId:'packed',contract:'atomicassets'},
   atomicmarket:{projectionId:'packed',contract:'atomicmarket'},queryHost(){throw unavailable;}});
 assert.equal((await http.inject('/atomicassets/v1/assets/1')).statusCode,503);await http.close();
+const {default: AtomicPlugin, createAtomicMetadataCodec, ATOMIC_HOOK_INVENTORY} = await import('@eosrio/hyperion-atomicassets-plugin');
+assert.equal(typeof AtomicPlugin, 'function');
+assert.equal(ATOMIC_HOOK_INVENTORY.hooks.length, 99);
+assert.equal(ATOMIC_HOOK_INVENTORY.lifecycleHooks.length, 4);
+assert.deepEqual(createAtomicMetadataCodec().attributes([{key:'exact',value:['uint64','18446744073709551615']}]),
+  {exact:'18446744073709551615'});
+const {createAtomicStatefulPlugin} = await import('@eosrio/hyperion-atomicassets-plugin/plugin');
+const packedValueLimits = {depth:16,nodes:256,fields:32,arrayElements:32,stringBytes:1024,recordBytes:4096,integerFields:4,pathSegments:8};
+const packedLimits = {value:packedValueLimits,envelope:{...packedValueLimits,depth:32,nodes:8192,fields:64,arrayElements:128,stringBytes:262144,recordBytes:262144},
+  selectors:128,recordKinds:15,inputOccurrences:64,inputBytes:262144,keyBytes:128,readKeys:8,readAttempts:32,mutations:16,
+  candidateBytes:262144,responseRecords:32,responseBytes:262144};
+const registration = createAtomicStatefulPlugin({limits:packedLimits}).getStatefulProjectionsV2({binding:{}});
+assert.equal(registration.projections.length, 1);
+assert.equal(registration.sourceInputVersion, 2);
+const {default: LegacyPlugin} = await import(new URL('legacy/build/index.js',
+  new URL('../', import.meta.resolve('@eosrio/hyperion-atomicassets-plugin'))));
+assert.equal(LegacyPlugin, AtomicPlugin);

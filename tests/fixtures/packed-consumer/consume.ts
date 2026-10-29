@@ -85,3 +85,19 @@ function installIdRoutes(server:FastifyInstance, host:StatefulQueryHost):void {
   registerAtomicIdRoutes(server,options);
 }
 void installIdRoutes;
+import AtomicPlugin, {createAtomicStatefulPlugin, createAtomicMetadataCodec,
+  type AtomicPluginRegistration} from '@eosrio/hyperion-atomicassets-plugin';
+import type {StatefulDefinition, StatefulLimits, StatefulSelector} from '@eosrio/hyperion-sdk/projection-stateful';
+import type {StatefulReductionV2} from '@eosrio/hyperion-sdk/projection-stateful-owner-v2';
+declare const limits: StatefulLimits;
+declare const binding: StatefulDefinition['binding'];
+// Exact structural contract consumed by HAPI; no dependency on HAPI private files.
+const pluginRegistration: {interfaceVersion: 2; sourceInputVersion: 2; projections: readonly {
+  definition: Omit<StatefulDefinition, 'binding' | 'selectors'> & {selectors: readonly Omit<StatefulSelector, 'abiDeployment' | 'abiSha256'>[]};
+  limits: StatefulLimits; reduce: (port: StatefulReductionV2) => void | Promise<void>;
+}[]} = createAtomicStatefulPlugin({limits}).getStatefulProjectionsV2({binding});
+const packagedRegistration: AtomicPluginRegistration = new AtomicPlugin({limits}).getStatefulProjectionsV2({binding});
+const exactCodecHash: string = createAtomicMetadataCodec().sha256;
+// @ts-expect-error Finite host-negotiated limits must be supplied explicitly.
+createAtomicStatefulPlugin({});
+void [pluginRegistration, packagedRegistration, exactCodecHash];

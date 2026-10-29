@@ -1,5 +1,10 @@
 # Hyperion AtomicAssets plugin
 
+The [packaged stateful factory](docs/stateful-plugin.md) now exposes a default constructor for the
+existing Hyperion loader and an ABI-free, compound AA/AM v2 projection descriptor. It reuses the
+current reducers and exact metadata codec; missing domain capabilities remain explicit. This is
+a production integration component, with activation and full parity still pending.
+
 One EOS Rio operator package for AtomicAssets and AtomicMarket indexing and APIs, with modular
 internal components.
 

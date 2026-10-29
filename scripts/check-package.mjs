@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const name = '@eosrio/hyperion-atomicassets-plugin';
-const sdkPin = 'git+https://github.com/eosrio/hyperion-sdk.git#f15dc3aa333ff526e24482650b685ebaa02eda4e';
+const sdkPin = 'git+https://github.com/eosrio/hyperion-sdk.git#ffb368bbcfbeb0821a85e5a38dfe3b18ca402473';
 const npmCli = process.env.npm_execpath ?? join(dirname(process.execPath), 'node_modules/npm/bin/npm-cli.js');
 assert.ok(existsSync(npmCli), 'Run through npm so its actual CLI path is available');
 await mkdir(join(root, 'out'), {recursive: true});
@@ -47,7 +47,11 @@ try {
   const packed = parsePackOutput(await run([npmCli, 'pack', '--json', '--pack-destination', evidence], root, 'pack'));
   assert.equal(packed.name, name);
   const packedFiles = new Set(packed.files.map(file => file.path));
-  const required = ['dist/http/id-routes.js', 'dist/http/id-routes.d.ts', 'dist/atomicmarket/marketplace.js', 'dist/atomicmarket/marketplace.d.ts',
+  const required = ['dist/index.js', 'dist/index.d.ts', 'dist/stateful/plugin.js', 'dist/stateful/plugin.d.ts',
+    'dist/stateful/metadata-codec.js', 'dist/stateful/hook-inventory.js', 'legacy/build/index.js', 'legacy/package.json',
+    'vendor/atomicassets-2.2.0/build/index.cjs', 'vendor/atomicassets-2.2.0/LICENSE',
+    'vendor/atomicassets-2.2.0/NOTICE', 'vendor/atomicassets-2.2.0/licenses/Apache-2.0.txt',
+    'dist/http/id-routes.js', 'dist/http/id-routes.d.ts', 'dist/atomicmarket/marketplace.js', 'dist/atomicmarket/marketplace.d.ts',
     'dist/atomicmarket/sale.js', 'dist/atomicmarket/sale.d.ts',
     'dist/atomicmarket/marketplace-indexing.js', 'dist/atomicmarket/marketplace-indexing.d.ts',
     'dist/atomicassets/asset.js', 'dist/atomicassets/asset.d.ts',
@@ -63,7 +67,7 @@ try {
   const tarballBytes = await readFile(tarball);
   await writeFile(join(consumer, 'package.json'), JSON.stringify({name: 'atomic-parity-packed-consumer',
     private: true, type: 'module', dependencies: {[name]: 'file:' + tarball}, devDependencies: {typescript: '7.0.2', fastify: '5.12.7', '@types/node': '25.5.0'},
-    allowScripts: {'github:eosrio/hyperion-sdk#f15dc3aa333ff526e24482650b685ebaa02eda4e': true}}, null, 2) + '\n');
+    allowScripts: {'github:eosrio/hyperion-sdk#ffb368bbcfbeb0821a85e5a38dfe3b18ca402473': true}}, null, 2) + '\n');
   for (const file of ['consume.mjs', 'consume.ts', 'tsconfig.json'])
     await copyFile(join(root, 'tests/fixtures/packed-consumer', file), join(consumer, file));
   for (const file of ['asset-formatter-cases.mjs', 'asset-formatter.expected.json',
@@ -77,7 +81,7 @@ try {
   assert.equal(lstatSync(installed).isSymbolicLink(), false, 'Consumer must install the tarball, not link source');
   const installedPackage = JSON.parse(await readFile(join(installed, 'package.json'), 'utf8'));
   assert.deepEqual(installedPackage.exports, JSON.parse(await readFile(join(root, 'package.json'), 'utf8')).exports,
-    'The internal domain slice must not change public exports');
+    'Installed tarball must retain the declared public exports');
   assert.deepEqual(installedPackage.dependencies, JSON.parse(await readFile(join(root, 'package.json'), 'utf8')).dependencies);
   // Qualification host stays outside the distributed package. Its exact source
   // can also run against actual tarball emissions without changing SDK pins.
