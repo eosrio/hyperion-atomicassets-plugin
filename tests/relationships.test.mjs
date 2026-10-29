@@ -23,11 +23,11 @@ const offer=(id=market.offerId)=>action(assets,'lognewoffer',{offer_id:id,sender
 const saleActions=()=>scenario('same-block-start-before-create').blocks[0].events.map(e=>action(am,e.name,e.data));
 const begin=()=>[...initial().map(e=>({...e,contract:assets})),config(),offer(),...saleActions()];
 const move=(from,to)=>action(assets,'logtransfer',{from,to,asset_ids:[aa.assetId],memo:'chronological move'});
-const limits={...atomicLimits,selectors:128,recordKinds:19,readAttempts:128,mutations:64};
+const limits={...atomicLimits,selectors:128,recordKinds:20,readAttempts:128,mutations:64};
 let originalCounter=0;
 function setup(validate=()=>{}){
   const plugin=createAtomicStatefulPlugin({limits,assetsContract:assets,marketContract:am,systemContract:system});
-  const reduce=plugin.getStatefulProjectionsV2({binding:{}}).projections[0].reduce;
+  const reduce=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0].reduce;
   let state=new Map();const blocks=[],snapshots=[],errors=[];
   const get=async(kind,k)=>state.has(kind+k)?{status:'present',value:structuredClone(state.get(kind+k))}:{status:'covered-absent'};
   return {plugin,blocks,snapshots,errors,get,rows:kind=>[...state].filter(([k])=>k.startsWith(kind+'[')).map(([,v])=>structuredClone(v)),
@@ -131,7 +131,7 @@ test('unsupported bundles and pricing fail explicitly, and offer links are never
   assert.match(await q.execute(first),/pricing/);assert.deepEqual(q.rows('asset'),[]);
 });
 test('the actual SDK record bound rejects a hot reverse index atomically without truncating old links',async()=>{
-  const plugin=createAtomicStatefulPlugin({limits}),d=plugin.getStatefulProjectionsV2({binding:{}}).projections[0].definition;
+  const plugin=createAtomicStatefulPlugin({limits}),d=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0].definition;
   const declaration=await captureStatefulDeclaration({...d,binding:{chainId:'a'.repeat(64),backendId:'test',generation:'complete-genesis',mappingRevision:'b'.repeat(64),
     hookArtifact:'c'.repeat(64),hookRevision:'d'.repeat(64),codecRevision:'e'.repeat(64),normalizerRevision:'f'.repeat(64)},
     selectors:d.selectors.map(s=>({...s,abiDeployment:'source-epoch',abiSha256:'a'.repeat(64)}))},limits);

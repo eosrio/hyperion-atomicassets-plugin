@@ -664,7 +664,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "buyoffers",
       "source": "src/filler/handlers/atomicmarket/processors/buyoffers.ts",
       "line": 18,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicmarket",
@@ -673,7 +673,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "buyoffers",
       "source": "src/filler/handlers/atomicmarket/processors/buyoffers.ts",
       "line": 61,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicmarket",
@@ -682,7 +682,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "buyoffers",
       "source": "src/filler/handlers/atomicmarket/processors/buyoffers.ts",
       "line": 77,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicmarket",
@@ -691,7 +691,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "buyoffers",
       "source": "src/filler/handlers/atomicmarket/processors/buyoffers.ts",
       "line": 131,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicmarket",

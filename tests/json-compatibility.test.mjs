@@ -107,8 +107,8 @@ function source(events){return{previous:{blockNum:0,blockId:'0'.repeat(64)},bloc
  inputs:events.map((e,i)=>({kind:e.kind==='row'?'table':'action',contract:input.contract,name:e.table??e.name,data:structuredClone(e.value),sourceEvidence:createHash('sha256').update('json39 '+i).digest('hex'),
   abiDeployment:'actual-input-epoch',abiSha256:'a'.repeat(64),transactionId:e.transactionId??null,...(e.kind==='row'?{identity:{kind:'contract-row',scope:e.scope,primaryKey:String(i)},present:e.present}:{})}))};}
 
-test('combined19 packaged factory preserves metadata encoding and coherent asset/collection/marketplace routes',async()=>{
- const p=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:19}}),reduce=p.getStatefulProjectionsV2({binding:{}}).projections[0].reduce;
+test('combined20 packaged factory preserves metadata encoding and coherent asset/collection/marketplace routes',async()=>{
+ const p=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:20}}),reduce=p.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0].reduce;
  const events=initial();events[0].value.new_data=[{key:'name',value:['string','current\0name']}];events[1].value.immutable_data=[{key:'image',value:['string','raw\0image']}];
  events[3]=collectionRow(profiles.loadInputProfile().input.collectionData);let state=new Map();
  const port=map=>({async get(kind,k){return map.has(kind+k)?{status:'present',value:structuredClone(map.get(kind+k))}:{status:'covered-absent'};},

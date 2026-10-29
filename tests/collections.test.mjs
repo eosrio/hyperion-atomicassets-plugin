@@ -11,7 +11,7 @@ import {input,collectionRow,row,block,key} from './fixtures/asset-domain-cases.m
 import profiles from '../harness/atomicassets/lifecycle-input.cjs';
 const dist=process.env.ATOMIC_PLUGIN_DIST_ROOT??fileURLToPath(new URL('../dist',import.meta.url));
 const {createAtomicStatefulPlugin,ATOMIC_HOOK_INVENTORY}=await import(pathToFileURL(join(dist,'index.js')).href);
-const limits={...atomicLimits,selectors:128,recordKinds:19,readAttempts:128,mutations:64};
+const limits={...atomicLimits,selectors:128,recordKinds:20,readAttempts:128,mutations:64};
 const swap=(author='nextauthor',date=1700000000,present=true,name=input.collection)=>row('authorswaps',{
   collection_name:name,new_author:author,acceptance_date:date},input.contract,present);
 const initial=()=>[collectionRow(),row('config',{supported_tokens:[],collection_format:input.collectionFormat},input.contract)];
@@ -33,7 +33,7 @@ const original=()=>reference??=(async()=>{
 const binding={chainId:'a'.repeat(64),backendId:'controlled',generation:'collection-source-reviewed',mappingRevision:'b'.repeat(64),
   hookArtifact:'c'.repeat(64),hookRevision:'d'.repeat(64),codecRevision:'e'.repeat(64),normalizerRevision:'f'.repeat(64)};
 async function setup(){
-  const plugin=createAtomicStatefulPlugin({limits}),descriptor=plugin.getStatefulProjectionsV2({binding:{}}).projections[0];
+  const plugin=createAtomicStatefulPlugin({limits}),descriptor=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0];
   const declaration=await captureStatefulDeclaration({...descriptor.definition,binding,
     selectors:descriptor.definition.selectors.map(s=>({...s,abiDeployment:'actual-abi-occurrence',abiSha256:'a'.repeat(64)}))},descriptor.limits);
   let state=new Map();const calls=[];let unknown=false,fail=false;
@@ -101,12 +101,12 @@ test('collection reads detach caller state and refuse malformed or unsupported m
   }finally{await s.api.close();}
 });
 
-test('author swap failures discard earlier staged updates and preserve the caller explicit19 budget',async()=>{
+test('author swap failures discard earlier staged updates and preserve the caller explicit20 budget',async()=>{
   const s=await setup();try{await s.run({...block(0),events:initial()});const before=s.snapshot();
     for(const date of [-1,4294967296,1.5,'1']){
       await assert.rejects(s.run({...block(1),events:[swap('first'),swap('bad',date)]}));assert.deepEqual(s.snapshot(),before);
     }
     const scopeLess={...swap(),scope:null};await assert.rejects(s.run({...block(1),events:[scopeLess]}));assert.deepEqual(s.snapshot(),before);
-    assert.equal(s.descriptor.definition.records.length,19);assert.equal(s.descriptor.limits.recordKinds,19);
+    assert.equal(s.descriptor.definition.records.length,20);assert.equal(s.descriptor.limits.recordKinds,20);
   }finally{await s.api.close();}
 });

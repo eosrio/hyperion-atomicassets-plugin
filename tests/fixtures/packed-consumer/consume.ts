@@ -115,8 +115,8 @@ declare const binding: StatefulDefinition['binding'];
 const pluginRegistration: {interfaceVersion: 2; sourceInputVersion: 2; projections: readonly {
   definition: Omit<StatefulDefinition, 'binding' | 'selectors'> & {selectors: readonly Omit<StatefulSelector, 'abiDeployment' | 'abiSha256'>[]};
   limits: StatefulLimits; reduce: (port: StatefulReductionV2) => void | Promise<void>;
-}[]} = createAtomicStatefulPlugin({limits}).getStatefulProjectionsV2({binding});
-const packagedRegistration: AtomicPluginRegistration = new AtomicPlugin({limits}).getStatefulProjectionsV2({binding});
+}[]} = createAtomicStatefulPlugin({limits}).getStatefulProjectionsV2({binding,sourceCapabilities:['original-action-authorization-v1']});
+const packagedRegistration: AtomicPluginRegistration = new AtomicPlugin({limits}).getStatefulProjectionsV2({binding,sourceCapabilities:['original-action-authorization-v1']});
 const exactCodecHash: string = createAtomicMetadataCodec().sha256;
 new AtomicPlugin({limits, systemContract:'sysio'});
 // @ts-expect-error Finite host-negotiated limits must be supplied explicitly.

@@ -14,7 +14,7 @@ const dist=process.env.ATOMIC_PLUGIN_DIST_ROOT??fileURLToPath(new URL('../dist',
 const {createAtomicStatefulPlugin,ATOMIC_HOOK_INVENTORY}=await import(pathToFileURL(join(dist,'index.js')).href);
 const contract='atomicmarket',key=(...v)=>JSON.stringify(v),hex=n=>n.toString(16).padStart(64,'0');
 const hash=value=>createHash('sha256').update(value).digest('hex');
-const limits={...atomicLimits,selectors:128,recordKinds:19,readAttempts:128,mutations:64};
+const limits={...atomicLimits,selectors:128,recordKinds:20,readAttempts:128,mutations:64};
 const binding={chainId:hex(10),backendId:'controlled',generation:'marketplace19-new-source-generation',mappingRevision:hex(11),
   hookArtifact:hex(12),hookRevision:hex(13),codecRevision:hex(14),normalizerRevision:hex(15)};
 const row=(name='marketplace1',creator='alice',present=true)=>({present,value:{marketplace_name:name,creator}});
@@ -26,7 +26,7 @@ const source=b=>({previous:{blockNum:b.block.block_num-1,blockId:hex(b.block.blo
   inputs:b.rows.map((r,i)=>({kind:'table',contract,name:'marketplaces',present:r.present,data:structuredClone(r.value),
     identity:{kind:'contract-row',scope:contract,primaryKey:String(i)},transactionId:null,
     sourceEvidence:hash('actual-controlled-marketplace:'+b.block.block_num+':'+i),abiDeployment:'marketplace-original-epoch',abiSha256:hex(20)}))});
-const definition=(plugin)=>{const d=plugin.getStatefulProjectionsV2({binding:{}}).projections[0];return {...d.definition,binding,
+const definition=(plugin)=>{const d=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0];return {...d.definition,binding,
   selectors:d.definition.selectors.map(s=>({...s,abiDeployment:'marketplace-original-epoch',abiSha256:hex(20)}))};};
 let evidenceCount=0;
 async function retain(label,result){const root=new URL('../out/marketplace-id/',import.meta.url);await mkdir(root,{recursive:true});
@@ -36,7 +36,7 @@ const original=()=>originalResult??=(async()=>retain('chronology',await executeO
 // Explicit original bigint storage/type-parser boundary, not a physical PostgreSQL comparison.
 const sqlRow=r=>({...r,created_at_block:String(r.created_at_block),created_at_time:String(r.created_at_time)});
 async function setup(){
-  const plugin=createAtomicStatefulPlugin({limits}),descriptor=plugin.getStatefulProjectionsV2({binding:{}}).projections[0];
+  const plugin=createAtomicStatefulPlugin({limits}),descriptor=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0];
   const declaration=await sdk.captureStatefulDeclaration(definition(plugin),descriptor.limits);
   let state=new Map(),failOpen=null,failRead=null,failAfter=null,unknown=false,address;
   const calls=[],compositions=[],errors=[],reader={async get(kind,k){calls.push({kind,key:k,reader});if(failRead)throw failRead;
@@ -122,13 +122,13 @@ test('malformed marketplace records and unsupported NUL names cannot become succ
   }finally{await s.api.close();}
 });
 
-test('the compound declaration keeps explicit18 unchanged and requires explicit19 plus a new source generation',async()=>{
-  for(const count of [16,17,18,19]){const supplied={...limits,recordKinds:count},before=structuredClone(supplied),plugin=createAtomicStatefulPlugin({limits:supplied});
-    const registered=plugin.getStatefulProjectionsV2({binding:{}}).projections[0];assert.equal(registered.definition.records.length,19);
+test('the compound declaration keeps explicit19 unchanged and requires explicit20 plus a new source generation',async()=>{
+  for(const count of [16,17,18,19,20]){const supplied={...limits,recordKinds:count},before=structuredClone(supplied),plugin=createAtomicStatefulPlugin({limits:supplied});
+    const registered=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0];assert.equal(registered.definition.records.length,20);
     assert.ok(registered.definition.records.some(r=>r.kind==='marketplace'));assert.equal(registered.limits.recordKinds,count);
-    if(count<19)await assert.rejects(sdk.captureStatefulDeclaration(definition(plugin),registered.limits),/Record kind bound/);
-    else assert.equal((await sdk.captureStatefulDeclaration(definition(plugin),registered.limits)).definition.records.length,19);
-    assert.deepEqual(supplied,before);assert.equal(plugin.getStatefulProjectionsV2({binding:{}}).projections[0].limits.recordKinds,count);}
+    if(count<20)await assert.rejects(sdk.captureStatefulDeclaration(definition(plugin),registered.limits),/Record kind bound/);
+    else assert.equal((await sdk.captureStatefulDeclaration(definition(plugin),registered.limits)).definition.records.length,20);
+    assert.deepEqual(supplied,before);assert.equal(plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0].limits.recordKinds,count);}
 });
 
 // Existing SDK v1 execution seam tests only private domain staging/bounds. This is not v2 owner/source authority.

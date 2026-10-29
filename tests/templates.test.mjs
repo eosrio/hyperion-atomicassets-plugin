@@ -19,6 +19,7 @@ const pluginDist=process.env.ATOMIC_PLUGIN_DIST_ROOT ? pathToFileURL(process.env
 const {createAtomicStatefulPlugin}=await import(new URL('index.js',pluginDist));
 const {readFixedSaleWithAssets}=await import(new URL('atomicmarket/internal/sale-assets.js',pluginDist));
 const {readAuctionWithAssets}=await import(new URL('atomicmarket/internal/auction-assets.js',pluginDist));
+const {readBuyofferWithAssets}=await import(new URL('atomicmarket/internal/buyoffer-assets.js',pluginDist));
 const cases=caseInputs(),hash=b=>createHash('sha256').update(b).digest('hex'),json=x=>JSON.parse(JSON.stringify(x));
 let reference;
 const original=()=>reference??=(async()=>{
@@ -90,8 +91,8 @@ function source(b,events){return{previous:{blockNum:Number(b.blockNum)-1,blockId
     transactionId:e.transactionId??null,...(e.kind==='row'?{present:e.present,identity:{kind:'contract-row',scope:e.scope,primaryKey:String(i)}}:{})}))};}
 
 test('actual packaged factory dispatch and asset ID route expose the original templated asset body through one caller reader',async()=>{
-  const plugin=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:19,readAttempts:128,mutations:64}}),
-    descriptor=plugin.getStatefulProjectionsV2({binding:{}}),reduce=descriptor.projections[0].reduce;
+  const plugin=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:20,readAttempts:128,mutations:64}}),
+    descriptor=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}),reduce=descriptor.projections[0].reduce;
   assert.ok(descriptor.projections[0].definition.records.some(r=>r.kind==='template'));
   let state=new Map();const calls=[];const port=target=>({async get(kind,k){calls.push(kind);return target.has(kind+k)?{status:'present',value:structuredClone(target.get(kind+k))}:{status:'covered-absent'};},
     put(kind,k,v){target.set(kind+k,structuredClone(v));},delete(kind,k){target.delete(kind+k);}});
@@ -108,24 +109,24 @@ test('combined declaration refuses explicit16,17 and18 without raising their bud
   const binding={chainId:'a'.repeat(64),backendId:'fixture',generation:'combined19-new-declaration-required',mappingRevision:'b'.repeat(64),
     hookArtifact:'c'.repeat(64),hookRevision:'d'.repeat(64),codecRevision:'e'.repeat(64),normalizerRevision:'f'.repeat(64)};
   let accepted;
-  for(const recordKinds of [16,17,18,19]){
+  for(const recordKinds of [16,17,18,19,20]){
     const supplied={...atomicLimits,selectors:128,recordKinds},before=structuredClone(supplied),
-      plugin=createAtomicStatefulPlugin({limits:supplied}),descriptor=plugin.getStatefulProjectionsV2({binding:{}}).projections[0];
+      plugin=createAtomicStatefulPlugin({limits:supplied}),descriptor=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0];
     assert.equal(descriptor.limits.recordKinds,recordKinds);
     const definition={...descriptor.definition,binding,selectors:descriptor.definition.selectors.map(s=>({...s,abiDeployment:'host-bound',abiSha256:'a'.repeat(64)}))};
-    assert.equal(definition.records.length,19);assert.ok(definition.records.some(r=>r.kind==='template'));
+    assert.equal(definition.records.length,20);assert.ok(definition.records.some(r=>r.kind==='template'));
     assert.ok(definition.records.some(r=>r.kind==='market-auction'));
     assert.ok(definition.records.some(r=>r.kind==='marketplace'));
-    if(recordKinds<19)await assert.rejects(captureStatefulDeclaration(definition,descriptor.limits),/Record kind bound/);
+    if(recordKinds<20)await assert.rejects(captureStatefulDeclaration(definition,descriptor.limits),/Record kind bound/);
     else accepted=await captureStatefulDeclaration(definition,descriptor.limits);
-    assert.deepEqual(supplied,before);assert.equal(plugin.getStatefulProjectionsV2({binding:{}}).projections[0].limits.recordKinds,recordKinds);
+    assert.deepEqual(supplied,before);assert.equal(plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0].limits.recordKinds,recordKinds);
   }
-  assert.equal(accepted.definition.records.length,19);
+  assert.equal(accepted.definition.records.length,20);
 });
 
-test('combined factory serves a templated asset while sale and auction refuse absent original price enrichment',async()=>{
-  const plugin=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:19,readAttempts:128,mutations:64}}),
-    reduce=plugin.getStatefulProjectionsV2({binding:{}}).projections[0].reduce,b=block(0),s=source(b,begin()),state=new Map();
+test('combined factory serves a templated asset while sale, auction and buyoffer refuse absent original price enrichment',async()=>{
+  const plugin=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:20,readAttempts:128,mutations:64}}),
+    reduce=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0].reduce,b=block(0),s=source(b,begin()),state=new Map();
   const common={sourceEvidence:'constructed-market',abiDeployment:'market-abi',abiSha256:'a'.repeat(64),transactionId:'a'.repeat(64)};
   s.inputs.push({kind:'table',contract:market.marketContract,name:'config',present:true,identity:{kind:'contract-row',scope:market.marketContract,primaryKey:'0'},
     data:{version:'1.2.2',atomicassets_account:input.contract,supported_tokens:[{token_contract:'eosio.token',token_symbol:'8,WAX'}],supported_symbol_pairs:[]},...common},
@@ -136,20 +137,25 @@ test('combined factory serves a templated asset while sale and auction refuse ab
   s.inputs.push({kind:'action',contract:market.marketContract,name:'lognewauct',data:{auction_id:auctionId,seller:'alice',
     asset_ids:[input.assetId],starting_bid:'1.00000000 WAX',duration:60,end_time:Math.floor(Number(b.blockTimeMs)/1000)+60,
     maker_marketplace:'',collection_name:input.collection,collection_fee:.05},...common});
+  const buyofferId='9007199254740993';s.actionMetadataVersion=1;
+  s.inputs.push({kind:'action',contract:market.marketContract,name:'lognewbuyo',data:{buyoffer_id:buyofferId,buyer:'buyer',recipient:'alice',
+    price:'1.00000000 WAX',asset_ids:[input.assetId],memo:'buyoffer',maker_marketplace:'',collection_name:input.collection,collection_fee:.05},
+    authorization:[{actor:market.marketContract,permission:'active'}],...common});
   const port={async get(kind,k){return state.has(kind+k)?{status:'present',value:structuredClone(state.get(kind+k))}:{status:'covered-absent'};},
     put(kind,k,v){state.set(kind+k,structuredClone(v));},delete(kind,k){state.delete(kind+k);}};
   await reduce({...port,source:s});assert.ok(await readLifecycleAsset(port,input.contract,input.assetId));
   await assert.rejects(readFixedSaleWithAssets(port,market.marketContract,market.saleId),/Templated sale price enrichment/);
   await assert.rejects(readAuctionWithAssets(port,market.marketContract,auctionId,Number(b.blockTimeMs)),/Auction template pricing/);
+  await assert.rejects(readBuyofferWithAssets(port,market.marketContract,buyofferId),/Buyoffer template pricing/);
   const api=Fastify(),reads=[];
   api.setErrorHandler((_error,_request,reply)=>reply.code(503).send({success:false,message:'State unavailable'}));
   plugin.addRoutes(api,{statefulQueryHost(){return {async compose(id,read){assert.equal(id,'atomicassets');reads.push(id);return {value:await read(port)};}};}});
   try{
     assert.equal((await api.inject('/atomicassets/v1/assets/'+input.assetId)).statusCode,200);
-    for(const path of ['sales/'+market.saleId,'auctions/'+auctionId]){
+    for(const path of ['sales/'+market.saleId,'auctions/'+auctionId,'buyoffers/'+buyofferId]){
       const response=await api.inject('/atomicmarket/v1/'+path);assert.equal(response.statusCode,503);
       assert.deepEqual(response.json(),{success:false,message:'State unavailable'});
     }
-    assert.deepEqual(reads,['atomicassets','atomicassets','atomicassets']);
+    assert.deepEqual(reads,['atomicassets','atomicassets','atomicassets','atomicassets']);
   }finally{await api.close();}
 });
