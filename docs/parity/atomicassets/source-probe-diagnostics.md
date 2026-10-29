@@ -40,3 +40,18 @@ pin calculation omitted the `createHash` import. Its child terminal outcome and 
 retained; the roughly sixty-second duration does not establish a timeout verdict. That attempt
 remains failed. The import correction is covered at the actual parent callsite before another
 distinct corrected-source combined run; neither the original deadline nor test concurrency changes.
+
+[Issue #43](https://github.com/eosrio/hyperion-atomicassets-plugin/issues/43) replaces the 206
+individual pinned-blob subprocesses with one ordered `git cat-file --batch` call per capture.
+The same 206 blobs total 969192 raw bytes; their complete framed output is 979796 bytes, inside
+the unchanged 2 MiB output bound. A capture uses six Git subcommands instead of 211. Every call
+still validates HEAD, tag, tracked status, tree identity, package/codec pins, all working files,
+symlinks, lock bytes and 176 definitions. No working state is cached across calls.
+
+The private byte parser requires exact ordered OID/type/size headers, body SHA, separators and
+final EOF. Binary, empty and malformed frames plus process errors are controlled explicitly.
+The actual `originalSource` caller is compared with the preserved raw `494c6bba` implementation;
+controlled Git/FS faults and real read-only capture are labeled separately. Its existing 10-second
+Git and 60-second parent limits, full concurrency, original assertions and all phase markers stay
+unchanged. The frozen `494c6bba` full26 timeout remains failed; a new source's controls and timings
+cannot retroactively establish a cause or acceptance for that run or earlier failures.

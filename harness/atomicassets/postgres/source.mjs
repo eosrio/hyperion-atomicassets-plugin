@@ -4,12 +4,14 @@ import {execFileSync} from 'node:child_process';
 import {readFileSync, realpathSync, lstatSync, mkdirSync, writeFileSync, existsSync} from 'node:fs';
 import {join, dirname} from 'node:path';
 import {createRequire} from 'node:module';
+import {readPinnedBlobs} from './git-blob-batch.mjs';
 export const COMMIT = '0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e';
 export const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 export function originalSource(root) {
   root = realpathSync(root);
   assert.equal(existsSync(join(root, 'config/connections.config.json')), false, 'Reference must contain no operator connection fallback');
-  const git = (...args) => execFileSync('git', args, {cwd: root, env: {...process.env, GIT_OPTIONAL_LOCKS: '0'}, timeout: 10000, maxBuffer: 2 * 1024**2});
+  const gitOptions = () => ({cwd: root, env: {...process.env, GIT_OPTIONAL_LOCKS: '0'}, timeout: 10000, maxBuffer: 2 * 1024**2});
+  const git = (...args) => execFileSync('git', args, gitOptions());
   assert.equal(git('rev-parse', 'HEAD').toString().trim(), COMMIT);
   assert.equal(git('rev-parse', 'refs/tags/2.7.0').toString().trim(), COMMIT);
   assert.equal(git('status', '--porcelain=v1', '--untracked-files=no').toString(), '');
@@ -28,8 +30,9 @@ export function originalSource(root) {
   const tracked = new Map(git('ls-tree', '-r', COMMIT).toString().trim().split('\n').map(line => {
     const [meta, path] = line.split('\t'); return [path, meta.split(' ')[2]];
   }));
-  const observed = inventory.map(row => {
-    assert.equal(tracked.get(row.path), row.blob); const data = git('cat-file', 'blob', row.blob);
+  const blobs = readPinnedBlobs(inventory, input => execFileSync('git', ['cat-file', '--batch'], {...gitOptions(), input}));
+  const observed = inventory.map((row, index) => {
+    assert.equal(tracked.get(row.path), row.blob); const data = blobs[index];
     assert.equal(data.length, row.bytes); assert.equal(sha(data), row.sha256);
     const path = join(root, row.path); assert.equal(lstatSync(path).isSymbolicLink(), false);
     const working = readFileSync(path), digest = sha(working);

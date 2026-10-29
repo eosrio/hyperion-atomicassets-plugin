@@ -11,3 +11,5 @@
 # OCI content digests cover original bytes, including newlines.
 /harness/atomicassets/postgres/postgres-16.15-linux-amd64.manifest.json -text
 /harness/atomicassets/postgres/postgres-16.15-linux-amd64.config.json -text
+# Executable pre-batch source comparator is pinned to the raw 494 Git bytes.
+/tests/fixtures/source-capture-494.mjs.txt -text
