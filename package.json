@@ -19,7 +19,9 @@
     "docs/parity/atomicassets/templates.md",
     "docs/parity/atomicassets/collection-id.md",
     "docs/parity/atomicmarket/auction-id.md",
-    "docs/parity/atomicmarket/auction-id-coverage.json"
+    "docs/parity/atomicmarket/auction-id-coverage.json",
+    "docs/parity/atomicmarket/marketplace-id.md",
+    "docs/parity/atomicmarket/marketplace-id-coverage.json"
   ],
   "exports": {
     "./atomicmarket/sale": {

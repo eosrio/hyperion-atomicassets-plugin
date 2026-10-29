@@ -70,7 +70,7 @@ export function registerAtomicIdRoutes(fastify: FastifyInstance, options: Atomic
     const result = await host.compose(market.projectionId, async reader => {
       const data = await readMarketplaceState(reader, market.contract, request.params.name);
       if (data === null) {status = 416; return {success: false, message: 'Marketplace not found'};}
-      return {success: true, data, query_time: Date.now()};
+      return {success: true, data: data as StatefulRecord, query_time: Date.now()};
     });
     reply.code(status);
     return result.value;

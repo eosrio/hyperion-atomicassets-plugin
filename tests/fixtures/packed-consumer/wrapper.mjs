@@ -29,7 +29,7 @@ const {default: Direct} = await import(pathToFileURL(join(installed, 'dist/index
 assert.equal(Plugin, Direct, 'Existing loader must delegate to its actual installed package');
 const value = {depth:16,nodes:256,fields:32,arrayElements:32,stringBytes:1024,recordBytes:4096,integerFields:4,pathSegments:8};
 const limits = {value,envelope:{...value,depth:32,nodes:8192,fields:64,arrayElements:128,stringBytes:262144,recordBytes:262144},
-  selectors:128,recordKinds:18,inputOccurrences:64,inputBytes:262144,keyBytes:128,readKeys:8,readAttempts:32,mutations:16,
+  selectors:128,recordKinds:19,inputOccurrences:64,inputBytes:262144,keyBytes:128,readKeys:8,readAttempts:32,mutations:16,
   candidateBytes:262144,responseRecords:32,responseBytes:262144};
 const plugin = new Plugin({limits}), descriptor = plugin.getStatefulProjectionsV2({binding:{}});
 assert.equal(descriptor.interfaceVersion, 2);
@@ -47,9 +47,9 @@ try {
       return {value:await read({async get() {return {status:'covered-absent'};}})};
     }};
   }});
-  for (const url of ['/atomicassets/v1/assets/1','/atomicmarket/v1/sales/1','/atomicmarket/v1/auctions/1','/atomicassets/v1/collections/missing'])
+  for (const url of ['/atomicassets/v1/assets/1','/atomicmarket/v1/sales/1','/atomicmarket/v1/auctions/1','/atomicassets/v1/collections/missing','/atomicmarket/v1/marketplaces/missing'])
     assert.equal((await api.inject(url)).statusCode, 416);
-  assert.equal(requests.length, 4);
+  assert.equal(requests.length, 5);
 } finally {await api.close();}
 
 let inventory = {status:'not-run', reason:'ATOMIC_HOST_INVENTORY_ROOT not selected'};

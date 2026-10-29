@@ -96,14 +96,15 @@ async function main(command) {
       const response = await fetch(`http://127.0.0.1:${address.port}${request.path}`, {method: request.method, redirect: 'manual'});
       const bodyChunks = [];
       let bodyBytes = 0;
-      for await (const chunk of response.body) {
+      if (request.method === 'HEAD') assert.equal(response.body, null, 'HEAD has no response body');
+      for await (const chunk of request.method === 'HEAD' ? [] : response.body) {
         bodyBytes += chunk.length;
         if (bodyBytes > 2 * 1024 * 1024) throw new Error('Reference HTTP response exceeded 2 MiB');
         bodyChunks.push(chunk);
       }
       const text = Buffer.concat(bodyChunks, bodyBytes).toString('utf8');
       result.response = {status: response.status, headers: Object.fromEntries(response.headers),
-        body: response.headers.get('content-type')?.includes('application/json') ? JSON.parse(text) : text, bodyBytes};
+        body: request.method === 'HEAD' ? text : response.headers.get('content-type')?.includes('application/json') ? JSON.parse(text) : text, bodyBytes};
     }
     if (queryIndex !== queries.length) throw new Error('Reference operation left scripted database queries unused');
     result.database = {executed, unused: queries.length - queryIndex};

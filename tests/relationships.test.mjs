@@ -23,7 +23,7 @@ const offer=(id=market.offerId)=>action(assets,'lognewoffer',{offer_id:id,sender
 const saleActions=()=>scenario('same-block-start-before-create').blocks[0].events.map(e=>action(am,e.name,e.data));
 const begin=()=>[...initial().map(e=>({...e,contract:assets})),config(),offer(),...saleActions()];
 const move=(from,to)=>action(assets,'logtransfer',{from,to,asset_ids:[aa.assetId],memo:'chronological move'});
-const limits={...atomicLimits,selectors:128,recordKinds:18,readAttempts:128,mutations:64};
+const limits={...atomicLimits,selectors:128,recordKinds:19,readAttempts:128,mutations:64};
 let originalCounter=0;
 function setup(validate=()=>{}){
   const plugin=createAtomicStatefulPlugin({limits,assetsContract:assets,marketContract:am,systemContract:system});
