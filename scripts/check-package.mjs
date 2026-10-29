@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const name = '@eosrio/hyperion-atomicassets-plugin';
-const sdkPin = 'git+https://github.com/eosrio/hyperion-sdk.git#8d37e932df5e0e7d671c9682505de3dd55f0edb4';
+const sdkPin = 'git+https://github.com/eosrio/hyperion-sdk.git#f15dc3aa333ff526e24482650b685ebaa02eda4e';
 const npmCli = process.env.npm_execpath ?? join(dirname(process.execPath), 'node_modules/npm/bin/npm-cli.js');
 assert.ok(existsSync(npmCli), 'Run through npm so its actual CLI path is available');
 await mkdir(join(root, 'out'), {recursive: true});
@@ -47,7 +47,7 @@ try {
   const packed = parsePackOutput(await run([npmCli, 'pack', '--json', '--pack-destination', evidence], root, 'pack'));
   assert.equal(packed.name, name);
   const packedFiles = new Set(packed.files.map(file => file.path));
-  const required = ['dist/atomicmarket/marketplace.js', 'dist/atomicmarket/marketplace.d.ts',
+  const required = ['dist/http/id-routes.js', 'dist/http/id-routes.d.ts', 'dist/atomicmarket/marketplace.js', 'dist/atomicmarket/marketplace.d.ts',
     'dist/atomicmarket/sale.js', 'dist/atomicmarket/sale.d.ts',
     'dist/atomicmarket/marketplace-indexing.js', 'dist/atomicmarket/marketplace-indexing.d.ts',
     'dist/atomicassets/asset.js', 'dist/atomicassets/asset.d.ts',
@@ -62,8 +62,8 @@ try {
   const tarball = join(evidence, packed.filename);
   const tarballBytes = await readFile(tarball);
   await writeFile(join(consumer, 'package.json'), JSON.stringify({name: 'atomic-parity-packed-consumer',
-    private: true, type: 'module', dependencies: {[name]: 'file:' + tarball}, devDependencies: {typescript: '7.0.2'},
-    allowScripts: {'github:eosrio/hyperion-sdk#8d37e932df5e0e7d671c9682505de3dd55f0edb4': true}}, null, 2) + '\n');
+    private: true, type: 'module', dependencies: {[name]: 'file:' + tarball}, devDependencies: {typescript: '7.0.2', fastify: '5.12.7', '@types/node': '25.5.0'},
+    allowScripts: {'github:eosrio/hyperion-sdk#f15dc3aa333ff526e24482650b685ebaa02eda4e': true}}, null, 2) + '\n');
   for (const file of ['consume.mjs', 'consume.ts', 'tsconfig.json'])
     await copyFile(join(root, 'tests/fixtures/packed-consumer', file), join(consumer, file));
   for (const file of ['asset-formatter-cases.mjs', 'asset-formatter.expected.json',

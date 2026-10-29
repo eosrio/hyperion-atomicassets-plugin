@@ -101,7 +101,17 @@ assert(saleIdRoute?.source.some(entry => entry.handler === 'getSaleAction'), 'Or
 saleIdRoute.componentCoverage = {
   privateUntemplatedAssetComposition: 'sale-nested-assets.md',
   templatedAssets: 'unsupported; template and pricing indexing remain required',
-  publicHttp: 'unimplemented', physicalSameInputComparison: 'pending', fullEndpointParity: false,
+  publicHttp: 'partial request-scoped ID component; actual host admission pending', physicalSameInputComparison: 'pending', fullEndpointParity: false,
+};
+saleIdRoute.httpComponent = {
+  "module": "http/id-routes",
+  "registration": "registerAtomicIdRoutes on existing Fastify host",
+  "scope": "controlled original-handler and Fastify inject subset; not production admission",
+  "supported": "untemplated fixed lifecycle records, compatible 200/400/416 bodies and leading-zero distinction",
+  "unavailable": "null, negative nonzero, overflow, templates, pricing or unknown coverage",
+  "productionHost": "pending HAPI request authority, final onSend gate and shared headers",
+  "physicalSameInputComparison": "pending",
+  "fullEndpointParity": false
 };
 const socketCoverage = inventorySocketContracts({referenceRoot, namespace: 'atomicmarket', ts});
 const sockets = socketCoverage.registrations;

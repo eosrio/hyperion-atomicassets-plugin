@@ -29,6 +29,10 @@
     "./atomicmarket/marketplace-indexing": {
       "types": "./dist/atomicmarket/marketplace-indexing.d.ts",
       "import": "./dist/atomicmarket/marketplace-indexing.js"
+    },
+    "./http": {
+      "types": "./dist/http/id-routes.d.ts",
+      "import": "./dist/http/id-routes.js"
     }
   },
   "engines": {
@@ -46,12 +50,17 @@
     "test:contextual": "node --test harness/atomicmarket/contextual.test.mjs harness/atomicmarket/host-artifacts.test.mjs"
   },
   "dependencies": {
-    "@eosrio/hyperion-sdk": "git+https://github.com/eosrio/hyperion-sdk.git#8d37e932df5e0e7d671c9682505de3dd55f0edb4"
+    "@eosrio/hyperion-sdk": "git+https://github.com/eosrio/hyperion-sdk.git#f15dc3aa333ff526e24482650b685ebaa02eda4e"
   },
   "devDependencies": {
-    "typescript": "7.0.2"
+    "typescript": "7.0.2",
+    "fastify": "5.12.7",
+    "@types/node": "25.5.0"
   },
   "allowScripts": {
-    "github:eosrio/hyperion-sdk#8d37e932df5e0e7d671c9682505de3dd55f0edb4": true
+    "github:eosrio/hyperion-sdk#f15dc3aa333ff526e24482650b685ebaa02eda4e": true
+  },
+  "peerDependencies": {
+    "fastify": "^5.8.5"
   }
 }

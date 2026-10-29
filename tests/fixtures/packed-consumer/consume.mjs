@@ -75,3 +75,11 @@ await assert.rejects(import('@eosrio/hyperion-atomicassets-plugin/atomicmarket/i
   error => error.code === 'ERR_PACKAGE_PATH_NOT_EXPORTED');
 await assert.rejects(import('@eosrio/hyperion-atomicassets-plugin/atomicmarket/internal/sale-assets'),
   error => error.code === 'ERR_PACKAGE_PATH_NOT_EXPORTED');
+
+const {registerAtomicIdRoutes} = await import('@eosrio/hyperion-atomicassets-plugin/http');
+const {default: Fastify} = await import('fastify');
+const http = Fastify(), unavailable = Error('packed request host unavailable');
+http.setErrorHandler((error,request,reply)=>{assert.equal(error,unavailable);reply.code(503).send({success:false});});
+registerAtomicIdRoutes(http,{atomicassets:{projectionId:'packed',contract:'atomicassets'},
+  atomicmarket:{projectionId:'packed',contract:'atomicmarket'},queryHost(){throw unavailable;}});
+assert.equal((await http.inject('/atomicassets/v1/assets/1')).statusCode,503);await http.close();

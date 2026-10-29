@@ -61,7 +61,7 @@ npm test
 
 The new TypeScript package uses TypeScript 7.0.2 and Bun 1.4.4, emits native Node artifacts and
 checks on Node 24/26. The reference keeps its own pinned compiler/dependencies. The SDK dependency
-is pinned to merged contextual contract `8d37e932`; the package permits preparation for that
+is pinned to merged request-query contract `f15dc3aa`; the package permits preparation for that
 exact Git revision only. No automatic executable plugin installation or release publication occurs.
 
 Reference controls require the explicit checkout and fail when it is unavailable. They are not
@@ -90,7 +90,8 @@ isolated consumer, imports the public subpath, and typechecks its installed decl
 checks run on Node 24 and 26. The package includes the upstream license/notice files; source and
 fixtures are not required for the compiled consumer.
 
-Actual Hyperion HTTP routes remain zero. Full source coverage, PostgreSQL execution, WormDB,
+The additive asset-ID and sale-ID HTTP component is available from `./http`; actual Hyperion host
+admission and production route activation remain pending. Full source coverage, PostgreSQL execution, WormDB,
 production backend activation and complete AtomicAssets/AtomicMarket parity remain unqualified. The package
 is private development work and this validation does not publish or activate an extension.
 
@@ -146,7 +147,8 @@ SDK/core interface. The internal tracer's safe-input substitution is documented 
 The [internal untemplated lifecycle component](docs/parity/atomicassets/domain-tracer.md) preserves
 original scheduling, metadata, owner/burn and current-relationship behavior against sanitized
 constructed domain values selected from the closed original PostgreSQL oracle. Normal and packed
-controls exercise the private emitted files; public exports and SDK pins are unchanged. The safe
+controls exercise the private emitted files; those component slices preserved their then-current exports and SDK pins. The later HTTP slice adds
+`./http` and coordinates SDK `f15dc3aa`; frozen qualification operators are unchanged. The safe
 collection input differs from the original NUL-containing input, which the tracer refuses. This
 slice does not establish SDK recovery, physical MongoDB lifecycle, source admission or full parity.
 
@@ -166,3 +168,10 @@ The [combined component bridge](docs/parity/stateful-bridge.md) runs the real as
 through a separately pinned opt-in SDK/native-adapter path and one coherent read view. It leaves
 production activation, installed dependencies and public exports unchanged. Controlled native-caller
 tests and packed emissions do not establish real MongoDB execution or full parity.
+
+## Request-scoped ID HTTP component
+
+[The HTTP slice](docs/parity/id-http.md) registers asset-ID and sale-ID routes on an existing Fastify
+instance using a caller-issued SDK query host. It does not create a listener or issue readiness.
+Original-handler/Fastify inject controls cover a bounded subset; the full 93-route parity gate and
+actual HAPI admission/final publication remain open.
