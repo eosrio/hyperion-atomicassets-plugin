@@ -91,12 +91,13 @@ export async function reduceMarketConfig(b: RelationBlock, value: AtomicObject, 
       const match = /^(0|[1-9][0-9]*),([A-Z]{1,7})$/.exec(text(token.token_symbol));
       if (!match || Number(match[1]) > 18) unavailable('Unsupported token symbol');
       const symbol = match![2]!, precision = Number(match![1]);
-      if (!symbols.includes(symbol)) {
+      const retained = symbols.indexOf(symbol);
+      if (retained === -1) {
         const identity = key(b.market,symbol);
         if (await read(stage,'market-token',identity)) unavailable('Original market token insert conflicts with retained token');
         stage.put('market-token',identity,{market_contract:b.market,token_contract:text(token.token_contract),
           token_symbol:symbol,token_precision:precision});
-      }
+      } else symbols.splice(retained,1);
     }
   }
   stage.put('market-config',key(b.market),{market_contract:b.market,version:value.version,...evidence,supported_tokens:incoming,supported_symbol_pairs:[]});

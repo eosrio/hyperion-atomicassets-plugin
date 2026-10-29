@@ -97,6 +97,25 @@ test('real token removal retains its row; re-add conflicts and config erasure di
   const erased=setup();await erased.execute(begin());const state=await erased.read(),row=config();row.present=false;
   assert.match(await erased.execute([move('alice','bob'),row]),/cannot be erased/);assert.deepEqual(await erased.read(),state);compare(erased,await erased.original());
 });
+test('duplicate retained config tokens abort the same chronological candidate as the original',async()=>{
+  const wax={token_contract:'eosio.token',token_symbol:'8,WAX'},eos={token_contract:'eosio.token',token_symbol:'4,EOS'};
+  for(const tokens of [[wax,wax,eos],[eos,wax,wax]]) {
+    const s=setup();assert.equal(await s.execute(begin()),null);
+    const before={sale:await s.read(),config:s.rows('market-config'),tokens:s.rows('market-token'),offers:s.rows('offer'),
+      links:s.rows('offer-assets'),reverse:s.rows('asset-offers')};
+    // The transfer stages an asset write first; the second order also stages a new EOS row.
+    const failure=await s.execute([move('alice','bob'),config(tokens)]),original=await s.original();
+    assert.match(original.snapshots[1].error,/unique violation/,'Actual pinned config callback rejects duplicate retained WAX');
+    assert.match(failure??'',/conflicts/,'Portable candidate must refuse the same duplicate instead of committing');
+    assert.deepEqual({sale:await s.read(),config:s.rows('market-config'),tokens:s.rows('market-token'),offers:s.rows('offer'),
+      links:s.rows('offer-assets'),reverse:s.rows('asset-offers')},before,'Both earlier asset effects and any new token remain discarded');
+    compare(s,original);
+  }
+  const same=setup(),start=begin();start.find(e=>e.contract===am&&e.table==='config').value.supported_tokens=[wax,eos];
+  assert.equal(await same.execute(start),null);const retained=same.rows('market-token');
+  assert.equal(await same.execute([config([wax,wax])]),null,'Original equal-length trigger still skips token inserts, including duplicates');
+  assert.deepEqual(same.rows('market-token'),retained);compare(same,await same.original());
+});
 test('actual sale HTTP route composes all current relationships through one request host',async()=>{
   const s=setup();await s.execute(begin());const api=Fastify(),requests=[];
   s.plugin.addRoutes(api,{statefulQueryHost(request){requests.push(request.url);return {async compose(id,fn){assert.equal(id,'atomicassets');return {value:await fn({get:s.get})};}};}});
