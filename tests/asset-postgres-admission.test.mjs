@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import test from 'node:test';
 import {createRequire} from 'node:module';
 import {EventEmitter} from 'node:events';

@@ -26,8 +26,17 @@ Sockets/listeners remain prohibited and no database/server is started.
 Deterministic terminal fixtures cover partial timeout output, unknown/empty fields, marker bounds,
 immutable receipts and cleanup survival. Quick real native pipe-four children cover zero/nonzero
 returns. These controls are not an actual original-loader timeout reproduction.
+An additional native control runs this exact parent test through a narrowly preloaded controlled
+spawn result, then verifies its persisted raw buffers, failure assertion and cleanup. Its reference
+tag starts `CONTROLLED-PARENT-41`; those records are separate from the actual original-loader run.
 
 The two uninstrumented local Node24 full failures at PR40 head7232 remain failed. Passing isolated
 baseline/candidate controls and CI do not explain them or prove a baseline flake. A later single
 instrumented diagnostic must state its exact source and evidence question; it is not an unchanged
 retry-until-green policy or retroactive acceptance of PR40's failed local full24 runs.
+
+The first combined attempt at `bf2fdf46` failed in parent instrumentation because its new source
+pin calculation omitted the `createHash` import. Its child terminal outcome and pipes were not
+retained; the roughly sixty-second duration does not establish a timeout verdict. That attempt
+remains failed. The import correction is covered at the actual parent callsite before another
+distinct corrected-source combined run; neither the original deadline nor test concurrency changes.

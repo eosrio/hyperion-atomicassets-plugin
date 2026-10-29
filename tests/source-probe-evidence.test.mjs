@@ -2,9 +2,10 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
-import {mkdtempSync,readFileSync,readdirSync,rmSync,writeFileSync} from 'node:fs';
+import {existsSync,mkdtempSync,readFileSync,readdirSync,rmSync,writeFileSync} from 'node:fs';
 import {tmpdir} from 'node:os';
 import {dirname,join,resolve} from 'node:path';
+import {fileURLToPath,pathToFileURL} from 'node:url';
 import {persistSourceProbeTerminal,persistSourceProbeCleanup,SOURCE_PHASE_PREFIX} from '../harness/atomicassets/postgres/source-probe-evidence.mjs';
 
 const sha=b=>createHash('sha256').update(b).digest('hex');
@@ -74,4 +75,31 @@ test('raw diagnostic bytes survive temporary SQL-CWD cleanup and a subsequent as
   const saved=persistSourceProbeTerminal(root,outcome({status:9}),{...context,cwd});
   assert.equal(dirname(resolve(cwd)),resolve(root));rmSync(cwd,{recursive:true});persistSourceProbeCleanup(saved.directory,{status:'removed',temporaryCwd:cwd,error:null});
   assert.throws(()=>assert.equal(saved.record.status,0));assert.deepEqual(readFileSync(saved.record.streams.stdout.path),Buffer.from('stdout\0bytes'));
+}));
+
+test('actual parent callsite saves controlled returned pipes before its original failure assertion and cleanup',()=>owned(root=>{
+  const project=fileURLToPath(new URL('../',import.meta.url)),tag='CONTROLLED-PARENT-41:'+root,preload=join(root,'controlled-spawn.mjs');
+  const stderr=marker(1,'start','1')+'explicit controlled parent seam, no original child ran';
+  writeFileSync(preload,`import childProcess from 'node:child_process';import {syncBuiltinESMExports} from 'node:module';
+    const actual=childProcess.spawnSync;childProcess.spawnSync=function(executable,args,options){
+      if(String(args?.[0]).replaceAll('\\\\','/').endsWith('/tests/fixtures/asset-postgres-source.cjs')){
+        if(options.timeout!==60000||options.maxBuffer!==2097152||options.stdio.length!==4)throw Error('Original child options changed');
+        return {pid:0,status:null,signal:'SIGTERM',error:Object.assign(new Error('CONTROLLED-PARENT-41 terminal fixture'),{code:'ETIMEDOUT'}),
+          stdout:Buffer.from([0,255,10]),stderr:Buffer.from(${JSON.stringify(stderr)}),output:[null,null,null,Buffer.from('{CONTROLLED partial')]};
+      }return actual.call(this,executable,args,options);
+    };syncBuiltinESMExports();`);
+  const childEnv={...process.env,AA_REFERENCE_ROOT:tag};delete childEnv.NODE_TEST_CONTEXT;
+  const child=spawnSync(process.execPath,['--import',pathToFileURL(preload).href,'--test','--test-name-pattern=original loader/handler/migration/HTTP',
+    join(project,'tests/asset-postgres-admission.test.mjs')],{cwd:project,env:childEnv,timeout:60000,maxBuffer:2*1024**2,windowsHide:true});
+  assert.ifError(child.error);assert.equal(child.status,1,child.stdout?.toString()+'\n'+child.stderr?.toString());
+  const evidence=join(project,'out/postgres-source-probe');assert.ok(existsSync(evidence),child.stdout?.toString()+'\n'+child.stderr?.toString());
+  const saved=readdirSync(evidence,{withFileTypes:true}).filter(e=>e.isDirectory()).map(e=>join(evidence,e.name,'terminal.json'))
+    .flatMap(path=>{try{return [{path,record:JSON.parse(readFileSync(path))}];}catch(error){if(error.code==='ENOENT')return [];throw error;}})
+    .filter(e=>e.record.context.referenceRoot===tag);
+  assert.equal(saved.length,1,child.stdout?.toString());const {path,record}=saved[0];
+  assert.equal(record.spawnError.code,'ETIMEDOUT');assert.match(record.spawnError.message,/CONTROLLED-PARENT-41/);
+  assert.equal(record.status,null);assert.equal(record.signal,'SIGTERM');assert.equal(record.normalProcessExit,false);
+  assert.deepEqual(readFileSync(record.streams.stdout.path),Buffer.from([0,255,10]));
+  assert.deepEqual(readFileSync(record.streams.stderr.path),Buffer.from(stderr));assert.deepEqual(readFileSync(record.streams.fd3.path),Buffer.from('{CONTROLLED partial'));
+  assert.deepEqual(JSON.parse(readFileSync(join(dirname(path),'cleanup.json'))),{schemaVersion:1,status:'removed',temporaryCwd:record.context.cwd,temporaryCwdAbsent:true,error:null});
 }));
