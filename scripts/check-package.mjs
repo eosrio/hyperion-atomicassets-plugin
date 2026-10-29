@@ -131,6 +131,8 @@ try {
     {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   await run(['--test', join(root, 'tests/collections.test.mjs')], root, 'consumer-collections',
     {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
+  await run(['--test', join(root, 'tests/json-compatibility.test.mjs')], root, 'consumer-original-metadata-json',
+    {...env, AA_DOMAIN_MODULE_ROOT: join(installed, 'dist'), ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   const declarations = await run([join(consumer, 'node_modules/typescript/bin/tsc'), '-p',
     join(consumer, 'tsconfig.json'), '--listFiles'], consumer, 'consumer-declarations');
   const slash = value => value.replaceAll('\\', '/').toLowerCase();
@@ -167,6 +169,7 @@ try {
     inputDrivenTemplatePackedRegression: true, physicalTemplateParity: false,
     inputDrivenAuctionPackedRegression: true, physicalAuctionParity: false,
     inputDrivenCollectionPackedRegression: true, physicalCollectionParity: false,
+    originalMetadataEncoderPackedRegression: true, physicalJsonCompatibility: false,
     statefulPackedCaller: {optInComponentSelected: Boolean(env.ATOMIC_STATEFUL_COMPONENT_ROOT), actualMongo: false},
     consumerLockSha256: sha(lockBytes), sdkResolved, commands,
     scope: 'Packed query component and declarations; no Hyperion HTTP, source ingestion, database or full parity qualification'};

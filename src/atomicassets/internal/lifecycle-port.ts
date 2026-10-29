@@ -59,10 +59,10 @@ export function hash(value: unknown): string {
 }
 
 /** Own plain JSON data without invoking getters or silently dropping malformed leaves. */
-function copy(value: unknown, ancestors: Set<object>): unknown {
+function copy(value: unknown, ancestors: Set<object>, metadataInput = false): unknown {
   if (value === null || typeof value === 'boolean') return value;
   if (typeof value === 'string') {
-    if (value.includes('\0') || value.includes('\\u0000')) return unavailable('Unresolved original NUL conversion policy');
+    if (!metadataInput && (value.includes('\0') || value.includes('\\u0000'))) return unavailable('NUL metadata requires the original field encoder');
     return value;
   }
   if (typeof value === 'number' && Number.isFinite(value)) return Object.is(value, -0) ? 0 : value;
@@ -77,8 +77,8 @@ function copy(value: unknown, ancestors: Set<object>): unknown {
   for (const [key, descriptor] of Object.entries(Object.getOwnPropertyDescriptors(value))) {
     if (Array.isArray(value) && key === 'length') continue;
     if (!descriptor.enumerable || !('value' in descriptor)) return unavailable('Expected data properties');
-    copy(key, ancestors);
-    Object.defineProperty(result, key, {value: copy(descriptor.value, ancestors), enumerable: true, writable: true, configurable: true});
+    copy(key, ancestors, metadataInput);
+    Object.defineProperty(result, key, {value: copy(descriptor.value, ancestors, metadataInput), enumerable: true, writable: true, configurable: true});
   }
   if (Array.isArray(value) && Object.keys(result).length !== value.length) return unavailable('Sparse array');
   ancestors.delete(value);
@@ -87,6 +87,12 @@ function copy(value: unknown, ancestors: Set<object>): unknown {
 export function record(value: unknown): AtomicObject {
   const result = copy(value, new Set());
   if (result === null || typeof result !== 'object' || Array.isArray(result)) return unavailable('Expected domain record');
+  return result as AtomicObject;
+}
+/** Raw metadata snapshot only; callers must validate non-metadata fields with record(). */
+export function metadataInputRecord(value: unknown): AtomicObject {
+  const result = copy(value, new Set(), true);
+  if (result === null || typeof result !== 'object' || Array.isArray(result)) return unavailable('Expected metadata input record');
   return result as AtomicObject;
 }
 export function records(value: unknown): AtomicObject[] {

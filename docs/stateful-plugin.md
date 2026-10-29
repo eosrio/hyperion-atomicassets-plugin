@@ -100,7 +100,9 @@ candidate explicitly rather than silently dropping that event. As a result, this
 not ready to serve arbitrary production contracts. [Template state and asset enrichment](parity/atomicassets/templates.md)
 are partial; templated sale and auction price enrichment, backing, mint reconciliation,
 multi-asset offers/symbol-pair pricing, scope-less table domain mapping,
-remaining APIs and NUL/literal-backslash conversion remain explicit gaps. The v2 source retains
+remaining APIs, nontext JSONB display text and schema/scalar NUL behavior remain explicit gaps.
+The field-specific metadata encoder now follows the original JS boundary; see
+[the JSON evidence map](parity/atomicassets/json-compatibility.md) for the still-pending physical gates. The v2 source retains
 actual scope-less identities; this restricted domain adapter refuses them instead of inventing
 a scope. Offer/token/code relationships now come from actual selected occurrences; no synthetic
 relation rows are accepted. Native

@@ -43,7 +43,8 @@ does not establish readiness.
 The supported collection display metadata `name`/`img` values are text, missing or null, matching
 the existing asset component's input intersection. Nontext selections are explicitly unavailable
 until their PostgreSQL JSONB text semantics are qualified; no stringification policy is invented.
-The existing NUL/literal-backslash source difference remains unresolved. Malformed or oversized
+The [field-specific metadata encoder](json-compatibility.md) now follows the original JS path;
+physical original-profile and nontext JSONB display results remain pending. Malformed or oversized
 values obey existing domain/SDK bounds.
 
 ## Evidence and remaining frontier

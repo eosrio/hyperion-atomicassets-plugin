@@ -8,6 +8,10 @@ export const REFERENCE = Object.freeze({
   tag: '2.7.0', commit: '0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e',
 });
 
+export async function executeOriginalJsonControls({referenceRoot, nodePath, timeoutMs}) {
+  return await execute({referenceRoot, nodePath, timeoutMs, command: {mode:'json-controls'}});
+}
+
 export async function executeOriginalCollectionControls({referenceRoot, input, nodePath, timeoutMs}) {
   return await execute({referenceRoot, nodePath, timeoutMs, command: {mode:'collection-controls',input}});
 }

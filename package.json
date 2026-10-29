@@ -18,6 +18,7 @@
     "docs/parity/atomicmarket/source-relationships.md",
     "docs/parity/atomicassets/templates.md",
     "docs/parity/atomicassets/collection-id.md",
+    "docs/parity/atomicassets/json-compatibility.md",
     "docs/parity/atomicmarket/auction-id.md",
     "docs/parity/atomicmarket/auction-id-coverage.json"
   ],
