@@ -1,5 +1,7 @@
 # Original reference/helper blobs retain their exact bytes on every checkout.
 /fixtures/harness/atomicassets/lifecycle/original/** -text
+# The distributed original metadata codec and its notices have the same raw pins.
+/vendor/atomicassets-2.2.0/** -text
 # Sanitized domain oracle/provenance hashes also cover exact retained bytes.
 /fixtures/harness/atomicassets/domain/** -text
 # The explicitly named safe-input profile has one pinned raw representation.
