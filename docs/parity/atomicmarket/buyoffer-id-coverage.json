@@ -1,0 +1,17 @@
+{
+  "baseline": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+  "issues": [46, 48],
+  "scope": "Bounded source component through neutral staging/point reads; source controls are not physical or full parity qualification",
+  "limits": {"recordKinds":20,"selectors":69,"assetLinks":32,"callerBudgets":"explicit and unchanged; SDK rejects insufficient read/record/output budgets","newDeclarationAndGenerationRequired":true},
+  "cells": [
+    {"cell":"authorized v1.2.2 creation/update/replay guard and same-priority source order","implementation":"implemented","evidence":"unmodified original scheduler and callback differentials"},
+    {"cell":"nonempty ordered bundles, exact index upsert and retained omitted links","implementation":"implemented","evidence":"actual original callback rows; pinned database upsert/view source; no SQL tie-breaker invented"},
+    {"cell":"complete coherent buyoffer ID data/416/invalid ID/leading zeros/GET/POST/missing assets/current owners","implementation":"implemented","evidence":"actual original handler/filler/formatter with finite SQL-view/storage collaborators"},
+    {"cell":"empty or duplicate input, equal-index retained links, more than32 retained assets","implementation":"refused","evidence":"source-mode ambiguity and whole-stage discard controls"},
+    {"cell":"old private20-kind row shape, insufficient caller budgets, closed or rotated reads","implementation":"refused","evidence":"strict row validation and actual SDK composition over controlled storage; no budget mutation"},
+    {"cell":"v2 legacy-bundle semantics, templated price enrichment, remaining ID/amount/metadata shapes","implementation":"unsupported","evidence":"explicit source boundaries remain"},
+    {"cell":"buyoffer list/count/log/stats/socket and template-buyoffer families","implementation":"unimplemented","evidence":"not implemented or run by this ID component"},
+    {"cell":"physical PostgreSQL/MongoDB comparison and original wire HTTP transport","implementation":"not-run","evidence":"finite source collaborators and separate product loopback HEAD check only"},
+    {"cell":"actual managed owner2 serving, full fork recovery and full2.7.0 parity","implementation":"not-run","evidence":"separate release gates remain open"}
+  ]
+}

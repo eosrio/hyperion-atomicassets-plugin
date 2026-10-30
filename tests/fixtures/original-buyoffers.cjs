@@ -1,18 +1,11 @@
 'use strict';
 // Unmodified original callbacks, scheduler and HTTP handler. SQL/storage are explicit finite collaborators, not PostgreSQL.
 const assert=require('node:assert/strict');
-const {readFileSync}=require('node:fs');const {join}=require('node:path');const {createHash}=require('node:crypto');
-const {execFileSync}=require('node:child_process');const copy=x=>structuredClone(x),id=(r,keys)=>JSON.stringify(keys.map(k=>r[k]));
+const {captureBuyofferSources}=require('./original-buyoffer-sources.cjs');
+const copy=x=>structuredClone(x),id=(r,keys)=>JSON.stringify(keys.map(k=>r[k]));
 module.exports=async function(fromReference,root,input){
   assert.ok(input.blocks.length<=16&&input.requests.length<=24);
-  const paths=['src/filler/processor.ts','src/filler/handlers/atomicmarket/processors/buyoffers.ts',
-    'src/filler/handlers/atomicmarket/index.ts','src/filler/handlers/atomicmarket/legacy-bundles.ts','definitions/tables/atomicmarket_tables.sql',
-    'definitions/views/atomicmarket_buyoffers_master.sql','src/api/namespaces/atomicmarket/handlers/buyoffers.ts',
-    'src/api/namespaces/atomicmarket/filler.ts','src/api/namespaces/atomicmarket/format.ts','src/api/namespaces/atomicassets/filler.ts',
-    'src/api/server.ts','src/api/namespaces/validation.ts'];
-  const sources=paths.map(path=>{const raw=execFileSync('git',['show','0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e:'+path],{cwd:root,maxBuffer:2*1024*1024});
-    assert.equal(readFileSync(join(root,path),'utf8').replaceAll('\r\n','\n'),raw.toString());
-    return {path,bytes:raw.length,sha256:createHash('sha256').update(raw).digest('hex')};});
+  const sources=await captureBuyofferSources(root);
   const {default:Processor,ProcessingState}=fromReference('./src/filler/processor.ts');
   const {buyofferProcessor}=fromReference('./src/filler/handlers/atomicmarket/processors/buyoffers.ts');
   let tables=new Map();const calls=[],executed=[],snapshots=[],notifications=[];

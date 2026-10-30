@@ -69,7 +69,8 @@ try {
     'dist/atomicmarket/internal/fixed-sale-port.js', 'dist/atomicmarket/internal/fixed-sale-port.d.ts',
     'dist/atomicmarket/internal/sale-assets.js', 'dist/atomicmarket/internal/sale-assets.d.ts',
     'README.md', 'LICENSE', 'harness/shared/LICENSE.atomicassets-api.txt',
-    'harness/shared/NOTICE.atomicassets-api.txt', 'docs/parity/atomicmarket/UPSTREAM-LICENSE'];
+    'harness/shared/NOTICE.atomicassets-api.txt', 'docs/parity/atomicmarket/UPSTREAM-LICENSE',
+    'docs/parity/atomicmarket/buyoffer-id.md', 'docs/parity/atomicmarket/buyoffer-id-coverage.json'];
   for (const path of required) assert.ok(packedFiles.has(path), `Packed artifact is missing ${path}`);
   const tarball = join(evidence, packed.filename);
   const tarballBytes = await readFile(tarball);
@@ -138,7 +139,10 @@ try {
     {...env, AA_DOMAIN_MODULE_ROOT: join(installed, 'dist'), ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   await run(['--test', join(root, 'tests/marketplace-id.test.mjs')], root, 'consumer-marketplace-id',
     {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
-  await run(['--test', join(root, 'tests/buyoffers.test.mjs')], root, 'consumer-buyoffers',
+  // Keep the existing per-command deadline: run every selected control once in bounded groups.
+  await run(['--test', '--test-name-pattern=^(?!bundle: )', join(root, 'tests/buyoffers.test.mjs')], root, 'consumer-buyoffers',
+    {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
+  await run(['--test', '--test-name-pattern=^bundle: ', join(root, 'tests/buyoffers.test.mjs')], root, 'consumer-buyoffer-bundles',
     {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   const declarations = await run([join(consumer, 'node_modules/typescript/bin/tsc'), '-p',
     join(consumer, 'tsconfig.json'), '--listFiles'], consumer, 'consumer-declarations');

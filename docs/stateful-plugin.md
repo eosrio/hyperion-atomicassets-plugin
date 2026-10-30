@@ -36,6 +36,9 @@ The getter requires the actual host's `original-action-authorization-v1` source 
 and declares it in `requiredSourceCapabilities`; an old host context refuses immediately.
 SDK source-v2 metadata version 1 and both host/native SDK consumers must be installed and
 qualified before activation. Contract data never supplies action authorization.
+The bounded ordered-bundle extension keeps 20 kinds and all caller limits unchanged. Its private
+link-index row shape requires a new reviewed artifact/declaration/generation and qualified replay;
+earlier 20-kind rows are refused. Empty, duplicate or equal-index links remain unavailable.
 
 The [collection-ID component](parity/atomicassets/collection-id.md) uses the existing `collection`
 kind and actual scoped `authorswaps` table updates; it adds no record kind or limit default.
