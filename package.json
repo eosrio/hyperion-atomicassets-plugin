@@ -23,7 +23,8 @@
     "docs/parity/atomicmarket/auction-id-coverage.json",
     "docs/parity/atomicmarket/marketplace-id.md",
     "docs/parity/atomicmarket/marketplace-id-coverage.json",
-    "docs/parity/atomicmarket/buyoffer-id.md"
+    "docs/parity/atomicmarket/buyoffer-id.md",
+    "docs/parity/atomicmarket/buyoffer-id-coverage.json"
   ],
   "exports": {
     "./atomicmarket/sale": {

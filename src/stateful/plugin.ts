@@ -60,7 +60,7 @@ export const ATOMIC_CAPABILITY_GAPS = Object.freeze(['full original processor ef
   'template mint reconciliation/backing', 'multi-asset offers/exchanges and symbol-pair pricing',
   'currency conversion/pricing/bundles', 'scope-less table domain interpretation',
   'templated sale price enrichment', 'templated auction price enrichment',
-  'buyoffer bundles, newer contract versions and templated pricing',
+  'buyoffer empty/duplicate/ambiguous links, newer contract versions and templated pricing',
   'nontext collection display metadata',
   'schema/scalar NUL and nontext JSONB text extraction', 'remaining API/log/stat/socket parity'] as const);
 

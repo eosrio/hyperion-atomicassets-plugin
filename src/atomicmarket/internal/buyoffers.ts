@@ -11,7 +11,8 @@ export interface BuyofferOccurrence {
 }
 const fields = ['market_contract','assets_contract','buyoffer_id','seller','buyer','price','token_symbol','maker_marketplace',
   'taker_marketplace','collection_name','collection_fee','state','memo','decline_memo','created_at_block','created_at_time',
-  'updated_at_block','updated_at_time','asset_ids'] as const;
+  'updated_at_block','updated_at_time','asset_ids','asset_indices'] as const;
+const maxAssets = 32;
 const actionFields = {lognewbuyo:['buyoffer_id','buyer','recipient','price','asset_ids','memo','maker_marketplace','collection_name','collection_fee'],
   cancelbuyo:['buyoffer_id'],acceptbuyo:['buyoffer_id','expected_asset_ids','expected_price','taker_marketplace'],
   declinebuyo:['buyoffer_id','decline_memo']} as const;
@@ -32,6 +33,36 @@ function authorization(value:unknown): {actor:string;permission:string}[] {
     return {actor:text(v.actor),permission:text(v.permission)};
   });
 }
+function indices(value:unknown):number[]{
+  if(!Array.isArray(value)||Object.getPrototypeOf(value)!==Array.prototype||Object.getOwnPropertySymbols(value).length||
+    Object.keys(value).length!==value.length||Object.keys(value).some((name,index)=>name!==String(index))||value.length>maxAssets)
+    return unavailable('Expected bounded dense buyoffer link indices');
+  return Array.from({length:value.length},(_,index)=>{
+    const d=Object.getOwnPropertyDescriptor(value,String(index));
+    if(!d||!('value'in d)||typeof d.value!=='number'||!Number.isInteger(d.value)||d.value<1||d.value>maxAssets)
+      return unavailable('Invalid buyoffer link index');
+    return d.value;
+  });
+}
+function assets(value:unknown):string[]{
+  const ids=strings(value).map(v=>uint(v));
+  if(ids.length===0)return unavailable('Empty buyoffer assets require qualified original storage-mode behavior');
+  if(ids.length>maxAssets)return unavailable('Buyoffer asset-link bound exceeded');
+  // The original direct INSERT and write-buffer paths differ for repeated PKs.
+  if(new Set(ids).size!==ids.length)return unavailable('Duplicate buyoffer asset IDs require qualified original database behavior');
+  return ids;
+}
+function links(old:AtomicObject|null,ids:readonly string[]):{asset_ids:string[];asset_indices:number[]}{
+  const retained=new Map<string,number>();
+  if(old){const positions=indices(old.asset_indices);strings(old.asset_ids).forEach((id,index)=>retained.set(id,positions[index]!));}
+  ids.forEach((id,index)=>retained.set(id,index+1));
+  if(retained.size>maxAssets)return unavailable('Buyoffer retained asset-link bound exceeded');
+  const ordered=[...retained].sort((a,b)=>a[1]-b[1]);
+  // The pinned SQL orders only by index. Never invent a tie-break for retained links.
+  if(new Set(ordered.map(([,index])=>index)).size!==ordered.length)
+    return unavailable('Ambiguous retained buyoffer asset-link order');
+  return {asset_ids:ordered.map(([id])=>id),asset_indices:ordered.map(([,index])=>index)};
+}
 export function buyofferRecord(value:AtomicObject,market:string,id:string):AtomicObject {
   const row=object(value,fields);
   if (fields.some(f=>!Object.hasOwn(row,f)) || row.market_contract!==market || row.buyoffer_id!==id ||
@@ -40,9 +71,10 @@ export function buyofferRecord(value:AtomicObject,market:string,id:string):Atomi
   for (const f of ['buyoffer_id','price','created_at_block','created_at_time','updated_at_block','updated_at_time']) uint(row[f]);
   text(row.memo,true); if(row.decline_memo!==null)text(row.decline_memo,true);
   marketplace(row.maker_marketplace);marketplace(row.taker_marketplace);fraction(row.collection_fee);
-  const assetIds=strings(row.asset_ids).map(v=>uint(v));
-  if(assetIds.length!==1)return unavailable('Buyoffer bundles are outside this component');
-  return {...row,asset_ids:assetIds};
+  const assetIds=assets(row.asset_ids),assetIndices=indices(row.asset_indices);
+  if(assetIds.length!==assetIndices.length||assetIndices.some((value,index)=>index>0&&value<=assetIndices[index-1]!))
+    return unavailable('Invalid or ambiguous stored buyoffer asset-link order');
+  return {...row,asset_ids:assetIds,asset_indices:assetIndices};
 }
 
 /** Action-derived original effects only. The caller discards its complete stage on any refusal. */
@@ -67,8 +99,7 @@ export async function reduceBuyoffers(b:FixedSaleContext,occurrences:readonly Bu
     const v=object(e.value,actionFields[name]),id=uint(v.buyoffer_id);
     let value:AtomicObject={buyoffer_id:id};
     if(name==='lognewbuyo'){
-      const assetIds=strings(v.asset_ids).map(v=>uint(v));
-      if(assetIds.length!==1)return unavailable('Buyoffer bundles are outside this component');
+      const assetIds=assets(v.asset_ids);
       value={...value,buyer:text(v.buyer),seller:text(v.recipient),...price(v.price),asset_ids:assetIds,memo:text(v.memo,true),
         maker_marketplace:marketplace(v.maker_marketplace),collection_name:text(v.collection_name),collection_fee:fraction(v.collection_fee)};
     }else if(name==='declinebuyo')value={...value,decline_memo:text(v.decline_memo,true)};
@@ -81,9 +112,8 @@ export async function reduceBuyoffers(b:FixedSaleContext,occurrences:readonly Bu
     const old=found?buyofferRecord(found,context.marketContract,id):null;
     if(old&&old.assets_contract!==context.assetsContract)return unavailable('Buyoffer assets binding changed');
     if(name==='lognewbuyo'){
-      if(old&&strings(old.asset_ids)[0]!==strings(v.asset_ids)[0])return unavailable('Repeated buyoffer creates a retained bundle');
       stage.put('market-buyoffer',identity,{market_contract:context.marketContract,assets_contract:context.assetsContract,...v,
-        taker_marketplace:null,state:0,decline_memo:null,...updated(context),created_at_block:context.blockNum,created_at_time:context.blockTimeMs});
+        ...links(old,strings(v.asset_ids)),taker_marketplace:null,state:0,decline_memo:null,...updated(context),created_at_block:context.blockNum,created_at_time:context.blockTimeMs});
     }else if(old){
       if(name==='acceptbuyo'&&old.state===3)continue;
       const change=name==='cancelbuyo'?{state:2}:name==='declinebuyo'?{state:1,decline_memo:v.decline_memo}:

@@ -6,6 +6,7 @@ const {execFileSync}=require('node:child_process');const copy=x=>structuredClone
 module.exports=async function(fromReference,root,input){
   assert.ok(input.blocks.length<=16&&input.requests.length<=24);
   const paths=['src/filler/processor.ts','src/filler/handlers/atomicmarket/processors/buyoffers.ts',
+    'src/filler/database.ts',
     'src/filler/handlers/atomicmarket/index.ts','src/filler/handlers/atomicmarket/legacy-bundles.ts','definitions/tables/atomicmarket_tables.sql',
     'definitions/views/atomicmarket_buyoffers_master.sql','src/api/namespaces/atomicmarket/handlers/buyoffers.ts',
     'src/api/namespaces/atomicmarket/filler.ts','src/api/namespaces/atomicmarket/format.ts','src/api/namespaces/atomicassets/filler.ts',
