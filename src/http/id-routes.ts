@@ -77,7 +77,7 @@ export function registerAtomicIdRoutes(fastify: FastifyInstance, options: Atomic
       const n=BigInt(input);
       if(n<0n||n>9223372036854775807n) throw new AssetDomainUnavailable('ID form requires qualified original database behavior');
       const data=await readTemplateId(reader,contract,request.params.collection_name,n.toString());
-      if(data===null){status=416;return {success:false,message:'Template not found'};}
+      if(data===null){status=404;return {success:false,message:'Template not found'};}
       return {success:true,data:data as StatefulRecord,query_time:Date.now()};
     });
     reply.code(status);return result.value;
