@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const name = '@eosrio/hyperion-atomicassets-plugin';
-const sdkPin = 'git+https://github.com/eosrio/hyperion-sdk.git#7412889a14c84342551fd864ea3ebfcf28849385';
+const sdkPin = 'git+https://github.com/eosrio/hyperion-sdk.git#429a1bf1d3bddb746fa662de9529480890b7368f';
 const npmCli = process.env.npm_execpath ?? join(dirname(process.execPath), 'node_modules/npm/bin/npm-cli.js');
 assert.ok(existsSync(npmCli), 'Run through npm so its actual CLI path is available');
 await mkdir(join(root, 'out'), {recursive: true});
@@ -76,7 +76,7 @@ try {
   const tarballBytes = await readFile(tarball);
   await writeFile(join(consumer, 'package.json'), JSON.stringify({name: 'atomic-parity-packed-consumer',
     private: true, type: 'module', dependencies: {[name]: 'file:' + tarball}, devDependencies: {typescript: '7.0.2', fastify: '5.12.7', '@types/node': '25.5.0'},
-    allowScripts: {'github:eosrio/hyperion-sdk#7412889a14c84342551fd864ea3ebfcf28849385': true}}, null, 2) + '\n');
+    allowScripts: {'github:eosrio/hyperion-sdk#429a1bf1d3bddb746fa662de9529480890b7368f': true}}, null, 2) + '\n');
   for (const file of ['consume.mjs', 'consume.ts', 'tsconfig.json'])
     await copyFile(join(root, 'tests/fixtures/packed-consumer', file), join(consumer, file));
   for (const file of ['asset-formatter-cases.mjs', 'asset-formatter.expected.json',
@@ -132,6 +132,8 @@ try {
   await run(['--test', join(root, 'tests/templates.test.mjs')], root, 'consumer-template-lifecycle',
     {...env, AA_DOMAIN_MODULE_ROOT: join(installed, 'dist'), ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   await run(['--test', join(root, 'tests/auctions.test.mjs')], root, 'consumer-auctions',
+    {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
+  await run(['--test', join(root, 'tests/schema-id-component.test.mjs')], root, 'consumer-schema-id',
     {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   await run(['--test', join(root, 'tests/collections.test.mjs')], root, 'consumer-collections',
     {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
