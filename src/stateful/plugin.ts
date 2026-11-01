@@ -18,6 +18,8 @@ import {reduceOffers, finishOfferMoves, reduceMarketConfig, reduceContractCode, 
 import type {FixedSaleOccurrence} from '../atomicmarket/internal/fixed-sale-port.js';
 import {ATOMIC_HOOK_INVENTORY} from './hook-inventory.js';
 import {createAtomicMetadataCodec} from './metadata-codec.js';
+import {royaltyConfigProjection} from './royalty-config.js';
+import {registerRoyaltyConfigRoute} from '../http/royalty-config-route.js';
 export {ATOMIC_HOOK_INVENTORY} from './hook-inventory.js';
 export {ATOMIC_METADATA_CODEC, createAtomicMetadataCodec} from './metadata-codec.js';
 export type {MetadataCodec} from '../atomicassets/internal/lifecycle-port.js';
@@ -70,6 +72,7 @@ export const ATOMIC_CAPABILITY_GAPS = Object.freeze(['full original processor ef
 /** One compound projection; this module owns domain conversion, never source/owner/native authority. */
 export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
   const projectionId = text(options.projectionId ?? 'atomicassets');
+  const royaltyProjectionId = projectionId + ':royalty-config';
   const assets = text(options.assetsContract ?? 'atomicassets'), market = text(options.marketContract ?? 'atomicmarket');
   const system = text(options.systemContract ?? 'eosio');
   if (new Set([assets,market,system]).size !== 3) unavailable('Atomic/system contracts must differ');
@@ -194,7 +197,8 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
         family: 'stateful-projection-recovery', interfaceVersion: 1, id: projectionId, selectors,
         records: kinds.map(kind => ({kind, integers: kind === 'asset' ? [{path: ['asset_id'], type: 'uint64', vector: false}] : []}))},
         limits: JSON.parse(JSON.stringify(limits)) as StatefulLimits, requiredSourceCapabilities:sourceCapabilities,
-        requiredCompleteKindRead: {family:'stateful-owner-complete-kind',interfaceVersion:1,limits:completeKindLimits}, reduce}]};
+        requiredCompleteKindRead: {family:'stateful-owner-complete-kind',interfaceVersion:1,limits:completeKindLimits}, reduce},
+        royaltyConfigProjection(royaltyProjectionId,market,limits)]};
     },
     addRoutes(server: FastifyInstance, context?: AtomicPluginApiContext): void {
       if (!context || typeof context.statefulQueryHost !== 'function') throw new Error('Atomic routes require the host request-scoped query context');
@@ -202,6 +206,8 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
         atomicmarket: {projectionId, contract: market}, queryHost: context.statefulQueryHost,
         ...(context.operatorLists ? {operatorLists: context.operatorLists} : {}),
         ...(context.statefulCompleteKindQueryHost ? {completeKindQueryHost: context.statefulCompleteKindQueryHost} : {})});
+      registerRoyaltyConfigRoute(server,{projectionId:royaltyProjectionId,contract:market,
+        ...(context.statefulCompleteKindQueryHost ? {queryHost:context.statefulCompleteKindQueryHost} : {})});
     },
   });
 }

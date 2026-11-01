@@ -99,7 +99,8 @@ const packedLimits = {value:packedValueLimits,envelope:{...packedValueLimits,dep
   selectors:128,recordKinds:21,inputOccurrences:64,inputBytes:262144,keyBytes:128,readKeys:8,readAttempts:32,mutations:16,
   candidateBytes:262144,responseRecords:32,responseBytes:262144};
 const registration = createAtomicStatefulPlugin({limits:packedLimits}).getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']});
-assert.equal(registration.projections.length, 1);
+assert.equal(registration.projections.length, 2);
+assert.equal(registration.projections[1].definition.id, 'atomicassets:royalty-config');
 assert.equal(registration.sourceInputVersion, 2);
 const {default: LegacyPlugin} = await import(new URL('legacy/build/index.js',
   new URL('../', import.meta.resolve('@eosrio/hyperion-atomicassets-plugin'))));

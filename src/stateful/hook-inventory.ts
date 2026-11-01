@@ -916,7 +916,7 @@ export const ATOMIC_HOOK_INVENTORY = {
       "processor": "royalties",
       "source": "src/filler/handlers/atomicmarket/processors/royalties.ts",
       "line": 179,
-      "coverage": "unimplemented"
+      "coverage": "partial"
     },
     {
       "domain": "atomicmarket",
