@@ -7,6 +7,7 @@ import {readFixedSaleWithAssets} from '../atomicmarket/internal/sale-assets.js';
 import {FixedSaleUnavailable} from '../atomicmarket/internal/fixed-sale-port.js';
 import {readAuctionWithAssets} from '../atomicmarket/internal/auction-assets.js';
 import {readBuyofferWithAssets} from '../atomicmarket/internal/buyoffer-assets.js';
+import {readTemplateId} from '../atomicassets/internal/templates.js';
 import {readCollectionId} from '../atomicassets/internal/collections.js';
 import {readMarketplaceState, readMarketplaces} from '../atomicmarket/internal/marketplace-state.js';
 
@@ -63,6 +64,20 @@ export function registerAtomicIdRoutes(fastify: FastifyInstance, options: Atomic
     const result=await host.compose(projectionId,async reader=>{
       const data=await readCollectionId(reader,contract,request.params.collection_name);
       if(data===null){status=416;return {success:false,message:'Collection not found'};}
+      return {success:true,data:data as StatefulRecord,query_time:Date.now()};
+    });
+    reply.code(status);return result.value;
+  });
+  fastify.all<{Params:{collection_name:string;template_id:string}}>('/atomicassets/v1/templates/:collection_name/:template_id',async(request,reply)=>{
+    const host=await options.queryHost(request);let status=200;
+    const result=await host.compose(projectionId,async reader=>{
+      const input=request.params.template_id;
+      if(!(/^-?\d+$/.test(input)||input.toLowerCase()==='null')){status=400;return {success:false,message:'Invalid value for parameter template_id'};}
+      if(input.toLowerCase()==='null') throw new AssetDomainUnavailable('ID form requires qualified original database behavior');
+      const n=BigInt(input);
+      if(n<0n||n>9223372036854775807n) throw new AssetDomainUnavailable('ID form requires qualified original database behavior');
+      const data=await readTemplateId(reader,contract,request.params.collection_name,n.toString());
+      if(data===null){status=416;return {success:false,message:'Template not found'};}
       return {success:true,data:data as StatefulRecord,query_time:Date.now()};
     });
     reply.code(status);return result.value;

@@ -1,0 +1,5 @@
+# Template ID route (issue #53)
+
+The route reads the template, collection and schema through the same request-scoped state host. The reference 2.7.0 handler selects `atomicassets_templates_master` by contract and ID, checks the collection after its inner joins, and passes the row through `formatTemplate`. Mutable metadata is overlaid by immutable metadata. Covered absence returns the existing HTTP wrapper's 416; invalid ID returns 400. Unknown coverage, invalid rows, and unsupported numeric forms fail closed. Leading zero IDs resolve to the canonical numeric ID.
+
+The focused control executes the original handler and formatter with a finite modeled SQL view alongside the actual request route. Its SQL collaborator is not PostgreSQL, and its fixture is not an initialization or source-authority proof. The endpoint's reference cache behavior, physical PostgreSQL/MongoDB comparison, managed host serving, fork/recovery and full API parity remain unqualified. Existing config issue #52 remains pending and is untouched. This change does not authorize deployment or executable updates.
