@@ -29,7 +29,9 @@
     "docs/parity/atomicmarket/buyoffer-id-coverage.json",
     "docs/parity/atomicassets/schema-id.md",
     "docs/parity/atomicassets/config.md",
-    "docs/parity/atomicmarket/royalty-config.md"
+    "docs/parity/atomicmarket/royalty-config.md",
+    "docs/parity/atomicassets/schema-indexed.md",
+    "docs/parity/atomicassets/schema-indexed-ledger.json"
   ],
   "exports": {
     "./atomicmarket/sale": {
@@ -74,13 +76,15 @@
     "test:config:package": "node scripts/check-config-package.mjs",
     "test:royalty": "npm run build && node --test tests/royalty-config.test.mjs tests/royalty-unavailable-http.test.mjs tests/config-component.test.mjs",
     "test:royalty:package": "node scripts/check-royalty-package.mjs",
+    "test:schema-list": "npm run build && node --test tests/schema-indexed-consumer.test.mjs",
+    "test:schema-list:package": "node scripts/check-schema-package.mjs",
     "prepack": "npm run build",
     "check:docs": "python scripts/check-docs.py",
     "reference:prepare": "node scripts/prepare-reference.mjs",
     "test:contextual": "node --test harness/atomicmarket/contextual.test.mjs harness/atomicmarket/host-artifacts.test.mjs"
   },
   "dependencies": {
-    "@eosrio/hyperion-sdk": "git+https://github.com/eosrio/hyperion-sdk.git#429a1bf1d3bddb746fa662de9529480890b7368f"
+    "@eosrio/hyperion-sdk": "git+https://github.com/eosrio/hyperion-sdk.git#dc20a03f2b60ba05a3369d677222a9cf0d65d299"
   },
   "devDependencies": {
     "@types/node": "25.5.0",
@@ -88,7 +92,7 @@
     "typescript": "7.0.2"
   },
   "allowScripts": {
-    "github:eosrio/hyperion-sdk#429a1bf1d3bddb746fa662de9529480890b7368f": true
+    "github:eosrio/hyperion-sdk#dc20a03f2b60ba05a3369d677222a9cf0d65d299": true
   },
   "peerDependencies": {
     "fastify": "^5.8.5"

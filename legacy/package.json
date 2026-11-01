@@ -6,6 +6,6 @@
   "engines": {"node": ">=24"},
   "dependencies": {"@eosrio/hyperion-atomicassets-plugin": "0.0.0-dev.1"},
   "allowScripts": {
-    "github:eosrio/hyperion-sdk#429a1bf1d3bddb746fa662de9529480890b7368f": true
+    "github:eosrio/hyperion-sdk#dc20a03f2b60ba05a3369d677222a9cf0d65d299": true
   }
 }
