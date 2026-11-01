@@ -45,7 +45,7 @@ export async function parseSchemaListParameters(params: Readonly<Record<string,u
       // Original expands the whole field before validating any expanded member.
       const values=array?await expand(input.split(',')):[input];
       const converted=values.map(value=>{
-        let selected: string|number|boolean=value;
+        let selected: string|number|boolean|undefined=value;
         if(definition.type==='name'||definition.type==='names') {if(!nameRE.test(value))throw new SchemaListParameterError(key);}
         if(definition.type==='int') {
           selected=parseInt(value,10);
@@ -54,6 +54,7 @@ export async function parseSchemaListParameters(params: Readonly<Record<string,u
         } else if(definition.type==='bool') {
           if(value==='true'||value==='1')selected=true;
           else if(value==='false'||value==='0')selected=false;
+          else if(value==='empty')selected=undefined;
           else throw new SchemaListParameterError(key);
         } else if(definition.type==='string'&&(definition.min!==undefined&&value.length<definition.min
           ||definition.max!==undefined&&value.length>definition.max)) throw new SchemaListParameterError(key);

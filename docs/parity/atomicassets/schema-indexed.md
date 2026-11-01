@@ -39,6 +39,8 @@ historical evidence, not updated qualification profiles.
 The [options/query ledger](schema-indexed-ledger.json) names each original stage. Query parameters
 are overlaid by the request body; `_count` then forces count=true. Validation follows original
 field order, then boundary fields, then greylists. Nonstring/empty values receive original defaults.
+The original boolean spellings are `true`/`1`, `false`/`0`, and literal `empty`, which yields
+undefined: `count=empty` selects an ordinary page. Body overlay and forced `_count` still apply.
 Lists expand once, preserve order/duplicates and do not recurse. A request obtains one list provider,
 resolves fields/tokens in original order and retains repeated names within that request. It does
 not front-load a later list failure ahead of an earlier invalid parameter. Missing/empty published

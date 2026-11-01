@@ -112,6 +112,51 @@ test('body overrides query and _count forces count after merge, preserving origi
  }finally{await s.close();}
 });
 
+test('all original boolean spellings include count=empty as an ordinary page',async()=>{
+ for(const value of ['true','1','false','0','empty']){
+  const original=originalSchemaList({rows:[sqlRow()],count:'5'}),s=await prepared();try{
+   const params={count:value},parsed=await query(params),count=value==='true'||value==='1';
+   assert.equal(parsed.request.kind,count?'count':'page');s.plan(count?{kind:'count',exact:true,value:'5'}:pageAnswer(),parsed.request);
+   const expected=await original.response(params),actual=await s.api.inject({url:'/atomicassets/v1/schemas',query:params});
+   assert.deepEqual(clean(actual.statusCode,actual.json()),clean(expected.status,expected.body),value);
+   assert.equal(original.calls[0].sql.startsWith('SELECT COUNT(*)'),count);assert.equal(s.adapter.queryCalls,1);
+  }finally{await s.close();}
+ }
+});
+
+test('literal empty preserves query/body merge, forced _count and HEAD suppression',async()=>{
+ for(const [input,body,countOnly,count]of [[{count:'true'},{count:'empty'},false,false],
+  [{count:'empty'},{count:'true'},false,true],[{count:'empty'},{count:'empty'},true,true]]){
+  const original=originalSchemaList({rows:[sqlRow()],count:'5'}),s=await prepared();try{
+   const parsed=await query({...input,...body,...(countOnly?{count:'true'}:{})});assert.equal(parsed.request.kind,count?'count':'page');
+   s.plan(count?{kind:'count',exact:true,value:'5'}:pageAnswer(),parsed.request);
+   const expected=await original.response(input,body,countOnly),actual=await s.api.inject({method:'POST',
+    url:'/atomicassets/v1/schemas'+(countOnly?'/_count':''),query:input,payload:body});
+   assert.deepEqual(clean(actual.statusCode,actual.json()),clean(expected.status,expected.body));assert.equal(s.adapter.queryCalls,1);
+  }finally{await s.close();}
+ }
+ const s=await prepared();try{
+  s.plan(pageAnswer(),(await query({count:'empty'})).request);
+  const actual=await s.api.inject({method:'HEAD',url:'/atomicassets/v1/schemas?count=empty'});
+  assert.equal(actual.statusCode,200);assert.equal(actual.body,'');assert.equal(s.adapter.queryCalls,1);
+ }finally{await s.close();}
+});
+
+test('literal empty keeps earlier and later original parameter errors before native reads',async()=>{
+ for(const [params,parameter]of [[{page:'0',count:'empty',before:'0'},'page'],
+  [{schema_name:'BAD',count:'empty',before:'0'},'schema_name'],[{count:'empty',before:'0'},'before'],
+  [{count:'empty',account_blacklist:'BAD'},'account_blacklist'],
+  [{count:'empty',before:'0',collection_blacklist:'$list:late'},'before']]){
+  const original=originalSchemaList({lists:{late:new Error('later unavailable list')}}),listCalls=[],s=await prepared({lists:async names=>{listCalls.push(names);throw new Error('later unavailable list');}});
+  try{
+   const expected=await original.response(params),actual=await s.api.inject({url:'/atomicassets/v1/schemas',query:params});
+   assert.equal(expected.status,400);assert.equal(expected.body.message,'Invalid value for parameter '+parameter);
+   assert.deepEqual(clean(actual.statusCode,actual.json()),clean(expected.status,expected.body));
+   assert.equal(s.adapter.queryCalls,0);assert.deepEqual(original.listCalls,[]);assert.deepEqual(listCalls,[]);
+  }finally{await s.close();}
+ }
+});
+
 test('original400 parameter names/order and nonstring/empty defaults match without query access',async()=>{
  for(const [parameter,value]of [['page','0'],['limit','1001'],['sort','other'],['order','ASC'],['authorized_account','BAD'],['collection_name','BAD'],['schema_name','BAD'],['match','BAD'],['count','yes'],['before','0'],['after','0'],['collection_blacklist','BAD'],['account_blacklist','BAD']]){
   const original=originalSchemaList(),expected=await original.response({[parameter]:value}),s=await prepared();try{

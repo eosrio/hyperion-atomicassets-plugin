@@ -41,6 +41,7 @@
     {"stage": "greylist", "order": ["collection_blacklist", "collection_whitelist", "account_blacklist"]}
   ],
   "requestMerge": "query then body; _count then forces count=true",
+  "booleanValidation": {"true": ["true", "1"], "false": ["false", "0"], "undefined": ["empty"], "undefinedCount": "ordinary page; later boundary/greylist validation still runs"},
   "filters": [
     {"name": "contract", "semantics": "configured contract equality"},
     {"name": "collection_name", "semantics": "list[name] one-pass expansion; nonempty membership"},
