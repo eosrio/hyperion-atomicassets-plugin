@@ -8,6 +8,7 @@ import {FixedSaleUnavailable} from '../atomicmarket/internal/fixed-sale-port.js'
 import {readAuctionWithAssets} from '../atomicmarket/internal/auction-assets.js';
 import {readBuyofferWithAssets} from '../atomicmarket/internal/buyoffer-assets.js';
 import {readTemplateId} from '../atomicassets/internal/templates.js';
+import {readSchemaId, schemaFilters, SchemaParameterError, type OperatorListHost} from '../atomicassets/internal/schema-query.js';
 import {readCollectionId} from '../atomicassets/internal/collections.js';
 import {readMarketplaceState, readMarketplaces} from '../atomicmarket/internal/marketplace-state.js';
 
@@ -16,6 +17,7 @@ export interface AtomicIdRoutesOptions {
   readonly atomicmarket: {readonly projectionId: string; readonly contract: string};
   /** The existing host issues this port for the current request, with final publication fencing. */
   readonly queryHost: (request: FastifyRequest) => StatefulQueryHost | Promise<StatefulQueryHost>;
+  readonly operatorLists?: (request: FastifyRequest) => OperatorListHost | Promise<OperatorListHost>;
   readonly completeKindQueryHost?: (request: FastifyRequest, projectionId: string) => Promise<StatefulCompleteKindQueryHostV1>;
 }
 
@@ -81,6 +83,22 @@ export function registerAtomicIdRoutes(fastify: FastifyInstance, options: Atomic
       return {success:true,data:data as StatefulRecord,query_time:Date.now()};
     });
     reply.code(status);return result.value;
+  });
+  fastify.all<{Params:{collection_name:string;schema_name:string}}>('/atomicassets/v1/schemas/:collection_name/:schema_name',async(request,reply)=>{
+    const values=[request.params.collection_name,request.params.schema_name];
+    const needsLists=values.some(value=>value.split(',').some(token=>token.startsWith('$list:')));
+    const listHost=needsLists && options.operatorLists ? await options.operatorLists(request) : undefined;
+    let filters;
+    try {filters=await schemaFilters(values[0]!,values[1]!,listHost);}
+    catch(error) {if(error instanceof SchemaParameterError) {reply.code(400); return {success:false,message:error.message};} throw error;}
+    if(!options.completeKindQueryHost) throw new Error('Complete-kind query host unavailable');
+    const host=await options.completeKindQueryHost(request,projectionId);
+    const result=await host.compose(projectionId,async reader=>{
+      const data=await readSchemaId(reader,contract,filters);
+      const body: StatefulRecord = data===null ? {success:true,query_time:Date.now()} : {success:true,data:JSON.parse(JSON.stringify(data)) as StatefulRecord,query_time:Date.now()};
+      return body;
+    });
+    return result.value;
   });
   const market = options.atomicmarket;
   fastify.all('/atomicmarket/v1/marketplaces', async request => {

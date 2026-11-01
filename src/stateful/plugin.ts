@@ -1,4 +1,5 @@
 import {createHash} from 'node:crypto';
+import type {OperatorListHost} from '../atomicassets/internal/schema-query.js';
 import type {FastifyInstance, FastifyRequest} from 'fastify';
 import type {StatefulDefinition, StatefulLimits, StatefulSelector} from '@eosrio/hyperion-sdk/projection-stateful';
 import type {StatefulReductionV2, StatefulQueryHostV2, StatefulCompleteKindQueryHostV1, StatefulCompleteKindCapabilitiesV1} from '@eosrio/hyperion-sdk/projection-stateful-owner-v2';
@@ -32,6 +33,7 @@ export interface AtomicPluginOptions {
 }
 export interface AtomicPluginApiContext {
   readonly statefulQueryHost: (request: FastifyRequest) => StatefulQueryHostV2;
+  readonly operatorLists?: (request: FastifyRequest) => OperatorListHost | Promise<OperatorListHost>;
   readonly statefulCompleteKindQueryHost?: (request: FastifyRequest, projectionId: string) => Promise<StatefulCompleteKindQueryHostV1>;
 }
 export interface AtomicPluginHostContext {
@@ -198,6 +200,7 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
       if (!context || typeof context.statefulQueryHost !== 'function') throw new Error('Atomic routes require the host request-scoped query context');
       registerAtomicIdRoutes(server, {atomicassets: {projectionId, contract: assets},
         atomicmarket: {projectionId, contract: market}, queryHost: context.statefulQueryHost,
+        ...(context.operatorLists ? {operatorLists: context.operatorLists} : {}),
         ...(context.statefulCompleteKindQueryHost ? {completeKindQueryHost: context.statefulCompleteKindQueryHost} : {})});
     },
   });

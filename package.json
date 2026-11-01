@@ -26,7 +26,8 @@
     "docs/parity/atomicmarket/marketplace-id.md",
     "docs/parity/atomicmarket/marketplace-id-coverage.json",
     "docs/parity/atomicmarket/buyoffer-id.md",
-    "docs/parity/atomicmarket/buyoffer-id-coverage.json"
+    "docs/parity/atomicmarket/buyoffer-id-coverage.json",
+    "docs/parity/atomicassets/schema-id.md"
   ],
   "exports": {
     "./atomicmarket/sale": {
@@ -73,7 +74,7 @@
     "test:contextual": "node --test harness/atomicmarket/contextual.test.mjs harness/atomicmarket/host-artifacts.test.mjs"
   },
   "dependencies": {
-    "@eosrio/hyperion-sdk": "git+https://github.com/eosrio/hyperion-sdk.git#7412889a14c84342551fd864ea3ebfcf28849385"
+    "@eosrio/hyperion-sdk": "git+https://github.com/eosrio/hyperion-sdk.git#429a1bf1d3bddb746fa662de9529480890b7368f"
   },
   "devDependencies": {
     "@types/node": "25.5.0",
@@ -81,7 +82,7 @@
     "typescript": "7.0.2"
   },
   "allowScripts": {
-    "github:eosrio/hyperion-sdk#7412889a14c84342551fd864ea3ebfcf28849385": true
+    "github:eosrio/hyperion-sdk#429a1bf1d3bddb746fa662de9529480890b7368f": true
   },
   "peerDependencies": {
     "fastify": "^5.8.5"
