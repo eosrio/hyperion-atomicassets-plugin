@@ -31,3 +31,13 @@ test('validation order, ignored parameters, body precedence and numeric defaults
  x=await request({page:'9007199254740991',limit:'100'});assert.equal(x.result.status,200);assert.equal(x.calls[0].values.at(-1),(9007199254740991-1)*100);assert.equal(Number.isSafeInteger(x.calls[0].values.at(-1)),false);
 });
 
+
+test('attribute list access remains forbidden and template list reads are accounted',async()=>{
+ const o=originalRules('atomicmarket',{lists:{ids:['1']}});try{
+  await assert.rejects(o.assertAttributeListGuard(),/Attribute handler must not read operator lists/);
+  await o.response('collection',{route:'attributes',query:{source:'1'}});assert.equal(o.listReads,0);
+  const reply=await o.response('collection',{route:'templates',query:{template_id:'$list:ids'}});
+  assert.equal(reply.status,200);assert.equal(o.listReads,1);
+  await assert.rejects(o.assertAttributeListGuard(),/Attribute handler must not read operator lists/);
+ }finally{o.close();}
+});

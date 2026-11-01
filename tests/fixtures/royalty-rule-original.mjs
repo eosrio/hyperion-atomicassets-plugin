@@ -51,7 +51,8 @@ export function originalRules(contract='atomicmarket',{maximum,lists={}}={}){
   onActionTrace(){const item={};actions.push(item);return()=>actions.splice(actions.indexOf(item),1);}};
  const destroy=royaltyProcessor({args:{atomicmarket_account:contract}},processor);
  const validation=evaluate(sources['validation.ts'],'{filterQueryArgs,addValidationType,parseTypeString,validateId,validateName,validateString}',{...numbers,ApiError});
- const listDb={fetchOne:async(_sql,[name])=>({items:lists[name]??null})};
+ let activeRoute='attributes',listReads=0;
+ const listDb={fetchOne:async(_sql,[name])=>{if(activeRoute!=='templates')throw Error('Attribute handler must not read operator lists');listReads++;return{items:lists[name]??null};}};
  const moize=()=>fn=>fn;evaluate(sources['lists.ts'],'initListValidator',{...validation,moize})(listDb);
  const getRoyaltyTemplateRulesAction=evaluate(between(sources['handler.ts'],'export async function getRoyaltyTemplateRulesAction','\nexport async function getRoyaltyAttributeRulesAction'),'getRoyaltyTemplateRulesAction',{...validation,QueryBuilder});
  const getRoyaltyAttributeRulesAction=evaluate(between(sources['handler.ts'],'export async function getRoyaltyAttributeRulesAction','\nexport async function getRoyaltyPayoutsAction'),'getRoyaltyAttributeRulesAction',{...validation,QueryBuilder});
@@ -61,13 +62,13 @@ export function originalRules(contract='atomicmarket',{maximum,lists={}}={}){
  const endpoints=evaluate(sources['routes.ts'],'royaltiesEndpoints',{getRoyaltyAttributeRulesAction,getRoyaltyConfigAction:outside,getRoyaltyTemplateRulesAction,
   getRoyaltyPayoutsAction:outside,getRoyaltyPayoutsCountAction:outside,getRoyaltyAccountAction:outside,getOpenAPI3Responses:()=>({}),getPrimaryBoundaryParams:()=>[],paginationParameters:[]});
  endpoints({args:{atomicmarket_account:contract,...(maximum!==undefined?{limits:{royalties:maximum}}:{})}},{web},{all(path,...handlers){bindings.push({path,handlers});}});
- return{calls,bindings,cachedOptions,
+ return{calls,bindings,cachedOptions,get listReads(){return listReads;},assertAttributeListGuard:()=>listDb.fetchOne('', ['guard']),
   async apply(table,value,{scope='collection',present=true,blockNum=1,timeMs=1700000001000}={}){
    assert(['royaltytemp','royaltyattr'].includes(table));await callbacks.find(x=>x.table===table).fn(db,{block_num:blockNum,timestamp:new Date(timeMs).toISOString().replace(/Z$/,'')},{scope,present,value:plain(value)});
   },data(table,collection,id){const row=rows.get(JSON.stringify([tableName(table),contract,collection,int(id)]));return row?plain(row):null;},
   async response(collection,{query={},body={},method='GET',rows:replyRows=[],route='attributes'}={}){
-   resultRows=replyRows;let status=200,value;const res={status(v){status=v;return this;},json(v){value=plain(v);return this;}};
-   await bindings.find(x=>x.path===`/v1/royalties/:collection_name/${route}`).handlers[1]({query,body,method,params:{collection_name:collection}},res);
+   resultRows=replyRows;activeRoute=route;let status=200,value;const res={status(v){status=v;return this;},json(v){value=plain(v);return this;}};
+   try{await bindings.find(x=>x.path===`/v1/royalties/:collection_name/${route}`).handlers[1]({query,body,method,params:{collection_name:collection}},res);}finally{activeRoute='attributes';}
    return{status,body:value,headBody:method==='HEAD'?'':undefined};
   },snapshot(){return structuredClone(rows);},rollback(saved){rows=structuredClone(saved);},close(){destroy();assert.equal(callbacks.length,0);assert.equal(actions.length,0);}};
 }
