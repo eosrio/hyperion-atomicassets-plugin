@@ -6,8 +6,10 @@ import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 import Fastify from 'fastify';
 import {begin,caseInputs} from './fixtures/template-cases.mjs';
-import {input,storage} from './fixtures/asset-domain-cases.mjs';
+import {input,storage as legacyStorage} from './fixtures/asset-domain-cases.mjs';
 import {atomicLimits} from '../harness/stateful/scenario.mjs';
+const storage=()=>{const s=legacyStorage();s.add('schema-asset-count',input.contract,input.collection,input.schema);return s;};
+
 const root=process.env.AA_REFERENCE_ROOT, ref=createRequire(join(root,'package.json'));ref('@swc-node/register');
 const {scriptedTransaction}=createRequire(import.meta.url)('../harness/atomicassets/original-controls.cjs');
 const {default:Processor,ProcessingState}=ref('./src/filler/processor.ts');

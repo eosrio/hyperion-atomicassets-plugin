@@ -14,7 +14,7 @@ const dist=process.env.ATOMIC_PLUGIN_DIST_ROOT??fileURLToPath(new URL('../dist',
 const {createAtomicStatefulPlugin,ATOMIC_HOOK_INVENTORY}=await import(pathToFileURL(join(dist,'index.js')).href);
 const contract='atomicmarket',key=(...v)=>JSON.stringify(v),hex=n=>n.toString(16).padStart(64,'0');
 const hash=value=>createHash('sha256').update(value).digest('hex');
-const limits={...atomicLimits,selectors:128,recordKinds:20,readAttempts:128,mutations:64};
+const limits={...atomicLimits,selectors:128,recordKinds:21,readAttempts:128,mutations:64};
 const binding={chainId:hex(10),backendId:'controlled',generation:'marketplace19-new-source-generation',mappingRevision:hex(11),
   hookArtifact:hex(12),hookRevision:hex(13),codecRevision:hex(14),normalizerRevision:hex(15)};
 const row=(name='marketplace1',creator='alice',present=true)=>({present,value:{marketplace_name:name,creator}});
@@ -123,11 +123,11 @@ test('malformed marketplace records and unsupported NUL names cannot become succ
 });
 
 test('the compound declaration keeps explicit19 unchanged and requires explicit20 plus a new source generation',async()=>{
-  for(const count of [16,17,18,19,20]){const supplied={...limits,recordKinds:count},before=structuredClone(supplied),plugin=createAtomicStatefulPlugin({limits:supplied});
-    const registered=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0];assert.equal(registered.definition.records.length,20);
+  for(const count of [16,17,18,19,20,21]){const supplied={...limits,recordKinds:count},before=structuredClone(supplied),plugin=createAtomicStatefulPlugin({limits:supplied});
+    const registered=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0];assert.equal(registered.definition.records.length,21);
     assert.ok(registered.definition.records.some(r=>r.kind==='marketplace'));assert.equal(registered.limits.recordKinds,count);
-    if(count<20)await assert.rejects(sdk.captureStatefulDeclaration(definition(plugin),registered.limits),/Record kind bound/);
-    else assert.equal((await sdk.captureStatefulDeclaration(definition(plugin),registered.limits)).definition.records.length,20);
+    if(count<21)await assert.rejects(sdk.captureStatefulDeclaration(definition(plugin),registered.limits),/Record kind bound/);
+    else assert.equal((await sdk.captureStatefulDeclaration(definition(plugin),registered.limits)).definition.records.length,21);
     assert.deepEqual(supplied,before);assert.equal(plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0].limits.recordKinds,count);}
 });
 

@@ -6,7 +6,9 @@ import {pathToFileURL,fileURLToPath} from 'node:url';
 import {execFileSync} from 'node:child_process';
 import {mkdirSync,mkdtempSync} from 'node:fs';
 import {join} from 'node:path';
-import {fixture,input,codec,key,block,action,row,collectionRow,mint,transfer,initial,stages,storage,schemaDigest} from './fixtures/asset-domain-cases.mjs';
+import {fixture,input,codec,key,block,action,row,collectionRow,mint,transfer,initial,stages,storage as legacyStorage,schemaDigest} from './fixtures/asset-domain-cases.mjs';
+const storage=()=>{const s=legacyStorage();s.add('schema-asset-count',input.contract,input.collection,input.schema);return s;};
+
 const root = process.env.AA_DOMAIN_MODULE_ROOT ? pathToFileURL(process.env.AA_DOMAIN_MODULE_ROOT.replaceAll('\\','/')+'/') : new URL('../dist/',import.meta.url);
 const {reduceAssetLifecycle:reduce,assembleAssetLightView:assemble,readLifecycleAsset:read} = await import(new URL('atomicassets/internal/lifecycle.js',root));
 const {AssetDomainUnavailable} = await import(new URL('atomicassets/internal/lifecycle-port.js',root));

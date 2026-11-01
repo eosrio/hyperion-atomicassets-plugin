@@ -9,7 +9,7 @@ const {createAtomicStatefulPlugin}=await import(pathToFileURL(join(dist,'index.j
 const {readBuyofferWithAssets}=await import(pathToFileURL(join(dist,'atomicmarket/internal/buyoffer-assets.js')).href);
 const {reduceBuyoffers}=await import(pathToFileURL(join(dist,'atomicmarket/internal/buyoffers.js')).href);
 const market='atomicmarket',assets=aa.contract,buyofferId='9007199254740993',time=1700000000000,capability='original-action-authorization-v1';
-const hash=x=>createHash('sha256').update(x).digest('hex'),limits={...atomicLimits,selectors:128,recordKinds:20,readAttempts:128,mutations:64},json=v=>JSON.parse(JSON.stringify(v));
+const hash=x=>createHash('sha256').update(x).digest('hex'),limits={...atomicLimits,selectors:128,recordKinds:21,readAttempts:128,mutations:64},json=v=>JSON.parse(JSON.stringify(v));
 const act=(name,value={buyoffer_id:buyofferId},authorization=[{actor:market,permission:'active'}])=>({kind:'action',contract:market,name,value,authorization});
 const create=(overrides={},authorization)=>act('lognewbuyo',{buyoffer_id:buyofferId,buyer:'buyer',recipient:'alice',price:'90071992547.40993 WAX',asset_ids:[aa.assetId],
   memo:'original memo',maker_marketplace:'',collection_name:aa.collection,collection_fee:.05,...overrides},authorization);
@@ -134,7 +134,7 @@ test('the20-kind declaration refuses old hosts and explicit19 without changing c
   const plugin=createAtomicStatefulPlugin({limits:{...limits,recordKinds:19}});
   for(const context of [undefined,{}, {binding:{}},{binding:{},sourceCapabilities:[]}])assert.throws(()=>plugin.getStatefulProjectionsV2(context));
   const supplied={...limits,recordKinds:19},before=structuredClone(supplied),p=createAtomicStatefulPlugin({limits:supplied});
-  const d=p.getStatefulProjectionsV2({binding:{},sourceCapabilities:[capability]}).projections[0];assert.equal(d.definition.records.length,20);assert.equal(d.limits.recordKinds,19);
+  const d=p.getStatefulProjectionsV2({binding:{},sourceCapabilities:[capability]}).projections[0];assert.equal(d.definition.records.length,21);assert.equal(d.limits.recordKinds,19);
   await assert.rejects(setup({selectedLimits:supplied}),/Record kind bound/);assert.deepEqual(supplied,before);assert.deepEqual(d.requiredSourceCapabilities,[capability]);
 });
 

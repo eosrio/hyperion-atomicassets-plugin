@@ -8,8 +8,10 @@ import Fastify from 'fastify';
 import {executeOriginalJsonControls} from '../harness/shared/reference.mjs';
 import profiles from '../harness/atomicassets/lifecycle-input.cjs';
 import {jsonVectors} from '../harness/atomicassets/json-vectors.cjs';
-import {initial as baseInitial,input,storage,block,action,row,collectionRow,key,mint} from './fixtures/asset-domain-cases.mjs';
+import {initial as baseInitial,input,storage as legacyStorage,block,action,row,collectionRow,key,mint} from './fixtures/asset-domain-cases.mjs';
 import {atomicLimits} from '../harness/stateful/scenario.mjs';
+const storage=()=>{const s=legacyStorage();s.add('schema-asset-count',input.contract,input.collection,input.schema);return s;};
+
 const initial=()=>structuredClone(baseInitial());
 const dist=process.env.ATOMIC_PLUGIN_DIST_ROOT ? pathToFileURL(process.env.ATOMIC_PLUGIN_DIST_ROOT.replaceAll('\\','/')+'/') : new URL('../dist/',import.meta.url);
 const domain=process.env.AA_DOMAIN_MODULE_ROOT ? pathToFileURL(process.env.AA_DOMAIN_MODULE_ROOT.replaceAll('\\','/')+'/') : dist;
@@ -108,7 +110,7 @@ function source(events){return{previous:{blockNum:0,blockId:'0'.repeat(64)},bloc
   abiDeployment:'actual-input-epoch',abiSha256:'a'.repeat(64),transactionId:e.transactionId??null,...(e.kind==='row'?{identity:{kind:'contract-row',scope:e.scope,primaryKey:String(i)},present:e.present}:{})}))};}
 
 test('combined20 packaged factory preserves metadata encoding and coherent asset/collection/marketplace routes',async()=>{
- const p=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:20}}),reduce=p.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0].reduce;
+ const p=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:21}}),reduce=p.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0].reduce;
  const events=initial();events[0].value.new_data=[{key:'name',value:['string','current\0name']}];events[1].value.immutable_data=[{key:'image',value:['string','raw\0image']}];
  events[3]=collectionRow(profiles.loadInputProfile().input.collectionData);let state=new Map();
  const port=map=>({async get(kind,k){return map.has(kind+k)?{status:'present',value:structuredClone(map.get(kind+k))}:{status:'covered-absent'};},
