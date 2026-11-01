@@ -58,14 +58,20 @@ async function main(command) {
     },
   };
   const unavailableRedis = new Proxy({}, {get() {throw new Error('Redis access is outside this fixture');}});
+  const cache = new Map(), cacheCalls = [];
+  const redis = fixture?.cacheEnabled ? {
+    async get(key) {cacheCalls.push({op:'get',key}); return cache.get(key) ?? null;},
+    async set(key, value) {cacheCalls.push({op:'set',key}); cache.set(key,value); return 'OK';},
+    async expire(key, seconds) {cacheCalls.push({op:'expire',key,seconds}); return 1;},
+  } : unavailableRedis;
   const connection = {
     database: {createPool: () => database, query: database.query},
-    redis: {ioRedis: unavailableRedis},
+    redis: {ioRedis: redis},
     chain: {name: 'reference-fixture', rpc: {async get_info() {healthCalls++; return {};}}},
   };
   const {HTTPServer} = fromReference('./src/api/server.ts');
   const Class = fromReference(`./src/api/namespaces/${namespace}/index.ts`)[namespace === 'atomicassets' ? 'AtomicAssetsNamespace' : 'AtomicMarketNamespace'];
-  const server = new HTTPServer({server_name: 'reference.invalid', cache_life: 0}, connection);
+  const server = new HTTPServer({server_name: 'reference.invalid', cache_life: fixture?.cacheEnabled ? 60 : 0}, connection);
   const originalFactory = server.web.returnAsJSON;
   const handlers = new WeakMap();
   // The returned middleware is the original function; metadata collection does not replace it.
@@ -86,7 +92,7 @@ async function main(command) {
         handlers: layer.route.stack.map(s => handlers.get(s.handle)).filter(Boolean)}));
     });
     result = {nodeVersion: process.version, scope: {database: 'synthetic-database-boundary', postgresExecution: false,
-      chainCapture: false, hyperionPluginExecution: false, originalHttpServer: true, cacheEnabled: false,
+      chainCapture: false, hyperionPluginExecution: false, originalHttpServer: true, cacheEnabled: !!fixture?.cacheEnabled,
       chainHealthRpc: 'controlled stub; no network'}, namespace,
       inventory: {routes, openapi: server.docs.documentation.paths,
         components: server.docs.documentation.components, tags: server.docs.documentation.tags}};
@@ -99,7 +105,7 @@ async function main(command) {
       const address = server.httpServer.address();
       const body = request.method === 'POST' && request.body !== undefined ? JSON.stringify(request.body) : undefined;
       const response = await fetch(`http://127.0.0.1:${address.port}${request.path}`, {method: request.method, redirect: 'manual',
-        ...(body === undefined ? {} : {body, headers: {'content-type': 'application/json'}})});
+        headers: {'connection':'close', ...(body === undefined ? {} : {'content-type':'application/json'})}, ...(body === undefined ? {} : {body})});
       const bodyChunks = [];
       let bodyBytes = 0;
       if (request.method === 'HEAD') assert.equal(response.body, null, 'HEAD has no response body');
@@ -111,6 +117,18 @@ async function main(command) {
       const text = Buffer.concat(bodyChunks, bodyBytes).toString('utf8');
       result.response = {status: response.status, headers: Object.fromEntries(response.headers),
         body: request.method === 'HEAD' ? text : response.headers.get('content-type')?.includes('application/json') ? JSON.parse(text) : text, bodyBytes};
+      if (fixture.cacheEnabled) {
+        const again = await new Promise((resolve,reject) => {
+          const req = require('node:http').request({host:'127.0.0.1',port:address.port,path:request.path,method:request.method,
+            headers:{'connection':'close',...(body === undefined ? {} : {'content-type':'application/json'})}}, res => {
+            const chunks=[]; res.on('data',chunk=>chunks.push(chunk));res.on('error',reject);
+            res.on('end',()=>resolve({status:res.statusCode,headers:res.headers,text:Buffer.concat(chunks).toString('utf8')}));
+          });req.on('error',reject);req.end(body);
+        });
+        result.cachedResponse = {status:again.status,headers:again.headers,
+          body:request.method === 'HEAD' ? again.text : JSON.parse(again.text)};
+        result.cacheCalls = cacheCalls;
+      }
     }
     if (queryIndex !== queries.length) throw new Error('Reference operation left scripted database queries unused');
     result.database = {executed, unused: queries.length - queryIndex};

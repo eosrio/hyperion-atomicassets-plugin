@@ -33,3 +33,15 @@ test('foreign, malformed, wrong key and unavailable reads cannot yield partial s
  const app=await appFor([{key:'wrong',value:rows[0]}]);try{assert.equal((await app.inject('/atomicmarket/v1/marketplaces')).statusCode,503);}finally{await app.close();}
  const unavailable=await appFor([],true);try{assert.equal((await unavailable.inject('/atomicmarket/v1/marketplaces')).statusCode,503);}finally{await unavailable.close();}
 });
+
+test('actual original cache miss and hit versus request-scoped plugin responses',async()=>{
+ const f=structuredClone(fixture);f.cacheEnabled=true;f.request={method:'GET',path:'/atomicmarket/v1/marketplaces?limit=1'};
+ f.queries[1]={sql:'SELECT marketplace_name, creator, created_at_block, created_at_time FROM atomicmarket_marketplaces WHERE market_contract = $1',parameters:[contract],rows:rows.map(selected)};
+ const original=await executeReferenceFixture({referenceRoot:process.env.AA_REFERENCE_ROOT,fixture:f});
+ assert.equal(original.database.unused,0);assert.deepEqual(original.cacheCalls.map(x=>x.op),['get','set','expire','get']);
+ assert.deepEqual(original.cachedResponse.body,original.response.body);
+ const app=await appFor(records(rows));try{const responses=[];for(let n=0;n<2;n++){const r=await app.inject(f.request.path);responses.push({status:r.statusCode,body:r.json(),headers:r.headers});
+  assert.equal(r.statusCode,original.response.status);assert.deepEqual(sort(r.json().data),sort(original.response.body.data));}
+ await mkdir('out/marketplace-list',{recursive:true});await writeFile('out/marketplace-list/cache-'+process.version+'.json',JSON.stringify({original,plugin:responses},null,2));
+ }finally{await app.close();}
+});
