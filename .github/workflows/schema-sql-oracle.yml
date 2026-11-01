@@ -1,0 +1,56 @@
+name: Schema SQL oracle (isolated CI)
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/schema-sql-oracle.yml'
+      - 'harness/atomicassets/postgres/**'
+      - 'fixtures/harness/atomicassets/lifecycle/provenance.json'
+      - 'docs/parity/atomicassets/postgres-oracle-sources.json'
+      - 'scripts/prepare-reference.mjs'
+      - 'package.json'
+      - 'package-lock.json'
+permissions:
+  contents: read
+jobs:
+  schema-oracle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['24.x', '26.x']
+    services:
+      postgres:
+        image: docker.io/library/postgres@sha256:cbf42f0edc946c0bc1b8eeed62403734e1f25dc67a3491455d07a92fdb558b28
+        env:
+          POSTGRES_DB: aa_ci_oracle
+          POSTGRES_USER: oracle
+          POSTGRES_PASSWORD: ci-only-disposable
+        ports:
+          - 127.0.0.1:5432:5432
+        options: >-
+          --cpus 2 --memory 1g --memory-swap 1g
+          --health-cmd "pg_isready -U oracle -d aa_ci_oracle"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm run reference:prepare -- --destination "$RUNNER_TEMP/atomicassets-api-2.7.0"
+      - run: npm install --global pnpm@11.13.1
+      - run: pnpm --dir "$RUNNER_TEMP/atomicassets-api-2.7.0" install --frozen-lockfile
+      - name: Run socket-free admission controls
+        run: node --test harness/atomicassets/postgres/schema-list-ci-admission.test.mjs
+      - name: Execute original PostgreSQL handler
+        env:
+          AA_CI_CONTAINER_ID: ${{ job.services.postgres.id }}
+          AA_REFERENCE_ROOT: ${{ runner.temp }}/atomicassets-api-2.7.0
+        run: node harness/atomicassets/postgres/schema-list-ci.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: schema-sql-oracle-${{ matrix.node }}
+          path: ${{ runner.temp }}/schema-oracle.json
+          if-no-files-found: error
