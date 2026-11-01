@@ -97,7 +97,9 @@ async function main(command) {
       server.httpServer.listen(0, '127.0.0.1');
       await once(server.httpServer, 'listening');
       const address = server.httpServer.address();
-      const response = await fetch(`http://127.0.0.1:${address.port}${request.path}`, {method: request.method, redirect: 'manual'});
+      const body = request.method === 'POST' && request.body !== undefined ? JSON.stringify(request.body) : undefined;
+      const response = await fetch(`http://127.0.0.1:${address.port}${request.path}`, {method: request.method, redirect: 'manual',
+        ...(body === undefined ? {} : {body, headers: {'content-type': 'application/json'}})});
       const bodyChunks = [];
       let bodyBytes = 0;
       if (request.method === 'HEAD') assert.equal(response.body, null, 'HEAD has no response body');

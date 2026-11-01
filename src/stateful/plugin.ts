@@ -1,7 +1,7 @@
 import {createHash} from 'node:crypto';
 import type {FastifyInstance, FastifyRequest} from 'fastify';
 import type {StatefulDefinition, StatefulLimits, StatefulSelector} from '@eosrio/hyperion-sdk/projection-stateful';
-import type {StatefulReductionV2, StatefulQueryHostV2} from '@eosrio/hyperion-sdk/projection-stateful-owner-v2';
+import type {StatefulReductionV2, StatefulQueryHostV2, StatefulCompleteKindQueryHostV1, StatefulCompleteKindCapabilitiesV1} from '@eosrio/hyperion-sdk/projection-stateful-owner-v2';
 import {negotiateStatefulActionMetadataV2, STATEFUL_ACTION_AUTHORIZATION_CAPABILITY_V1} from '@eosrio/hyperion-sdk/projection-stateful-source-v2';
 import {registerAtomicIdRoutes} from '../http/id-routes.js';
 import {actionMetadataInput} from '../atomicassets/internal/database-json.js';
@@ -32,6 +32,7 @@ export interface AtomicPluginOptions {
 }
 export interface AtomicPluginApiContext {
   readonly statefulQueryHost: (request: FastifyRequest) => StatefulQueryHostV2;
+  readonly statefulCompleteKindQueryHost?: (request: FastifyRequest, projectionId: string) => Promise<StatefulCompleteKindQueryHostV1>;
 }
 export interface AtomicPluginHostContext {
   readonly binding: StatefulDefinition['binding'];
@@ -42,7 +43,7 @@ export interface AtomicPluginRegistration {
   readonly sourceInputVersion: 2;
   readonly projections: readonly {readonly definition: Omit<StatefulDefinition, 'binding' | 'selectors'> & {
     readonly selectors: readonly Omit<StatefulSelector, 'abiDeployment' | 'abiSha256'>[]};
-    readonly limits: StatefulLimits; readonly requiredSourceCapabilities: readonly string[];
+    readonly limits: StatefulLimits; readonly requiredSourceCapabilities: readonly string[]; readonly requiredCompleteKindRead: StatefulCompleteKindCapabilitiesV1;
     readonly reduce: (port: StatefulReductionV2) => Promise<void>}[];
 }
 const kinds = ['config','collection','schema','template','asset','mint','template-link','backed-tokens','original-mint',
@@ -71,6 +72,7 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
   const system = text(options.systemContract ?? 'eosio');
   if (new Set([assets,market,system]).size !== 3) unavailable('Atomic/system contracts must differ');
   const limits = JSON.parse(JSON.stringify(options.limits)) as StatefulLimits;
+  const completeKindLimits = {readAttempts: limits.readAttempts, responseRecords: limits.responseRecords, responseBytes: limits.responseBytes};
   if (!limits || typeof limits !== 'object') unavailable('Explicit stateful limits required');
   const codec = createAtomicMetadataCodec();
   const selectors = Object.freeze([...new Map(ATOMIC_HOOK_INVENTORY.hooks.map(hook => {
@@ -189,12 +191,14 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
       return {interfaceVersion: 2, sourceInputVersion: 2, projections: [{definition: {
         family: 'stateful-projection-recovery', interfaceVersion: 1, id: projectionId, selectors,
         records: kinds.map(kind => ({kind, integers: kind === 'asset' ? [{path: ['asset_id'], type: 'uint64', vector: false}] : []}))},
-        limits: JSON.parse(JSON.stringify(limits)) as StatefulLimits, requiredSourceCapabilities:sourceCapabilities, reduce}]};
+        limits: JSON.parse(JSON.stringify(limits)) as StatefulLimits, requiredSourceCapabilities:sourceCapabilities,
+        requiredCompleteKindRead: {family:'stateful-owner-complete-kind',interfaceVersion:1,limits:completeKindLimits}, reduce}]};
     },
     addRoutes(server: FastifyInstance, context?: AtomicPluginApiContext): void {
       if (!context || typeof context.statefulQueryHost !== 'function') throw new Error('Atomic routes require the host request-scoped query context');
       registerAtomicIdRoutes(server, {atomicassets: {projectionId, contract: assets},
-        atomicmarket: {projectionId, contract: market}, queryHost: context.statefulQueryHost});
+        atomicmarket: {projectionId, contract: market}, queryHost: context.statefulQueryHost,
+        ...(context.statefulCompleteKindQueryHost ? {completeKindQueryHost: context.statefulCompleteKindQueryHost} : {})});
     },
   });
 }
