@@ -20,6 +20,9 @@ import {ATOMIC_HOOK_INVENTORY} from './hook-inventory.js';
 import {createAtomicMetadataCodec} from './metadata-codec.js';
 import {royaltyConfigProjection} from './royalty-config.js';
 import {registerRoyaltyConfigRoute} from '../http/royalty-config-route.js';
+import type {IndexedLimitsV1,IndexedModelV1,IndexedQueryHostV1} from '@eosrio/hyperion-sdk/projection-stateful-indexed-query-v1';
+import {schemaListRequirement} from './schema-indexed.js';
+import {registerSchemaListRoutes} from '../http/schema-list-routes.js';
 export {ATOMIC_HOOK_INVENTORY} from './hook-inventory.js';
 export {ATOMIC_METADATA_CODEC, createAtomicMetadataCodec} from './metadata-codec.js';
 export type {MetadataCodec} from '../atomicassets/internal/lifecycle-port.js';
@@ -32,11 +35,14 @@ export interface AtomicPluginOptions {
   readonly systemContract?: string;
   /** Explicit finite host-negotiated bounds; the package does not invent an operator budget. */
   readonly limits: StatefulLimits;
+  /** Original coreArgs.limits.schemas API ceiling, separate from unchanged state/read budgets. */
+  readonly apiLimits?: {readonly schemas?: number};
 }
 export interface AtomicPluginApiContext {
   readonly statefulQueryHost: (request: FastifyRequest) => StatefulQueryHostV2;
   readonly operatorLists?: (request: FastifyRequest) => OperatorListHost | Promise<OperatorListHost>;
   readonly statefulCompleteKindQueryHost?: (request: FastifyRequest, projectionId: string) => Promise<StatefulCompleteKindQueryHostV1>;
+  readonly statefulIndexedQueryHost?: (request: FastifyRequest, projectionId: string, modelId: string) => Promise<IndexedQueryHostV1>;
 }
 export interface AtomicPluginHostContext {
   readonly binding: StatefulDefinition['binding'];
@@ -48,6 +54,7 @@ export interface AtomicPluginRegistration {
   readonly projections: readonly {readonly definition: Omit<StatefulDefinition, 'binding' | 'selectors'> & {
     readonly selectors: readonly Omit<StatefulSelector, 'abiDeployment' | 'abiSha256'>[]};
     readonly limits: StatefulLimits; readonly requiredSourceCapabilities: readonly string[]; readonly requiredCompleteKindRead: StatefulCompleteKindCapabilitiesV1;
+    readonly requiredIndexedQueries?: readonly {readonly modelRevision: string;readonly model:IndexedModelV1;readonly limits:IndexedLimitsV1}[];
     readonly reduce: (port: StatefulReductionV2) => Promise<void>}[];
 }
 const kinds = ['config','collection','schema','template','asset','mint','template-link','backed-tokens','original-mint',
@@ -197,7 +204,8 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
         family: 'stateful-projection-recovery', interfaceVersion: 1, id: projectionId, selectors,
         records: kinds.map(kind => ({kind, integers: kind === 'asset' ? [{path: ['asset_id'], type: 'uint64', vector: false}] : []}))},
         limits: JSON.parse(JSON.stringify(limits)) as StatefulLimits, requiredSourceCapabilities:sourceCapabilities,
-        requiredCompleteKindRead: {family:'stateful-owner-complete-kind',interfaceVersion:1,limits:completeKindLimits}, reduce},
+        requiredCompleteKindRead: {family:'stateful-owner-complete-kind',interfaceVersion:1,limits:completeKindLimits},
+        requiredIndexedQueries:[schemaListRequirement(limits)],reduce},
         royaltyConfigProjection(royaltyProjectionId,market,limits)]};
     },
     addRoutes(server: FastifyInstance, context?: AtomicPluginApiContext): void {
@@ -208,6 +216,10 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
         ...(context.statefulCompleteKindQueryHost ? {completeKindQueryHost: context.statefulCompleteKindQueryHost} : {})});
       registerRoyaltyConfigRoute(server,{projectionId:royaltyProjectionId,contract:market,
         ...(context.statefulCompleteKindQueryHost ? {queryHost:context.statefulCompleteKindQueryHost} : {})});
+      registerSchemaListRoutes(server,{projectionId,contract:assets,
+        ...(options.apiLimits?.schemas!==undefined?{maximum:options.apiLimits.schemas}:{}),
+        ...(context.statefulIndexedQueryHost?{indexedQueryHost:context.statefulIndexedQueryHost}:{}),
+        ...(context.operatorLists?{operatorLists:context.operatorLists}:{})});
     },
   });
 }

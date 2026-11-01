@@ -56,3 +56,5 @@ jobs:
         run: npm run test:config:package
       - name: Verify the installed royalty component through finite controls
         run: npm run test:royalty:package
+      - name: Verify the installed indexed schema consumer through finite controls
+        run: npm run test:schema-list:package

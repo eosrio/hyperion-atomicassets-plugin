@@ -17,6 +17,9 @@ materialization and a counted singleton GET/HEAD route, with original callback a
 controls. Physical database, managed cache/publication and full parity remain separate gates.
 The [royalty-config component](docs/parity/atomicmarket/royalty-config.md) bundles an independent
 table-only projection and counted keyed route, preserving the compound market-version restriction.
+The [indexed schema list/count consumer](docs/parity/atomicassets/schema-indexed.md) declares the
+full original query model through the existing host seam. Its required SQL comparison profile,
+native execution and managed serving remain unqualified; unsupported capability returns retryable503.
 
 One EOS Rio operator package for AtomicAssets and AtomicMarket indexing and APIs, with modular
 internal components.

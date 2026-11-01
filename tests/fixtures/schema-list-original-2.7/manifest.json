@@ -1,0 +1,102 @@
+{
+  "baseline": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+  "sources": {
+    "schemas.ts": {
+      "path": "src/api/namespaces/atomicassets/handlers/schemas.ts",
+      "gitBlob": "515dbefca4d5d2f3cf0e08c46ef5805017937458",
+      "bytes": 5581,
+      "sha256": "9af0899d2e53e538f34abff204abdbc9aba08807b1f03be72ae718ff4d41887e"
+    },
+    "routes.ts": {
+      "path": "src/api/namespaces/atomicassets/routes/schemas.ts",
+      "gitBlob": "f02f88873c17669fafea37a289aad50f1c8faa65",
+      "bytes": 7073,
+      "sha256": "27292e1434f024bfa3575ec2c7337be6002c0ce37279e6a5cabc565b6f78f037"
+    },
+    "format.ts": {
+      "path": "src/api/namespaces/atomicassets/format.ts",
+      "gitBlob": "3ff18e143cf243e821d710160e5c0808148e6f43",
+      "bytes": 4424,
+      "sha256": "c37c327d594643ed49b3e4d2e8c5c799e6c352a46473193fea7ad992fa9dafef"
+    },
+    "builder.ts": {
+      "path": "src/api/builder.ts",
+      "gitBlob": "a19fd94b6d15b58939e2aef803816654e540044c",
+      "bytes": 4617,
+      "sha256": "2ae1e3b89da2e42e826e00eed65fda2576a4da7b83fbc6cc3ccedc6e72b8cbf3"
+    },
+    "validation.ts": {
+      "path": "src/api/namespaces/validation.ts",
+      "gitBlob": "db081ae4d067415854985c6003ffb9494c4ba109",
+      "bytes": 5416,
+      "sha256": "daca1f17ad21cd4bafc72e12f240d644e9a3517451cd9ca64b861c87c26f51b1"
+    },
+    "lists.ts": {
+      "path": "src/api/namespaces/lists.ts",
+      "gitBlob": "bf48dac088613b56b8a3112dc98adf72f1f17394",
+      "bytes": 1417,
+      "sha256": "5f646390252ea805b65d765f762a8c85b2efc7ed3814721795d1b5a2c5ac01df"
+    },
+    "boundaries.ts": {
+      "path": "src/api/namespaces/utils.ts",
+      "gitBlob": "58b3a4411fc8cbf3ae4db3f01a06e2e45cb8055b",
+      "bytes": 3034,
+      "sha256": "c8abe1a19e2089e8f2a592bf64e46c2bb358adf5da33b22b523859ab10e59808"
+    },
+    "greylists.ts": {
+      "path": "src/api/namespaces/atomicassets/utils.ts",
+      "gitBlob": "dff526fc62ee84df72d86c938113bd4a0633120a",
+      "bytes": 12354,
+      "sha256": "3f5cc15d3e370fa78d8d8bf06af1c7713dc3bde2d5ecdb0797e835be3dbab2e5"
+    },
+    "utils.ts": {
+      "path": "src/utils/index.ts",
+      "gitBlob": "f25be509de32a9a4551c33a2825d56e3e963a27e",
+      "bytes": 1602,
+      "sha256": "56f5c6ecda7cdf033e25dc3f3cc4bb4d5f0964b5407cb5b487c3085dac8e92ec"
+    },
+    "server.ts": {
+      "path": "src/api/server.ts",
+      "gitBlob": "a5a2a3074fbee389207188eb3aa404a8201e546f",
+      "bytes": 18442,
+      "sha256": "df32f2055d45bcb3e055cf09b306aa97590e7b14defaea6899a166198b068e1d"
+    },
+    "api-utils.ts": {
+      "path": "src/api/utils.ts",
+      "gitBlob": "2095e511ebe5a372b909875028ebb5ff37f7c4a3",
+      "bytes": 5618,
+      "sha256": "4fcce204aded2e2101282a05240cf15bb2bf43133cfaa414a46cb0c07b533567"
+    },
+    "error.ts": {
+      "path": "src/api/error.ts",
+      "gitBlob": "88a27162ea29ebc797e21fb70ff45b9085479add",
+      "bytes": 189,
+      "sha256": "0252da2e8aeb66456c132e810a8f2447be95f4135690958b78406360172c8752"
+    },
+    "schema-view.sql": {
+      "path": "definitions/views/atomicassets_schemas_master.sql",
+      "gitBlob": "77b50091cd02450f924643dd24aca0164a95ac9f",
+      "bytes": 1208,
+      "sha256": "dd1e769c1d8e5503320050ea8e1c08be05f278d9e31b38b412baf84ede24242e"
+    },
+    "cache.ts": {
+      "path": "src/utils/cache.ts",
+      "gitBlob": "9113b2bfe2d3adc39611520a40945f5ee21d8f94",
+      "bytes": 5185,
+      "sha256": "56b9cb7c4e06992bc1ec0c06af84ffe7c9273bc47a4aae589513a1d9366041ca"
+    },
+    "LICENSE": {
+      "path": "LICENSE",
+      "gitBlob": "3a60c807d68b5606ab636a6dc1dc2189a6090074",
+      "bytes": 1140,
+      "sha256": "458f83058135a4425dcbdcbeb51586dad3ca7b2d6c999fcd16b1a064c9acfa3e"
+    }
+  },
+  "codec": {
+    "path": "vendor/atomicassets-2.2.0/build/index.cjs",
+    "bytes": 107772,
+    "sha256": "2dfe332031728c475622ae510d7ea78246a9592a9da6cf70ba8a1abd7fa2e573",
+    "function": "mergeSchemaFormatTypes"
+  },
+  "scope": "Exact source VM functions; scripted SQL/Redis/moize collaborators, not PostgreSQL, a host, or cache qualification"
+}

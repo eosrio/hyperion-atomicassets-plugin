@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "baseline": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+  "ownerIssue": "https://github.com/eosrio/hyperion-atomicassets-plugin/issues/59",
+  "status": "source-consumer; complete native/SQL/managed HTTP parity unqualified",
+  "routes": ["/atomicassets/v1/schemas", "/atomicassets/v1/schemas/_count"],
+  "originalSources": [
+    "src/api/namespaces/atomicassets/handlers/schemas.ts",
+    "src/api/namespaces/atomicassets/routes/schemas.ts",
+    "src/api/namespaces/atomicassets/format.ts",
+    "definitions/views/atomicassets_schemas_master.sql",
+    "src/api/namespaces/validation.ts",
+    "src/api/namespaces/lists.ts",
+    "src/api/namespaces/utils.ts",
+    "src/api/namespaces/atomicassets/utils.ts",
+    "src/api/builder.ts",
+    "src/api/server.ts",
+    "src/utils/cache.ts"
+  ],
+  "model": {
+    "id": "atomicassets-schemas",
+    "revision": "atomicassets-270-schemas-v1",
+    "requiredComparison": "atomicassets-270-pg16-enUS-utf8-v1",
+    "comparisonQualified": false,
+    "base": "schema",
+    "innerJoin": "collection on contract,collection_name",
+    "leftJoin": "schema-asset-count on contract,collection_name,schema_name",
+    "newStateKinds": 0,
+    "applicationScanFallback": false
+  },
+  "options": {
+    "namespaceMaximum": {"path": "apiLimits.schemas", "original": "coreArgs.limits.schemas || 1000", "default": 1000, "zeroFallsBack": true},
+    "defaultPage": 1,
+    "defaultPageSize": "min(namespaceMaximum,100)",
+    "stateCeilingsChanged": false,
+    "indexedLimits": {"readAttempts": "limits.readAttempts", "responseRecords": "limits.responseRecords", "responseBytes": "limits.responseBytes", "queryBytes": "min(limits.inputBytes,limits.responseBytes)", "predicates": "limits.value.fields", "orderTerms": "min(2,limits.value.fields)", "setValues": "limits.value.arrayElements"}
+  },
+  "validationStages": [
+    {"stage": "handler", "order": ["page", "limit", "sort", "order", "authorized_account", "collection_name", "schema_name", "match", "count"]},
+    {"stage": "boundary", "order": ["lower_bound", "upper_bound", "before", "after", "ids", "schema_name"]},
+    {"stage": "greylist", "order": ["collection_blacklist", "collection_whitelist", "account_blacklist"]}
+  ],
+  "requestMerge": "query then body; _count then forces count=true",
+  "filters": [
+    {"name": "contract", "semantics": "configured contract equality"},
+    {"name": "collection_name", "semantics": "list[name] one-pass expansion; nonempty membership"},
+    {"name": "schema_name", "semantics": "list[name] membership plus separate boundary union with ids"},
+    {"name": "authorized_account", "semantics": "validated name equals an element of joined authorized_accounts"},
+    {"name": "match", "semantics": "validate name first, lowercase, literal POSITION substring"},
+    {"name": "lower_bound", "semantics": "inclusive text >="},
+    {"name": "upper_bound", "semantics": "exclusive text <"},
+    {"name": "before", "semantics": "integer timestamp strictly <"},
+    {"name": "after", "semantics": "integer timestamp strictly >"},
+    {"name": "ids", "semantics": "list[string] union with boundary schema_name; retain original conjunction"},
+    {"name": "collection_whitelist/collection_blacklist", "semantics": "whitelist-minus-blacklist, including explicit empty match-none; otherwise membership/not-in"},
+    {"name": "account_blacklist", "semantics": "validated but no account-column filtering in this collection-only helper call"}
+  ],
+  "order": {"sort": ["created_at_time", "schema_name", "nullable joined ac.assets"], "direction": ["asc", "desc"], "nulls": "last in both directions", "secondary": "schema_name ASC", "addedTieBreaker": false},
+  "count": {"exact": true, "decimalString": true, "pagination": false, "formatter": false, "selectedAggregateInt32Cast": false},
+  "page": {"offset": "original (page-1)*limit Number arithmetic, then emitted decimal text", "offsetOutsideIndexedContract": "unavailable503; SQL outcome qualification pending", "completeWindowRequired": true, "missingAggregateDisplay": 0, "presentZeroOrderIsNotNull": true, "selectedAggregateInt32Overflow": "Atomic500 Internal Server Error"},
+  "format": {"includeTypes": true, "nullTypes": [], "jsonbTextFields": ["collection.name", "collection.img", "collection.images"], "schemaFormatMetadataEncoderReplacement": false},
+  "lists": {"providerFactoriesPerRequest": 1, "fieldAndTokenOrderPreserved": true, "repeatedNamesRetainedPerRequest": true, "recursiveExpansion": false, "missingPublishedList": [], "unavailableIsEmpty": false, "providerCache": "original five-minute policy remains host-owned", "generationGuard": "host retains configured source/configuration plus request/publication fences"},
+  "cache": {"implementation": "host-owned; no new cache", "originalMiddleware": "ordinary caching(), key includes merged query/body and omits method; successful200 TTL only", "managedQualified": false},
+  "explicitGates": [
+    "Mongo native joined authorization predicate and nullable joined asset order",
+    "Native text range and literal matching under qualified original collation; simple is not proof",
+    "Original equal-key peer ordering without an invented public tiebreaker",
+    "Original QueryBuilder singleton/parameter reuse and >10 weak-integer-list BIGINT coercion/error behavior",
+    "Original selected and off-page SUM(assets)::INT overflow versus optimizer-pruned count-only behavior",
+    "Original statement/query timeout408 and SQL500 versus closed indexed-composition failure/unavailable semantics",
+    "Original list DB failure parameter400 versus approved portable unavailable503 policy",
+    "Physical JSONB numeric/text rendering beyond constructed source vectors",
+    "Actual state-only initialization/index coverage, live joins, fork/restart replacement",
+    "Paired PostgreSQL/MongoDB HTTP and real list cache/onSend/publication guards"
+  ],
+  "notClaimed": ["MongoDB execution", "PostgreSQL execution for the new consumer", "HAPI managed serving", "comparison-profile admission", "full Atomic parity", "release or production activation"]
+}
