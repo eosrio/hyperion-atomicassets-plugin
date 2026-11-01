@@ -7,3 +7,5 @@ The HAPI host must supply an SDK-negotiated request-bound list resolver and reta
 Only `/atomicassets/v1/schemas/:collection_name/:schema_name` is added here. It is one source-level implementation slice among the 93 inventoried JSON paths, not proof of full coverage. Selected non-text collection metadata is refused pending original PostgreSQL `json->>` comparison. Physical, managed HTTP and full list/cache integration remain unverified.
 
 When collection expansion yields invalid names and the later schema list fails, a single batched resolver can report unavailable before collection validation. This cross-field failure precedence remains unqualified against physical reference behavior; it is not a parity waiver.
+
+The injected list boundary recognizes an Error carrying the SDK v1 own data fields `code: operator-list.unavailable` and `retryable: true` across independently loaded SDK copies. Unknown failures are not converted.

@@ -80,3 +80,25 @@ test('unknown resolver errors stay errors, not SDK unavailable',async()=>{
     completeKindQueryHost:async()=>host,operatorLists:()=>({async resolve(){throw original}})});
   try {const r=await app.inject(url('$list:x','old'));assert.equal(r.statusCode,500);assert.equal(observed,original)}finally{await app.close()}
 });
+
+test('SDK error markers work across independent module instances without swallowing other failures',async()=>{
+  const Second=(await import(import.meta.resolve('@eosrio/hyperion-sdk/operator-lists')+'?second-instance')).OperatorListError;
+  assert.notEqual(Second,OperatorListError);
+  for(const factory of [true,false]) {
+    const app=Fastify(), error=new Second('unavailable'); let seen,composed=0;
+    app.setErrorHandler((e,request,reply)=>{seen=e;reply.send(e)});
+    const host={async compose(){composed++;throw Error('unexpected')}};
+    registerAtomicIdRoutes(app,{atomicassets:{projectionId:'p',contract},atomicmarket:{projectionId:'p',contract:'market'},queryHost:()=>host,
+      completeKindQueryHost:async()=>host,operatorLists:()=>{if(factory)throw error;return {async resolve(){throw error}}}});
+    try {const r=await app.inject(url('$list:x','old'));assert.equal(r.statusCode,503);assert.equal(r.headers['retry-after'],'1');
+      assert.equal(r.headers['cache-control'],'no-store');assert.equal(seen.cause,error);assert.equal(composed,0)}finally{await app.close()}
+  }
+  for(const error of [Object.assign(new Error('other'),{code:'operator-list.unavailable',retryable:false}),
+    Object.assign(new Error('other'),{code:'other',retryable:true}),{code:'operator-list.unavailable',retryable:true}]) {
+    const app=Fastify(); let seen; app.setErrorHandler((e,request,reply)=>{seen=e;reply.code(500).send({error:'failure'})});
+    const host={async compose(){throw Error('unexpected')}};
+    registerAtomicIdRoutes(app,{atomicassets:{projectionId:'p',contract},atomicmarket:{projectionId:'p',contract:'market'},queryHost:()=>host,
+      completeKindQueryHost:async()=>host,operatorLists:()=>({async resolve(){throw error}})});
+    try {const r=await app.inject(url('$list:x','old'));assert.equal(r.statusCode,500);assert.equal(seen,error)}finally{await app.close()}
+  }
+});

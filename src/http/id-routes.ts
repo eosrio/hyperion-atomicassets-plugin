@@ -1,4 +1,3 @@
-import {OperatorListError} from '@eosrio/hyperion-sdk/operator-lists';
 import type {FastifyInstance, FastifyRequest} from 'fastify';
 import type {StatefulQueryHost, StatefulRecord} from '@eosrio/hyperion-sdk/projection-stateful';
 import type {StatefulCompleteKindQueryHostV1} from '@eosrio/hyperion-sdk/projection-stateful-owner-v2';
@@ -12,6 +11,13 @@ import {readTemplateId} from '../atomicassets/internal/templates.js';
 import {readSchemaId, schemaFilters, SchemaListsUnavailable, SchemaParameterError, type OperatorListHost} from '../atomicassets/internal/schema-query.js';
 import {readCollectionId} from '../atomicassets/internal/collections.js';
 import {readMarketplaceState, readMarketplaces} from '../atomicmarket/internal/marketplace-state.js';
+
+function isOperatorListUnavailable(error: unknown): error is Error {
+  if (!(error instanceof Error)) return false;
+  const code=Object.getOwnPropertyDescriptor(error,'code'), retryable=Object.getOwnPropertyDescriptor(error,'retryable');
+  return !!code && Object.hasOwn(code,'value') && code.value==='operator-list.unavailable'
+    && !!retryable && Object.hasOwn(retryable,'value') && retryable.value===true;
+}
 
 export interface AtomicIdRoutesOptions {
   readonly atomicassets: {readonly projectionId: string; readonly contract: string};
@@ -93,7 +99,7 @@ export function registerAtomicIdRoutes(fastify: FastifyInstance, options: Atomic
     try {filters=await schemaFilters(values[0]!,values[1]!,listHost);}
     catch(error) {
       if(error instanceof SchemaParameterError) {reply.code(400); return {success:false,message:error.message};}
-      if(error instanceof OperatorListError) throw new SchemaListsUnavailable('Operator lists unavailable', {cause:error});
+      if(isOperatorListUnavailable(error)) throw new SchemaListsUnavailable('Operator lists unavailable', {cause:error});
       throw error;
     }
     if(!options.completeKindQueryHost) throw new Error('Complete-kind query host unavailable');
