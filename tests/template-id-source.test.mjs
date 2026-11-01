@@ -76,4 +76,3 @@ test('actual original cache ignores query and holds success, never caches errors
  assert.deepEqual(cached,clean(a));assert.notDeepEqual(cached.body.data.mutable_data,fresh.body.data.mutable_data);
  await api.inject('/atomicassets/v1/templates/'+input.collection+'/99');assert.equal(calls.filter(c=>c[0]==='set').length,1);
 });
-
