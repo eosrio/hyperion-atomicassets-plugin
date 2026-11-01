@@ -80,7 +80,7 @@
     "test:contextual": "node --test harness/atomicmarket/contextual.test.mjs harness/atomicmarket/host-artifacts.test.mjs"
   },
   "dependencies": {
-    "@eosrio/hyperion-sdk": "git+https://github.com/eosrio/hyperion-sdk.git#429a1bf1d3bddb746fa662de9529480890b7368f"
+    "@eosrio/hyperion-sdk": "git+https://github.com/eosrio/hyperion-sdk.git#dc20a03f2b60ba05a3369d677222a9cf0d65d299"
   },
   "devDependencies": {
     "@types/node": "25.5.0",
@@ -88,7 +88,7 @@
     "typescript": "7.0.2"
   },
   "allowScripts": {
-    "github:eosrio/hyperion-sdk#429a1bf1d3bddb746fa662de9529480890b7368f": true
+    "github:eosrio/hyperion-sdk#dc20a03f2b60ba05a3369d677222a9cf0d65d299": true
   },
   "peerDependencies": {
     "fastify": "^5.8.5"
