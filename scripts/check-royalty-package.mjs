@@ -42,12 +42,12 @@ try {
  assert.equal(metadata.private,true);assert.equal(metadata.dependencies['@eosrio/hyperion-sdk'],'git+https://github.com/eosrio/hyperion-sdk.git#429a1bf1d3bddb746fa662de9529480890b7368f');
  const files={};for(const path of[...paths].sort()){const bytes=await readFile(join(installed,path));assert.equal(sha(bytes),sha(await readFile(join(root,path))),path);files[path]={bytes:bytes.length,sha256:sha(bytes)};}
  await mkdir(join(consumer,'tests','fixtures'),{recursive:true});
- for(const path of['royalty-config.test.mjs','fixtures/royalty-component.mjs','fixtures/royalty-original.mjs','fixtures/complete-kind-adapter.mjs'])
+ for(const path of['royalty-config.test.mjs','royalty-unavailable-http.test.mjs','fixtures/royalty-component.mjs','fixtures/royalty-original.mjs','fixtures/complete-kind-adapter.mjs'])
   await copyFile(join(root,'tests',path),join(consumer,'tests',path));
  await cp(join(root,'tests/fixtures/royalty-original-2.7'),join(consumer,'tests/fixtures/royalty-original-2.7'),{recursive:true});
  await copyFile(join(root,'tests/fixtures/royalty-consumer.mts'),join(consumer,'consumer.mts'));
  const originalManifest=JSON.parse(await readFile(join(root,'tests/fixtures/royalty-original-2.7/manifest.json')));
- const copied=['royalty-config.test.mjs','fixtures/royalty-component.mjs','fixtures/royalty-original.mjs','fixtures/complete-kind-adapter.mjs',
+ const copied=['royalty-config.test.mjs','royalty-unavailable-http.test.mjs','fixtures/royalty-component.mjs','fixtures/royalty-original.mjs','fixtures/complete-kind-adapter.mjs',
   ...Object.keys(originalManifest.sources).map(path=>'fixtures/royalty-original-2.7/'+path),'fixtures/royalty-original-2.7/manifest.json',
   'fixtures/royalty-original-2.7/.gitattributes'];
  const controlInputs={};for(const path of copied){const bytes=await readFile(join(consumer,'tests',path));assert.equal(sha(bytes),sha(await readFile(join(root,'tests',path))),path);controlInputs['tests/'+path]={bytes:bytes.length,sha256:sha(bytes)};}
@@ -55,7 +55,7 @@ try {
  controlInputs['tests/fixtures/royalty-consumer.mts']={bytes:consumerBytes.length,sha256:sha(consumerBytes)};
  await writeFile(join(consumer,'tsconfig.json'),JSON.stringify({compilerOptions:{noEmit:true,strict:true,target:'ES2022',module:'NodeNext'},files:['consumer.mts']},null,2)+'\n');
  await run('declarations',[join(consumer,'node_modules/typescript/bin/tsc'),'-p','tsconfig.json'],consumer);
- await run('installed-controls',['--test','tests/royalty-config.test.mjs'],consumer,{ATOMIC_ROYALTY_DIST_ROOT:join(installed,'dist')});
+ await run('installed-controls',['--test','tests/royalty-config.test.mjs','tests/royalty-unavailable-http.test.mjs'],consumer,{ATOMIC_ROYALTY_DIST_ROOT:join(installed,'dist')});
  const compilerVersion=JSON.parse(await readFile(join(consumer,'node_modules/typescript/package.json'))).version;assert.equal(compilerVersion,'7.0.2');
  const receipt={node:process.version,nodeExecutable:process.execPath,nodeSha256:sha(await readFile(process.execPath)),npmCli,npmVersion,compilerVersion,
   evidence,installedFromTarball:true,tarball:{path:tarball,sha256:sha(await readFile(tarball)),integrity:packed.integrity},packedFiles:files,controlInputs,commands,

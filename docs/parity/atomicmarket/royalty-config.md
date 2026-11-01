@@ -58,6 +58,13 @@ wins; until that family exists, `payouts` refuses as unavailable without reading
 This is not a payout implementation or parity claim. Account/template/attribute/payout/list/stat
 and socket families remain outside this component.
 
+The reserved payout placeholder and missing counted-host capability refuse before composition.
+Those two route-local refusals return the Atomic `{success:false,message}` envelope with HTTP 503,
+`retry-after: 1` and `cache-control: no-store`; automatic HEAD responses retain those headers and
+suppress the body. They do not rely on a global error handler or acquire a query scope. A real
+registered static payout route keeps precedence. Composed-query and final publication failures
+remain the existing host's responsibility.
+
 ## Request ownership and cache boundary
 
 One existing request-bound counted composition captures the record and the complete response.
@@ -81,6 +88,11 @@ route, wrapper, encoder and cache middleware with finite collaborators. They nev
 reference application, database clients, controller or legacy process helpers. SQL integer/JSONB
 storage, rollback and coverage are modeled. No physical engine, source replay or crash recovery
 is claimed.
+
+`tests/royalty-unavailable-http.test.mjs` separately uses ordinary Fastify error handling with no
+catch-all 503 remapping. It checks both early refusals, their Atomic body/retry/no-store policy,
+zero host/composition/keyed reads, automatic HEAD suppression and static payout precedence before
+and after package registration. The installed-package checker carries and runs these same controls.
 
 Run `npm run test:royalty` for focused original/SDK/HTTP controls and the prior config component.
 `npm run test:royalty:package` uses a separate screened asynchronous checker with normal command
