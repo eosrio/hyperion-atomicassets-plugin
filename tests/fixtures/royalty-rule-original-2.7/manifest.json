@@ -1,0 +1,96 @@
+{
+  "baseline": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+  "sources": {
+    "processor.ts": {
+      "path": "src/filler/handlers/atomicmarket/processors/royalties.ts",
+      "bytes": 14658,
+      "sha256": "6d967a8d699730bf7ccd5a2cc6e246f0d937f3eaa9f3db79b0defa6fc90043c5",
+      "gitBlob": "11b4565214cd33ecb492ca70789530ee8d126aaa"
+    },
+    "handler.ts": {
+      "path": "src/api/namespaces/atomicmarket/handlers/royalties.ts",
+      "bytes": 10523,
+      "sha256": "c59c114fdff8567c8001a7a222a705024b1189ef275594f8aeac3b53d038d1a2",
+      "gitBlob": "4819dea868748a6f72d190df718377485d8cc684"
+    },
+    "routes.ts": {
+      "path": "src/api/namespaces/atomicmarket/routes/royalties.ts",
+      "bytes": 11702,
+      "sha256": "d561c3d1c10bf23521ea83bfa05346a07ce327f77148a229fe63a273260a30b5",
+      "gitBlob": "edc620516cb6d5c5eefa859d9da794032f58061c"
+    },
+    "tables.sql": {
+      "path": "definitions/tables/atomicmarket_tables.sql",
+      "bytes": 28196,
+      "sha256": "bdcb96e1cf60bfac26d3b6cafd3645133cdbda21d16e269d95506074ab20d71d",
+      "gitBlob": "d6c05dde13fce36a6250f22e5d9de14968ac4502"
+    },
+    "json.ts": {
+      "path": "src/filler/utils.ts",
+      "bytes": 124,
+      "sha256": "3b792f88013f17759dd02e39e5aaaad700defe81d1aad2cb6a6ee299013b3fcc",
+      "gitBlob": "b01ee64e9febd881f61259cd1c9abc58a8d4288c"
+    },
+    "eosio.ts": {
+      "path": "src/utils/eosio.ts",
+      "bytes": 3099,
+      "sha256": "df7150c69bee8ffcbc9f6b13491b1cc10b00dc059b5ecc60d40b3d4e1c496121",
+      "gitBlob": "9912e9d3a124075505dd19b999de33132e6aa6e3"
+    },
+    "server.ts": {
+      "path": "src/api/server.ts",
+      "bytes": 18442,
+      "sha256": "df32f2055d45bcb3e055cf09b306aa97590e7b14defaea6899a166198b068e1d",
+      "gitBlob": "a5a2a3074fbee389207188eb3aa404a8201e546f"
+    },
+    "namespace-utils.ts": {
+      "path": "src/api/namespaces/utils.ts",
+      "bytes": 3034,
+      "sha256": "c8abe1a19e2089e8f2a592bf64e46c2bb358adf5da33b22b523859ab10e59808",
+      "gitBlob": "58b3a4411fc8cbf3ae4db3f01a06e2e45cb8055b"
+    },
+    "api-utils.ts": {
+      "path": "src/api/utils.ts",
+      "bytes": 5618,
+      "sha256": "4fcce204aded2e2101282a05240cf15bb2bf43133cfaa414a46cb0c07b533567",
+      "gitBlob": "2095e511ebe5a372b909875028ebb5ff37f7c4a3"
+    },
+    "error.ts": {
+      "path": "src/api/error.ts",
+      "bytes": 189,
+      "sha256": "0252da2e8aeb66456c132e810a8f2447be95f4135690958b78406360172c8752",
+      "gitBlob": "88a27162ea29ebc797e21fb70ff45b9085479add"
+    },
+    "validation.ts": {
+      "path": "src/api/namespaces/validation.ts",
+      "bytes": 5416,
+      "sha256": "daca1f17ad21cd4bafc72e12f240d644e9a3517451cd9ca64b861c87c26f51b1",
+      "gitBlob": "db081ae4d067415854985c6003ffb9494c4ba109"
+    },
+    "lists.ts": {
+      "path": "src/api/namespaces/lists.ts",
+      "bytes": 1417,
+      "sha256": "5f646390252ea805b65d765f762a8c85b2efc7ed3814721795d1b5a2c5ac01df",
+      "gitBlob": "bf48dac088613b56b8a3112dc98adf72f1f17394"
+    },
+    "builder.ts": {
+      "path": "src/api/builder.ts",
+      "bytes": 4617,
+      "sha256": "2ae1e3b89da2e42e826e00eed65fda2576a4da7b83fbc6cc3ccedc6e72b8cbf3",
+      "gitBlob": "a19fd94b6d15b58939e2aef803816654e540044c"
+    },
+    "numbers.ts": {
+      "path": "src/utils/index.ts",
+      "bytes": 1602,
+      "sha256": "56f5c6ecda7cdf033e25dc3f3cc4bb4d5f0964b5407cb5b487c3085dac8e92ec",
+      "gitBlob": "f25be509de32a9a4551c33a2825d56e3e963a27e"
+    },
+    "LICENSE": {
+      "path": "LICENSE",
+      "bytes": 1140,
+      "sha256": "458f83058135a4425dcbdcbeb51586dad3ca7b2d6c999fcd16b1a064c9acfa3e",
+      "gitBlob": "3a60c807d68b5606ab636a6dc1dc2189a6090074"
+    }
+  },
+  "scope": "Raw original functions; storage/caches/results modeled, not physical SQL or runtime qualification"
+}

@@ -28,7 +28,7 @@ function port(s,state=new Map()) {
 
 test('compound and royalty descriptors fit the host template without supplying binding or ABI epochs',async()=>{
   const p=createAtomicStatefulPlugin(options()),registered=descriptor(p);
-  assert.equal(registered.interfaceVersion,2);assert.equal(registered.sourceInputVersion,2);assert.equal(registered.projections.length,2);
+  assert.equal(registered.interfaceVersion,2);assert.equal(registered.sourceInputVersion,2);assert.equal(registered.projections.length,4);
   assert.equal(registered.projections[1].definition.id,'atomicassets:royalty-config');
   const {definition,limits}=registered.projections[0];assert.equal(definition.id,'atomicassets');assert.equal(Object.hasOwn(definition,'binding'),false);
   assert.ok(definition.selectors.some(s=>s.contract==='atomicassets'));assert.ok(definition.selectors.some(s=>s.contract==='atomicmarket'));

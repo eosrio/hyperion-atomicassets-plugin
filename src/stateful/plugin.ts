@@ -23,6 +23,8 @@ import {registerRoyaltyConfigRoute} from '../http/royalty-config-route.js';
 import type {IndexedLimitsV1,IndexedModelV1,IndexedQueryHostV1} from '@eosrio/hyperion-sdk/projection-stateful-indexed-query-v1';
 import {schemaListRequirement} from './schema-indexed.js';
 import {registerSchemaListRoutes} from '../http/schema-list-routes.js';
+import {royaltyRuleProjections,royaltyRuleProjectionId} from './royalty-rules.js';
+import {registerRoyaltyAttributeRoute} from '../http/royalty-attribute-route.js';
 export {ATOMIC_HOOK_INVENTORY} from './hook-inventory.js';
 export {ATOMIC_METADATA_CODEC, createAtomicMetadataCodec} from './metadata-codec.js';
 export type {MetadataCodec} from '../atomicassets/internal/lifecycle-port.js';
@@ -35,8 +37,8 @@ export interface AtomicPluginOptions {
   readonly systemContract?: string;
   /** Explicit finite host-negotiated bounds; the package does not invent an operator budget. */
   readonly limits: StatefulLimits;
-  /** Original coreArgs.limits.schemas API ceiling, separate from unchanged state/read budgets. */
-  readonly apiLimits?: {readonly schemas?: number};
+  /** Original namespace API ceilings, separate from unchanged state/read budgets. */
+  readonly apiLimits?: {readonly schemas?: number;readonly royalties?: number};
 }
 export interface AtomicPluginApiContext {
   readonly statefulQueryHost: (request: FastifyRequest) => StatefulQueryHostV2;
@@ -206,7 +208,7 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
         limits: JSON.parse(JSON.stringify(limits)) as StatefulLimits, requiredSourceCapabilities:sourceCapabilities,
         requiredCompleteKindRead: {family:'stateful-owner-complete-kind',interfaceVersion:1,limits:completeKindLimits},
         requiredIndexedQueries:[schemaListRequirement(limits)],reduce},
-        royaltyConfigProjection(royaltyProjectionId,market,limits)]};
+        royaltyConfigProjection(royaltyProjectionId,market,limits),...royaltyRuleProjections(projectionId,market,limits)]};
     },
     addRoutes(server: FastifyInstance, context?: AtomicPluginApiContext): void {
       if (!context || typeof context.statefulQueryHost !== 'function') throw new Error('Atomic routes require the host request-scoped query context');
@@ -220,6 +222,9 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
         ...(options.apiLimits?.schemas!==undefined?{maximum:options.apiLimits.schemas}:{}),
         ...(context.statefulIndexedQueryHost?{indexedQueryHost:context.statefulIndexedQueryHost}:{}),
         ...(context.operatorLists?{operatorLists:context.operatorLists}:{})});
+      registerRoyaltyAttributeRoute(server,{projectionId:royaltyRuleProjectionId(projectionId,'royaltyattr'),contract:market,
+        ...(options.apiLimits?.royalties!==undefined?{maximum:options.apiLimits.royalties}:{}),
+        ...(context.statefulIndexedQueryHost?{indexedQueryHost:context.statefulIndexedQueryHost}:{})});
     },
   });
 }

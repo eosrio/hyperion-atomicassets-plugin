@@ -1,0 +1,37 @@
+{
+  "baseline": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+  "issue": "https://github.com/eosrio/hyperion-atomicassets-plugin/issues/65",
+  "implementation": {
+    "royaltytemp": "independent table reducer; no list query/route",
+    "royaltyattr": "independent table reducer and one indexed attribute-list source component",
+    "countRoutes": "not present in original template/attribute rule family",
+    "qualifiedEndpointParity": false
+  },
+  "requiredComparisonProfile": "atomicmarket-270-royalty-attribute-pg16-v1",
+  "profileIsQualificationOrDefaultOffer": false,
+  "sourceIdentity": "configured market plus original contract-row identity.scope; no KV scope inference",
+  "sourceOrder": "original equal-priority occurrence order; preserve first creation until delete/recreate",
+  "internalIntegers": "canonical exact signed decimal strings; only proven signed16 source becomes a JSON number",
+  "attributeQuery": {
+    "validationOrder": ["source", "field", "page", "limit"],
+    "literalPathCollection": true,
+    "queryBodyMerge": "query then body",
+    "ignoredArguments": ["count", "sort", "order", "boundaries", "template_id", "unrecognized arguments"],
+    "defaultMaximum": 100,
+    "order": [{"field": "rule_id", "direction": "asc", "nulls": "last"}],
+    "joins": [],
+    "count": false,
+    "nativeQueriesInPlugin": false,
+    "fullKindScanOrFanout": false,
+    "defaultBudgetsRaised": false
+  },
+  "sourceControls": "actual pinned original functions with modeled storage/results; actual SDK candidate/indexed scope and ordinary Fastify inject",
+  "remainingGates": [
+    "separately reviewed int64 membership plus original list[id] weak integer/null/overflow/cardinality semantics for templates",
+    "qualified native text equality/numeric order/access paths and bounded working set; production offers remain empty",
+    "actual source/index initialization and canonical coverage, same-input live changes/restart/fork recovery",
+    "same-input PostgreSQL16.15/MongoDB8.0.34 SQL/native query, JSONB/types/error/timeout/explain/resource comparison",
+    "SDK50 qualified500/408 outcomes without weakening SDK49 failure poisoning or ordinary retryable unavailable policy",
+    "actual HAPI owner/source/model/request guards through HTTP serialization/onSend/cache hits/publication"
+  ]
+}
