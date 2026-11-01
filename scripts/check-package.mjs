@@ -8,7 +8,7 @@ import {fileURLToPath} from 'node:url';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const name = '@eosrio/hyperion-atomicassets-plugin';
-const sdkPin = 'git+https://github.com/eosrio/hyperion-sdk.git#dd85ee590dcd1e359509c6c41ee99b541706b1f6';
+const sdkPin = 'git+https://github.com/eosrio/hyperion-sdk.git#7412889a14c84342551fd864ea3ebfcf28849385';
 const npmCli = process.env.npm_execpath ?? join(dirname(process.execPath), 'node_modules/npm/bin/npm-cli.js');
 assert.ok(existsSync(npmCli), 'Run through npm so its actual CLI path is available');
 await mkdir(join(root, 'out'), {recursive: true});
@@ -76,7 +76,7 @@ try {
   const tarballBytes = await readFile(tarball);
   await writeFile(join(consumer, 'package.json'), JSON.stringify({name: 'atomic-parity-packed-consumer',
     private: true, type: 'module', dependencies: {[name]: 'file:' + tarball}, devDependencies: {typescript: '7.0.2', fastify: '5.12.7', '@types/node': '25.5.0'},
-    allowScripts: {'github:eosrio/hyperion-sdk#dd85ee590dcd1e359509c6c41ee99b541706b1f6': true}}, null, 2) + '\n');
+    allowScripts: {'github:eosrio/hyperion-sdk#7412889a14c84342551fd864ea3ebfcf28849385': true}}, null, 2) + '\n');
   for (const file of ['consume.mjs', 'consume.ts', 'tsconfig.json'])
     await copyFile(join(root, 'tests/fixtures/packed-consumer', file), join(consumer, file));
   for (const file of ['asset-formatter-cases.mjs', 'asset-formatter.expected.json',

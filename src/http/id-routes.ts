@@ -1,5 +1,6 @@
 import type {FastifyInstance, FastifyRequest} from 'fastify';
 import type {StatefulQueryHost, StatefulRecord} from '@eosrio/hyperion-sdk/projection-stateful';
+import type {StatefulCompleteKindQueryHostV1} from '@eosrio/hyperion-sdk/projection-stateful-owner-v2';
 import {readLifecycleAsset} from '../atomicassets/internal/lifecycle.js';
 import {AssetDomainUnavailable} from '../atomicassets/internal/lifecycle-port.js';
 import {readFixedSaleWithAssets} from '../atomicmarket/internal/sale-assets.js';
@@ -7,13 +8,14 @@ import {FixedSaleUnavailable} from '../atomicmarket/internal/fixed-sale-port.js'
 import {readAuctionWithAssets} from '../atomicmarket/internal/auction-assets.js';
 import {readBuyofferWithAssets} from '../atomicmarket/internal/buyoffer-assets.js';
 import {readCollectionId} from '../atomicassets/internal/collections.js';
-import {readMarketplaceState} from '../atomicmarket/internal/marketplace-state.js';
+import {readMarketplaceState, readMarketplaces} from '../atomicmarket/internal/marketplace-state.js';
 
 export interface AtomicIdRoutesOptions {
   readonly atomicassets: {readonly projectionId: string; readonly contract: string};
   readonly atomicmarket: {readonly projectionId: string; readonly contract: string};
   /** The existing host issues this port for the current request, with final publication fencing. */
   readonly queryHost: (request: FastifyRequest) => StatefulQueryHost | Promise<StatefulQueryHost>;
+  readonly completeKindQueryHost?: (request: FastifyRequest, projectionId: string) => Promise<StatefulCompleteKindQueryHostV1>;
 }
 
 /** Additive routes on the existing host. This neither opens an adapter view nor grants readiness. */
@@ -66,6 +68,14 @@ export function registerAtomicIdRoutes(fastify: FastifyInstance, options: Atomic
     reply.code(status);return result.value;
   });
   const market = options.atomicmarket;
+  fastify.all('/atomicmarket/v1/marketplaces', async request => {
+    if (!options.completeKindQueryHost) throw new Error('Complete-kind query host unavailable');
+    const host = await options.completeKindQueryHost(request, market.projectionId);
+    const result = await host.compose(market.projectionId, async reader => ({
+      success: true, data: JSON.parse(JSON.stringify(await readMarketplaces(reader, market.contract))) as StatefulRecord[], query_time: Date.now(),
+    }));
+    return result.value;
+  });
   fastify.all<{Params: {name: string}}>('/atomicmarket/v1/marketplaces/:name', async (request, reply) => {
     const host = await options.queryHost(request);
     let status = 200;

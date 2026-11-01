@@ -1,6 +1,7 @@
 import type {AtomicObject} from '../../atomicassets/asset.js';
 import type {DomainReader, DomainStage} from '../../atomicassets/internal/lifecycle-port.js';
 import {domainKey, record} from '../../atomicassets/internal/lifecycle-port.js';
+import type {StatefulCompleteKindReadV1} from '@eosrio/hyperion-sdk/projection-stateful-owner-v2';
 
 export class MarketplaceStateUnavailable extends Error {
   constructor(message: string) {super(message); this.name = 'MarketplaceStateUnavailable';}
@@ -46,4 +47,18 @@ export async function readMarketplaceState(reader: DomainReader, contract: strin
   const row = await read(reader, contract, name);
   return row === null ? null : {marketplace_name: row.marketplace_name, creator: row.creator,
     created_at_block: row.created_at_block, created_at_time: row.created_at_time};
+}
+
+/** Complete kind enumeration is all-or-unavailable; never silently omit foreign or malformed rows. */
+export async function readMarketplaces(reader: StatefulCompleteKindReadV1, contract: string): Promise<AtomicObject[]> {
+  text(contract);
+  const rows = await reader.all('marketplace');
+  return rows.map(({key, value}) => {
+    const row = record(value);
+    const name = text(row.marketplace_name), creator = text(row.creator);
+    if (row.market_contract !== contract || key !== domainKey(contract, name))
+      return unavailable('Mismatched marketplace identity');
+    return {marketplace_name: name, creator, created_at_block: integer(row.created_at_block),
+      created_at_time: integer(row.created_at_time)};
+  });
 }
