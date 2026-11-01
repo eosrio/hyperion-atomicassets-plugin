@@ -35,7 +35,26 @@ test('literal only needs no list host; dynamic source absent returns retryable u
 });
 test('mixed tokens, duplicates, nonrecursive expansion and malformed items',async()=>{
  const host={async resolve(names){assert.deepEqual(names,['x']);return {source:'s',generation:'g',entries:[{name:'x',items:['cats','cats']}]}}};
+ await assert.rejects(schemaFilters('BAD','$list:x'),error=>error.parameter==='collection_name');
  assert.deepEqual(await schemaFilters('$list:x,cats,$list:x','old',host),{collections:['cats','cats','cats','cats','cats'],schemas:['old']});
  await assert.rejects(schemaFilters('$list:x','old',{async resolve(){return {source:'s',generation:'g',entries:[{name:'x',items:['$list:nested']}]}}}),/Invalid value/);
  await assert.rejects(schemaFilters('$list:x','old',{async resolve(){return {source:'s',generation:'g',entries:[]}}}),/Incomplete/);
+});
+
+test('collection validation precedes later list host construction, but same-field lists expand first',async()=>{
+  const app=Fastify();let constructed=0, resolved=0, composed=0;
+  const host={async compose(id,fn){composed++;return {value:await fn({async all(){return []}})}}};
+  registerAtomicIdRoutes(app,{atomicassets:{projectionId:'p',contract},atomicmarket:{projectionId:'p',contract:'market'},queryHost:()=>host,
+    completeKindQueryHost:async()=>host,operatorLists:()=>{constructed++;return {async resolve(){resolved++;throw Error('source unavailable')}}}});
+  try {
+    let response=await app.inject(url('BAD','$list:x'));assert.equal(response.statusCode,400);assert.equal(response.json().message,'Invalid value for parameter collection_name');
+    assert.equal(constructed,0);assert.equal(resolved,0);assert.equal(composed,0);
+    response=await app.inject(url('BAD,$list:x','old'));assert.equal(response.statusCode,500);assert.equal(constructed,1);assert.equal(resolved,1);assert.equal(composed,0);
+    response=await app.inject(url('cats','old'));assert.equal(response.statusCode,200);assert.equal(constructed,1);assert.equal(resolved,1);assert.equal(composed,1);
+  } finally {await app.close()}
+});
+test('same list name across both fields is resolved once before validation',async()=>{
+  let calls=0;
+  const filters=await schemaFilters('$list:x','$list:x',{async resolve(names){calls++;assert.deepEqual(names,['x']);return {source:'s',generation:'g',entries:[{name:'x',items:['cats']}]}}});
+  assert.equal(calls,1);assert.deepEqual(filters,{collections:['cats'],schemas:['cats']});
 });

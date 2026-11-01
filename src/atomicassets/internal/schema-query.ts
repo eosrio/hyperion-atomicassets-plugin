@@ -10,6 +10,10 @@ const nameRE=/^[.1-5a-z]{1,12}[.1-5a-j]?$/;
 /** The reference expands each token once, then validates the resulting field. */
 export async function schemaFilters(collection: string, schema: string, host?: OperatorListHost) {
   const fields=[collection,schema].map(value=>value === '' ? [] : value.split(','));
+  // Reference validates collection before beginning schema expansion. If collection has
+  // a list, defer all its validation until that same field has been expanded.
+  if(!fields[0]!.some(value=>value.startsWith('$list:')) && fields[0]!.some(value=>!nameRE.test(value)))
+    throw new SchemaParameterError('collection_name');
   const names=[...new Set(fields.flat().filter(x=>x.startsWith('$list:')).map(x=>x.slice(6)))];
   if(names.length && !host) throw new SchemaListsUnavailable('Operator lists unavailable');
   const result=names.length ? await host!.resolve(names) : undefined;

@@ -86,8 +86,8 @@ export function registerAtomicIdRoutes(fastify: FastifyInstance, options: Atomic
   });
   fastify.all<{Params:{collection_name:string;schema_name:string}}>('/atomicassets/v1/schemas/:collection_name/:schema_name',async(request,reply)=>{
     const values=[request.params.collection_name,request.params.schema_name];
-    const needsLists=values.some(value=>value.split(',').some(token=>token.startsWith('$list:')));
-    const listHost=needsLists && options.operatorLists ? await options.operatorLists(request) : undefined;
+    const listHost=options.operatorLists ? {resolve: async (names: readonly string[]) =>
+      (await options.operatorLists!(request)).resolve(names)} : undefined;
     let filters;
     try {filters=await schemaFilters(values[0]!,values[1]!,listHost);}
     catch(error) {if(error instanceof SchemaParameterError) {reply.code(400); return {success:false,message:error.message};} throw error;}
