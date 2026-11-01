@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import Fastify from 'fastify';
+import {OperatorListError} from '@eosrio/hyperion-sdk/operator-lists';
 import {pathToFileURL} from 'node:url';
 import {resolve} from 'node:path';
 const dist=resolve(process.env.ATOMIC_PLUGIN_DIST_ROOT ?? 'dist');
@@ -57,4 +58,25 @@ test('same list name across both fields is resolved once before validation',asyn
   let calls=0;
   const filters=await schemaFilters('$list:x','$list:x',{async resolve(names){calls++;assert.deepEqual(names,['x']);return {source:'s',generation:'g',entries:[{name:'x',items:['cats']}]}}});
   assert.equal(calls,1);assert.deepEqual(filters,{collections:['cats'],schemas:['cats']});
+});
+
+test('SDK unavailability from factory or resolver maps to 503 and retains cause',async()=>{
+  for(const fromFactory of [true,false]) {
+    const app=Fastify(), original=new OperatorListError('unavailable'); let composed=0, observed;
+    app.setErrorHandler((error,request,reply)=>{observed=error; reply.send(error)});
+    const host={async compose(){composed++;throw Error('unexpected composition')}};
+    registerAtomicIdRoutes(app,{atomicassets:{projectionId:'p',contract},atomicmarket:{projectionId:'p',contract:'market'},queryHost:()=>host,
+      completeKindQueryHost:async()=>host,operatorLists:()=>{if(fromFactory)throw original;return {async resolve(){throw original}}}});
+    try {const r=await app.inject(url('$list:x','old'));assert.equal(r.statusCode,503);assert.equal(r.headers['retry-after'],'1');
+      assert.equal(r.headers['cache-control'],'no-store');assert.equal(observed.cause,original);assert.equal(composed,0);
+    }finally{await app.close()}
+  }
+});
+test('unknown resolver errors stay errors, not SDK unavailable',async()=>{
+  const app=Fastify(), original=new Error('programmer error');let observed;
+  app.setErrorHandler((error,request,reply)=>{observed=error;reply.send(error)});
+  const host={async compose(){throw Error('unexpected composition')}};
+  registerAtomicIdRoutes(app,{atomicassets:{projectionId:'p',contract},atomicmarket:{projectionId:'p',contract:'market'},queryHost:()=>host,
+    completeKindQueryHost:async()=>host,operatorLists:()=>({async resolve(){throw original}})});
+  try {const r=await app.inject(url('$list:x','old'));assert.equal(r.statusCode,500);assert.equal(observed,original)}finally{await app.close()}
 });

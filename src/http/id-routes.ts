@@ -1,3 +1,4 @@
+import {OperatorListError} from '@eosrio/hyperion-sdk/operator-lists';
 import type {FastifyInstance, FastifyRequest} from 'fastify';
 import type {StatefulQueryHost, StatefulRecord} from '@eosrio/hyperion-sdk/projection-stateful';
 import type {StatefulCompleteKindQueryHostV1} from '@eosrio/hyperion-sdk/projection-stateful-owner-v2';
@@ -8,7 +9,7 @@ import {FixedSaleUnavailable} from '../atomicmarket/internal/fixed-sale-port.js'
 import {readAuctionWithAssets} from '../atomicmarket/internal/auction-assets.js';
 import {readBuyofferWithAssets} from '../atomicmarket/internal/buyoffer-assets.js';
 import {readTemplateId} from '../atomicassets/internal/templates.js';
-import {readSchemaId, schemaFilters, SchemaParameterError, type OperatorListHost} from '../atomicassets/internal/schema-query.js';
+import {readSchemaId, schemaFilters, SchemaListsUnavailable, SchemaParameterError, type OperatorListHost} from '../atomicassets/internal/schema-query.js';
 import {readCollectionId} from '../atomicassets/internal/collections.js';
 import {readMarketplaceState, readMarketplaces} from '../atomicmarket/internal/marketplace-state.js';
 
@@ -90,7 +91,11 @@ export function registerAtomicIdRoutes(fastify: FastifyInstance, options: Atomic
       (await options.operatorLists!(request)).resolve(names)} : undefined;
     let filters;
     try {filters=await schemaFilters(values[0]!,values[1]!,listHost);}
-    catch(error) {if(error instanceof SchemaParameterError) {reply.code(400); return {success:false,message:error.message};} throw error;}
+    catch(error) {
+      if(error instanceof SchemaParameterError) {reply.code(400); return {success:false,message:error.message};}
+      if(error instanceof OperatorListError) throw new SchemaListsUnavailable('Operator lists unavailable', {cause:error});
+      throw error;
+    }
     if(!options.completeKindQueryHost) throw new Error('Complete-kind query host unavailable');
     const host=await options.completeKindQueryHost(request,projectionId);
     const result=await host.compose(projectionId,async reader=>{

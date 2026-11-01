@@ -5,7 +5,9 @@ import {decimal, domainKey, format, read, record, records, strings, text, unavai
 
 export interface OperatorListHost {resolve(names: readonly string[]): Promise<OperatorListResultV1>}
 export class SchemaParameterError extends Error {constructor(readonly parameter: string) {super('Invalid value for parameter '+parameter);}}
-export class SchemaListsUnavailable extends Error {readonly statusCode=503; readonly code='operator-list.unavailable'; readonly retryable=true; readonly headers={'retry-after':'1','cache-control':'no-store'};}
+export class SchemaListsUnavailable extends Error {readonly statusCode=503; readonly code='operator-list.unavailable'; readonly retryable=true; readonly headers={'retry-after':'1','cache-control':'no-store'};
+  constructor(message: string, options?: ErrorOptions) {super(message, options);}
+}
 const nameRE=/^[.1-5a-z]{1,12}[.1-5a-j]?$/;
 /** The reference expands each token once, then validates the resulting field. */
 export async function schemaFilters(collection: string, schema: string, host?: OperatorListHost) {
