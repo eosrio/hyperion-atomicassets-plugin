@@ -25,12 +25,16 @@ module.exports = async function schemaOracle(fromReference, db) {
   assert.equal(asc.find(x=>x.schema_name==='positive').assets,2);
   assert.equal(asc.find(x=>x.schema_name==='zero').collection.name,'42');
   assert.equal(asc.find(x=>x.schema_name==='zero').collection.img,'true');
+  assert.equal(asc.find(x=>x.schema_name==='zero').collection.images,'[1, "x"]');
   assert.equal(asc.find(x=>x.schema_name==='peer' && x.collection.collection_name==='coltwo').collection.img,null);
+  assert.equal(asc.find(x=>x.schema_name==='peer' && x.collection.collection_name==='coltwo').collection.name,'{"a": 1}');
+  assert.equal(asc.find(x=>x.schema_name==='peer' && x.collection.collection_name==='coltwo').collection.images,'false');
   const count=[];
   for (const p of [{page:'1',limit:'1',order:'asc'},{page:'99',limit:'2',sort:'assets',order:'desc'}]) count.push(await getSchemasCountAction(p,ctx));
   assert.deepEqual(count,['5','5']);
   await db.query(`INSERT INTO atomicassets_asset_counts (contract,collection_name,schema_name,template_id,assets) VALUES ($1,'colone','positive',1,2147483647)`,[contract]);
   let countOverflow; try {countOverflow={value:await getSchemasCountAction({sort:'assets',order:'asc'},ctx)};} catch(e) {countOverflow={code:e.code,message:e.message};}
+  assert.deepEqual(countOverflow,{value:'5'});
   let pageOverflow; try {await getSchemasAction({sort:'assets',order:'asc'},ctx); pageOverflow={unexpectedSuccess:true};} catch(e) {pageOverflow={code:e.code,message:e.message};}
   assert.equal(pageOverflow.code,'22003');
   const metadata=(await db.query(`SELECT current_setting('server_version') AS server_version, current_setting('server_encoding') AS server_encoding, d.datcollate, d.datctype, d.datlocprovider, d.datcollversion, pg_database_collation_actual_version(d.oid) AS actual_collation_version FROM pg_database d WHERE d.datname=current_database()`)).rows[0];
