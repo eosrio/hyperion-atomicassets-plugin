@@ -7,6 +7,8 @@ import {createRequire} from 'node:module';
 import {originalSource,copyDefinitions,sha} from './source.mjs';
 import {PIN} from './image-identity.mjs';
 import {CI,admitService,inspectCiDatabase} from './schema-list-ci-admission.mjs';
+import {templatePostgresOracle} from './royalty-template-oracle.mjs';
+import {manifest as royaltyManifest} from '../../../tests/fixtures/royalty-rule-original.mjs';
 import {captureHarnessFiles} from './schema-list-ci-metadata.mjs';
 const require=createRequire(import.meta.url);
 const output=join(process.env.RUNNER_TEMP,'schema-oracle.json');
@@ -26,6 +28,7 @@ try {
  const sourcePaths=['src/api/namespaces/atomicassets/handlers/schemas.ts','src/api/namespaces/atomicassets/format.ts','src/api/builder.ts','src/api/namespaces/lists.ts','src/api/namespaces/validation.ts','src/api/namespaces/utils.ts','src/api/namespaces/atomicassets/utils.ts','src/connections/postgres.ts','definitions/tables/atomicassets_tables.sql','definitions/views/atomicassets_schemas_master.sql','definitions/migrations/1.2.3/atomicassets.sql','definitions/migrations/1.3.15/atomicassets.sql'];
  report.reference={commit:reference.commit,lockSha256:reference.lockSha256,workingLockSha256:reference.actualWorkingLockSha256,checkedSources:reference.observed,
   additionalSources:sourcePaths.map(path=>{const bytes=execFileSync('git',['cat-file','blob',reference.commit+':'+path],{cwd:reference.root,timeout:10000,maxBuffer:2*1024**2});const working=readFileSync(join(reference.root,path));return {path,bytes:bytes.length,sha256:sha(bytes),workingBytes:working.length,workingSha256:sha(working)};})};
+ report.royaltySources=['handler.ts','tables.sql'].map(name=>{const pin=royaltyManifest.sources[name],bytes=execFileSync('git',['cat-file','blob',reference.commit+':'+pin.path],{cwd:reference.root,timeout:10000,maxBuffer:2*1024**2});assert.equal(bytes.length,pin.bytes);assert.equal(sha(bytes),pin.sha256);return {path:pin.path,bytes:bytes.length,sha256:sha(bytes),gitBlob:pin.gitBlob};});
  report.harness=captureHarnessFiles();
  report.runtime={version:process.version,executableSha256:sha(readFileSync(process.execPath)),platform:process.platform,arch:process.arch}; persist();
  const dir=mkdtempSync(join(tmpdir(),'aa-schema-ci-'));copyDefinitions(reference,dir);process.chdir(dir);
@@ -36,7 +39,8 @@ try {
  db=new Connection('127.0.0.1',CI.port,CI.user,CI.password,CI.database);
  report.admission=await inspectCiDatabase(db);persist();
  report.schema=await require('./schema.cjs')(reference.fromReference,db,report.admission,event=>{assert.ok(report.events.length<2048);report.events.push(event);});persist();
- report.result=await require('./schema-list-oracle.cjs')(reference.fromReference,db);report.status='passed';
+ report.result=await require('./schema-list-oracle.cjs')(reference.fromReference,db);persist();
+ report.royaltyTemplate=await templatePostgresOracle(db);report.status='passed';
 } catch(e) {report.status='failed';report.error=errorInfo(e);process.exitCode=1;persist();}
 finally {
  if(db){report.connectionClose={attempted:true};try{await db.end();report.connectionClose.succeeded=true;}catch(e){report.connectionClose.succeeded=false;report.connectionClose.error=errorInfo(e);report.status='failed';process.exitCode=1;}}
