@@ -86,4 +86,3 @@ export class CompleteKindReference {
   }
   closeRead(read) {const state = this.#reads.get(read); if (state?.active) {state.active = false; this.closed++;}}
 }
-
