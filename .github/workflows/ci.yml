@@ -54,3 +54,5 @@ jobs:
         run: npm run test:package
       - name: Verify the installed config component through finite controls
         run: npm run test:config:package
+      - name: Verify the installed royalty component through finite controls
+        run: npm run test:royalty:package

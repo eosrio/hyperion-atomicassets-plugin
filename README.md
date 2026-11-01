@@ -15,6 +15,8 @@ table effects and the coherent ID route, with an explicit 19-kind declaration up
 The [AtomicAssets config component](docs/parity/atomicassets/config.md) adds canonical config/token
 materialization and a counted singleton GET/HEAD route, with original callback and fork-regression
 controls. Physical database, managed cache/publication and full parity remain separate gates.
+The [royalty-config component](docs/parity/atomicmarket/royalty-config.md) bundles an independent
+table-only projection and counted keyed route, preserving the compound market-version restriction.
 
 One EOS Rio operator package for AtomicAssets and AtomicMarket indexing and APIs, with modular
 internal components.

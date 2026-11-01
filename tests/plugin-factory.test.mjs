@@ -26,9 +26,10 @@ function port(s,state=new Map()) {
     put(kind,k,value){state.set(kind+k,structuredClone(value));},delete(kind,k){state.delete(kind+k);},state};
 }
 
-test('one compound descriptor fits the actual host template and never supplies binding or ABI epochs',async()=>{
+test('compound and royalty descriptors fit the host template without supplying binding or ABI epochs',async()=>{
   const p=createAtomicStatefulPlugin(options()),registered=descriptor(p);
-  assert.equal(registered.interfaceVersion,2);assert.equal(registered.sourceInputVersion,2);assert.equal(registered.projections.length,1);
+  assert.equal(registered.interfaceVersion,2);assert.equal(registered.sourceInputVersion,2);assert.equal(registered.projections.length,2);
+  assert.equal(registered.projections[1].definition.id,'atomicassets:royalty-config');
   const {definition,limits}=registered.projections[0];assert.equal(definition.id,'atomicassets');assert.equal(Object.hasOwn(definition,'binding'),false);
   assert.ok(definition.selectors.some(s=>s.contract==='atomicassets'));assert.ok(definition.selectors.some(s=>s.contract==='atomicmarket'));
   assert.equal(new Set(definition.selectors.map(s=>s.id)).size,definition.selectors.length);

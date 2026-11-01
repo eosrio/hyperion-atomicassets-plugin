@@ -1,0 +1,564 @@
+CREATE TABLE IF NOT EXISTS atomicmarket_auctions
+(
+    market_contract character varying(12) NOT NULL,
+    auction_id bigint NOT NULL,
+    seller character varying(12) NOT NULL,
+    buyer character varying(12),
+    price bigint NOT NULL,
+    token_symbol character varying(12) NOT NULL,
+    assets_contract character varying(12) NOT NULL,
+    maker_marketplace character varying(12),
+    taker_marketplace character varying(12),
+    template_mint int4range,
+    collection_name character varying(12),
+    collection_fee double precision NOT NULL,
+    claimed_by_buyer boolean,
+    claimed_by_seller boolean,
+    state smallint NOT NULL,
+    end_time bigint NOT NULL,
+    updated_at_block bigint NOT NULL,
+    updated_at_time bigint NOT NULL,
+    created_at_block bigint NOT NULL,
+    created_at_time bigint NOT NULL,
+    CONSTRAINT atomicmarket_auctions_pkey PRIMARY KEY (market_contract, auction_id)
+);
+
+CREATE TABLE IF NOT EXISTS atomicmarket_auctions_bids
+(
+    market_contract character varying(12) NOT NULL,
+    auction_id bigint NOT NULL,
+    bid_number integer NOT NULL,
+    account character varying(12) NOT NULL,
+    amount bigint NOT NULL,
+    txid bytea NOT NULL,
+    created_at_block bigint NOT NULL,
+    created_at_time bigint NOT NULL,
+    CONSTRAINT atomicmarket_auctions_bids_pkey PRIMARY KEY (market_contract, auction_id, bid_number)
+);
+
+CREATE TABLE IF NOT EXISTS atomicmarket_auctions_assets
+(
+    market_contract character varying(12) NOT NULL,
+    auction_id bigint NOT NULL,
+    assets_contract character varying(12) NOT NULL,
+    "index" integer NOT NULL,
+    asset_id bigint NOT NULL,
+    CONSTRAINT atomicmarket_auctions_assets_pkey PRIMARY KEY (market_contract, auction_id, assets_contract, asset_id)
+);
+
+CREATE TABLE IF NOT EXISTS atomicmarket_balances (
+    market_contract character varying(12) NOT NULL,
+    owner character varying(12) NOT NULL,
+    token_symbol character varying(12) NOT NULL,
+    amount bigint NOT NULL,
+    updated_at_block bigint NOT NULL,
+    updated_at_time bigint NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS atomicmarket_config
+(
+    market_contract character varying(12) NOT NULL,
+    assets_contract character varying(12) NOT NULL,
+    delphi_contract character varying(12) NOT NULL,
+    version character varying(64) NOT NULL,
+    maker_market_fee double precision NOT NULL,
+    taker_market_fee double precision NOT NULL,
+    minimum_auction_duration integer NOT NULL,
+    maximum_auction_duration integer NOT NULL,
+    minimum_bid_increase double precision NOT NULL,
+    auction_reset_duration integer NOT NULL,
+    v2_marker_block bigint,
+    CONSTRAINT atomicmarket_config_pkey PRIMARY KEY (market_contract)
+);
+
+CREATE TABLE IF NOT EXISTS atomicmarket_tokens (
+    market_contract character varying(12) NOT NULL,
+    token_contract character varying(12) NOT NULL,
+    token_symbol character varying(12) NOT NULL,
+    token_precision integer NOT NULL,
+    CONSTRAINT atomicmarket_tokens_pkey PRIMARY KEY (market_contract, token_symbol)
+);
+
+CREATE TABLE IF NOT EXISTS atomicmarket_symbol_pairs (
+    market_contract character varying(12) NOT NULL,
+    listing_symbol character varying(12) NOT NULL,
+    settlement_symbol character varying(12) NOT NULL,
+    delphi_contract character varying(12) NOT NULL,
+    delphi_pair_name character varying(12) NOT NULL,
+    invert_delphi_pair boolean NOT NULL,
+    CONSTRAINT atomicmarket_delphi_pairs_pkey PRIMARY KEY (market_contract, listing_symbol, settlement_symbol)
+);
+
+CREATE TABLE IF NOT EXISTS atomicmarket_marketplaces
+(
+    market_contract character varying(12) NOT NULL,
+    marketplace_name character varying(12) NOT NULL,
+    creator character varying(12) NOT NULL,
+    created_at_block bigint NOT NULL,
+    created_at_time bigint NOT NULL,
+    CONSTRAINT atomicmarket_marketplaces_pkey PRIMARY KEY (market_contract, marketplace_name)
+);
+
+CREATE TABLE IF NOT EXISTS atomicmarket_bonusfees
+(
+    market_contract character varying(12) NOT NULL,
+    bonusfee_id bigint NOT NULL,
+    name character varying(256) NOT NULL,
+    recipient character varying(12) NOT NULL,
+    fee double precision NOT NULL,
+    start_sale_id integer,
+    end_sale_id integer,
+    start_auction_id integer,
+    end_auction_id integer,
+    start_buyoffer_id integer,
+    end_buyoffer_id integer,
+    created_at_block bigint NOT NULL,
+    created_at_time bigint NOT NULL,
+    CONSTRAINT atomicmarket_bonusfees_pkey PRIMARY KEY (market_contract, bonusfee_id)
+);
+
+CREATE TABLE IF NOT EXISTS atomicmarket_sales
+(
+    market_contract character varying(12) NOT NULL,
+    sale_id bigint NOT NULL,
+    seller character varying(12) NOT NULL,
+    buyer character varying(12),
+    listing_price bigint NOT NULL,
+    final_price bigint,
+    listing_symbol character varying(12),
+    settlement_symbol character varying(12),
+    assets_contract character varying(12) NOT NULL,
+    offer_id bigint,
+    maker_marketplace character varying(12),
+    taker_marketplace character varying(12),
+    template_mint int4range,
+    collection_name character varying(12),
+    collection_fee double precision NOT NULL,
+    state smallint NOT NULL,
+    updated_at_block bigint NOT NULL,
+    updated_at_time bigint NOT NULL,
+    created_at_block bigint NOT NULL,
+    created_at_time bigint NOT NULL,
+    CONSTRAINT atomicmarket_sales_pkey PRIMARY KEY (market_contract, sale_id)
+);
+
+CREATE TABLE IF NOT EXISTS atomicmarket_buyoffers
+(
+    market_contract character varying(12) NOT NULL,
+    buyoffer_id bigint NOT NULL,
+    buyer character varying(12) NOT NULL,
+    seller character varying(12) NOT NULL,
+    price bigint NOT NULL,
+    token_symbol character varying(12) NOT NULL,
+    assets_contract character varying(12) NOT NULL,
+    maker_marketplace character varying(12),
+    taker_marketplace character varying(12),
+    template_mint int4range,
+    collection_name character varying(12) NOT NULL,
+    collection_fee double precision NOT NULL,
+    state smallint NOT NULL,
+    memo character varying(256) NOT NULL,
+    decline_memo character varying(256),
+    updated_at_block bigint NOT NULL,
+    updated_at_time bigint NOT NULL,
+    created_at_block bigint NOT NULL,
+    created_at_time bigint NOT NULL,
+    CONSTRAINT atomicmarket_buyoffers_pkey PRIMARY KEY (market_contract, buyoffer_id)
+);
+
+CREATE TABLE IF NOT EXISTS atomicmarket_buyoffers_assets
+(
+    market_contract character varying(12) NOT NULL,
+    buyoffer_id bigint NOT NULL,
+    assets_contract character varying(12) NOT NULL,
+    "index" integer NOT NULL,
+    asset_id bigint NOT NULL,
+    CONSTRAINT atomicmarket_buyoffers_assets_pkey PRIMARY KEY (market_contract, buyoffer_id, assets_contract, asset_id)
+);
+
+CREATE TABLE IF NOT EXISTS atomicmarket_template_buyoffers
+(
+    market_contract character varying(12) NOT NULL,
+    buyoffer_id bigint NOT NULL,
+    buyer character varying(12) NOT NULL,
+    seller character varying(12),
+    price bigint NOT NULL,
+    token_symbol character varying(12) NOT NULL,
+    assets_contract character varying(12) NOT NULL,
+    maker_marketplace character varying(12),
+    taker_marketplace character varying(12),
+    template_mint int4range,
+    collection_name character varying(12) NOT NULL,
+    collection_fee double precision NOT NULL,
+    template_id bigint NOT NULL,
+    state smallint NOT NULL,
+    updated_at_block bigint NOT NULL,
+    updated_at_time bigint NOT NULL,
+    created_at_block bigint NOT NULL,
+    created_at_time bigint NOT NULL,
+    CONSTRAINT atomicmarket_template_buyoffers_pkey PRIMARY KEY (market_contract, buyoffer_id)
+);
+
+CREATE TABLE IF NOT EXISTS atomicmarket_template_buyoffers_assets
+(
+    market_contract character varying(12) NOT NULL,
+    buyoffer_id bigint NOT NULL,
+    assets_contract character varying(12) NOT NULL,
+    "index" integer NOT NULL,
+    asset_id bigint NOT NULL,
+    CONSTRAINT atomicmarket_template_buyoffers_assets_pkey PRIMARY KEY (market_contract, buyoffer_id, assets_contract, asset_id)
+);
+
+CREATE TABLE IF NOT EXISTS atomicmarket_stats_markets (
+    listing_id bigint not null,
+    price bigint not null,
+    "time" bigint not null,
+    template_id bigint,
+    asset_id bigint,
+	market_contract varchar(12) not null,
+    listing_type text not null,
+    buyer varchar(12) not null,
+    seller varchar(12) not null,
+    maker_marketplace varchar(12),
+    taker_marketplace varchar(12),
+    assets_contract varchar(12) not null,
+    collection_name varchar(12),
+    schema_name varchar(12),
+    symbol varchar(12) not null,
+	CONSTRAINT atomicmarket_stats_markets_pkey PRIMARY KEY (market_contract, listing_type, listing_id)
+);
+
+-- Raw mirror of the v2 royaltyconf contract table (scope = contract, PK = collection)
+CREATE TABLE IF NOT EXISTS atomicmarket_royalties_config
+(
+    market_contract character varying(12) NOT NULL,
+    collection_name character varying(12) NOT NULL,
+    founders jsonb NOT NULL DEFAULT '[]'::jsonb,
+    attribute_mode smallint NOT NULL DEFAULT 0,
+    split_founders bigint NOT NULL DEFAULT 0,
+    split_templates bigint NOT NULL DEFAULT 0,
+    split_attributes bigint NOT NULL DEFAULT 0,
+    updated_at_block bigint NOT NULL,
+    updated_at_time bigint NOT NULL,
+    created_at_block bigint NOT NULL,
+    created_at_time bigint NOT NULL,
+    CONSTRAINT atomicmarket_royalties_config_pkey PRIMARY KEY (market_contract, collection_name)
+);
+
+-- Raw mirror of the v2 royaltytemp contract table (scope = collection, PK = template)
+CREATE TABLE IF NOT EXISTS atomicmarket_royalties_templates
+(
+    market_contract character varying(12) NOT NULL,
+    collection_name character varying(12) NOT NULL, -- royaltytemp delta scope
+    template_id bigint NOT NULL,
+    recipients jsonb NOT NULL,
+    updated_at_block bigint NOT NULL,
+    updated_at_time bigint NOT NULL,
+    created_at_block bigint NOT NULL,
+    created_at_time bigint NOT NULL,
+    CONSTRAINT atomicmarket_royalties_templates_pkey PRIMARY KEY (market_contract, collection_name, template_id)
+);
+
+-- Raw mirror of the v2 royaltyattr contract table (scope = collection, PK = rule index)
+CREATE TABLE IF NOT EXISTS atomicmarket_royalties_attributes
+(
+    market_contract character varying(12) NOT NULL,
+    collection_name character varying(12) NOT NULL, -- royaltyattr delta scope
+    rule_id bigint NOT NULL, -- on-chain royaltyattr.index
+    source smallint NOT NULL,
+    field text NOT NULL,
+    value jsonb NOT NULL, -- raw ["type", value] variant tuple
+    weight bigint NOT NULL,
+    recipients jsonb NOT NULL,
+    lookup_hash bytea NOT NULL,
+    updated_at_block bigint NOT NULL,
+    updated_at_time bigint NOT NULL,
+    created_at_block bigint NOT NULL,
+    created_at_time bigint NOT NULL,
+    CONSTRAINT atomicmarket_royalties_attributes_pkey PRIMARY KEY (market_contract, collection_name, rule_id)
+);
+
+-- Settled royalty ledger: one row per (logroy* action, payout entry), keyed by
+-- the log trace's global_sequence + payouts vector position (idempotent replay)
+CREATE TABLE IF NOT EXISTS atomicmarket_royalty_payouts
+(
+    market_contract character varying(12) NOT NULL,
+    log_global_sequence bigint NOT NULL,
+    payout_index integer NOT NULL,
+    listing_type smallint NOT NULL, -- 1 sale, 2 auction, 3 buyoffer, 4 template_buyoffer, 0 unresolved
+    listing_id bigint,
+    category smallint NOT NULL, -- 1 founders, 2 template, 3 attribute, 4 dust
+    collection_name character varying(12) NOT NULL,
+    asset_id bigint,
+    template_id bigint,
+    rule_id bigint,
+    recipient character varying(12) NOT NULL,
+    amount bigint NOT NULL,
+    token_symbol character varying(12) NOT NULL,
+    txid bytea NOT NULL,
+    created_at_block bigint NOT NULL,
+    created_at_time bigint NOT NULL,
+    CONSTRAINT atomicmarket_royalty_payouts_pkey PRIMARY KEY (market_contract, log_global_sequence, payout_index)
+);
+
+-- Foreign Keys
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_auctions_token_symbol_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_auctions
+    ADD CONSTRAINT atomicmarket_auctions_token_symbol_fkey FOREIGN KEY (market_contract, token_symbol)
+    REFERENCES atomicmarket_tokens (market_contract, token_symbol) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_auctions_maker_marketplace_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_auctions
+    ADD CONSTRAINT atomicmarket_auctions_maker_marketplace_fkey FOREIGN KEY (market_contract, maker_marketplace)
+    REFERENCES atomicmarket_marketplaces (market_contract, marketplace_name) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_auctions_taker_marketplace_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_auctions
+    ADD CONSTRAINT atomicmarket_auctions_taker_marketplace_fkey FOREIGN KEY (market_contract, taker_marketplace)
+    REFERENCES atomicmarket_marketplaces (market_contract, marketplace_name) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_auctions_bids_auctions_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_auctions_bids
+    ADD CONSTRAINT atomicmarket_auctions_bids_auctions_fkey FOREIGN KEY (market_contract, auction_id)
+    REFERENCES atomicmarket_auctions (market_contract, auction_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_auctions_assets_auctions_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_auctions_assets
+    ADD CONSTRAINT atomicmarket_auctions_assets_auctions_fkey FOREIGN KEY (market_contract, auction_id)
+    REFERENCES atomicmarket_auctions (market_contract, auction_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_balances_symbols_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_balances
+    ADD CONSTRAINT atomicmarket_balances_symbols_fkey FOREIGN KEY (token_symbol, market_contract)
+    REFERENCES atomicmarket_tokens (token_symbol, market_contract) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_symbol_pairs_delphi_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_symbol_pairs
+    ADD CONSTRAINT atomicmarket_symbol_pairs_delphi_fkey FOREIGN KEY (delphi_contract, delphi_pair_name)
+    REFERENCES delphioracle_pairs (contract, delphi_pair_name) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_sales_symbol_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_sales
+    ADD CONSTRAINT atomicmarket_sales_symbol_fkey FOREIGN KEY (market_contract, settlement_symbol)
+    REFERENCES atomicmarket_tokens (market_contract, token_symbol) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_buyoffers_token_symbol_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_buyoffers
+    ADD CONSTRAINT atomicmarket_buyoffers_token_symbol_fkey FOREIGN KEY (market_contract, token_symbol)
+    REFERENCES atomicmarket_tokens (market_contract, token_symbol) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_buyoffers_maker_marketplace_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_buyoffers
+    ADD CONSTRAINT atomicmarket_buyoffers_maker_marketplace_fkey FOREIGN KEY (market_contract, maker_marketplace)
+    REFERENCES atomicmarket_marketplaces (market_contract, marketplace_name) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_buyoffers_taker_marketplace_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_buyoffers
+    ADD CONSTRAINT atomicmarket_buyoffers_taker_marketplace_fkey FOREIGN KEY (market_contract, taker_marketplace)
+    REFERENCES atomicmarket_marketplaces (market_contract, marketplace_name) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_buyoffers_assets_buyoffers_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_buyoffers_assets
+    ADD CONSTRAINT atomicmarket_buyoffers_assets_buyoffers_fkey FOREIGN KEY (market_contract, buyoffer_id)
+    REFERENCES atomicmarket_buyoffers (market_contract, buyoffer_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_template_buyoffers_token_symbol_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_template_buyoffers
+    ADD CONSTRAINT atomicmarket_template_buyoffers_token_symbol_fkey FOREIGN KEY (market_contract, token_symbol)
+    REFERENCES atomicmarket_tokens (market_contract, token_symbol) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_template_buyoffers_maker_marketplace_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_template_buyoffers
+    ADD CONSTRAINT atomicmarket_template_buyoffers_maker_marketplace_fkey FOREIGN KEY (market_contract, maker_marketplace)
+    REFERENCES atomicmarket_marketplaces (market_contract, marketplace_name) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_template_buyoffers_taker_marketplace_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_template_buyoffers
+    ADD CONSTRAINT atomicmarket_template_buyoffers_taker_marketplace_fkey FOREIGN KEY (market_contract, taker_marketplace)
+    REFERENCES atomicmarket_marketplaces (market_contract, marketplace_name) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_template_buyoffers_assets_template_buyoffers_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_template_buyoffers_assets
+    ADD CONSTRAINT atomicmarket_template_buyoffers_assets_template_buyoffers_fkey FOREIGN KEY (market_contract, buyoffer_id)
+    REFERENCES atomicmarket_template_buyoffers (market_contract, buyoffer_id) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+
+
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_constraint WHERE conname = 'atomicmarket_royalty_payouts_token_symbol_fkey') THEN
+        ALTER TABLE ONLY atomicmarket_royalty_payouts
+    ADD CONSTRAINT atomicmarket_royalty_payouts_token_symbol_fkey FOREIGN KEY (market_contract, token_symbol)
+    REFERENCES atomicmarket_tokens (market_contract, token_symbol) MATCH SIMPLE ON UPDATE RESTRICT ON DELETE RESTRICT DEFERRABLE INITIALLY DEFERRED NOT VALID;
+    END IF;
+END $$;
+
+
+
+-- Indexes
+CREATE INDEX IF NOT EXISTS atomicmarket_auctions_auction_id ON atomicmarket_auctions USING btree (auction_id);
+CREATE INDEX IF NOT EXISTS atomicmarket_auctions_seller ON atomicmarket_auctions USING btree (seller);
+CREATE INDEX IF NOT EXISTS atomicmarket_auctions_buyer ON atomicmarket_auctions USING btree (buyer);
+CREATE INDEX IF NOT EXISTS atomicmarket_auctions_price ON atomicmarket_auctions USING btree (price);
+CREATE INDEX IF NOT EXISTS atomicmarket_auctions_collection_name ON atomicmarket_auctions USING btree (collection_name);
+CREATE INDEX IF NOT EXISTS atomicmarket_auctions_state ON atomicmarket_auctions USING btree (state);
+CREATE INDEX IF NOT EXISTS atomicmarket_auctions_updated_at_time ON atomicmarket_auctions USING btree (updated_at_time);
+CREATE INDEX IF NOT EXISTS atomicmarket_auctions_created_at_time ON atomicmarket_auctions USING btree (created_at_time);
+CREATE INDEX IF NOT EXISTS atomicmarket_auctions_end_time ON atomicmarket_auctions USING btree (end_time);
+
+CREATE INDEX IF NOT EXISTS atomicmarket_auctions_assets_asset_id ON atomicmarket_auctions_assets USING btree (asset_id);
+
+CREATE INDEX IF NOT EXISTS atomicmarket_auctions_bids_account ON atomicmarket_auctions_bids USING btree (account);
+CREATE INDEX IF NOT EXISTS atomicmarket_auctions_bids_created_at_time ON atomicmarket_auctions_bids USING btree (created_at_time);
+
+CREATE INDEX IF NOT EXISTS atomicmarket_balances_owner ON atomicmarket_balances USING btree (owner);
+
+CREATE INDEX IF NOT EXISTS atomicmarket_sales_sale_id ON atomicmarket_sales USING btree (sale_id);
+CREATE INDEX IF NOT EXISTS atomicmarket_sales_seller ON atomicmarket_sales USING btree (seller);
+CREATE INDEX IF NOT EXISTS atomicmarket_sales_buyer ON atomicmarket_sales USING btree (buyer);
+CREATE INDEX IF NOT EXISTS atomicmarket_sales_collection_name ON atomicmarket_sales USING btree (collection_name);
+CREATE INDEX IF NOT EXISTS atomicmarket_sales_state ON atomicmarket_sales USING btree (state);
+CREATE INDEX IF NOT EXISTS atomicmarket_sales_updated_at_time ON atomicmarket_sales USING btree (updated_at_time);
+CREATE INDEX IF NOT EXISTS atomicmarket_sales_created_at_time ON atomicmarket_sales USING btree (created_at_time);
+
+CREATE INDEX IF NOT EXISTS atomicmarket_sales_offer_id ON atomicmarket_sales USING btree (offer_id);
+
+CREATE INDEX IF NOT EXISTS atomicmarket_buyoffers_buyoffer_id ON atomicmarket_buyoffers USING btree (buyoffer_id);
+CREATE INDEX IF NOT EXISTS atomicmarket_buyoffers_seller ON atomicmarket_buyoffers USING btree (seller);
+CREATE INDEX IF NOT EXISTS atomicmarket_buyoffers_buyer ON atomicmarket_buyoffers USING btree (buyer);
+CREATE INDEX IF NOT EXISTS atomicmarket_buyoffers_price ON atomicmarket_buyoffers USING btree (price);
+CREATE INDEX IF NOT EXISTS atomicmarket_buyoffers_collection_name ON atomicmarket_buyoffers USING btree (collection_name);
+CREATE INDEX IF NOT EXISTS atomicmarket_buyoffers_state ON atomicmarket_buyoffers USING btree (state);
+CREATE INDEX IF NOT EXISTS atomicmarket_buyoffers_updated_at_time ON atomicmarket_buyoffers USING btree (updated_at_time);
+CREATE INDEX IF NOT EXISTS atomicmarket_buyoffers_created_at_time ON atomicmarket_buyoffers USING btree (created_at_time);
+
+CREATE INDEX IF NOT EXISTS atomicmarket_buyoffers_assets_asset_id ON atomicmarket_buyoffers_assets USING btree (asset_id);
+
+CREATE INDEX IF NOT EXISTS atomicmarket_template_buyoffers_buyoffer_id ON atomicmarket_template_buyoffers USING btree (buyoffer_id);
+CREATE INDEX IF NOT EXISTS atomicmarket_template_buyoffers_seller ON atomicmarket_template_buyoffers USING btree (seller);
+CREATE INDEX IF NOT EXISTS atomicmarket_template_buyoffers_buyer ON atomicmarket_template_buyoffers USING btree (buyer);
+CREATE INDEX IF NOT EXISTS atomicmarket_template_buyoffers_price ON atomicmarket_template_buyoffers USING btree (price);
+CREATE INDEX IF NOT EXISTS atomicmarket_template_buyoffers_collection_name ON atomicmarket_template_buyoffers USING btree (collection_name);
+CREATE INDEX IF NOT EXISTS atomicmarket_template_buyoffers_template_id ON atomicmarket_template_buyoffers USING btree (template_id);
+CREATE INDEX IF NOT EXISTS atomicmarket_template_buyoffers_state ON atomicmarket_template_buyoffers USING btree (state);
+-- atomicmarket_template_buyoffers_updated_at_time dropped in migration 1.7.0 (unused, replica-verified)
+CREATE INDEX IF NOT EXISTS atomicmarket_template_buyoffers_created_at_time ON atomicmarket_template_buyoffers USING btree (created_at_time);
+
+CREATE INDEX IF NOT EXISTS atomicmarket_template_buyoffers_assets_asset_id ON atomicmarket_template_buyoffers_assets USING btree (asset_id);
+
+
+CREATE INDEX IF NOT EXISTS atomicmarket_sales_missing_mint ON atomicmarket_sales(assets_contract, sale_id, offer_id) WHERE template_mint IS NULL;
+CREATE INDEX IF NOT EXISTS atomicmarket_buyoffers_missing_mint ON atomicmarket_buyoffers(assets_contract, buyoffer_id) WHERE template_mint IS NULL;
+CREATE INDEX IF NOT EXISTS atomicmarket_auctions_missing_mint ON atomicmarket_auctions(assets_contract, auction_id) WHERE template_mint IS NULL;
+CREATE INDEX IF NOT EXISTS atomicmarket_template_buyoffers_missing_mint ON atomicmarket_template_buyoffers(assets_contract, buyoffer_id) WHERE template_mint IS NULL AND "state" = 2; -- Only SOLD template_buyoffers have an nft
+
+
+CREATE INDEX IF NOT EXISTS atomicmarket_stats_markets_collection_name ON atomicmarket_stats_markets USING btree (collection_name);
+CREATE INDEX IF NOT EXISTS atomicmarket_stats_markets_buyer ON atomicmarket_stats_markets USING btree (buyer);
+CREATE INDEX IF NOT EXISTS atomicmarket_stats_markets_seller ON atomicmarket_stats_markets USING btree (seller);
+-- atomicmarket_stats_markets_price dropped in migration 1.7.0 (unused, replica-verified)
+CREATE INDEX IF NOT EXISTS atomicmarket_stats_markets_time ON atomicmarket_stats_markets USING btree ("time");
+CREATE INDEX IF NOT EXISTS atomicmarket_stats_markets_asset_id ON atomicmarket_stats_markets USING btree ("asset_id");
+CREATE INDEX IF NOT EXISTS atomicmarket_stats_markets_schema_name ON atomicmarket_stats_markets USING btree ("schema_name");
+CREATE INDEX IF NOT EXISTS atomicmarket_stats_markets_template_id_time ON atomicmarket_stats_markets (template_id, time);
+
+CREATE INDEX IF NOT EXISTS atomicmarket_stats_markets_contract_symbol_time ON atomicmarket_stats_markets (market_contract, symbol, "time");
+CREATE INDEX IF NOT EXISTS atomicmarket_stats_markets_contract_symbol_collection_time ON atomicmarket_stats_markets (market_contract, symbol, collection_name, "time") INCLUDE (buyer, seller, price);
+CREATE INDEX IF NOT EXISTS atomicmarket_stats_markets_maker_mp ON atomicmarket_stats_markets (maker_marketplace) WHERE maker_marketplace IS NOT NULL;
+-- atomicmarket_stats_markets_taker_mp dropped in migration 1.7.0 (unused, replica-verified)
+
+CREATE INDEX IF NOT EXISTS atomicmarket_sales_mc_state_created ON atomicmarket_sales (market_contract, state, created_at_time DESC, sale_id) WHERE state IN (1, 3);
+CREATE INDEX IF NOT EXISTS atomicmarket_sales_sold_stats ON atomicmarket_sales (market_contract, settlement_symbol, collection_name) INCLUDE (final_price) WHERE state = 3;
+
+CREATE INDEX IF NOT EXISTS atomicmarket_buyoffers_mc_state_created ON atomicmarket_buyoffers (market_contract, state, created_at_time DESC, buyoffer_id);
+
+CREATE INDEX IF NOT EXISTS atomicmarket_auctions_mc_state_created ON atomicmarket_auctions (market_contract, state, created_at_time DESC, auction_id);
+CREATE INDEX IF NOT EXISTS atomicmarket_auctions_mc_state_endtime ON atomicmarket_auctions (market_contract, state, end_time DESC, auction_id) WHERE state = 1;
+
+CREATE INDEX IF NOT EXISTS atomicmarket_template_buyoffers_mc_state_created ON atomicmarket_template_buyoffers (market_contract, state, created_at_time DESC, buyoffer_id);
+
+CREATE INDEX IF NOT EXISTS atomicmarket_royalty_payouts_recipient
+    ON atomicmarket_royalty_payouts (market_contract, recipient, created_at_time DESC);
+CREATE INDEX IF NOT EXISTS atomicmarket_royalty_payouts_recipient_symbol
+    ON atomicmarket_royalty_payouts (market_contract, recipient, token_symbol) INCLUDE (amount);
+CREATE INDEX IF NOT EXISTS atomicmarket_royalty_payouts_collection
+    ON atomicmarket_royalty_payouts (market_contract, collection_name, created_at_time DESC);
+CREATE INDEX IF NOT EXISTS atomicmarket_royalty_payouts_listing
+    ON atomicmarket_royalty_payouts (market_contract, listing_type, listing_id);
