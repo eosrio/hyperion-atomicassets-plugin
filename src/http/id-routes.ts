@@ -10,6 +10,7 @@ import {readBuyofferWithAssets} from '../atomicmarket/internal/buyoffer-assets.j
 import {readTemplateId} from '../atomicassets/internal/templates.js';
 import {readSchemaId, schemaFilters, SchemaListsUnavailable, SchemaParameterError, type OperatorListHost} from '../atomicassets/internal/schema-query.js';
 import {readCollectionId} from '../atomicassets/internal/collections.js';
+import {readAssetConfig} from '../atomicassets/internal/config.js';
 import {readMarketplaceState, readMarketplaces} from '../atomicmarket/internal/marketplace-state.js';
 
 function isOperatorListUnavailable(error: unknown): error is Error {
@@ -68,6 +69,17 @@ export function registerAtomicIdRoutes(fastify: FastifyInstance, options: Atomic
       });
   }
   const {contract,projectionId}=options.atomicassets;
+  // Original config uses router.get: Fastify exposes the matching automatic HEAD route.
+  fastify.get('/atomicassets/v1/config',async(request,reply)=>{
+    if (!options.completeKindQueryHost) throw new Error('Counted keyed config query host unavailable');
+    const host=await options.completeKindQueryHost(request,projectionId);let status=200;
+    const result=await host.compose(projectionId,async reader=>{
+      const data=await readAssetConfig(reader,contract);
+      if(data===null){status=500;return {success:false,message:'Config not found'};}
+      return {success:true,data:JSON.parse(JSON.stringify(data)) as StatefulRecord,query_time:Date.now()};
+    });
+    reply.code(status);return result.value;
+  });
   fastify.all<{Params:{collection_name:string}}>('/atomicassets/v1/collections/:collection_name',async(request,reply)=>{
     const host=await options.queryHost(request);let status=200;
     const result=await host.compose(projectionId,async reader=>{

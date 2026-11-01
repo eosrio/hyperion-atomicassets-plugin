@@ -52,3 +52,5 @@ jobs:
         run: node --test harness/stateful/engine/offline.test.mjs
       - name: Verify packed exports and declarations through an installed consumer
         run: npm run test:package
+      - name: Verify the installed config component through finite controls
+        run: npm run test:config:package

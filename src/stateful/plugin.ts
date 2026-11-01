@@ -50,7 +50,7 @@ export interface AtomicPluginRegistration {
 }
 const kinds = ['config','collection','schema','template','asset','mint','template-link','backed-tokens','original-mint',
   'schema-asset-count','market-sale','market-config','offer','market-token','symbol-pair','offer-assets','contract-code','asset-offers','market-auction','marketplace','market-buyoffer'] as const;
-const assetTables = ['config','collections','authorswaps','schemas','schematypes','templates','templates2'] as const;
+const assetTables = ['config','tokenconfigs','collections','authorswaps','schemas','schematypes','templates','templates2'] as const;
 const assetActions = ['logmint','logsetdata','logtransfer','logburnasset'] as const;
 const saleActions = ['lognewsale','logsalestart','cancelsale','purchasesale'] as const;
 const auctionActions = ['lognewauct','logauctstart','cancelauct','auctionbid','auctclaimbuy','auctclaimsel'] as const;

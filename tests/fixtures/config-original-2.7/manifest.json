@@ -1,0 +1,101 @@
+{
+  "baseline": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+  "upstreamCorrection": {
+    "commit": "febcd2fb6c849d8f075696f158b0d73de4c72c01",
+    "pullRequest": "https://github.com/atomicassets/atomicassets-api/pull/255",
+    "status": "unmerged at reviewed custody; narrowly proven append-only competing-branch token fork correction"
+  },
+  "sources": {
+    "config-handler.ts": {
+      "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+      "path": "src/api/namespaces/atomicassets/handlers/config.ts",
+      "bytes": 908,
+      "sha256": "0551dfe8d3dbd103a240919c8cdd761a37f885743239f468d5470dc5dd291417",
+      "gitBlob": "e363730e59df7e2d4c6fa9dac0224d7d83f934b9"
+    },
+    "config-route.ts": {
+      "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+      "path": "src/api/namespaces/atomicassets/routes/config.ts",
+      "bytes": 2191,
+      "sha256": "4fb459eed807de4364c05ee1b0b25631ea3663eb44ac36b8a8dfb8a1f3f49161",
+      "gitBlob": "98f4104f52311d2e4bea41bf2322c2848e674f73"
+    },
+    "config-processor.ts": {
+      "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+      "path": "src/filler/handlers/atomicassets/processors/config.ts",
+      "bytes": 4432,
+      "sha256": "a1d1f9f13bce6d16fc1e53cb2906461cf6cadf40d1ede5b7cfac1de85f3ad37d",
+      "gitBlob": "4532cc80f22668b8456d7f7637a184d4bffd2170"
+    },
+    "atomicassets-handler.ts": {
+      "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+      "path": "src/filler/handlers/atomicassets/index.ts",
+      "bytes": 26848,
+      "sha256": "3708ea3747446300fd27f81af83bb2552a3020b3fa9e04ddcba2bafce6c4f9be",
+      "gitBlob": "aae3582c4fa5ba0b13b94f5161e265b115ec4548"
+    },
+    "v2-guard.source.txt": {
+      "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+      "path": "src/filler/handlers/atomicassets/v2-guard.ts",
+      "bytes": 2761,
+      "sha256": "2e423d548ed5280ad43d1cce37319a86ce9fd63d538859a6a0be573d15b84abe",
+      "gitBlob": "2f4754cab746b8ff62c36a85eceb5902970c5757"
+    },
+    "error.ts": {
+      "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+      "path": "src/api/error.ts",
+      "bytes": 189,
+      "sha256": "0252da2e8aeb66456c132e810a8f2447be95f4135690958b78406360172c8752",
+      "gitBlob": "88a27162ea29ebc797e21fb70ff45b9085479add"
+    },
+    "server.source.txt": {
+      "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+      "path": "src/api/server.ts",
+      "bytes": 18442,
+      "sha256": "df32f2055d45bcb3e055cf09b306aa97590e7b14defaea6899a166198b068e1d",
+      "gitBlob": "a5a2a3074fbee389207188eb3aa404a8201e546f"
+    },
+    "api-utils.source.txt": {
+      "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+      "path": "src/api/utils.ts",
+      "bytes": 5618,
+      "sha256": "4fcce204aded2e2101282a05240cf15bb2bf43133cfaa414a46cb0c07b533567",
+      "gitBlob": "2095e511ebe5a372b909875028ebb5ff37f7c4a3"
+    },
+    "namespace-utils.source.txt": {
+      "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+      "path": "src/api/namespaces/utils.ts",
+      "bytes": 3034,
+      "sha256": "c8abe1a19e2089e8f2a592bf64e46c2bb358adf5da33b22b523859ab10e59808",
+      "gitBlob": "58b3a4411fc8cbf3ae4db3f01a06e2e45cb8055b"
+    },
+    "tables.source.sql": {
+      "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+      "path": "definitions/tables/atomicassets_tables.sql",
+      "bytes": 17666,
+      "sha256": "d6efc1a8c02244d31e3cf1636d651dcb6c5035cde1f1a04cc7443896235de566",
+      "gitBlob": "9a617ba385bbe701b4fe84dedf6b8cf7b1ad3f72"
+    },
+    "LICENSE": {
+      "commit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+      "path": "LICENSE",
+      "bytes": 1140,
+      "sha256": "458f83058135a4425dcbdcbeb51586dad3ca7b2d6c999fcd16b1a064c9acfa3e",
+      "gitBlob": "3a60c807d68b5606ab636a6dc1dc2189a6090074"
+    },
+    "config-processor-fork-fix.ts": {
+      "commit": "febcd2fb6c849d8f075696f158b0d73de4c72c01",
+      "path": "src/filler/handlers/atomicassets/processors/config.ts",
+      "bytes": 5681,
+      "sha256": "948b93ce5022c6223513e0349b3304f63932e4f18d98805c484ad182d76fabc7",
+      "gitBlob": "11257370f8e0fc593440b380e7f062cf056ff50a"
+    },
+    "upstream-regression.source.txt": {
+      "commit": "febcd2fb6c849d8f075696f158b0d73de4c72c01",
+      "path": "src/filler/handlers/atomicassets/processors/config-tokens.test.ts",
+      "bytes": 4451,
+      "sha256": "899a99fb203c67623d730687cafd744aaa1b071554e385368f7c32a3aeceb49f",
+      "gitBlob": "f58f7107d87f3814791a8f149935afcbdc5f37cf"
+    }
+  }
+}

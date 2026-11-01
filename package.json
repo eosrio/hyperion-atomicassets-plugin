@@ -27,7 +27,8 @@
     "docs/parity/atomicmarket/marketplace-id-coverage.json",
     "docs/parity/atomicmarket/buyoffer-id.md",
     "docs/parity/atomicmarket/buyoffer-id-coverage.json",
-    "docs/parity/atomicassets/schema-id.md"
+    "docs/parity/atomicassets/schema-id.md",
+    "docs/parity/atomicassets/config.md"
   ],
   "exports": {
     "./atomicmarket/sale": {
@@ -68,6 +69,8 @@
     "test": "npm run build && node scripts/run-tests.mjs",
     "test:reference": "node --test tests/reference-asset.test.mjs tests/original-asset-controls.test.mjs tests/original-marketplace-controls.test.mjs tests/sale-formatter.test.mjs fixtures/harness/atomicmarket/reference-http.test.mjs",
     "test:package": "node scripts/check-package.mjs",
+    "test:config": "npm run build && node --test tests/config-component.test.mjs tests/marketplace-list-sdk.test.mjs",
+    "test:config:package": "node scripts/check-config-package.mjs",
     "prepack": "npm run build",
     "check:docs": "python scripts/check-docs.py",
     "reference:prepare": "node scripts/prepare-reference.mjs",
