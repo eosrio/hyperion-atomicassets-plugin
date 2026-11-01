@@ -1,6 +1,7 @@
+import {formatSchema, type AtomicSchema} from '../asset.js';
 import {databaseMetadata} from './database-json.js';
 import {createHash} from 'node:crypto';
-import {decimal,domainKey,format,hash,read,record,required,text,unavailable,
+import {decimal,domainKey,format,hash,read,record,records,required,strings,text,unavailable,
   type DomainReader,type DomainStage,type LifecycleBlock,type LifecycleEvent,type MetadataCodec} from './lifecycle-port.js';
 
 const boolean = (value: unknown) => typeof value === 'boolean' ? value : unavailable('Invalid template flag');
@@ -53,4 +54,29 @@ export async function readTemplateForAsset(reader: DomainReader,contract: string
     created_at_block:decimal(row.created_at_block),created_at_time:decimal(row.created_at_time),
     deleted_at_block:row.deleted_at_block===null?null:decimal(row.deleted_at_block),
     deleted_at_time:row.deleted_at_time===null?null:decimal(row.deleted_at_time)};
+}
+
+/** Pinned templates_master INNER JOIN, composed through one request-owned reader. */
+export async function readTemplateId(reader: DomainReader, contract: string, collectionName: string, id: string) {
+  const row=await read(reader,'template',domainKey(contract,id));
+  if (!row) return null;
+  if(row.contract!==contract || row.template_id!==id) return unavailable('Mismatched template identity');
+  const collection=await read(reader,'collection',domainKey(contract,text(row.collection_name)));
+  const schema=await read(reader,'schema',domainKey(contract,text(row.collection_name),text(row.schema_name)));
+  if (!collection || !schema) return null;
+  if(collection.contract!==contract || collection.collection_name!==row.collection_name || schema.contract!==contract ||
+    schema.collection_name!==row.collection_name || schema.schema_name!==row.schema_name) return unavailable('Mismatched template join');
+  if(row.collection_name!==collectionName) return null;
+  const nested=await readTemplateForAsset(reader,contract,id), metadata=record(collection.data);
+  const selected=(v: unknown): string | null => v==null?null:typeof v==='string'?v:unavailable('Unsupported collection metadata');
+  if(typeof collection.allow_notify!=='boolean' || typeof collection.market_fee!=='number' || !Number.isFinite(collection.market_fee))
+    return unavailable('Invalid collection fields');
+  const mutable=nested.mutable_data??{}, immutable=nested.immutable_data??{}, data={...mutable,...immutable};
+  return record({contract,...nested,collection:{collection_name:collection.collection_name,name:selected(metadata.name),img:selected(metadata.img),
+    images:selected(metadata.images),author:text(collection.author),allow_notify:collection.allow_notify,
+    authorized_accounts:strings(collection.authorized_accounts),notify_accounts:strings(collection.notify_accounts),market_fee:collection.market_fee,
+    created_at_block:decimal(collection.created_at_block),created_at_time:decimal(collection.created_at_time)},
+    schema:JSON.parse(JSON.stringify(formatSchema({schema_name:text(schema.schema_name),format:format(schema.format),types:records(schema.types).map(v=>({...v,name:text(v.name)})),
+      created_at_block:decimal(schema.created_at_block),created_at_time:decimal(schema.created_at_time)} as AtomicSchema))),
+    mutable_data:mutable,immutable_data:immutable,data,...(data.name===undefined?{}:{name:data.name})});
 }

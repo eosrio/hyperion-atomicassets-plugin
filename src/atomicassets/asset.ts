@@ -68,7 +68,7 @@ export interface AtomicAsset extends AtomicObject {
   readonly original_mint: string | null;
 }
 
-function formatSchema(row: AtomicSchema): AtomicFormattedSchema {
+export function formatSchema(row: AtomicSchema): AtomicFormattedSchema {
   const {collection_name: _collection, authorized_accounts: _accounts, types, ...data} = row;
   const format = (row.format || []).map(field => {
     const descriptor = (types || []).find(candidate => candidate.name === field.name);
