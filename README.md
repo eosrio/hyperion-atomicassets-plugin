@@ -201,3 +201,7 @@ The field-specific [original metadata JSON boundary](docs/parity/atomicassets/js
 now has direct 2.7.0 encoder controls for raw NUL and literal escapes. Older safe-input captures
 remain unchanged historical evidence. Actual PostgreSQL display bytes, nontext display formatting,
 and full original/default-profile physical parity remain pending.
+
+The [royalty rule component](docs/parity/atomicmarket/royalty-rules.md) adds independent template/
+attribute table reducers and the attribute-list source consumer. Template-list membership, native
+SQL/profile, physical engine and managed HTTP/cache qualification remain pending under #65.

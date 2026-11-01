@@ -14,7 +14,7 @@ test('pins the unchanged original source, callback, SQL types and wrapper',()=>{
 
 test('actual constructor registers independent royalty projection and keeps the compound declaration',async()=>{
  const plugin=new AtomicPlugin({projectionId:'custom',limits:limits()}),r=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']});
- assert.equal(r.projections.length,2);assert.equal(r.projections[0].definition.id,'custom');assert.equal(r.projections[0].definition.records.length,21);
+ assert.equal(r.projections.length,4);assert.equal(r.projections[0].definition.id,'custom');assert.equal(r.projections[0].definition.records.length,21);
  assert.equal(r.projections[1].definition.id,'custom:royalty-config');assert.deepEqual(r.projections[1].definition.records,[{kind:ROYALTY_CONFIG_KIND,integers:[]}]);
  assert.deepEqual(r.projections[1].definition.selectors,[{id:'atomicmarket:table:royaltyconf',contract:'atomicmarket',kind:'table',name:'royaltyconf'}]);
  assert.deepEqual(r.projections[1].requiredSourceCapabilities,[]);assert.deepEqual(r.projections[1].limits,limits());

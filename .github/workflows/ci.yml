@@ -58,3 +58,5 @@ jobs:
         run: npm run test:royalty:package
       - name: Verify the installed indexed schema consumer through finite controls
         run: npm run test:schema-list:package
+      - name: Verify installed royalty rule reducers and attribute consumer through finite controls
+        run: npm run test:royalty-rules:package

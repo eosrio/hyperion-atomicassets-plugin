@@ -31,7 +31,9 @@
     "docs/parity/atomicassets/config.md",
     "docs/parity/atomicmarket/royalty-config.md",
     "docs/parity/atomicassets/schema-indexed.md",
-    "docs/parity/atomicassets/schema-indexed-ledger.json"
+    "docs/parity/atomicassets/schema-indexed-ledger.json",
+    "docs/parity/atomicmarket/royalty-rules.md",
+    "docs/parity/atomicmarket/royalty-rules-coverage.json"
   ],
   "exports": {
     "./atomicmarket/sale": {
@@ -78,6 +80,8 @@
     "test:royalty:package": "node scripts/check-royalty-package.mjs",
     "test:schema-list": "npm run build && node --test tests/schema-indexed-consumer.test.mjs",
     "test:schema-list:package": "node scripts/check-schema-package.mjs",
+    "test:royalty-rules": "npm run build && node --test tests/royalty-rule-components.test.mjs",
+    "test:royalty-rules:package": "node scripts/check-royalty-rules-package.mjs",
     "prepack": "npm run build",
     "check:docs": "python scripts/check-docs.py",
     "reference:prepare": "node scripts/prepare-reference.mjs",

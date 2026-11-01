@@ -34,9 +34,9 @@ const limits = {value,envelope:{...value,depth:32,nodes:8192,fields:64,arrayElem
 const plugin = new Plugin({limits}), descriptor = plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']});
 assert.equal(descriptor.interfaceVersion, 2);
 assert.equal(descriptor.sourceInputVersion, 2);
-assert.equal(descriptor.projections.length, 2);
-assert.equal(descriptor.projections[1].definition.id, 'atomicassets:royalty-config');
-assert.equal(typeof descriptor.projections[0].reduce, 'function');
+assert.deepEqual(descriptor.projections.map(projection => projection.definition.id), [
+  'atomicassets', 'atomicassets:royalty-config', 'atomicassets:royalty-template-rules', 'atomicassets:royalty-attribute-rules']);
+for (const projection of descriptor.projections) assert.equal(typeof projection.reduce, 'function');
 const require = createRequire(pathToFileURL(metadata));
 const {default: Fastify} = await import(pathToFileURL(require.resolve('fastify')));
 const api = Fastify(), requests = [];
