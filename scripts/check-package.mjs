@@ -64,6 +64,7 @@ try {
     'dist/atomicassets/internal/lifecycle.js', 'dist/atomicassets/internal/lifecycle.d.ts',
     'dist/atomicassets/internal/templates.js', 'dist/atomicassets/internal/templates.d.ts',
     'dist/atomicassets/internal/collections.js', 'dist/atomicassets/internal/collections.d.ts',
+    'dist/atomicassets/internal/config.js', 'dist/atomicassets/internal/config.d.ts', 'docs/parity/atomicassets/config.md',
     'dist/atomicassets/internal/lifecycle-port.js', 'dist/atomicassets/internal/lifecycle-port.d.ts',
     'dist/atomicmarket/internal/fixed-sale.js', 'dist/atomicmarket/internal/fixed-sale.d.ts',
     'dist/atomicmarket/internal/fixed-sale-port.js', 'dist/atomicmarket/internal/fixed-sale-port.d.ts',

@@ -12,6 +12,9 @@ The [collection-ID component](docs/parity/atomicassets/collection-id.md) adds cu
 responses and real pending-author swap effects, with original handler/callback controls.
 The [marketplace-ID component](docs/parity/atomicmarket/marketplace-id.md) adds real marketplace
 table effects and the coherent ID route, with an explicit 19-kind declaration upgrade.
+The [AtomicAssets config component](docs/parity/atomicassets/config.md) adds canonical config/token
+materialization and a counted singleton GET/HEAD route, with original callback and fork-regression
+controls. Physical database, managed cache/publication and full parity remain separate gates.
 
 One EOS Rio operator package for AtomicAssets and AtomicMarket indexing and APIs, with modular
 internal components.

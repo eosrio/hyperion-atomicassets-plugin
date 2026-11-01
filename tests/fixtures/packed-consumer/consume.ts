@@ -78,6 +78,15 @@ async function consumePrivateCollectionDeclaration() {
 }
 void consumePrivateCollectionDeclaration;
 
+import {readAssetConfig} from './node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicassets/internal/config.js';
+async function consumePrivateConfigDeclaration() {
+  const config = await readAssetConfig(privateDomainReader, 'atomicassets');
+  // @ts-expect-error Config contract identity remains text.
+  await readAssetConfig(privateDomainReader, 123);
+  return config;
+}
+void consumePrivateConfigDeclaration;
+
 import {readMarketplaceState} from './node_modules/@eosrio/hyperion-atomicassets-plugin/dist/atomicmarket/internal/marketplace-state.js';
 async function consumePrivateMarketplaceDeclaration() {
   const result = await readMarketplaceState(privateDomainReader, 'atomicmarket', 'marketplace1');

@@ -1,0 +1,2 @@
+# Immutable Git blobs and their byte/hash manifest must survive Windows checkout unchanged.
+* -text
