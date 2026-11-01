@@ -47,7 +47,7 @@ export interface AtomicPluginRegistration {
     readonly reduce: (port: StatefulReductionV2) => Promise<void>}[];
 }
 const kinds = ['config','collection','schema','template','asset','mint','template-link','backed-tokens','original-mint',
-  'market-sale','market-config','offer','market-token','symbol-pair','offer-assets','contract-code','asset-offers','market-auction','marketplace','market-buyoffer'] as const;
+  'schema-asset-count','market-sale','market-config','offer','market-token','symbol-pair','offer-assets','contract-code','asset-offers','market-auction','marketplace','market-buyoffer'] as const;
 const assetTables = ['config','collections','authorswaps','schemas','schematypes','templates','templates2'] as const;
 const assetActions = ['logmint','logsetdata','logtransfer','logburnasset'] as const;
 const saleActions = ['lognewsale','logsalestart','cancelsale','purchasesale'] as const;

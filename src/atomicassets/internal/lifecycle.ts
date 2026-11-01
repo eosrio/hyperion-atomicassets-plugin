@@ -1,4 +1,5 @@
 import {formatAsset, type AtomicAsset, type AtomicAssetInput, type AtomicObject} from '../asset.js';
+import {stageAssetTransition} from './schema-counts.js';
 import {reduceTemplateRow,readTemplateForAsset,templateId} from './templates.js';
 import {actionMetadataInput, databaseMetadata} from './database-json.js';
 import {reduceAuthorSwap} from './collections.js';
@@ -88,7 +89,7 @@ export async function reduceAssetLifecycle(b: LifecycleBlock, events: readonly L
   async function flushMints() {
     for (const {asset, mint} of mintBuffer) {
       const key = domainKey(b.contract, decimal(asset.asset_id));
-      stage.put('asset', key, record(asset));
+      await stageAssetTransition(stage,b.contract,decimal(asset.asset_id),record(asset));
       // Original mints are immutable facts: ON CONFLICT DO NOTHING.
       if (await read(stage, 'mint', key) === null) stage.put('mint', key, record(mint));
     }

@@ -11,7 +11,9 @@ import Fastify from 'fastify';
 import {atomicLimits} from '../harness/stateful/scenario.mjs';
 import {captureStatefulDeclaration} from '@eosrio/hyperion-sdk/projection-stateful';
 import {scenario as marketScenario,input as market} from './fixtures/fixed-sale-cases.mjs';
-import {initial,input,row,mint,storage,block,key,codec} from './fixtures/asset-domain-cases.mjs';
+import {initial,input,row,mint,storage as legacyStorage,block,key,codec} from './fixtures/asset-domain-cases.mjs';
+const storage=()=>{const s=legacyStorage();s.add('schema-asset-count',input.contract,input.collection,input.schema);return s;};
+
 const dist = process.env.AA_DOMAIN_MODULE_ROOT ? pathToFileURL(process.env.AA_DOMAIN_MODULE_ROOT.replaceAll('\\','/')+'/') : new URL('../dist/',import.meta.url);
 const {reduceAssetLifecycle,readLifecycleAsset} = await import(new URL('atomicassets/internal/lifecycle.js',dist));
 const {AssetDomainUnavailable} = await import(new URL('atomicassets/internal/lifecycle-port.js',dist));
@@ -91,7 +93,7 @@ function source(b,events){return{previous:{blockNum:Number(b.blockNum)-1,blockId
     transactionId:e.transactionId??null,...(e.kind==='row'?{present:e.present,identity:{kind:'contract-row',scope:e.scope,primaryKey:String(i)}}:{})}))};}
 
 test('actual packaged factory dispatch and asset ID route expose the original templated asset body through one caller reader',async()=>{
-  const plugin=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:20,readAttempts:128,mutations:64}}),
+  const plugin=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:21,readAttempts:128,mutations:64}}),
     descriptor=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}),reduce=descriptor.projections[0].reduce;
   assert.ok(descriptor.projections[0].definition.records.some(r=>r.kind==='template'));
   let state=new Map();const calls=[];const port=target=>({async get(kind,k){calls.push(kind);return target.has(kind+k)?{status:'present',value:structuredClone(target.get(kind+k))}:{status:'covered-absent'};},
@@ -109,23 +111,23 @@ test('combined declaration refuses explicit16,17 and18 without raising their bud
   const binding={chainId:'a'.repeat(64),backendId:'fixture',generation:'combined19-new-declaration-required',mappingRevision:'b'.repeat(64),
     hookArtifact:'c'.repeat(64),hookRevision:'d'.repeat(64),codecRevision:'e'.repeat(64),normalizerRevision:'f'.repeat(64)};
   let accepted;
-  for(const recordKinds of [16,17,18,19,20]){
+  for(const recordKinds of [16,17,18,19,20,21]){
     const supplied={...atomicLimits,selectors:128,recordKinds},before=structuredClone(supplied),
       plugin=createAtomicStatefulPlugin({limits:supplied}),descriptor=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0];
     assert.equal(descriptor.limits.recordKinds,recordKinds);
     const definition={...descriptor.definition,binding,selectors:descriptor.definition.selectors.map(s=>({...s,abiDeployment:'host-bound',abiSha256:'a'.repeat(64)}))};
-    assert.equal(definition.records.length,20);assert.ok(definition.records.some(r=>r.kind==='template'));
+    assert.equal(definition.records.length,21);assert.ok(definition.records.some(r=>r.kind==='template'));
     assert.ok(definition.records.some(r=>r.kind==='market-auction'));
     assert.ok(definition.records.some(r=>r.kind==='marketplace'));
-    if(recordKinds<20)await assert.rejects(captureStatefulDeclaration(definition,descriptor.limits),/Record kind bound/);
+    if(recordKinds<21)await assert.rejects(captureStatefulDeclaration(definition,descriptor.limits),/Record kind bound/);
     else accepted=await captureStatefulDeclaration(definition,descriptor.limits);
     assert.deepEqual(supplied,before);assert.equal(plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0].limits.recordKinds,recordKinds);
   }
-  assert.equal(accepted.definition.records.length,20);
+  assert.equal(accepted.definition.records.length,21);
 });
 
 test('combined factory serves a templated asset while sale, auction and buyoffer refuse absent original price enrichment',async()=>{
-  const plugin=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:20,readAttempts:128,mutations:64}}),
+  const plugin=createAtomicStatefulPlugin({limits:{...atomicLimits,selectors:128,recordKinds:21,readAttempts:128,mutations:64}}),
     reduce=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0].reduce,b=block(0),s=source(b,begin()),state=new Map();
   const common={sourceEvidence:'constructed-market',abiDeployment:'market-abi',abiSha256:'a'.repeat(64),transactionId:'a'.repeat(64)};
   s.inputs.push({kind:'table',contract:market.marketContract,name:'config',present:true,identity:{kind:'contract-row',scope:market.marketContract,primaryKey:'0'},

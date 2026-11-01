@@ -11,7 +11,7 @@ import {input,collectionRow,row,block,key} from './fixtures/asset-domain-cases.m
 import profiles from '../harness/atomicassets/lifecycle-input.cjs';
 const dist=process.env.ATOMIC_PLUGIN_DIST_ROOT??fileURLToPath(new URL('../dist',import.meta.url));
 const {createAtomicStatefulPlugin,ATOMIC_HOOK_INVENTORY}=await import(pathToFileURL(join(dist,'index.js')).href);
-const limits={...atomicLimits,selectors:128,recordKinds:20,readAttempts:128,mutations:64};
+const limits={...atomicLimits,selectors:128,recordKinds:21,readAttempts:128,mutations:64};
 const swap=(author='nextauthor',date=1700000000,present=true,name=input.collection)=>row('authorswaps',{
   collection_name:name,new_author:author,acceptance_date:date},input.contract,present);
 const initial=()=>[collectionRow(),row('config',{supported_tokens:[],collection_format:input.collectionFormat},input.contract)];
@@ -107,6 +107,6 @@ test('author swap failures discard earlier staged updates and preserve the calle
       await assert.rejects(s.run({...block(1),events:[swap('first'),swap('bad',date)]}));assert.deepEqual(s.snapshot(),before);
     }
     const scopeLess={...swap(),scope:null};await assert.rejects(s.run({...block(1),events:[scopeLess]}));assert.deepEqual(s.snapshot(),before);
-    assert.equal(s.descriptor.definition.records.length,20);assert.equal(s.descriptor.limits.recordKinds,20);
+    assert.equal(s.descriptor.definition.records.length,21);assert.equal(s.descriptor.limits.recordKinds,21);
   }finally{await s.api.close();}
 });

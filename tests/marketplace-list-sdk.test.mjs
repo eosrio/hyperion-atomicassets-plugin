@@ -9,7 +9,7 @@ import {CompleteKindReference, offer} from './fixtures/complete-kind-adapter.mjs
 const hex=n=>n.toString(16).padStart(64,'0'), key=n=>JSON.stringify(['atomicmarket',n]);
 const row=n=>({market_contract:'atomicmarket',marketplace_name:n,creator:'alice',created_at_block:'9007199254740993',created_at_time:'1700000000000'});
 async function setup(bounds={readAttempts:12,responseRecords:8,responseBytes:65536}){
- const limits={...atomicLimits,selectors:128,recordKinds:20,...bounds};
+ const limits={...atomicLimits,selectors:128,recordKinds:21,...bounds};
  const plugin=createAtomicStatefulPlugin({limits});const d=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0];
  assert.deepEqual(d.requiredCompleteKindRead,offer(bounds));
  const binding={chainId:hex(10),backendId:'controlled',generation:'sdk-list',mappingRevision:hex(11),hookArtifact:hex(12),hookRevision:hex(13),codecRevision:hex(14),normalizerRevision:hex(15)};
