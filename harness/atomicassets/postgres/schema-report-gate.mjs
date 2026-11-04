@@ -56,6 +56,44 @@ function verifyOwned(owned){
   assert.deepEqual(handler.rows,snapshot.handlerRows);assert.deepEqual(aggregate.rows,snapshot.counts);
  }
 }
+function verifySdk50(report){
+ const evidence=report.sdk50;assert.equal(evidence?.status,'passed');
+ const ops=evidence.operations;assert.ok(Array.isArray(ops));assert.deepEqual(ops.map(x=>x.name),['selected-overflow','off-page-overflow','count-overflow','statement-timeout']);
+ assert.deepEqual(evidence.cleanup,[{role:'reader',rollback:true,released:true},{role:'locker',rollback:true,released:true}]);
+ assert.deepEqual(evidence.setup,[{role:'locker',sql:'LOCK TABLE atomicassets_asset_counts IN ACCESS EXCLUSIVE MODE',bindings:[],terminal:'returned',rowCount:null},
+  {role:'reader',sql:"SET LOCAL statement_timeout = '100ms'",bindings:[],terminal:'returned',rowCount:null}]);
+ const base='WITH asset_count AS ( SELECT contract, collection_name, schema_name, SUM(assets)::INT assets FROM atomicassets_asset_counts GROUP BY contract, collection_name, schema_name ) SELECT m.*, COALESCE(ac.assets, 0) assets FROM atomicassets_schemas_master m LEFT OUTER JOIN asset_count ac USING (contract, collection_name, schema_name) WHERE contract = $1 AND collection_name = $2';
+ const selectedSql=base+' AND schema_name = $3 AND schema_name = $3 ORDER BY created_at_time desc NULLS LAST, schema_name ASC LIMIT $4 OFFSET $5';
+ const offSql=base+' ORDER BY schema_name asc NULLS LAST, schema_name ASC LIMIT $3 OFFSET $4';
+ const countSql='SELECT COUNT(*) counter FROM ( '+base+' ) x';
+ const timeoutSql=base+' ORDER BY created_at_time desc NULLS LAST, schema_name ASC LIMIT $3 OFFSET $4';
+ const specs=[
+  [{collection_name:'colone',schema_name:'positive'},selectedSql,['atomicassets','colone','positive',100,0]],
+  [{collection_name:'colone',sort:'schema_name',order:'asc',page:'1',limit:'1'},offSql,['atomicassets','colone',1,0]],
+  [{collection_name:'colone'},countSql,['atomicassets','colone']],
+  [{collection_name:'colone'},timeoutSql,['atomicassets','colone',100,0]]];
+ for(let i=0;i<ops.length;i++){const row=ops[i],[params,sqlText,bindings]=specs[i];assert.equal(row.terminal,'returned');assert.deepEqual(row.params,params);
+  assert.equal(compact(row.sql),sqlText);assert.deepEqual(row.bindings,bindings);assert.ok(row.http&&row.http.body);}
+ const error=(row,code,status,message)=>{assert.equal(row.dbTerminal,'error');assert.equal(row.dbError?.code,code);assert.equal(typeof row.dbError?.message,'string');assert.ok(row.dbError.message.length>0);
+  assert.equal(Object.hasOwn(row,'rowCount'),false);assert.equal(row.http.status,status);assert.deepEqual(row.http.body,{success:false,message});};
+ const ok=(row)=>{assert.equal(row.dbTerminal,'returned');assert.equal(row.dbError,null);assert.equal(row.rowCount,1);assert.equal(row.http.status,200);
+  assert.equal(row.http.body.success,true);assert.ok(Number.isSafeInteger(row.http.body.query_time));};
+ error(ops[0],'22003',500,'Internal Server Error');
+ if(ops[1].http.status===500)error(ops[1],'22003',500,'Internal Server Error');
+ else {ok(ops[1]);assert.ok(Array.isArray(ops[1].http.body.data));assert.equal(ops[1].http.body.data.length,1);
+  const row=ops[1].http.body.data[0];assert.equal(row?.schema_name,'missing');
+  assert.equal(row.contract,'atomicassets');assert.equal(row.collection?.collection_name,'colone');assert.equal(row.assets,0);}
+ ok(ops[2]);assert.equal(ops[2].http.body.data,'4');
+ error(ops[3],'57014',408,'Max database query time exceeded. Please try to add more filters to your query.');
+ assert.match(ops[3].dbError.message,/statement timeout/i);
+ const manifest=JSON.parse(readFileSync(new URL('../../../tests/fixtures/schema-list-original-2.7/manifest.json',import.meta.url),'utf8'));
+ assert.equal(manifest.baseline,'0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e');const expected=Object.entries(manifest.sources);
+ assert.ok(Array.isArray(report.sdk50Sources));assert.equal(report.sdk50Sources.length,expected.length);
+ for(const [name,pin] of expected){const source=readFileSync(new URL('../../../tests/fixtures/schema-list-original-2.7/'+name,import.meta.url));
+  assert.equal(source.length,pin.bytes);assert.equal(createHash('sha256').update(source).digest('hex'),pin.sha256);
+  assert.equal(createHash('sha1').update(Buffer.concat([Buffer.from('blob '+source.length+'\0'),source])).digest('hex'),pin.gitBlob);
+  const matches=report.sdk50Sources.filter(x=>x.path===pin.path);assert.equal(matches.length,1);assert.deepEqual(matches[0],{path:pin.path,bytes:pin.bytes,sha256:pin.sha256,gitBlob:pin.gitBlob});}
+}
 export function checkReport(report){
  assert.equal(report?.status,'passed');
  assert.equal(report?.connectionClose?.attempted,true);
@@ -64,6 +102,7 @@ export function checkReport(report){
  assert.equal(report?.reference?.commit,'0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e');
  assert.equal(report?.admission?.version,'16.15');
  assert.ok(report?.royaltyTemplate);
+ verifySdk50(report);
  assert.equal(report?.ownedSchema?.status,'passed');
  assert.equal(report?.ownedSchema?.rollbackSucceeded,true);
  verifyOwned(report.ownedSchema);

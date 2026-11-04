@@ -1,0 +1,141 @@
+{
+  "status": "passed",
+  "scope": "original source VM and isolated PostgreSQL; no SDK/native/HTTP qualification",
+  "operations": [
+    {
+      "name": "selected-overflow",
+      "params": {
+        "collection_name": "colone",
+        "schema_name": "positive"
+      },
+      "sql": "\n        WITH asset_count AS (\n            SELECT contract, collection_name, schema_name, SUM(assets)::INT assets\n            FROM atomicassets_asset_counts\n            GROUP BY contract, collection_name, schema_name\n        )\n        SELECT m.*, COALESCE(ac.assets, 0) assets\n        FROM atomicassets_schemas_master m\n            LEFT OUTER JOIN asset_count ac USING (contract, collection_name, schema_name)\n     WHERE contract = $1 AND collection_name = $2 AND schema_name = $3 AND schema_name = $3 ORDER BY created_at_time desc NULLS LAST, schema_name ASC LIMIT $4 OFFSET $5  ",
+      "bindings": [
+        "atomicassets",
+        "colone",
+        "positive",
+        100,
+        0
+      ],
+      "terminal": "returned",
+      "dbError": {
+        "code": "22003",
+        "message": "integer out of range"
+      },
+      "http": {
+        "status": 500,
+        "body": {
+          "success": false,
+          "message": "Internal Server Error"
+        }
+      },
+      "dbTerminal": "error"
+    },
+    {
+      "name": "off-page-overflow",
+      "params": {
+        "collection_name": "colone",
+        "sort": "schema_name",
+        "order": "asc",
+        "page": "1",
+        "limit": "1"
+      },
+      "sql": "\n        WITH asset_count AS (\n            SELECT contract, collection_name, schema_name, SUM(assets)::INT assets\n            FROM atomicassets_asset_counts\n            GROUP BY contract, collection_name, schema_name\n        )\n        SELECT m.*, COALESCE(ac.assets, 0) assets\n        FROM atomicassets_schemas_master m\n            LEFT OUTER JOIN asset_count ac USING (contract, collection_name, schema_name)\n     WHERE contract = $1 AND collection_name = $2 ORDER BY schema_name asc NULLS LAST, schema_name ASC LIMIT $3 OFFSET $4  ",
+      "bindings": [
+        "atomicassets",
+        "colone",
+        1,
+        0
+      ],
+      "terminal": "returned",
+      "dbError": {
+        "code": "22003",
+        "message": "integer out of range"
+      },
+      "http": {
+        "status": 500,
+        "body": {
+          "success": false,
+          "message": "Internal Server Error"
+        }
+      },
+      "dbTerminal": "error"
+    },
+    {
+      "name": "count-overflow",
+      "params": {
+        "collection_name": "colone"
+      },
+      "sql": "SELECT COUNT(*) counter FROM (\n        WITH asset_count AS (\n            SELECT contract, collection_name, schema_name, SUM(assets)::INT assets\n            FROM atomicassets_asset_counts\n            GROUP BY contract, collection_name, schema_name\n        )\n        SELECT m.*, COALESCE(ac.assets, 0) assets\n        FROM atomicassets_schemas_master m\n            LEFT OUTER JOIN asset_count ac USING (contract, collection_name, schema_name)\n     WHERE contract = $1 AND collection_name = $2 ) x",
+      "bindings": [
+        "atomicassets",
+        "colone"
+      ],
+      "terminal": "returned",
+      "dbError": null,
+      "http": {
+        "status": 200,
+        "body": {
+          "success": true,
+          "data": "4",
+          "query_time": 1793778296454
+        }
+      },
+      "dbTerminal": "returned",
+      "rowCount": 1
+    },
+    {
+      "name": "statement-timeout",
+      "params": {
+        "collection_name": "colone"
+      },
+      "sql": "\n        WITH asset_count AS (\n            SELECT contract, collection_name, schema_name, SUM(assets)::INT assets\n            FROM atomicassets_asset_counts\n            GROUP BY contract, collection_name, schema_name\n        )\n        SELECT m.*, COALESCE(ac.assets, 0) assets\n        FROM atomicassets_schemas_master m\n            LEFT OUTER JOIN asset_count ac USING (contract, collection_name, schema_name)\n     WHERE contract = $1 AND collection_name = $2 ORDER BY created_at_time desc NULLS LAST, schema_name ASC LIMIT $3 OFFSET $4  ",
+      "bindings": [
+        "atomicassets",
+        "colone",
+        100,
+        0
+      ],
+      "terminal": "returned",
+      "dbError": {
+        "code": "57014",
+        "message": "canceling statement due to statement timeout"
+      },
+      "http": {
+        "status": 408,
+        "body": {
+          "success": false,
+          "message": "Max database query time exceeded. Please try to add more filters to your query."
+        }
+      },
+      "dbTerminal": "error"
+    }
+  ],
+  "setup": [
+    {
+      "role": "locker",
+      "sql": "LOCK TABLE atomicassets_asset_counts IN ACCESS EXCLUSIVE MODE",
+      "bindings": [],
+      "terminal": "returned",
+      "rowCount": null
+    },
+    {
+      "role": "reader",
+      "sql": "SET LOCAL statement_timeout = '100ms'",
+      "bindings": [],
+      "terminal": "returned",
+      "rowCount": null
+    }
+  ],
+  "cleanup": [
+    {
+      "role": "reader",
+      "rollback": true,
+      "released": true
+    },
+    {
+      "role": "locker",
+      "rollback": true,
+      "released": true
+    }
+  ]
+}
