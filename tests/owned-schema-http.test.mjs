@@ -15,8 +15,8 @@ import {input,initial,mint,transfer,action,row} from './fixtures/asset-domain-ca
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 const hex=n=>n.toString(16).padStart(64,'0'),clone=structuredClone;
-async function setup(){
- const bounds={...limits(),recordKinds:22,responseRecords:5},plugin=createAtomicStatefulPlugin({limits:bounds,ownedSchemaCounts:true});
+async function setup(engineeringMongoComparison=false){
+ const bounds={...limits(),recordKinds:22,responseRecords:5},plugin=createAtomicStatefulPlugin({limits:bounds,ownedSchemaCounts:true,...(engineeringMongoComparison?{engineeringOwnedSchemaMongoComparison:true}:{})});
  const r=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections[0];
  const requirement=r.requiredIndexedQueries.find(x=>x.model.id===OWNED_SCHEMA_MODEL_ID);assert.ok(requirement);
  const binding={chainId:hex(1),backendId:'owned-http',generation:'fresh',mappingRevision:hex(2),hookArtifact:hex(3),hookRevision:hex(4),codecRevision:hex(5),normalizerRevision:hex(6)};
@@ -24,7 +24,7 @@ async function setup(){
  const own=supported=>({family:owner.STATEFUL_OWNER_FAMILY_V2,interfaceVersion:2,sourceInputVersions:[2],supported,limits:bounds});
  const d=await owner.negotiateStatefulOwnerV2(projection,own(owner.STATEFUL_OWNER_HOST_CAPABILITIES_V2),own(owner.STATEFUL_OWNER_ADAPTER_CAPABILITIES_V2));
  const model=await indexed.captureIndexedDeclarationV1(d,requirement.modelRevision,requirement.model);
- const offer={family:indexed.STATEFUL_INDEXED_QUERY_FAMILY_V1,interfaceVersion:1,queryDeclarationDigests:[model.digest],comparisonProfiles:[SCHEMA_LIST_COMPARISON],limits:requirement.limits};
+ const offer={family:indexed.STATEFUL_INDEXED_QUERY_FAMILY_V1,interfaceVersion:1,queryDeclarationDigests:[model.digest],comparisonProfiles:[requirement.model.textComparison],limits:requirement.limits};
  const selection=indexed.negotiateIndexedQueryV1(model,requirement.limits,offer,offer),adapter=new CompleteKindReference(d),plans=[],calls=[],flags={retired:false,cancelled:false,coverage:false},publications=new Map();
  adapter.indexedCapabilities=offer;adapter.queryCompleted=async(read,view,request,_remaining)=>{adapter.use(read,view);calls.push(clone(request));const plan=plans.shift();assert.ok(plan);return {view:clone(view),queryDeclarationDigest:model.digest,result:clone(plan),attempts:1};};
  const api=Fastify(),state={api,plans,calls,adapter,flags,beforeSerialize:undefined,beforeSend:undefined,projection,binding,bounds,d};
@@ -95,5 +95,15 @@ test('oversize, incomplete and unavailable responses fail closed',async()=>{
  const s=await setup();try{s.plans.push(count(5));assert.equal((await s.api.inject('/atomicassets/v1/collections/cats/schemas')).statusCode,503);assert.equal(s.calls.length,1);
   s.plans.push(count(2),page(['a']));assert.equal((await s.api.inject('/atomicassets/v1/collections/cats/schemas')).statusCode,503);
   s.plans.push(count(1),page(['a']));s.adapter.live=false;const r=await s.api.inject('/atomicassets/v1/collections/cats/schemas');assert.equal(r.statusCode,503);assert.equal(r.headers['cache-control'],'no-store');
+ }finally{await s.api.close();}
+});
+
+test('explicit Mongo engineering model retains bounded complete-set HTTP behavior',async()=>{
+ const s=await setup(true);try{
+  s.plans.push(count(2),page(['alpha','beta']));const r=await s.api.inject('/atomicassets/v1/collections/cats/schemas');
+  assert.equal(r.statusCode,200);assert.deepEqual(r.json().data,[{schema_name:'alpha'},{schema_name:'beta'}]);
+  assert.equal(s.calls.length,2);assert.deepEqual(s.calls[0].where,[{field:'contract',op:'eq',value:'atomicassets'},{field:'collection_name',op:'eq',value:'cats'},{field:'owned',op:'gt',value:'0'}]);
+  assert.deepEqual(s.calls[1].where,s.calls[0].where);assert.equal(s.calls[1].limit,2);
+  s.plans.push(count(5));assert.equal((await s.api.inject('/atomicassets/v1/collections/cats/schemas')).statusCode,503);assert.equal(s.calls.length,3);
  }finally{await s.api.close();}
 });
