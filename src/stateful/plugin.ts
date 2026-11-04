@@ -25,6 +25,7 @@ import {schemaListRequirement} from './schema-indexed.js';
 import {registerSchemaListRoutes} from '../http/schema-list-routes.js';
 import {royaltyRuleProjections,royaltyRuleProjectionId} from './royalty-rules.js';
 import {registerRoyaltyAttributeRoute} from '../http/royalty-attribute-route.js';
+import {registerRoyaltyTemplateRoute} from '../http/royalty-template-route.js';
 export {ATOMIC_HOOK_INVENTORY} from './hook-inventory.js';
 export {ATOMIC_METADATA_CODEC, createAtomicMetadataCodec} from './metadata-codec.js';
 export type {MetadataCodec} from '../atomicassets/internal/lifecycle-port.js';
@@ -39,6 +40,8 @@ export interface AtomicPluginOptions {
   readonly limits: StatefulLimits;
   /** Original namespace API ceilings, separate from unchanged state/read budgets. */
   readonly apiLimits?: {readonly schemas?: number;readonly royalties?: number};
+  /** Engineering only: requires SDK51 and a separately qualified template indexed backend. */
+  readonly engineeringRoyaltyTemplateQuery?: boolean;
 }
 export interface AtomicPluginApiContext {
   readonly statefulQueryHost: (request: FastifyRequest) => StatefulQueryHostV2;
@@ -80,6 +83,7 @@ export const ATOMIC_CAPABILITY_GAPS = Object.freeze(['full original processor ef
 
 /** One compound projection; this module owns domain conversion, never source/owner/native authority. */
 export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
+  const engineeringRoyaltyTemplateQuery=options.engineeringRoyaltyTemplateQuery===true;
   const projectionId = text(options.projectionId ?? 'atomicassets');
   const royaltyProjectionId = projectionId + ':royalty-config';
   const assets = text(options.assetsContract ?? 'atomicassets'), market = text(options.marketContract ?? 'atomicmarket');
@@ -208,7 +212,7 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
         limits: JSON.parse(JSON.stringify(limits)) as StatefulLimits, requiredSourceCapabilities:sourceCapabilities,
         requiredCompleteKindRead: {family:'stateful-owner-complete-kind',interfaceVersion:1,limits:completeKindLimits},
         requiredIndexedQueries:[schemaListRequirement(limits)],reduce},
-        royaltyConfigProjection(royaltyProjectionId,market,limits),...royaltyRuleProjections(projectionId,market,limits)]};
+        royaltyConfigProjection(royaltyProjectionId,market,limits),...royaltyRuleProjections(projectionId,market,limits,engineeringRoyaltyTemplateQuery)]};
     },
     addRoutes(server: FastifyInstance, context?: AtomicPluginApiContext): void {
       if (!context || typeof context.statefulQueryHost !== 'function') throw new Error('Atomic routes require the host request-scoped query context');
@@ -225,6 +229,10 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
       registerRoyaltyAttributeRoute(server,{projectionId:royaltyRuleProjectionId(projectionId,'royaltyattr'),contract:market,
         ...(options.apiLimits?.royalties!==undefined?{maximum:options.apiLimits.royalties}:{}),
         ...(context.statefulIndexedQueryHost?{indexedQueryHost:context.statefulIndexedQueryHost}:{})});
+      if(engineeringRoyaltyTemplateQuery)registerRoyaltyTemplateRoute(server,{projectionId:royaltyRuleProjectionId(projectionId,'royaltytemp'),contract:market,
+        ...(options.apiLimits?.royalties!==undefined?{maximum:options.apiLimits.royalties}:{}),
+        ...(context.statefulIndexedQueryHost?{indexedQueryHost:context.statefulIndexedQueryHost}:{}),
+        ...(context.operatorLists?{operatorLists:context.operatorLists}:{})});
     },
   });
 }

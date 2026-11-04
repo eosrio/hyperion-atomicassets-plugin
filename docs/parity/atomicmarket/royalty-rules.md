@@ -3,7 +3,7 @@
 Issue [#65](https://github.com/eosrio/hyperion-atomicassets-plugin/issues/65) targets immutable
 Atomic API2.7.0 `0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e`. This first source child adds independent
 `royaltytemp` and `royaltyattr` projections and `/atomicmarket/v1/royalties/:collection_name/attributes`.
-The template list remains unimplemented until integer membership is supported. Neither original
+The optional engineering template list source component requires SDK int64 membership from issue #51. Neither original
 rule list has a count route or interprets a count argument. Payouts/account earnings, rule matching,
 pricing and settlement reconstruction remain outside this component.
 
@@ -17,8 +17,10 @@ the compound market's1.2.2 restriction.
 
 Each table owns one selector/record kind and a separate projection ID:
 `<root>:royalty-template-rules` / `market-royalty-template`, and
-`<root>:royalty-attribute-rules` / `market-royalty-attribute`. The template declaration has no indexed
-query requirement. Only attributes require the new model. Both inherit the existing selected
+`<root>:royalty-attribute-rules` / `market-royalty-attribute`. The attribute declaration requires its
+indexed model. The template declaration requires its model only with explicit
+`engineeringRoyaltyTemplateQuery: true`; the default retains the previous declaration and does
+not register the template route. Both inherit the existing selected
 limits and owner/source-v2 lifecycle; neither can grant coverage/readiness or depend on a config row.
 Runtime initialization and actual ABI/source coverage must establish their complete view before
 queries can return an empty result. An absent table/failed decode is not automatically covered empty.
@@ -53,7 +55,7 @@ and default limit is min(maximum,100). `apiLimits.royalties` carries that existi
 separate from the unchanged selected state/query budgets. Nonstring/empty values receive original
 defaults. Query data is overlaid by the body. Literal path collection wins over unrelated query/body
 fields and is not newly name-validated. Count, sort, order, boundaries, template_id and other unknown
-arguments remain ignored. No count or template-list route is registered by this child.
+arguments remain ignored. No count route is registered by this child.
 
 The backend-neutral model has one base alias, no joins, market/collection/field text equality,
 source int64 equality and numeric rule_id ASC order. The caller requests one complete OFFSET/LIMIT
@@ -78,6 +80,14 @@ the component does not fabricate500 rows or treat an invalidated request as a co
 
 ## Controls and remaining gates
 
+The engineering template route expands operator lists in source order, validates all `template_id` members
+before page/limit, and converts weak signed decimal spellings to exact canonical int64 strings.
+One ID becomes `eq`; two or more become bounded `in`, including duplicates. No application sort,
+kind scan or fanout is used. The adapter must independently qualify set membership and numeric
+ordering under `atomicmarket-270-royalty-template-pg16-v1`. The original null and overflow SQL
+errors cannot yet be represented by SDK #50; after original validation they refuse with retryable
+503 rather than inventing an execution result. No version or backend offer is granted here.
+
 `tests/fixtures/royalty-rule-original-2.7/manifest.json` pins15 raw original blobs by Git ID,
 SHA256 and byte length. The finite VM executes the real callbacks, attribute handler, validator,
 builder, request merge, wrapper and registration. Storage casts, query results and view recovery are
@@ -94,5 +104,5 @@ controllers and broad reference/package runners must not be imported/run on Wind
 
 Keep #65 open for native profile/index/initialization coverage; same-input PostgreSQL16.15/Mongo8.0.34
 query/error/explain/resource comparisons; actual source recovery/fork/restart; managed HAPI
-HTTP/onSend/cache guards; and the separately reviewed integer-membership/template-list capability.
+HTTP/onSend/cache guards; and SDK #51 integration and separately qualified integer membership.
 There is no implicit parity exception or production profile activation.

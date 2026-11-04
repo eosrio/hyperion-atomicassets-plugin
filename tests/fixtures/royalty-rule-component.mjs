@@ -13,7 +13,7 @@ const dist=process.env.ATOMIC_RULE_DIST_ROOT??fileURLToPath(new URL('../../dist'
 export const{default:AtomicPlugin}=await import(pathToFileURL(join(dist,'index.js')));
 export const{reduceRoyaltyRule,readStoredRoyaltyRule,royaltyAttributeRows,ROYALTY_TEMPLATE_KIND,ROYALTY_ATTRIBUTE_KIND}=await import(pathToFileURL(join(dist,'atomicmarket/internal/royalty-rules.js')));
 export const{parseRoyaltyAttributeParameters}=await import(pathToFileURL(join(dist,'atomicmarket/internal/royalty-attribute-query.js')));
-export const{ROYALTY_ATTRIBUTE_MODEL_ID,ROYALTY_ATTRIBUTE_COMPARISON}=await import(pathToFileURL(join(dist,'stateful/royalty-rules.js')));
+export const{ROYALTY_ATTRIBUTE_MODEL_ID,ROYALTY_ATTRIBUTE_COMPARISON,ROYALTY_TEMPLATE_MODEL_ID,ROYALTY_TEMPLATE_COMPARISON}=await import(pathToFileURL(join(dist,'stateful/royalty-rules.js')));
 const clone=v=>structuredClone(v),hex=n=>n.toString(16).padStart(64,'0'),sha=v=>createHash('sha256').update(v).digest('hex');
 const canonical=v=>v===null||typeof v!=='object'?JSON.stringify(v):Array.isArray(v)?'['+v.map(canonical).join(',')+']':'{'+Object.keys(v).sort().map(k=>JSON.stringify(k)+':'+canonical(v[k])).join(',')+'}';
 export const limits=()=>({value:{depth:32,nodes:8192,fields:64,arrayElements:256,stringBytes:65536,recordBytes:262144,integerFields:16,pathSegments:16},
@@ -26,7 +26,7 @@ export const event=(data,changes={})=>({data,present:true,scope:'collection',...
 export const pageRow=row=>({key:key(row.rule_id,row.collection_name,row.market_contract),fields:Object.fromEntries(['market_contract','collection_name','rule_id','source','field'].map(name=>[name,row[name]])),records:{rule:row}});
 export const pageAnswer=(rows=[])=>({kind:'page',complete:true,rows:rows.map(pageRow)});
 
-export async function prepared(table='royaltyattr',{bounds={},options={},withIndexed=true,comparison=ROYALTY_ATTRIBUTE_COMPARISON,beforeRoutes}={}){
+export async function prepared(table='royaltyattr',{bounds={},options={},withIndexed=true,comparison,beforeRoutes,lists}={}){
  const selectedLimits={...limits(),...bounds},plugin=new AtomicPlugin({limits:selectedLimits,...options}),market=options.marketContract??'atomicmarket';
  const registrations=plugin.getStatefulProjectionsV2({binding:{},sourceCapabilities:['original-action-authorization-v1']}).projections;
  const registration=registrations.find(x=>x.definition.selectors.length===1&&x.definition.selectors[0].name===table),id=registration.definition.id;
@@ -36,15 +36,16 @@ export async function prepared(table='royaltyattr',{bounds={},options={},withInd
  const declaration=await owner.negotiateStatefulOwnerV2(projection,caps(owner.STATEFUL_OWNER_HOST_CAPABILITIES_V2),caps(owner.STATEFUL_OWNER_ADAPTER_CAPABILITIES_V2));
  const adapter=new CompleteKindReference(declaration);adapter.view.checkpoint={blockNum:0,blockId:hex(0)};adapter.queryCalls=0;adapter.nativeQueryAttempts=0;
  const requirement=registration.requiredIndexedQueries?.[0],model=requirement?await indexed.captureIndexedDeclarationV1(declaration,requirement.modelRevision,requirement.model):undefined;
- const offer=()=>({family:indexed.STATEFUL_INDEXED_QUERY_FAMILY_V1,interfaceVersion:1,queryDeclarationDigests:model?[model.digest]:[],comparisonProfiles:comparison?[comparison]:[],limits:requirement?.limits});
- adapter.indexedCapabilities=offer();const plans=[],snapshots=[],candidates=[],hostCalls=[],retained=[],publications=new Map(),flags={cancelled:false,expired:false,retired:false,incomplete:false};
+ const selectedComparison=comparison===undefined?(table==='royaltytemp'?ROYALTY_TEMPLATE_COMPARISON:ROYALTY_ATTRIBUTE_COMPARISON):comparison;
+ const offer=()=>({family:indexed.STATEFUL_INDEXED_QUERY_FAMILY_V1,interfaceVersion:1,queryDeclarationDigests:model?[model.digest]:[],comparisonProfiles:selectedComparison?[selectedComparison]:[],limits:requirement?.limits});
+ adapter.indexedCapabilities=offer();const plans=[],queries=[],snapshots=[],candidates=[],hostCalls=[],retained=[],publications=new Map(),flags={cancelled:false,expired:false,retired:false,incomplete:false};
  let sequence=0,branch='main';const api=Fastify();if(beforeRoutes)beforeRoutes(api);
  const guard=(identity,view)=>()=>{adapter.guard();if(Object.values(flags).some(Boolean))throw new v1.StatefulContractError('stateful.unavailable','Rule source/request context unavailable');
   assert.deepEqual(adapter.identity,identity);owner.assertStatefulOwnerViewV2(declaration,adapter.view,view);};
- adapter.queryCompleted=async(read,view,request,remaining,chosen)=>{adapter.use(read,view);adapter.queryCalls++;const p=plans.shift();assert.ok(p,'Unexpected query');assert.equal(chosen.digest,model.digest);
+ adapter.queryCompleted=async(read,view,request,remaining,chosen)=>{adapter.use(read,view);adapter.queryCalls++;queries.push(clone(request));const p=plans.shift();assert.ok(p,'Unexpected query');assert.equal(chosen.digest,model.digest);
   if(p.request)assert.deepEqual(clone(request),p.request);if(p.before)await p.before({request,remaining});
   const result={view:clone(view),queryDeclarationDigest:model.digest,result:clone(p.answer),attempts:p.attempts??1};adapter.nativeQueryAttempts+=result.attempts;if(p.alter)p.alter(result);adapter.use(read,view);return result;};
- const state={api,plugin,registrations,registration,projection,declaration,adapter,id,market,model,requirement,flags,hostCalls,snapshots,candidates,retained,
+ const state={api,plugin,registrations,registration,projection,declaration,adapter,id,market,model,requirement,flags,hostCalls,queries,snapshots,candidates,retained,
   plan(answer=pageAnswer(),request,before){const p={answer,request,before};plans.push(p);return p;},
   async execute(events,{number=adapter.view.checkpoint.blockNum+1,timeMs=String(1700000000000+number*1000)}={}){
    const before=clone(adapter.rows),view=clone(adapter.view),blockId=sha(branch+':'+number+':'+(++sequence));
@@ -68,8 +69,8 @@ export async function prepared(table='royaltyattr',{bounds={},options={},withInd
  api.addHook('onSend',async(request,reply,payload)=>{if(state.beforeSend)await state.beforeSend(request);const entry=publications.get(request.id);if(!entry)return payload;
   try{entry.guard();indexed.assertIndexedQueryPublicationV1(entry.result);return payload;}catch{reply.code(503).header('retry-after','1').header('cache-control','no-store').type('application/json');return JSON.stringify({success:false,message:'Rule publication unavailable'});}});
  api.addHook('onResponse',async request=>{publications.delete(request.id);});
- plugin.addRoutes(api,{statefulQueryHost(){throw Error('Rule route must use indexed port');},operatorLists(){throw Error('Attributes must not resolve lists');},
-  ...(withIndexed?{statefulIndexedQueryHost:async(request,projectionId,modelId)=>{hostCalls.push({projectionId,modelId});assert.equal(projectionId,id);assert.equal(modelId,ROYALTY_ATTRIBUTE_MODEL_ID);
+ plugin.addRoutes(api,{statefulQueryHost(){throw Error('Rule route must use indexed port');},operatorLists(request){if(!lists)throw Error('Unexpected list resolution');return lists(request);},
+  ...(withIndexed?{statefulIndexedQueryHost:async(request,projectionId,modelId)=>{hostCalls.push({projectionId,modelId});assert.equal(projectionId,id);assert.equal(modelId,table==='royaltytemp'?ROYALTY_TEMPLATE_MODEL_ID:ROYALTY_ATTRIBUTE_MODEL_ID);
    return{indexedCapabilities:offer(),async compose(chosen,callback){assert.equal(chosen,id);const identity=clone(adapter.identity),view=clone(adapter.view),authority=guard(identity,view);
     const selection=indexed.negotiateIndexedQueryV1(model,requirement.limits,offer(),adapter.indexedCapabilities),result=await indexed.composeStatefulOwnerIndexedReadV1(selection,adapter,identity,view,callback,authority);
     const retainedGuard=()=>{authority();indexed.assertIndexedQueryPublicationV1(result);};retained.push(retainedGuard);publications.set(request.id,{result,guard:retainedGuard});return result;}};}}:{})});
