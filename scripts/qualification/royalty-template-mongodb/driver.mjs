@@ -44,7 +44,8 @@ export async function runRoyaltyTemplateNativeDifferential({registration,declara
   assert.equal(result.status,'applied');assert.ok(lastCandidate);await adapter.retireRaw(lease,target.digest,lastCandidate.source.digest,lastCandidate.digest);
  }
  async function observe(query,name){
-  currentName=name;guard();const before=(await adapter.recovery()).view;attempts=0;nativeRows=undefined;nativeComplete=false;
+  currentName=name;guard();const recovery=await adapter.recovery(),before=recovery.view;attempts=0;nativeRows=undefined;nativeComplete=false;
+  onPhase({name:'am:'+name,expected:before,owner:identity,ownerClaim:recovery.owner.claimDigest,ownerDeclaration:declaration.digest});
   const response=await api.inject({url:'/atomicmarket/v1/royalties/oracle/templates',query});const body=response.json();
   const observation={query:structuredClone(query),view:before,statusCode:response.statusCode,body,nativeRows,nativeComplete,nativeAttempts:attempts};
   onObservation(observation);
