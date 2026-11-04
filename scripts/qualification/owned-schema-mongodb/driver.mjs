@@ -16,7 +16,7 @@ const copy=structuredClone;
 
 // registration and model must come from createAtomicStatefulPlugin with both
 // ownedSchemaCounts and engineeringOwnedSchemaMongoComparison explicitly enabled.
-export async function runOwnedSchemaNativeDifferential({registration,declaration,model,limits,adapter,engineering,identity,lease,guard,rollback,retain,load}) {
+export async function runOwnedSchemaNativeDifferential({registration,declaration,model,limits,adapter,engineering,identity,lease,guard,rollback,retain,load,onObservation}) {
  assert.equal(model.model.id,OWNED_SCHEMA_MODEL_ID);
  assert.equal(model.model.textComparison,'mongodb-simple-utf8-v1');
  assert.equal(declaration.projection.definition.records.some(x=>x.kind==='owned-schema-count'),true);
@@ -62,6 +62,7 @@ export async function runOwnedSchemaNativeDifferential({registration,declaration
    const result=await adapter.readCompleted(read,current.view,keys);counts=result.results.flatMap((entry,i)=>entry.status==='present'?[{schema_name:names[i]===input.schema?'alpha':names[i],owned:entry.value.owned}]:entry.status==='covered-absent'?[]:(()=>{throw Error('count coverage unavailable');})());
   }finally{adapter.closeRead(read);}
   const response=await api.inject('/atomicassets/v1/collections/'+input.collection+'/schemas'),body=response.json();
+  onObservation({name,view:current.view,statusCode:response.statusCode,body:copy(body),counts:copy(counts)});
   assert.deepEqual((await adapter.recovery()).view,current.view,'owner view changed across count and HTTP observation');
   if(Array.isArray(body.data))for(const item of body.data)if(item.schema_name===input.schema)item.schema_name='alpha';
   return {name,statusCode:response.statusCode,body,counts};
