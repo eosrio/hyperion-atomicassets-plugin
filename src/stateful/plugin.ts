@@ -23,7 +23,7 @@ import {registerRoyaltyConfigRoute} from '../http/royalty-config-route.js';
 import type {IndexedLimitsV1,IndexedModelV1,IndexedQueryHostV1} from '@eosrio/hyperion-sdk/projection-stateful-indexed-query-v1';
 import {schemaListRequirement} from './schema-indexed.js';
 import {registerSchemaListRoutes} from '../http/schema-list-routes.js';
-import {royaltyRuleProjections,royaltyRuleProjectionId} from './royalty-rules.js';
+import {royaltyRuleProjections,royaltyRuleProjectionId,royaltyAttributeLimits} from './royalty-rules.js';
 import {registerRoyaltyAttributeRoute} from '../http/royalty-attribute-route.js';
 import {registerRoyaltyTemplateRoute} from '../http/royalty-template-route.js';
 import {ownedSchemaRequirement} from './owned-schema-indexed.js';
@@ -236,7 +236,7 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
       registerRoyaltyAttributeRoute(server,{projectionId:royaltyRuleProjectionId(projectionId,'royaltyattr'),contract:market,
         ...(options.apiLimits?.royalties!==undefined?{maximum:options.apiLimits.royalties}:{}),
         ...(context.statefulIndexedQueryHost?{indexedQueryHost:context.statefulIndexedQueryHost}:{})});
-      if(engineeringRoyaltyTemplateQuery)registerRoyaltyTemplateRoute(server,{projectionId:royaltyRuleProjectionId(projectionId,'royaltytemp'),contract:market,
+      if(engineeringRoyaltyTemplateQuery)registerRoyaltyTemplateRoute(server,{projectionId:royaltyRuleProjectionId(projectionId,'royaltytemp'),contract:market,inputBounds:royaltyAttributeLimits(limits),
         ...(options.apiLimits?.royalties!==undefined?{maximum:options.apiLimits.royalties}:{}),
         ...(context.statefulIndexedQueryHost?{indexedQueryHost:context.statefulIndexedQueryHost}:{}),
         ...(context.operatorLists?{operatorLists:context.operatorLists}:{})});

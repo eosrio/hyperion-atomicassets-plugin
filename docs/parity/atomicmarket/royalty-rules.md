@@ -83,6 +83,10 @@ the component does not fabricate500 rows or treat an invalidated request as a co
 
 The engineering template route expands operator lists in source order, validates all `template_id` members
 before page/limit, and converts weak signed decimal spellings to exact canonical int64 strings.
+Raw UTF-8 input, token count, expanded item count and list-supplied UTF-8 bytes are bounded before
+the corresponding expansion or conversion. The ceiling comes from the selected query byte and
+set-value limits; one item remains permitted for scalar equality when the set allowance is zero.
+Budget refusal is unavailable, not a partial list or a successful filtered response.
 One ID becomes `eq`; two or more become bounded `in`, including duplicates. No application sort,
 kind scan or fanout is used. The adapter must independently qualify set membership and numeric
 ordering under `atomicmarket-270-royalty-template-pg16-v1`. The original null and overflow SQL

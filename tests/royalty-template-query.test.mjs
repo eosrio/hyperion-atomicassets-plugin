@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {originalRules} from './fixtures/royalty-rule-original.mjs';
 import {prepared,template,event,key,limits,AtomicPlugin,ROYALTY_TEMPLATE_MODEL_ID,ROYALTY_TEMPLATE_COMPARISON} from './fixtures/royalty-rule-component.mjs';
+import {parseRoyaltyTemplateParameters} from '../dist/atomicmarket/internal/royalty-template-query.js';
 const url='/atomicmarket/v1/royalties/collection/templates',clean=body=>{const result=JSON.parse(JSON.stringify(body));delete result.query_time;return result;};
 const page=rows=>({kind:'page',complete:true,rows:rows.map(row=>({key:key(row.template_id,row.collection_name,row.market_contract),fields:{market_contract:row.market_contract,collection_name:row.collection_name,template_id:row.template_id},records:{rule:row}}))});
 const publicRow=row=>{const {recordVersion,...value}=structuredClone(row);assert.equal(recordVersion,1);return value;};
@@ -56,4 +57,33 @@ test('validation precedes unavailable DB outcomes, list provider and late host p
    const r=await s.api.inject({url,query});assert.equal(r.statusCode,status);if(status===400)assert.match(r.json().message,/template_id|page/);}
   s.plan(page([]));s.beforeSend=()=>{s.flags.retired=true;};const r=await s.api.inject(url);assert.equal(r.statusCode,503);assert.equal(r.headers['cache-control'],'no-store');
  }finally{await s.close();}
+});
+test('raw bytes and token count refuse before provider creation or token expansion',async()=>{
+ let providers=0;const host=()=>{providers++;throw Error('provider must not run');},bounds={queryBytes:16,setValues:2};
+ for(const input of ['$list:x,1,2','$list:'+('x'.repeat(20)),'雪'.repeat(6)])
+  await assert.rejects(parseRoyaltyTemplateParameters({template_id:input},'atomicmarket','collection',bounds,host),e=>e.code==='stateful.unavailable');
+ assert.equal(providers,0);
+});
+test('expanded list counts and UTF8 bytes are cumulative before further providers or conversion',async()=>{
+ let calls=0,reads=0;const huge=Array(3);Object.defineProperty(huge,0,{get(){reads++;throw Error('unexpected item read');}});
+ const over=()=>({async resolve(names){calls++;return {source:'s',generation:'g',entries:[{name:names[0],items:huge}]};}});
+ await assert.rejects(parseRoyaltyTemplateParameters({template_id:'$list:x,$list:y'},'atomicmarket','collection',{queryBytes:100,setValues:2},over),e=>e.code==='stateful.unavailable');
+ assert.equal(calls,1);assert.equal(reads,0);
+ calls=0;const repeated=()=>({async resolve(names){calls++;return {source:'s',generation:'g',entries:[{name:names[0],items:['1','2']}]};}});
+ await assert.rejects(parseRoyaltyTemplateParameters({template_id:'$list:x,$list:x'},'atomicmarket','collection',{queryBytes:100,setValues:3},repeated),e=>e.code==='stateful.unavailable');assert.equal(calls,1);
+ const wide=()=>({async resolve(names){return {source:'s',generation:'g',entries:[{name:names[0],items:['雪雪']}]};}});
+ await assert.rejects(parseRoyaltyTemplateParameters({template_id:'$list:x'},'atomicmarket','collection',{queryBytes:14,setValues:2},wide),e=>e.code==='stateful.unavailable');
+});
+test('within bounds reference validation order remains intact and scalar equality permits zero set budget',async()=>{
+ const bounds={queryBytes:100,setValues:0};
+ const query=await parseRoyaltyTemplateParameters({template_id:'001'},'atomicmarket','collection',bounds);assert.deepEqual(query.where.at(-1),{field:'template_id',op:'eq',value:'1'});
+ const zeros=await parseRoyaltyTemplateParameters({template_id:'-'.concat('0'.repeat(200),'1')},'atomicmarket','collection',{queryBytes:256,setValues:0});assert.equal(zeros.where.at(-1).value,'-1');
+ await assert.rejects(parseRoyaltyTemplateParameters({template_id:'9'.repeat(20)},'atomicmarket','collection',bounds),e=>e.code==='stateful.unavailable');
+ await assert.rejects(parseRoyaltyTemplateParameters({template_id:'bad',page:'0'},'atomicmarket','collection',bounds),/parameter template_id/);
+ await assert.rejects(parseRoyaltyTemplateParameters({template_id:'null',page:'0'},'atomicmarket','collection',bounds),/parameter page/);
+ await assert.rejects(parseRoyaltyTemplateParameters({template_id:'1',page:'01'},'atomicmarket','collection',{queryBytes:2,setValues:1}),e=>e.code==='stateful.unavailable');
+});
+test('route forwards parser budgets and refuses excess before indexed host or list resolution',async()=>{
+ let calls=0;const selected=limits(),s=await prepared('royaltytemp',{options:{engineeringRoyaltyTemplateQuery:true},bounds:{value:{...selected.value,arrayElements:2}},lists:()=>({async resolve(){calls++;throw Error('must not run');}})});
+ try{const response=await s.api.inject({url,query:{template_id:'$list:a,1,2'}});assert.equal(response.statusCode,503);assert.equal(response.headers['cache-control'],'no-store');assert.equal(calls,0);assert.equal(s.adapter.queryCalls,0);}finally{await s.close();}
 });
