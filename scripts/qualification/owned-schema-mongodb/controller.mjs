@@ -16,7 +16,7 @@ export const PROFILE='atomicassets-owned-schema-cbfb-c561-qualification-v1';
 export const HAPI_REVISION='c5619c990039b5d02dfa635d1540669305c3f3fe';
 export const SDK_REVISION='cbfb26694b90b52266d1e0b9b5dbf6f8389e736b';
 export const NATIVE_PROFILE='indexed-royalty-sdk-cbfb-native-cf514-engineering-v1';
-export const DOMAIN_PROFILE_SHA256='6d95bbe7ef20f77f99f227fb13fce9eb24f16d091424af18aca0e7e4309a1192';
+export const DOMAIN_PROFILE_SHA256='d4e8fa9e794be90c5200b0ddcb9b238f388c6c11599c33f7468eb3b527a74575';
 const root=new URL('../../../',import.meta.url),digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 function inventory(rootPath) {
  const rows=[];let total=0;function visit(dir){for(const name of readdirSync(dir).sort()){const path=join(dir,name),stat=lstatSync(path);assert.equal(stat.isSymbolicLink(),false);
@@ -45,9 +45,9 @@ export async function prepareOwnedSchemaDeclaration(backendId,generation){
 }
 // Client and native modules must be selected by the caller's separately admitted,
 // bounded Linux controller. This function does not admit assembly or create resources.
-export async function runOwnedSchemaQualification({profile,admission,client,databaseName,generation,nativeOwner,nativeIndexed,nativeEngineering,persist}){
+export async function runOwnedSchemaQualification({profile,admission,client,databaseName,generation,nativeOwner,nativeIndexed,nativeEngineering,persist,onPhase,onNamespace}){
  assert.equal(profile,PROFILE);assert.equal(admission?.hapiRevision,HAPI_REVISION);assert.equal(admission?.sdkRevision,SDK_REVISION);assert.equal(admission?.profile,NATIVE_PROFILE);verifyDomainProfile();
- assert.equal(typeof persist,'function');assert.ok(client);const prepared=await prepareOwnedSchemaDeclaration(databaseName,generation);
+ assert.equal(typeof persist,'function');assert.equal(typeof onPhase,'function');assert.equal(typeof onNamespace,'function');assert.ok(client);const prepared=await prepareOwnedSchemaDeclaration(databaseName,generation);
  const {registration,requirement,projection,bounds}=prepared,draft=await owner.captureStatefulOwnerDeclarationV2(projection,2);
  const config={client,databaseName,backendId:databaseName,collectionPrefix:'atomicassets_owned',declaration:draft,receiptRetention:4,rollbackRetentionBlocks:4,rollbackRetentionBytes:4194304,rollbackMaxBlockBytes:1048576,operationTimeoutMS:5000,transactionTimeoutMS:15000};
  const completeLimits={readAttempts:12,responseRecords:8,responseBytes:65536};
@@ -56,6 +56,7 @@ export async function runOwnedSchemaQualification({profile,admission,client,data
  const declaration=await owner.negotiateStatefulOwnerV2(projection,host,base.capabilities);
  const model=await indexed.captureIndexedDeclarationV1(declaration,requirement.modelRevision,requirement.model);
  const adapter=await nativeIndexed.createMongoDbStatefulIndexedAdapterV1({...config,declaration},[{declaration:model,limits:requirement.limits}],completeLimits,base);
+ onNamespace(config.collectionPrefix+'_ix1_'+model.digest+'_r',model.digest);
  const engineering=nativeEngineering.selectMongoDbRoyaltyEngineeringAssemblyV1(adapter,NATIVE_PROFILE);
  assert.deepEqual(adapter.indexedCapabilities.queryDeclarationDigests,[],'production adapter must not offer engineering model');
  let identity={id:'atomicassets-owned-qualification',generation:'one'},lease=await adapter.acquireOwner({expected:null,nextOwner:identity},()=>{}),serial=1000,active=true;
@@ -65,6 +66,6 @@ export async function runOwnedSchemaQualification({profile,admission,client,data
  const rollback=async ancestor=>{guard();const before=await adapter.recovery();await adapter.rollbackOwned(lease,{declarationDigest:declaration.digest,revision:before.view.revision,operationId:hex(++serial),from:before.view.checkpoint,ancestor,maxBlocks:before.view.checkpoint.blockNum-ancestor.blockNum});
   const recovery=await adapter.recovery();identity={...identity,generation:'owner-'+(++serial)};lease=await adapter.acquireOwner({expected:{version:recovery.version,view:recovery.view,owner:recovery.owner},nextOwner:identity},guard);persist({event:'rollback',ancestor,view:recovery.view});return {identity,lease};};
  persist({event:'declarations',profile,projectionDigest:projection.digest,ownerDigest:declaration.digest,modelDigest:model.digest,modelHash:sha(model.model),generation,authority:'controlled synthetic fixture; no chain or production authority'});
- try {const snapshots=await runOwnedSchemaNativeDifferential({registration,declaration,model,limits:requirement.limits,adapter,engineering,identity,lease,guard,rollback,...store,onObservation:observation=>persist({event:'observation',...observation})});persist({event:'snapshots',snapshots});return {snapshots,projectionDigest:projection.digest,ownerDigest:declaration.digest,modelDigest:model.digest};}
+ try {const snapshots=await runOwnedSchemaNativeDifferential({registration,declaration,model,limits:requirement.limits,adapter,engineering,identity,lease,guard,rollback,...store,onPhase,onObservation:observation=>persist({event:'observation',...observation})});persist({event:'snapshots',snapshots});return {snapshots,projectionDigest:projection.digest,ownerDigest:declaration.digest,modelDigest:model.digest};}
  finally {active=false;}
 }

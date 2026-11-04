@@ -55,7 +55,7 @@
     },
     {
       "path": "scripts/qualification/owned-schema-mongodb/driver.mjs",
-      "sha256": "503c7298018589d4ec158f641eb81a14c229af3e66dc75a708ddc93e8390c852"
+      "sha256": "225f9179262e2c18ed4ed0941834e5f543f973893fce1d004cc4e80444a98a20"
     }
   ],
   "pluginDist": [

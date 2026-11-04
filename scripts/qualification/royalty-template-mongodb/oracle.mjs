@@ -31,9 +31,9 @@ export async function compareRoyaltyTemplates(driver){
  const original=originalSnapshot(),byName=new Map(original.results.map(row=>[row.name,row]));
  await driver.initialize(original.physicalRows.map(row=>row.template_id));
  const successes=[],refusals=[];
- for(const name of SUCCESS){const expected=byName.get(name);assert.ok(expected,name);successes.push(verifySuccess(expected,await driver.observe(expected.query)));}
- for(const name of REFUSALS){const expected=byName.get(name);assert.ok(expected,name);refusals.push(verifyRefusal(expected,await driver.observe(expected.query)));}
+ for(const name of SUCCESS){const expected=byName.get(name);assert.ok(expected,name);successes.push(verifySuccess(expected,await driver.observe(expected.query,name)));}
+ for(const name of REFUSALS){const expected=byName.get(name);assert.ok(expected,name);refusals.push(verifyRefusal(expected,await driver.observe(expected.query,name)));}
  const invalid=byName.get('invalid-before-sql');assert.equal(invalid.http.status,400);assert.equal(invalid.sql,null);
- const rejected=await driver.observe(invalid.query);assert.equal(rejected.statusCode,400);assert.equal(rejected.nativeAttempts,0);
+ const rejected=await driver.observe(invalid.query,'invalid-before-sql');assert.equal(rejected.statusCode,400);assert.equal(rejected.nativeAttempts,0);
  return {successes,refusals,invalidStatus:rejected.statusCode,qualification:'unproven-without-independent-native-driver-custody'};
 }

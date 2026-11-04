@@ -16,13 +16,13 @@ const copy=structuredClone;
 
 // registration and model must come from createAtomicStatefulPlugin with both
 // ownedSchemaCounts and engineeringOwnedSchemaMongoComparison explicitly enabled.
-export async function runOwnedSchemaNativeDifferential({registration,declaration,model,limits,adapter,engineering,identity,lease,guard,rollback,retain,load,onObservation}) {
+export async function runOwnedSchemaNativeDifferential({registration,declaration,model,limits,adapter,engineering,identity,lease,guard,rollback,retain,load,onObservation,onPhase}) {
  assert.equal(model.model.id,OWNED_SCHEMA_MODEL_ID);
  assert.equal(model.model.textComparison,'mongodb-simple-utf8-v1');
  assert.equal(declaration.projection.definition.records.some(x=>x.kind==='owned-schema-count'),true);
  assert.equal(typeof guard,'function');
  const publication=new Map(),api=Fastify();
- let serial=100,ancestor,lastCandidate;
+ let serial=100,ancestor,lastCandidate,currentName;
  const stored={load,async retain(candidate){await retain(candidate);lastCandidate=candidate;}};
  api.addHook('onSend',async(request,reply,payload)=>{
   const result=publication.get(request.id);if(!result)return payload;
@@ -33,7 +33,8 @@ export async function runOwnedSchemaNativeDifferential({registration,declaration
  registerOwnedSchemaRoute(api,{projectionId:'atomicassets',contract:input.contract,responseRecords:limits.responseRecords,
   async indexedQueryHost(request,_projection,id){
    assert.equal(id,OWNED_SCHEMA_MODEL_ID);guard();
-   const current=await adapter.recovery(),native=await engineering.indexedForModel(current.view,model.digest,guard);
+   const current=await adapter.recovery();onPhase({name:'aa:'+currentName,expected:current.view,owner:identity,ownerClaim:current.owner.claimDigest,ownerDeclaration:declaration.digest});
+   const native=await engineering.indexedForModel(current.view,model.digest,guard);
    const offer={family:indexed.STATEFUL_INDEXED_QUERY_FAMILY_V1,interfaceVersion:1,queryDeclarationDigests:[model.digest],comparisonProfiles:['mongodb-simple-utf8-v1'],limits};
    const selection=indexed.negotiateIndexedQueryV1(model,limits,offer,native.indexedCapabilities);
    return {indexedCapabilities:native.indexedCapabilities,async compose(_id,fn){
@@ -57,7 +58,7 @@ export async function runOwnedSchemaNativeDifferential({registration,declaration
  const a=input.assetId,b='9007199254740994',c='9007199254740995',g='9007199254740996';
  const steps={empty:async()=>{},insert:async()=>{await apply(initial());const x=mint(b);x.value.new_asset_owner='bob';await apply([x]);const y=mint(c);y.value.schema_name='beta';y.value.new_asset_owner='carol';await apply([row('schemas',{schema_name:'beta',format:input.format}),y]);const z=mint(g);z.value.schema_name='gamma';await apply([row('schemas',{schema_name:'gamma',format:input.format}),z]);await apply([action('logburnasset',{asset_id:g,asset_owner:'alice'})]);},transfer:()=>apply([transfer('alice','dave')]),'burn-one':()=>apply([action('logburnasset',{asset_id:a,asset_owner:'dave'})]),'burn-last':async()=>{ancestor=(await adapter.recovery()).view.checkpoint;await apply([action('logburnasset',{asset_id:b,asset_owner:'bob'})]);},'after-rollback':async()=>{const next=await rollback(ancestor);identity=next.identity;lease=next.lease;},'delete-alpha':()=>apply([],b),'delete-beta':()=>apply([],c)};
  async function observe(name){
-  guard();const current=await adapter.recovery(),read=await adapter.completedRead(identity,current.view,guard);
+  currentName=name;guard();const current=await adapter.recovery(),read=await adapter.completedRead(identity,current.view,guard);
   let counts;try{const names=[input.schema,'beta','gamma'],keys=names.map(schema=>({kind:'owned-schema-count',key:JSON.stringify([input.contract,input.collection,schema])}));
    const result=await adapter.readCompleted(read,current.view,keys);counts=result.results.flatMap((entry,i)=>entry.status==='present'?[{schema_name:names[i]===input.schema?'alpha':names[i],owned:entry.value.owned}]:entry.status==='covered-absent'?[]:(()=>{throw Error('count coverage unavailable');})());
   }finally{adapter.closeRead(read);}

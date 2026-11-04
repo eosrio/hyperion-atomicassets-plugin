@@ -19,7 +19,7 @@ import {join} from 'node:path';
 import {pathToFileURL} from 'node:url';
 test('pinned native planner receives the opted-in model and uses BSON Long sets', {skip:!process.env.HAPI_ROYALTY_REFERENCE_ROOT}, async()=>{
  const root=process.env.HAPI_ROYALTY_REFERENCE_ROOT;
- assert.equal(execFileSync('git',['-C',root,'rev-parse','HEAD'],{encoding:'utf8'}).trim(),'cf514f1b1b8ed6d7d2d75af2d50bc128bca29eec');
+ assert.equal(execFileSync('git',['-C',root,'rev-parse','HEAD'],{encoding:'utf8'}).trim(),'c5619c990039b5d02dfa635d1540669305c3f3fe');
  for(const [file,expected] of [['packages/backend-mongodb/src/stateful-indexed-model-v1.ts','7712acc352192e6d79ec398f1659386f1e4be3fc977a0873dcf8ca7e574cc643'],['packages/backend-mongodb/dist/stateful-indexed-model-v1.js','6c75d9f37c9840b726beabb4868d02485b7354548fd2d8c1da1b7adcd24ddfce'],['packages/backend-mongodb/node_modules/@eosrio/hyperion-sdk/dist/projection-stateful-indexed-query-v1.js','1965ed0403d6f6aea30b0b3018bb43775312527d5a76295b3f0660d2f29dce18']])assert.equal(createHash('sha256').update(readFileSync(join(root,file))).digest('hex'),expected,file);
  const native=await import(pathToFileURL(join(root,'packages/backend-mongodb/dist/stateful-indexed-model-v1.js')));
  const sdk=await import(pathToFileURL(join(root,'packages/backend-mongodb/node_modules/@eosrio/hyperion-sdk/dist/projection-stateful-owner-v2.js')));

@@ -43,11 +43,11 @@
     },
     {
       "path": "scripts/qualification/royalty-template-mongodb/oracle.mjs",
-      "sha256": "df510b5dd9735e986a4afade0829d2b0d9ae3c356fde23e80e34933db03fee91"
+      "sha256": "cbf41805ce36369ec31f1823de9f7feb277eaa03fead458cc4c54638c06a96b4"
     },
     {
       "path": "scripts/qualification/royalty-template-mongodb/driver.mjs",
-      "sha256": "dd46353da516778aa21771f774c01b0647779d316ef04dfd22b5d7810d544e06"
+      "sha256": "3282e8fb424ff721d5427a9e2ca584b9927a265d0f1779c7a04189a1aee05766"
     }
   ]
 }

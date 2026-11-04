@@ -11,16 +11,17 @@ import {royaltyTemplateRows} from '../../../dist/atomicmarket/internal/royalty-r
 import {ROYALTY_TEMPLATE_MODEL_ID} from '../../../dist/stateful/royalty-rules.js';
 import {compareRoyaltyTemplates} from './oracle.mjs';
 const hex=n=>n.toString(16).padStart(64,'0'),sha=value=>createHash('sha256').update(value).digest('hex');
-export async function runRoyaltyTemplateNativeDifferential({registration,declaration,model,limits,adapter,engineering,identity,lease,guard,retain,load,onObservation}){
+export async function runRoyaltyTemplateNativeDifferential({registration,declaration,model,limits,adapter,engineering,identity,lease,guard,retain,load,onObservation,onPhase}){
  assert.equal(model.model.id,ROYALTY_TEMPLATE_MODEL_ID);assert.equal(model.model.textComparison,'mongodb-simple-utf8-v1');
- assert.equal(typeof guard,'function');const api=Fastify(),publication=new Map();let lastCandidate,attempts=0,nativeRows,nativeComplete=false;
+ assert.equal(typeof guard,'function');const api=Fastify(),publication=new Map();let lastCandidate,attempts=0,nativeRows,nativeComplete=false,currentName;
  const stored={load,async retain(candidate){await retain(candidate);lastCandidate=candidate;}};
  api.addHook('onSend',async(request,reply,payload)=>{const result=publication.get(request.id);if(!result)return payload;
   try{guard();indexed.assertIndexedQueryPublicationV1(result);return payload;}catch{reply.code(503).header('cache-control','no-store').type('application/json');return JSON.stringify({success:false});}});
  api.addHook('onResponse',async request=>{publication.delete(request.id);});
  registerRoyaltyTemplateRoute(api,{projectionId:declaration.projection.definition.id,contract:'atomicmarket',inputBounds:{queryBytes:limits.queryBytes,setValues:limits.setValues},
   async indexedQueryHost(request,_projection,id){assert.equal(id,ROYALTY_TEMPLATE_MODEL_ID);guard();
-   const current=await adapter.recovery(),native=await engineering.indexedForModel(current.view,model.digest,guard);
+   const current=await adapter.recovery();onPhase({name:'am:'+currentName,expected:current.view,owner:identity,ownerClaim:current.owner.claimDigest,ownerDeclaration:declaration.digest});
+   const native=await engineering.indexedForModel(current.view,model.digest,guard);
    const offer={family:indexed.STATEFUL_INDEXED_QUERY_FAMILY_V1,interfaceVersion:1,queryDeclarationDigests:[model.digest],comparisonProfiles:['mongodb-simple-utf8-v1'],limits};
    const selection=indexed.negotiateIndexedQueryV1(model,limits,offer,native.indexedCapabilities);
    return {indexedCapabilities:native.indexedCapabilities,async compose(_id,fn){
@@ -42,8 +43,8 @@ export async function runRoyaltyTemplateNativeDifferential({registration,declara
   const result=await owner.executeStatefulOwnerBlockV2(declaration,adapter,lease,target.digest,source,stored,port=>registration.reduce(port),guard);
   assert.equal(result.status,'applied');assert.ok(lastCandidate);await adapter.retireRaw(lease,target.digest,lastCandidate.source.digest,lastCandidate.digest);
  }
- async function observe(query){
-  guard();const before=(await adapter.recovery()).view;attempts=0;nativeRows=undefined;nativeComplete=false;
+ async function observe(query,name){
+  currentName=name;guard();const before=(await adapter.recovery()).view;attempts=0;nativeRows=undefined;nativeComplete=false;
   const response=await api.inject({url:'/atomicmarket/v1/royalties/oracle/templates',query});const body=response.json();
   const observation={query:structuredClone(query),view:before,statusCode:response.statusCode,body,nativeRows,nativeComplete,nativeAttempts:attempts};
   onObservation(observation);
