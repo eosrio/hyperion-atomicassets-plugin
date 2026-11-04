@@ -11,7 +11,7 @@
     },
     {
       "path": "src/stateful/plugin.ts",
-      "sha256": "404f928e00a60d2a8af5cee0efddd7adf4f5103ecf325c65ccb9f41c90cacca2"
+      "sha256": "7feedfc00512891fbf9490d4999390c0621d2650cba6f3c5d4e808df63cf6f75"
     },
     {
       "path": "src/stateful/owned-schema-indexed.ts",
@@ -661,18 +661,18 @@
     },
     {
       "path": "stateful/plugin.d.ts",
-      "bytes": 4288,
-      "sha256": "63eaa4eafe364fd731b40ad346293dfbf91dac6d2bf3fc7bcc403eb8c9ea2081"
+      "bytes": 4438,
+      "sha256": "26dd1903fa60d0ad31016e3caae8577d41e51ff72de937c01cd48cf657860f28"
     },
     {
       "path": "stateful/plugin.js",
-      "bytes": 18221,
-      "sha256": "6ddd31b23eeaafa31f085952b4594df9142b8831e510982160c3a41bc4a853aa"
+      "bytes": 18597,
+      "sha256": "9ca2b7c13b801d384c18f94c73f6f6d3b94682f96c1d5b93afae9abfbbbf0f1a"
     },
     {
       "path": "stateful/plugin.js.map",
-      "bytes": 15853,
-      "sha256": "8f932536bc335473ab4db189d14e35c5add0bb98e3454c464b33ec1c974349a7"
+      "bytes": 16017,
+      "sha256": "50be87973f4973423b161d1d9b25a51de7fb372faa706ed0a8fca53a90ccb7c2"
     },
     {
       "path": "stateful/royalty-config.d.ts",
@@ -691,18 +691,18 @@
     },
     {
       "path": "stateful/royalty-rules.d.ts",
-      "bytes": 1473,
-      "sha256": "216012fa8d5e9c162c31c141b2d675e02a827101d6bbe1d062ca668cab78cc14"
+      "bytes": 1718,
+      "sha256": "72022b5504e98f25503a6f0c246621ff71a07df609af37bf70e59d5c3418c4e2"
     },
     {
       "path": "stateful/royalty-rules.js",
-      "bytes": 4731,
-      "sha256": "7cf91579bd3d5b234cf0192e3d0c1c65aab0c967cfc5e6ce5a35b5b2ecc0c191"
+      "bytes": 5057,
+      "sha256": "b16d8bdf4377bf01dda12734d09caf7bb78ec7d164e66a1aa03d2122430d8b1b"
     },
     {
       "path": "stateful/royalty-rules.js.map",
-      "bytes": 4604,
-      "sha256": "77e4ab56196daded412bf9c725bf89df69e6120406ef1b2b2c9efa89469ca87f"
+      "bytes": 4762,
+      "sha256": "a7829642a7b94f910847ce2385fedd0892b68b907dea837583a4125d67a37755"
     },
     {
       "path": "stateful/schema-indexed.d.ts",

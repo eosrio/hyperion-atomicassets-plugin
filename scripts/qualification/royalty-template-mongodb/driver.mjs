@@ -11,7 +11,7 @@ import {royaltyTemplateRows} from '../../../dist/atomicmarket/internal/royalty-r
 import {ROYALTY_TEMPLATE_MODEL_ID} from '../../../dist/stateful/royalty-rules.js';
 import {compareRoyaltyTemplates} from './oracle.mjs';
 const hex=n=>n.toString(16).padStart(64,'0'),sha=value=>createHash('sha256').update(value).digest('hex');
-export async function runRoyaltyTemplateNativeDifferential({registration,declaration,model,limits,adapter,engineering,identity,lease,guard,retain,load}){
+export async function runRoyaltyTemplateNativeDifferential({registration,declaration,model,limits,adapter,engineering,identity,lease,guard,retain,load,onObservation}){
  assert.equal(model.model.id,ROYALTY_TEMPLATE_MODEL_ID);assert.equal(model.model.textComparison,'mongodb-simple-utf8-v1');
  assert.equal(typeof guard,'function');const api=Fastify(),publication=new Map();let lastCandidate,attempts=0,nativeRows,nativeComplete=false;
  const stored={load,async retain(candidate){await retain(candidate);lastCandidate=candidate;}};
@@ -45,8 +45,10 @@ export async function runRoyaltyTemplateNativeDifferential({registration,declara
  async function observe(query){
   guard();const before=(await adapter.recovery()).view;attempts=0;nativeRows=undefined;nativeComplete=false;
   const response=await api.inject({url:'/atomicmarket/v1/royalties/oracle/templates',query});const body=response.json();
+  const observation={query:structuredClone(query),view:before,statusCode:response.statusCode,body,nativeRows,nativeComplete,nativeAttempts:attempts};
+  onObservation(observation);
   assert.deepEqual((await adapter.recovery()).view,before,'owner view changed during HTTP request');
-  return {statusCode:response.statusCode,body,nativeRows,nativeComplete,nativeAttempts:attempts};
+  return observation;
  }
  try{return await compareRoyaltyTemplates({initialize,observe});}finally{await api.close();}
 }

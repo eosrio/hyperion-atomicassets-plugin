@@ -16,7 +16,7 @@ export const PROFILE='atomicassets-owned-schema-cbfb-c561-qualification-v1';
 export const HAPI_REVISION='c5619c990039b5d02dfa635d1540669305c3f3fe';
 export const SDK_REVISION='cbfb26694b90b52266d1e0b9b5dbf6f8389e736b';
 export const NATIVE_PROFILE='indexed-royalty-sdk-cbfb-native-cf514-engineering-v1';
-export const DOMAIN_PROFILE_SHA256='318a7559a94b0329eebad845dab1fd716974375101c50fe76d0af26d6cb5e947';
+export const DOMAIN_PROFILE_SHA256='6d95bbe7ef20f77f99f227fb13fce9eb24f16d091424af18aca0e7e4309a1192';
 const root=new URL('../../../',import.meta.url),digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 function inventory(rootPath) {
  const rows=[];let total=0;function visit(dir){for(const name of readdirSync(dir).sort()){const path=join(dir,name),stat=lstatSync(path);assert.equal(stat.isSymbolicLink(),false);
