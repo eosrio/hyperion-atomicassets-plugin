@@ -26,6 +26,8 @@ import {registerSchemaListRoutes} from '../http/schema-list-routes.js';
 import {royaltyRuleProjections,royaltyRuleProjectionId} from './royalty-rules.js';
 import {registerRoyaltyAttributeRoute} from '../http/royalty-attribute-route.js';
 import {registerRoyaltyTemplateRoute} from '../http/royalty-template-route.js';
+import {ownedSchemaRequirement} from './owned-schema-indexed.js';
+import {registerOwnedSchemaRoute} from '../http/owned-schema-route.js';
 export {ATOMIC_HOOK_INVENTORY} from './hook-inventory.js';
 export {ATOMIC_METADATA_CODEC, createAtomicMetadataCodec} from './metadata-codec.js';
 export type {MetadataCodec} from '../atomicassets/internal/lifecycle-port.js';
@@ -42,6 +44,8 @@ export interface AtomicPluginOptions {
   readonly apiLimits?: {readonly schemas?: number;readonly royalties?: number};
   /** Engineering only: requires SDK51 and a separately qualified template indexed backend. */
   readonly engineeringRoyaltyTemplateQuery?: boolean;
+  /** New generation only: caller must rebuild and qualify complete owned-schema count coverage. */
+  readonly ownedSchemaCounts?: boolean;
 }
 export interface AtomicPluginApiContext {
   readonly statefulQueryHost: (request: FastifyRequest) => StatefulQueryHostV2;
@@ -84,6 +88,7 @@ export const ATOMIC_CAPABILITY_GAPS = Object.freeze(['full original processor ef
 /** One compound projection; this module owns domain conversion, never source/owner/native authority. */
 export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
   const engineeringRoyaltyTemplateQuery=options.engineeringRoyaltyTemplateQuery===true;
+  const ownedSchemaCounts=options.ownedSchemaCounts===true;
   const projectionId = text(options.projectionId ?? 'atomicassets');
   const royaltyProjectionId = projectionId + ':royalty-config';
   const assets = text(options.assetsContract ?? 'atomicassets'), market = text(options.marketContract ?? 'atomicmarket');
@@ -184,7 +189,7 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
     const b = port.source.block;
     const relations = {assets,market,blockNum:String(b.blockNum),timeMs:b.timeMs};
     for (const code of codes) await reduceContractCode(code,port);
-    await reduceAssetLifecycle({contract: assets, blockNum: String(b.blockNum), blockTimeMs: b.timeMs, blockId: b.blockId}, assetEvents, port, codec);
+    await reduceAssetLifecycle({contract: assets, blockNum: String(b.blockNum), blockTimeMs: b.timeMs, blockId: b.blockId}, assetEvents, port, codec,ownedSchemaCounts);
     await reduceOffers(relations,offers,port);
     // Both original table callbacks have equal +10 priority; retain their source order.
     for (const row of marketRows) {
@@ -208,10 +213,10 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
       negotiateStatefulActionMetadataV2(sourceCapabilities,context?.sourceCapabilities);
       return {interfaceVersion: 2, sourceInputVersion: 2, projections: [{definition: {
         family: 'stateful-projection-recovery', interfaceVersion: 1, id: projectionId, selectors,
-        records: kinds.map(kind => ({kind, integers: kind === 'asset' ? [{path: ['asset_id'], type: 'uint64', vector: false}] : []}))},
+        records: [...kinds,...(ownedSchemaCounts?['owned-schema-count']:[])].map(kind => ({kind, integers: kind === 'asset' ? [{path: ['asset_id'], type: 'uint64', vector: false}] : []}))},
         limits: JSON.parse(JSON.stringify(limits)) as StatefulLimits, requiredSourceCapabilities:sourceCapabilities,
         requiredCompleteKindRead: {family:'stateful-owner-complete-kind',interfaceVersion:1,limits:completeKindLimits},
-        requiredIndexedQueries:[schemaListRequirement(limits)],reduce},
+        requiredIndexedQueries:[schemaListRequirement(limits),...(ownedSchemaCounts?[ownedSchemaRequirement(limits)]:[])],reduce},
         royaltyConfigProjection(royaltyProjectionId,market,limits),...royaltyRuleProjections(projectionId,market,limits,engineeringRoyaltyTemplateQuery)]};
     },
     addRoutes(server: FastifyInstance, context?: AtomicPluginApiContext): void {
@@ -220,6 +225,8 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
         atomicmarket: {projectionId, contract: market}, queryHost: context.statefulQueryHost,
         ...(context.operatorLists ? {operatorLists: context.operatorLists} : {}),
         ...(context.statefulCompleteKindQueryHost ? {completeKindQueryHost: context.statefulCompleteKindQueryHost} : {})});
+      if(ownedSchemaCounts)registerOwnedSchemaRoute(server,{projectionId,contract:assets,responseRecords:limits.responseRecords,
+        ...(context.statefulIndexedQueryHost?{indexedQueryHost:context.statefulIndexedQueryHost}:{})});
       registerRoyaltyConfigRoute(server,{projectionId:royaltyProjectionId,contract:market,
         ...(context.statefulCompleteKindQueryHost ? {queryHost:context.statefulCompleteKindQueryHost} : {})});
       registerSchemaListRoutes(server,{projectionId,contract:assets,

@@ -1,0 +1,2 @@
+collections.ts text eol=lf whitespace=-blank-at-eol
+migration.sql text eol=lf

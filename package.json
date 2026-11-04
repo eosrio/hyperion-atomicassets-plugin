@@ -18,6 +18,7 @@
     "docs/parity/atomicmarket/source-relationships.md",
     "docs/parity/atomicassets/templates.md",
     "docs/parity/atomicassets/schema-counts.md",
+    "docs/parity/atomicassets/owned-schema-foundation.md",
     "docs/parity/atomicassets/template-id.md",
     "docs/parity/atomicassets/collection-id.md",
     "docs/parity/atomicassets/json-compatibility.md",
@@ -88,7 +89,7 @@
     "test:contextual": "node --test harness/atomicmarket/contextual.test.mjs harness/atomicmarket/host-artifacts.test.mjs"
   },
   "dependencies": {
-    "@eosrio/hyperion-sdk": "git+https://github.com/eosrio/hyperion-sdk.git#dc20a03f2b60ba05a3369d677222a9cf0d65d299"
+    "@eosrio/hyperion-sdk": "git+https://github.com/eosrio/hyperion-sdk.git#cbfb26694b90b52266d1e0b9b5dbf6f8389e736b"
   },
   "devDependencies": {
     "@types/node": "25.5.0",
@@ -96,7 +97,7 @@
     "typescript": "7.0.2"
   },
   "allowScripts": {
-    "github:eosrio/hyperion-sdk#dc20a03f2b60ba05a3369d677222a9cf0d65d299": true
+    "github:eosrio/hyperion-sdk#cbfb26694b90b52266d1e0b9b5dbf6f8389e736b": true
   },
   "peerDependencies": {
     "fastify": "^5.8.5"

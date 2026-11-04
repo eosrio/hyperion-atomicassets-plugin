@@ -11,6 +11,10 @@ test('engineering opt-in changes only template query declaration; default does n
  const a=base.getStatefulProjectionsV2(context).projections,b=on.getStatefulProjectionsV2(context).projections;
  assert.equal(a[2].requiredIndexedQueries,undefined);assert.equal(b[2].requiredIndexedQueries[0].model.id,ROYALTY_TEMPLATE_MODEL_ID);
  for(const i of [0,1,3])assert.deepEqual(a[i].definition,b[i].definition);
+ const combined=new AtomicPlugin({limits:limits(),engineeringRoyaltyTemplateQuery:true,ownedSchemaCounts:true}).getStatefulProjectionsV2(context).projections;
+ assert.ok(combined[0].definition.records.some(x=>x.kind==='owned-schema-count'));
+ assert.ok(combined[0].requiredIndexedQueries.some(x=>x.model.id==='atomicassets-owned-schemas'));
+ assert.equal(combined[2].requiredIndexedQueries[0].model.id,ROYALTY_TEMPLATE_MODEL_ID);
  const s=await prepared('royaltytemp');try{assert.equal((await s.api.inject(url)).statusCode,404);}finally{await s.close();}
 });
 function queryPort(rows){return async(sql,values)=>{let chosen=rows.slice();const membership=sql.match(/template_id = (?:ANY\(\$(\d+)\)|\$(\d+))/)||sql.match(/UNNEST\(\$(\d+)::BIGINT\[\]\)/);

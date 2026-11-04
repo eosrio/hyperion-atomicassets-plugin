@@ -63,7 +63,7 @@ async function schemaFor(stage: DomainReader, b: LifecycleBlock, collection: str
  * already staged writes. This function owns no commit, retry, identity fence or rollback.
  */
 export async function reduceAssetLifecycle(b: LifecycleBlock, events: readonly LifecycleEvent[],
-  stage: DomainStage, codec: MetadataCodec): Promise<void> {
+  stage: DomainStage, codec: MetadataCodec, ownedSchemaCounts=false): Promise<void> {
   b = record(b) as unknown as LifecycleBlock;
   block(b);
   if (codec?.sha256 !== CODEC) unavailable('Unpinned metadata codec');
@@ -90,7 +90,7 @@ export async function reduceAssetLifecycle(b: LifecycleBlock, events: readonly L
   async function flushMints() {
     for (const {asset, mint} of mintBuffer) {
       const key = domainKey(b.contract, decimal(asset.asset_id));
-      await stageAssetTransition(stage,b.contract,decimal(asset.asset_id),record(asset));
+      await stageAssetTransition(stage,b.contract,decimal(asset.asset_id),record(asset),ownedSchemaCounts);
       // Original mints are immutable facts: ON CONFLICT DO NOTHING.
       if (await read(stage, 'mint', key) === null) stage.put('mint', key, record(mint));
     }
@@ -167,8 +167,10 @@ export async function reduceAssetLifecycle(b: LifecycleBlock, events: readonly L
     } else if (event.name === 'logburnasset') {
       const key = domainKey(b.contract, decimal(v.asset_id)), old = await read(stage, 'asset', key);
       if (!old) continue;
-      stage.put('asset', key, {...old, owner: null, burned_by_account: text(v.asset_owner),
-        burned_at_block: b.blockNum, burned_at_time: b.blockTimeMs, ...updated(b)});
+      const burned={...old, owner: null, burned_by_account: text(v.asset_owner),
+        burned_at_block: b.blockNum, burned_at_time: b.blockTimeMs, ...updated(b)};
+      if(ownedSchemaCounts)await stageAssetTransition(stage,b.contract,decimal(v.asset_id),burned,true);
+      else stage.put('asset',key,burned);
     } else unavailable('Unsupported lifecycle action');
   }
   if (mintBuffer.length) await flushMints();

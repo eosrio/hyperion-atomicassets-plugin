@@ -3,7 +3,8 @@
 Issue [#65](https://github.com/eosrio/hyperion-atomicassets-plugin/issues/65) targets immutable
 Atomic API2.7.0 `0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e`. This first source child adds independent
 `royaltytemp` and `royaltyattr` projections and `/atomicmarket/v1/royalties/:collection_name/attributes`.
-The optional engineering template list source component requires SDK int64 membership from issue #51. Neither original
+The optional engineering template list source component uses SDK int64 membership from issue #51,
+pinned to merged SDK commit `cbfb26694b90b52266d1e0b9b5dbf6f8389e736b`. Neither original
 rule list has a count route or interprets a count argument. Payouts/account earnings, rule matching,
 pricing and settlement reconstruction remain outside this component.
 

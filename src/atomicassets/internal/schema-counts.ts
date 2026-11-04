@@ -1,5 +1,6 @@
 import type {AtomicObject} from '../asset.js';
 import {decimal,domainKey,read,text,unavailable,type DomainStage} from './lifecycle-port.js';
+import {stageOwnedSchemaTransition} from './owned-schema-count.js';
 
 const MAX=9223372036854775807n;
 function identity(row: AtomicObject,contract: string,id: string): string {
@@ -23,9 +24,10 @@ function writeCount(stage: DomainStage,key: string,value: bigint): void {
   stage.put('schema-asset-count',key,{contract,collection_name,schema_name,assets:value.toString()});
 }
 /** Stage an asset row transition and its schema total together in the caller's atomic candidate. */
-export async function stageAssetTransition(stage: DomainStage,contract: string,id: string,next: AtomicObject | null): Promise<void> {
+export async function stageAssetTransition(stage: DomainStage,contract: string,id: string,next: AtomicObject | null,ownedSchemaCounts=false): Promise<void> {
   text(contract);decimal(id);
   const key=domainKey(contract,id),old=await read(stage,'asset',key);
+  if(ownedSchemaCounts)await stageOwnedSchemaTransition(stage,contract,id,old,next);
   const from=old===null?null:identity(old,contract,id),to=next===null?null:identity(next,contract,id);
   const previous=from===null?0n:await count(stage,from,contract);
   if(from!==null && previous===0n)return unavailable('Existing asset has no counted contribution');
