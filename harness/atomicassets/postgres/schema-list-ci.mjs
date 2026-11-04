@@ -41,7 +41,7 @@ try {
  report.admission=await inspectCiDatabase(db);persist();
  report.schema=await require('./schema.cjs')(reference.fromReference,db,report.admission,event=>{assert.ok(report.events.length<2048);report.events.push(event);});persist();
  report.result=await require('./schema-list-oracle.cjs')(reference.fromReference,db);persist();
- report.royaltyTemplate=await templatePostgresOracle(db);report.status='passed';
+ report.royaltyTemplate=await templatePostgresOracle(db,evidence=>{report.royaltyTemplate=evidence;persist();});report.status='passed';
 } catch(e) {report.status='failed';report.error=errorInfo(e);process.exitCode=1;persist();}
 finally {
  if(db){report.connectionClose={attempted:true};try{await db.end();report.connectionClose.succeeded=true;}catch(e){report.connectionClose.succeeded=false;report.connectionClose.error=errorInfo(e);report.status='failed';process.exitCode=1;}}
