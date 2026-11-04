@@ -16,7 +16,7 @@ export async function templatePostgresOracle(db){
  assert.equal(manifest.baseline,'0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e');
  const metadata=(await db.query(`SELECT current_setting('server_version') AS server_version, current_setting('server_encoding') AS server_encoding, d.datcollate, d.datctype, d.datlocprovider, d.datcollversion, pg_database_collation_actual_version(d.oid) AS actual_collation_version FROM pg_database d WHERE d.datname=current_database()`)).rows[0];
  for(const id of ['-2','0','1','2','10','9223372036854775807']) await db.query(`INSERT INTO atomicmarket_royalties_templates (market_contract,collection_name,template_id,recipients,updated_at_block,updated_at_time,created_at_block,created_at_time) VALUES ('atomicmarket','oracle',$1,'[]',1,1,1,1)`,[id]);
- const physical=await db.query("SELECT template_id::text AS template_id FROM atomicmarket_royalties_templates WHERE market_contract='atomicmarket' AND collection_name='oracle' ORDER BY template_id ASC");
+ const physical=await db.query("SELECT t.template_id::text AS template_id FROM atomicmarket_royalties_templates AS t WHERE t.market_contract='atomicmarket' AND t.collection_name='oracle' ORDER BY t.template_id ASC");
  assert.deepEqual(physical.rows.map(row=>row.template_id),['-2','0','1','2','10','9223372036854775807']);
  const results=[];
  for(const [name,query] of vectors){

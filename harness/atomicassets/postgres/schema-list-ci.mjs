@@ -47,3 +47,5 @@ finally {
  if(db){report.connectionClose={attempted:true};try{await db.end();report.connectionClose.succeeded=true;}catch(e){report.connectionClose.succeeded=false;report.connectionClose.error=errorInfo(e);report.status='failed';process.exitCode=1;}}
  clearTimeout(deadline);report.completedAt=new Date().toISOString();persist();
 }
+// Derive the terminal code after cleanup; the workflow also checks the persisted report independently.
+process.exitCode=report.status==='passed'?0:1;
