@@ -4,10 +4,15 @@ import {readFileSync} from 'node:fs';
 import {checkReport} from './schema-report-gate.mjs';
 // Reduced retained Node26 report from run 41792404917; not a substitute for a fresh physical run.
 const good=JSON.parse(readFileSync(new URL('./owned-schema-gate-fixture.json',import.meta.url),'utf8'));
+// SDK50 outcomes are a controlled shape until this combined workflow runs on real PostgreSQL.
+good.sdk50={status:'passed',operations:[{name:'selected-overflow',dbError:{code:'22003'},http:{status:500}},
+ {name:'off-page-overflow'},{name:'count-overflow',http:{status:200}},{name:'statement-timeout',dbError:{code:'57014'},http:{status:408}}],
+ cleanup:[{role:'reader',rollback:true,released:true},{role:'locker',rollback:true,released:true}]};
 test('real-shaped successful receipt passes, while incomplete or failed cleanup fails',()=>{
  checkReport(good);
  for(const mutate of [r=>{r.status='failed';},r=>{r.completedAt=null;},r=>{r.connectionClose.succeeded=false;},r=>{r.royaltyTemplate=null;},
   r=>{r.ownedSchema.rollbackSucceeded=false;},r=>{r.ownedSchema.baseline='other';},r=>{r.reference.commit='other';},r=>{r.admission.version='16.14';},
+  r=>{delete r.sdk50;},r=>{r.sdk50.status='failed';},r=>{r.sdk50.cleanup=[];},r=>{r.sdk50.operations[3].dbError.code='XX000';},
   r=>{r.ownedSource[0].fixtureSha256='wrong';},r=>{r.ownedSource.push(r.ownedSource[0]);}]){
   const r=structuredClone(good);mutate(r);assert.throws(()=>checkReport(r));
  }

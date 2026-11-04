@@ -64,6 +64,11 @@ export function checkReport(report){
  assert.equal(report?.reference?.commit,'0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e');
  assert.equal(report?.admission?.version,'16.15');
  assert.ok(report?.royaltyTemplate);
+ assert.equal(report?.sdk50?.status,'passed');
+ assert.deepEqual(report.sdk50.operations.map(x=>x.name),['selected-overflow','off-page-overflow','count-overflow','statement-timeout']);
+ assert.deepEqual(report.sdk50.cleanup,[{role:'reader',rollback:true,released:true},{role:'locker',rollback:true,released:true}]);
+ assert.equal(report.sdk50.operations[0].dbError?.code,'22003');assert.equal(report.sdk50.operations[0].http?.status,500);
+ assert.equal(report.sdk50.operations[2].http?.status,200);assert.equal(report.sdk50.operations[3].dbError?.code,'57014');assert.equal(report.sdk50.operations[3].http?.status,408);
  assert.equal(report?.ownedSchema?.status,'passed');
  assert.equal(report?.ownedSchema?.rollbackSucceeded,true);
  verifyOwned(report.ownedSchema);

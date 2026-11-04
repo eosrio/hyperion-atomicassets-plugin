@@ -9,6 +9,7 @@ import {PIN} from './image-identity.mjs';
 import {CI,admitService,inspectCiDatabase} from './schema-list-ci-admission.mjs';
 import {templatePostgresOracle} from './royalty-template-oracle.mjs';
 import {ownedSchemaPostgresOracle} from './owned-schema-oracle.mjs';
+import {characterizeSdk50} from './sdk50-outcomes.mjs';
 import {manifest as royaltyManifest} from '../../../tests/fixtures/royalty-rule-original.mjs';
 import {captureHarnessFiles} from './schema-list-ci-metadata.mjs';
 const require=createRequire(import.meta.url);
@@ -36,6 +37,14 @@ try {
   const source=execFileSync('git',['cat-file','blob',reference.commit+':'+path],{cwd:reference.root,timeout:10000,maxBuffer:2*1024**2}),working=readFileSync(join(reference.root,path)),copy=readFileSync(new URL('../../../tests/fixtures/owned-schema-original-2.7/'+fixture,import.meta.url));
   report.ownedSource.push({path,sourceSha256:sha(source),fixtureSha256:sha(copy),workingSha256:sha(working),bytes:source.length});persist();
   assert.equal(sha(copy),sha(source));assert.equal(sha(working),sha(source));}
+ const schemaManifest=JSON.parse(readFileSync(new URL('../../../tests/fixtures/schema-list-original-2.7/manifest.json',import.meta.url)));
+ assert.equal(schemaManifest.baseline,reference.commit);report.sdk50Sources=[];
+ for(const [name,pin] of Object.entries(schemaManifest.sources)){
+  const original=execFileSync('git',['cat-file','blob',reference.commit+':'+pin.path],{cwd:reference.root,timeout:10000,maxBuffer:2*1024**2});
+  const captured=readFileSync(new URL('../../../tests/fixtures/schema-list-original-2.7/'+name,import.meta.url));
+  assert.equal(original.length,pin.bytes);assert.equal(sha(original),pin.sha256);assert.deepEqual(captured,original);
+  report.sdk50Sources.push({path:pin.path,bytes:original.length,sha256:sha(original),gitBlob:pin.gitBlob});
+ }
  report.runtime={version:process.version,executableSha256:sha(readFileSync(process.execPath)),platform:process.platform,arch:process.arch}; persist();
  const dir=mkdtempSync(join(tmpdir(),'aa-schema-ci-'));copyDefinitions(reference,dir);process.chdir(dir);
  for(const key of Object.keys(process.env)) if(key.startsWith('PG')||key.startsWith('POSTGRES_TEST_')||key.startsWith('REDIS_TEST_')||['NODE_OPTIONS','NODE_PATH','TS_NODE_PROJECT'].includes(key)) delete process.env[key];
@@ -46,6 +55,8 @@ try {
  report.admission=await inspectCiDatabase(db);persist();
  report.schema=await require('./schema.cjs')(reference.fromReference,db,report.admission,event=>{assert.ok(report.events.length<2048);report.events.push(event);});persist();
  report.result=await require('./schema-list-oracle.cjs')(reference.fromReference,db);persist();
+ const {originalSchemaList}=await import('../../../tests/fixtures/schema-list-original.mjs');
+ report.sdk50=await characterizeSdk50(db,originalSchemaList,evidence=>{report.sdk50=evidence;persist();});
  report.royaltyTemplate=await templatePostgresOracle(db,evidence=>{report.royaltyTemplate=evidence;persist();});
  const {getCollectionSchemasAction}=reference.fromReference('./src/api/namespaces/atomicassets/handlers/collections.ts');
  report.ownedSchema=await ownedSchemaPostgresOracle(db,getCollectionSchemasAction,evidence=>{report.ownedSchema=evidence;persist();});report.status='passed';

@@ -8,6 +8,9 @@ on:
       - 'tests/fixtures/royalty-rule-original.mjs'
       - 'tests/fixtures/royalty-rule-original-2.7/**'
       - 'tests/fixtures/owned-schema-original-2.7/**'
+      - 'tests/fixtures/schema-list-original.mjs'
+      - 'tests/fixtures/schema-list-original-2.7/**'
+      - 'vendor/atomicassets-2.2.0/build/index.cjs'
       - 'fixtures/harness/atomicassets/lifecycle/provenance.json'
       - 'docs/parity/atomicassets/postgres-oracle-sources.json'
       - 'scripts/prepare-reference.mjs'
@@ -45,7 +48,7 @@ jobs:
       - run: npm install --global pnpm@11.13.1
       - run: pnpm --dir "$RUNNER_TEMP/atomicassets-api-2.7.0" install --frozen-lockfile
       - name: Run socket-free admission controls
-        run: node --test harness/atomicassets/postgres/schema-list-ci-admission.test.mjs harness/atomicassets/postgres/royalty-template-oracle.test.mjs harness/atomicassets/postgres/owned-schema-oracle.test.mjs harness/atomicassets/postgres/schema-report-gate.test.mjs
+        run: node --test harness/atomicassets/postgres/schema-list-ci-admission.test.mjs harness/atomicassets/postgres/royalty-template-oracle.test.mjs harness/atomicassets/postgres/owned-schema-oracle.test.mjs harness/atomicassets/postgres/sdk50-outcomes.test.mjs harness/atomicassets/postgres/schema-report-gate.test.mjs
       - name: Execute original PostgreSQL handler
         env:
           AA_CI_CONTAINER_ID: ${{ job.services.postgres.id }}
