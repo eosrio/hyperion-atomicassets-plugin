@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "profile": "atomicmarket-royalty-template-cbfb-c561-qualification-v1",
+  "sdk": "cbfb26694b90b52266d1e0b9b5dbf6f8389e736b",
+  "hapi": "49dfe804590ab5b9cb17df05ebc85eb8e6976b14",
+  "authority": "controlled synthetic fixture",
+  "files": [
+    {
+      "path": "package-lock.json",
+      "sha256": "59fd5596680f535fdb546e676ba946b56e9603fe637ef4883e1b1e087f6982aa"
+    },
+    {
+      "path": "src/stateful/plugin.ts",
+      "sha256": "7feedfc00512891fbf9490d4999390c0621d2650cba6f3c5d4e808df63cf6f75"
+    },
+    {
+      "path": "src/stateful/royalty-rules.ts",
+      "sha256": "42bba17cc17d1a0b7a363c942f8a374edefa62191353f8d4458837828ed7f832"
+    },
+    {
+      "path": "src/atomicmarket/internal/royalty-rules.ts",
+      "sha256": "e2050b490c75c3f23295bf601622b962eb72bf0b174e51bac71367f46c13472e"
+    },
+    {
+      "path": "src/atomicmarket/internal/royalty-template-query.ts",
+      "sha256": "a950d96495fafe885828798dd322f19bb76719f7f3f585dc0115a53014328288"
+    },
+    {
+      "path": "src/atomicmarket/internal/royalty-attribute-query.ts",
+      "sha256": "7ef0be059ed677f0182c106a4d8b4bdfd41a7f94a5b03aae057c1a28e10dbba4"
+    },
+    {
+      "path": "src/http/royalty-template-route.ts",
+      "sha256": "34a73f06b859dcf78e5c99627de9ac661b05e3ab6ddc4a049140fd9dc920a32c"
+    },
+    {
+      "path": "tests/fixtures/royalty-rule-component.mjs",
+      "sha256": "9606336463a3049fab4889fcf8f1819b649f111fdbb3d178cb264672121f2325"
+    },
+    {
+      "path": "tests/fixtures/royalty-template-pg16-ci-snapshot.json",
+      "sha256": "d33f0e77f8995c2d0c4301277c1359bcac45f88408413b6feb5285a8505abb08"
+    },
+    {
+      "path": "scripts/qualification/royalty-template-mongodb/oracle.mjs",
+      "sha256": "cbf41805ce36369ec31f1823de9f7feb277eaa03fead458cc4c54638c06a96b4"
+    },
+    {
+      "path": "scripts/qualification/royalty-template-mongodb/driver.mjs",
+      "sha256": "d47f42cd31953ea3273d233c0a97a25f195bdda5ca0ac7720af767312c9f188e"
+    }
+  ]
+}

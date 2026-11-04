@@ -44,6 +44,8 @@ export interface AtomicPluginOptions {
   readonly apiLimits?: {readonly schemas?: number;readonly royalties?: number};
   /** Engineering only: requires SDK51 and a separately qualified template indexed backend. */
   readonly engineeringRoyaltyTemplateQuery?: boolean;
+  /** Qualification-only native simple comparison; no SQL or production offer. */
+  readonly engineeringRoyaltyTemplateMongoComparison?: boolean;
   /** New generation only: caller must rebuild and qualify complete owned-schema count coverage. */
   readonly ownedSchemaCounts?: boolean;
   /** Engineering only: Mongo simple comparison for complete owned-schema set experiments. */
@@ -90,6 +92,8 @@ export const ATOMIC_CAPABILITY_GAPS = Object.freeze(['full original processor ef
 /** One compound projection; this module owns domain conversion, never source/owner/native authority. */
 export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
   const engineeringRoyaltyTemplateQuery=options.engineeringRoyaltyTemplateQuery===true;
+  if(options.engineeringRoyaltyTemplateMongoComparison===true&&!engineeringRoyaltyTemplateQuery) throw new Error('Mongo royalty template engineering comparison requires engineeringRoyaltyTemplateQuery');
+  const engineeringRoyaltyTemplateMongoComparison=options.engineeringRoyaltyTemplateMongoComparison===true;
   const ownedSchemaCounts=options.ownedSchemaCounts===true;
   if(options.engineeringOwnedSchemaMongoComparison===true&&!ownedSchemaCounts) throw new Error('Mongo owned-schema engineering comparison requires ownedSchemaCounts');
   const engineeringOwnedSchemaMongoComparison=options.engineeringOwnedSchemaMongoComparison===true;
@@ -221,7 +225,7 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
         limits: JSON.parse(JSON.stringify(limits)) as StatefulLimits, requiredSourceCapabilities:sourceCapabilities,
         requiredCompleteKindRead: {family:'stateful-owner-complete-kind',interfaceVersion:1,limits:completeKindLimits},
         requiredIndexedQueries:[schemaListRequirement(limits),...(ownedSchemaCounts?[ownedSchemaRequirement(limits,engineeringOwnedSchemaMongoComparison)]:[])],reduce},
-        royaltyConfigProjection(royaltyProjectionId,market,limits),...royaltyRuleProjections(projectionId,market,limits,engineeringRoyaltyTemplateQuery)]};
+        royaltyConfigProjection(royaltyProjectionId,market,limits),...royaltyRuleProjections(projectionId,market,limits,engineeringRoyaltyTemplateQuery,engineeringRoyaltyTemplateMongoComparison)]};
     },
     addRoutes(server: FastifyInstance, context?: AtomicPluginApiContext): void {
       if (!context || typeof context.statefulQueryHost !== 'function') throw new Error('Atomic routes require the host request-scoped query context');

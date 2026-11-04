@@ -117,3 +117,20 @@ There is no implicit parity exception or production profile activation.
 `tests/royalty-template-pg-snapshot.test.mjs` compares the actual Fastify route and SDK composition against the retained `royaltyTemplate` section of the original PostgreSQL 16.15 CI reports from [run 41783292706](https://github.com/eosrio/hyperion-atomicassets-plugin/actions/runs/41783292706), at source `a537b5eb533d507077c52b4cd06b8267f374e618`. The checked-in snapshot records the upstream baseline, both GitHub artifact IDs, official ZIP hashes, full raw report hashes and original SQL, bindings, rows, responses and database error codes; the two retained Node 24/26 original sections were identical. The artifact references and snapshot provide traceability, not a new database execution.
 
 The candidate's reducer is seeded with the same six rows and its SDK query is evaluated by a finite test-only reader, independently of the captured expected rows. Ten successful original cases compare full response fields and order, including membership boundaries, weak numbers, duplicates and offsets. Six original PostgreSQL errors are separately checked against the candidate's intentional retryable 503, while invalid input remains 400 before a query. This control opens no MongoDB or PostgreSQL connection and does not establish native indexed behavior, query plans, managed HTTP publication, or parity for the differing error outcomes.
+
+The separate `engineeringRoyaltyTemplateMongoComparison` option is available only
+with `engineeringRoyaltyTemplateQuery`. It selects MongoDB simple UTF-8 comparison
+for this model only; the default PostgreSQL comparison remains unchanged. This is a
+qualification input, not an assertion of PostgreSQL equivalence, native readiness or
+production support. The pinned HAPI #429 source-planner control checks Long set
+encoding without opening MongoDB. A new versioned SDK/native assembly, admitted
+MongoDB fixture, same-input physical comparison and managed HTTP remain required.
+
+`scripts/qualification/royalty-template-mongodb/driver.mjs` and `oracle.mjs`
+provide a source-only native differential seam: an independently admitted owner
+adapter/lease, engineering assembly and custody must be supplied by a qualification
+controller. The driver captures the actual indexed response inside the same Fastify
+composition and compares it with the retained PostgreSQL snapshot. The controller
+must pin its source/model/input and prove MongoDB commands, sessions, publication and
+cleanup independently. The driver cannot authorize or attest its own execution; its
+presence and offline tests are not MongoDB or physical HTTP evidence.
