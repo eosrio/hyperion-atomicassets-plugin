@@ -1,0 +1,795 @@
+{
+  "provenance": {
+    "repo": "eosrio/hyperion-atomicassets-plugin",
+    "run": 41783292706,
+    "head": "a537b5eb533d507077c52b4cd06b8267f374e618",
+    "artifacts": [
+      {
+        "artifactId": "13300421049",
+        "artifactSha256": "37b4f1b9f831d6f126a9e231a99420c5ad65951658e93906c784f5aab134f048",
+        "reportSha256": "399dbb7db33494cfcef67b70962df005022328adad350fd916d059212bc6d65e",
+        "runtime": "v24.22.2"
+      },
+      {
+        "artifactId": "13300146695",
+        "artifactSha256": "8c17a7b6500859afd1d2988569560e6f26c3242da015bd2c830404f30aa3e494",
+        "reportSha256": "12d682cea50a65e4014d2a59d7b5ff40a2c18ddbe891eadeb956379167973ffd",
+        "runtime": "v26.13.0"
+      }
+    ]
+  },
+  "royaltyTemplate": {
+    "baseline": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+    "metadata": {
+      "server_version": "16.15",
+      "server_encoding": "UTF8",
+      "datcollate": "en_US.utf8",
+      "datctype": "en_US.utf8",
+      "datlocprovider": "c",
+      "datcollversion": null,
+      "actual_collation_version": null
+    },
+    "physicalRows": [
+      {
+        "template_id": "-2"
+      },
+      {
+        "template_id": "0"
+      },
+      {
+        "template_id": "1"
+      },
+      {
+        "template_id": "2"
+      },
+      {
+        "template_id": "10"
+      },
+      {
+        "template_id": "9223372036854775807"
+      }
+    ],
+    "results": [
+      {
+        "name": "none",
+        "query": {},
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 ORDER BY template_id ASC LIMIT $3 OFFSET $4  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          100,
+          0
+        ],
+        "dbError": null,
+        "http": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "data": [
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "-2",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "0",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "1",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "2",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "10",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "9223372036854775807",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "scalar",
+        "query": {
+          "template_id": "1"
+        },
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND template_id = $3 ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          "1",
+          100,
+          0
+        ],
+        "dbError": null,
+        "http": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "data": [
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "1",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "two",
+        "query": {
+          "template_id": "1,2"
+        },
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND template_id = ANY($3) ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          [
+            "1",
+            "2"
+          ],
+          100,
+          0
+        ],
+        "dbError": null,
+        "http": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "data": [
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "1",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "2",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "ten",
+        "query": {
+          "template_id": "1,2,3,4,5,6,7,8,9,10"
+        },
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND template_id = ANY($3) ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ],
+          100,
+          0
+        ],
+        "dbError": null,
+        "http": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "data": [
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "1",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "2",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "10",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "eleven",
+        "query": {
+          "template_id": "1,2,3,4,5,6,7,8,9,10,11"
+        },
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND EXISTS (SELECT FROM UNNEST($3::BIGINT[]) u(c) WHERE u.c = template_id) ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11"
+          ],
+          100,
+          0
+        ],
+        "dbError": null,
+        "http": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "data": [
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "1",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "2",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "10",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "weak",
+        "query": {
+          "template_id": "001,-2,-0"
+        },
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND template_id = ANY($3) ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          [
+            "001",
+            "-2",
+            "-0"
+          ],
+          100,
+          0
+        ],
+        "dbError": null,
+        "http": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "data": [
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "-2",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "0",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "1",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "duplicates",
+        "query": {
+          "template_id": "1,1,2"
+        },
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND template_id = ANY($3) ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          [
+            "1",
+            "1",
+            "2"
+          ],
+          100,
+          0
+        ],
+        "dbError": null,
+        "http": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "data": [
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "1",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "2",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "null-one",
+        "query": {
+          "template_id": "NULL"
+        },
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND template_id = $3 ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          "null",
+          100,
+          0
+        ],
+        "dbError": {
+          "code": "22P02",
+          "message": "invalid input syntax for type bigint: \"null\""
+        },
+        "http": {
+          "status": 500,
+          "body": {
+            "success": false,
+            "message": "Internal Server Error"
+          }
+        }
+      },
+      {
+        "name": "null-two",
+        "query": {
+          "template_id": "null,1"
+        },
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND template_id = ANY($3) ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          [
+            "null",
+            "1"
+          ],
+          100,
+          0
+        ],
+        "dbError": {
+          "code": "22P02",
+          "message": "invalid input syntax for type bigint: \"null\""
+        },
+        "http": {
+          "status": 500,
+          "body": {
+            "success": false,
+            "message": "Internal Server Error"
+          }
+        }
+      },
+      {
+        "name": "null-eleven",
+        "query": {
+          "template_id": "null,2,3,4,5,6,7,8,9,10,11"
+        },
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND EXISTS (SELECT FROM UNNEST($3::TEXT[]) u(c) WHERE u.c = template_id) ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          [
+            "null",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11"
+          ],
+          100,
+          0
+        ],
+        "dbError": {
+          "code": "42883",
+          "message": "operator does not exist: text = bigint"
+        },
+        "http": {
+          "status": 500,
+          "body": {
+            "success": false,
+            "message": "Internal Server Error"
+          }
+        }
+      },
+      {
+        "name": "overflow-one",
+        "query": {
+          "template_id": "9223372036854775808"
+        },
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND template_id = $3 ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          "9223372036854775808",
+          100,
+          0
+        ],
+        "dbError": {
+          "code": "22003",
+          "message": "value \"9223372036854775808\" is out of range for type bigint"
+        },
+        "http": {
+          "status": 500,
+          "body": {
+            "success": false,
+            "message": "Internal Server Error"
+          }
+        }
+      },
+      {
+        "name": "overflow-two",
+        "query": {
+          "template_id": "1,9223372036854775808"
+        },
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND template_id = ANY($3) ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          [
+            "1",
+            "9223372036854775808"
+          ],
+          100,
+          0
+        ],
+        "dbError": {
+          "code": "22003",
+          "message": "value \"9223372036854775808\" is out of range for type bigint"
+        },
+        "http": {
+          "status": 500,
+          "body": {
+            "success": false,
+            "message": "Internal Server Error"
+          }
+        }
+      },
+      {
+        "name": "overflow-eleven",
+        "query": {
+          "template_id": "1,2,3,4,5,6,7,8,9,10,9223372036854775808"
+        },
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND EXISTS (SELECT FROM UNNEST($3::BIGINT[]) u(c) WHERE u.c = template_id) ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "9223372036854775808"
+          ],
+          100,
+          0
+        ],
+        "dbError": {
+          "code": "22003",
+          "message": "value \"9223372036854775808\" is out of range for type bigint"
+        },
+        "http": {
+          "status": 500,
+          "body": {
+            "success": false,
+            "message": "Internal Server Error"
+          }
+        }
+      },
+      {
+        "name": "safe-offset",
+        "query": {
+          "page": "2",
+          "limit": "2"
+        },
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 ORDER BY template_id ASC LIMIT $3 OFFSET $3  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          2
+        ],
+        "dbError": null,
+        "http": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "data": [
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "1",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "2",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "name": "unsafe-offset",
+        "query": {
+          "page": "9007199254740991",
+          "limit": "100"
+        },
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 ORDER BY template_id ASC LIMIT $3 OFFSET $4  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          100,
+          900719925474099000
+        ],
+        "dbError": null,
+        "http": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "data": []
+          }
+        }
+      },
+      {
+        "name": "invalid-before-sql",
+        "query": {
+          "template_id": "+1",
+          "page": "0"
+        },
+        "sql": null,
+        "bindings": null,
+        "dbError": null,
+        "http": {
+          "status": 400,
+          "body": {
+            "success": false,
+            "message": "Invalid value for parameter template_id"
+          }
+        }
+      },
+      {
+        "name": "ignored",
+        "query": {
+          "count": "true",
+          "sort": "bad",
+          "order": "bad",
+          "lower_bound": "bad",
+          "upper_bound": "bad"
+        },
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 ORDER BY template_id ASC LIMIT $3 OFFSET $4  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          100,
+          0
+        ],
+        "dbError": null,
+        "http": {
+          "status": 200,
+          "body": {
+            "success": true,
+            "data": [
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "-2",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "0",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "1",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "2",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "10",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              },
+              {
+                "market_contract": "atomicmarket",
+                "collection_name": "oracle",
+                "template_id": "9223372036854775807",
+                "recipients": [],
+                "updated_at_block": "1",
+                "updated_at_time": "1",
+                "created_at_block": "1",
+                "created_at_time": "1"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "scope": "Original source VM and constructed PostgreSQL table; no Mongo, native listener, cache or full parity"
+  }
+}
