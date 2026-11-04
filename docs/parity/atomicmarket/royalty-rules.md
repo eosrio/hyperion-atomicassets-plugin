@@ -125,3 +125,12 @@ qualification input, not an assertion of PostgreSQL equivalence, native readines
 production support. The pinned HAPI #429 source-planner control checks Long set
 encoding without opening MongoDB. A new versioned SDK/native assembly, admitted
 MongoDB fixture, same-input physical comparison and managed HTTP remain required.
+
+`scripts/qualification/royalty-template-mongodb/driver.mjs` and `oracle.mjs`
+provide a source-only native differential seam: an independently admitted owner
+adapter/lease, engineering assembly and custody must be supplied by a qualification
+controller. The driver captures the actual indexed response inside the same Fastify
+composition and compares it with the retained PostgreSQL snapshot. The controller
+must pin its source/model/input and prove MongoDB commands, sessions, publication and
+cleanup independently. The driver cannot authorize or attest its own execution; its
+presence and offline tests are not MongoDB or physical HTTP evidence.
