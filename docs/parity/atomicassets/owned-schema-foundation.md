@@ -1,31 +1,36 @@
 # Owned schema count foundation (issue #68)
 
-This private, unregistered transition helper stages an owned-asset count per contract,
+The opt-in `ownedSchemaCounts` component stages an owned-asset count per contract,
 collection and schema. An asset contributes exactly when its owner is non-null. The
 pinned 2.7.0 migration `definitions/migrations/1.3.15/atomicassets.sql` initializes
 `owned` with `COUNT(*) FILTER (WHERE owner IS NOT NULL)` and writes negative and
 positive deltas for old and new rows. Its collections handler groups those counters
 and uses `HAVING SUM(owned) > 0`; it specifies no order.
 
-The caller must supply the actual old and new asset rows, invoke this helper in the
-same atomic candidate as the asset write, and discard the entire candidate on any
-error. Redelivery is safe only when the caller reads the current old row. A covered
+Mint and burn use the existing asset transition inside the same SDK candidate; transfer
+between two owners leaves this count unchanged. The transition helper supports deletion,
+though no new delete source is registered. The caller must discard the entire candidate
+on error. Redelivery is safe only when the caller reads the current old row. A covered
 absence means zero only for a new, completely initialized and caught-up generation;
 it is not evidence that a pre-existing generation has no assets. Unknown coverage,
 invalid identity, negative counts and signed bigint overflow refuse the transition.
-The helper is not wired into the plugin or exposed as an API, and provides no source
-coverage, initialization, rollback, serving readiness or compatibility offer.
+This opt-in changes the projection declaration, adds a query requirement and registers
+the route. It provides no source coverage, initialization, rollback, serving readiness
+or host/backend capability offer. Existing generations cannot be treated as complete.
 
-An indexed query model can filter maintained `owned > 0` and collection equality.
+The indexed query model filters maintained `owned > 0` and collection equality.
 The current SDK's indexed page requires a finite limit and declared order, whereas
 the original endpoint is unpaginated and has no `ORDER BY`. A future implementation
-must establish completeness in the same fenced view (for example, exact count plus
-bounded page), refuse above the negotiated budget, and qualify the chosen order and
-adapter behavior against the original. A filtered, complete bounded query capability
-would avoid an unbounded asset-kind scan. Adapter materialization, projection lifecycle
-integration, complete rebuild and recovery are still required.
+issues an exact count and bounded page in one composed view, refusing above the
+negotiated response budget. It requests schema-name order; this is not an original
+ordering guarantee and needs physical comparison. The native adapter must offer and
+execute the new declared model; this package supplies no adapter implementation.
+Complete rebuild, coherent catch-up, operator publication fencing and recovery are
+required before serving.
 
-The local tests exercise logical transitions with a constructed candidate stage; they
-do not execute the original PostgreSQL trigger or SDK owner mutation/rollback machinery.
-Original handler differential, SDK-owned candidate controls, PostgreSQL/MongoDB,
-production HTTP/cache, initialization and fork/recovery acceptance remain pending.
+Local controls exercise SDK-owned reduction and candidate capture against a finite
+in-memory adapter, plus the original 2.7.0 handler against a finite interpretation of
+the pinned migration's owned-row semantics. The adapter's commit and rollback are test
+doubles; no PostgreSQL trigger or native recovery runs. Indexed-query tests use SDK
+capture/composition and injected HTTP with scripted native answers. PostgreSQL/MongoDB,
+production HTTP/cache, initialization and native fork/recovery acceptance remain pending.
