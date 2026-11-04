@@ -56,3 +56,27 @@ snapshot. Thus this compares corresponding resulting states, not identical sourc
 events. Its query adapter is a test double populated from the SDK owner's retained
 counts; it is not native indexed execution or a physical MongoDB comparison. Fork
 rollback and complete-generation initialization remain separately unqualified.
+
+## Explicit Mongo planner experiment
+
+An independently selected `engineeringOwnedSchemaMongoComparison` option is available only
+with `ownedSchemaCounts`. It declares `mongodb-simple-utf8-v1` for this one model; defaults
+and every other indexed model retain the PostgreSQL comparison profile. The SDK declaration
+digest changes, so an old selection cannot authorize the new model. This option does not
+offer any backend capability, mark a generation ready, or claim comparison equivalence.
+
+The original collections handler groups owned counts and has no `ORDER BY`; this component
+requests a bounded name order only to retrieve a complete set after an exact count in the same
+composed view. A qualified differential must compare membership as sets, keep contract and
+collection equality and `owned > 0` filters, and fail rather than truncate over budget. A
+simple binary order must not be substituted for any separately ordered or paginated endpoint.
+Equality/value-domain compatibility against the original PostgreSQL collation remains open.
+
+An optional source-bound control (`HAPI_INDEXED_REFERENCE_ROOT`) recaptures the declaration
+with the native adapter SDK and exercises the actual Mongo indexed model, index generator,
+sidecar encoder/decoder and count/page planner from HAPI source commit
+`770faa16f8bd2b02f51bb6a6296b7092224f5301`. It pins the exact model source and emitted JS,
+and verifies signed-int64 encoding and refusal of invalid values. This runs no MongoDB,
+serves no native HTTP, and does not prove complete source coverage, generation rebuild,
+recovery, production offers, or PostgreSQL equivalence. A physical same-input differential
+requires a separately reviewed Linux fixture and controlled access to its MongoDB instance.

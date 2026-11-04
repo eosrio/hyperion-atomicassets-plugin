@@ -46,6 +46,8 @@ export interface AtomicPluginOptions {
   readonly engineeringRoyaltyTemplateQuery?: boolean;
   /** New generation only: caller must rebuild and qualify complete owned-schema count coverage. */
   readonly ownedSchemaCounts?: boolean;
+  /** Engineering only: Mongo simple comparison for complete owned-schema set experiments. */
+  readonly engineeringOwnedSchemaMongoComparison?: boolean;
 }
 export interface AtomicPluginApiContext {
   readonly statefulQueryHost: (request: FastifyRequest) => StatefulQueryHostV2;
@@ -89,6 +91,8 @@ export const ATOMIC_CAPABILITY_GAPS = Object.freeze(['full original processor ef
 export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
   const engineeringRoyaltyTemplateQuery=options.engineeringRoyaltyTemplateQuery===true;
   const ownedSchemaCounts=options.ownedSchemaCounts===true;
+  if(options.engineeringOwnedSchemaMongoComparison===true&&!ownedSchemaCounts) throw new Error('Mongo owned-schema engineering comparison requires ownedSchemaCounts');
+  const engineeringOwnedSchemaMongoComparison=options.engineeringOwnedSchemaMongoComparison===true;
   const projectionId = text(options.projectionId ?? 'atomicassets');
   const royaltyProjectionId = projectionId + ':royalty-config';
   const assets = text(options.assetsContract ?? 'atomicassets'), market = text(options.marketContract ?? 'atomicmarket');
@@ -216,7 +220,7 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
         records: [...kinds,...(ownedSchemaCounts?['owned-schema-count']:[])].map(kind => ({kind, integers: kind === 'asset' ? [{path: ['asset_id'], type: 'uint64', vector: false}] : []}))},
         limits: JSON.parse(JSON.stringify(limits)) as StatefulLimits, requiredSourceCapabilities:sourceCapabilities,
         requiredCompleteKindRead: {family:'stateful-owner-complete-kind',interfaceVersion:1,limits:completeKindLimits},
-        requiredIndexedQueries:[schemaListRequirement(limits),...(ownedSchemaCounts?[ownedSchemaRequirement(limits)]:[])],reduce},
+        requiredIndexedQueries:[schemaListRequirement(limits),...(ownedSchemaCounts?[ownedSchemaRequirement(limits,engineeringOwnedSchemaMongoComparison)]:[])],reduce},
         royaltyConfigProjection(royaltyProjectionId,market,limits),...royaltyRuleProjections(projectionId,market,limits,engineeringRoyaltyTemplateQuery)]};
     },
     addRoutes(server: FastifyInstance, context?: AtomicPluginApiContext): void {
