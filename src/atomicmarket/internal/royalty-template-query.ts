@@ -10,6 +10,7 @@ export async function parseRoyaltyTemplateParameters(params:Readonly<Record<stri
  if(!Number.isSafeInteger(bounds?.queryBytes)||bounds.queryBytes<1||!Number.isSafeInteger(bounds?.setValues)||bounds.setValues<0)return unavailable();
  const itemLimit=Math.max(1,bounds.setValues);let bytes=0;
  const charge=(value:string):void=>{const size=Buffer.byteLength(value,'utf8');if(size>bounds.queryBytes-bytes)return unavailable();bytes+=size;};
+ for(const name of ['page','limit']){const value=params[name];if(typeof value==='string'&&value!=='')charge(value);}
  const raw=params.template_id;let tokens:string[]=[];
  if(typeof raw==='string'&&raw!==''){
   charge(raw);let count=1;for(let i=0;i<raw.length;i++)if(raw.charCodeAt(i)===44&&++count>itemLimit)return unavailable();
@@ -34,7 +35,6 @@ export async function parseRoyaltyTemplateParameters(params:Readonly<Record<stri
  }
  for(const id of ids)if(!/^-?\d+$/.test(id)&&id.toLowerCase()!=='null')throw new RoyaltyAttributeParameterError('template_id');
  function integer(name:string,min:number,maxValue:number,fallback:number):number{const value=params[name];if(typeof value!=='string'||value==='')return fallback;
-  charge(value);
   const n=parseInt(value,10);if(!/^-?\d+$/.test(value)||Number.isNaN(n)||n<min||n>maxValue)throw new RoyaltyAttributeParameterError(name);return n;}
  const page=integer('page',1,Number.MAX_SAFE_INTEGER,1),limit=integer('limit',1,max,Math.min(max,100));
  // SDK #50 owns actual PostgreSQL 500/408 outcomes; never manufacture a successful query for them.

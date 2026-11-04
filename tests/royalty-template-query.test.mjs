@@ -64,6 +64,15 @@ test('raw bytes and token count refuse before provider creation or token expansi
   await assert.rejects(parseRoyaltyTemplateParameters({template_id:input},'atomicmarket','collection',bounds,host),e=>e.code==='stateful.unavailable');
  assert.equal(providers,0);
 });
+test('pagination raw bytes are charged before list provider and only once',async()=>{
+ let providers=0;const host=()=>{providers++;return {async resolve(names){return {source:'s',generation:'g',entries:[{name:names[0],items:['1']}]};}};};
+ for(const name of ['page','limit']) await assert.rejects(parseRoyaltyTemplateParameters({template_id:'$list:a',[name]:'0'.repeat(64)+'1'},'atomicmarket','collection',{queryBytes:64,setValues:2},host),e=>e.code==='stateful.unavailable');
+ assert.equal(providers,0);
+ const result=await parseRoyaltyTemplateParameters({template_id:'1',page:'01',limit:'2'},'atomicmarket','collection',{queryBytes:4,setValues:2});
+ assert.equal(result.offset,'0');assert.equal(result.limit,2);
+ const s=await prepared('royaltytemp',{options:{engineeringRoyaltyTemplateQuery:true},bounds:{inputBytes:64},lists:host});
+ try{const response=await s.api.inject({url,query:{template_id:'$list:a',page:'0'.repeat(64)+'1'}});assert.equal(response.statusCode,503);assert.equal(providers,0);assert.equal(s.adapter.queryCalls,0);}finally{await s.close();}
+});
 test('expanded list counts and UTF8 bytes are cumulative before further providers or conversion',async()=>{
  let calls=0,reads=0;const huge=Array(3);Object.defineProperty(huge,0,{get(){reads++;throw Error('unexpected item read');}});
  const over=()=>({async resolve(names){calls++;return {source:'s',generation:'g',entries:[{name:names[0],items:huge}]};}});
