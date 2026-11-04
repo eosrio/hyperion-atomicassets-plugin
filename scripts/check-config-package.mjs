@@ -34,11 +34,11 @@ try{
  const tarball=join(evidence,packed.filename);
  await writeFile(join(consumer,'package.json'),JSON.stringify({name:'atomic-config-packed-control',private:true,type:'module',
   dependencies:{[name]:'file:'+tarball},devDependencies:{typescript:'7.0.2',fastify:'5.12.7','@types/node':'25.5.0'},
-  allowScripts:{'github:eosrio/hyperion-sdk#dc20a03f2b60ba05a3369d677222a9cf0d65d299':true}},null,2)+'\n');
+  allowScripts:{'github:eosrio/hyperion-sdk#cbfb26694b90b52266d1e0b9b5dbf6f8389e736b':true}},null,2)+'\n');
  await run('install',[npmCli,'install','--allow-git=all','--no-audit','--no-fund'],consumer);
  const installed=join(consumer,'node_modules',name);
  const installedManifest=JSON.parse(await readFile(join(installed,'package.json'),'utf8'));
- assert.equal(installedManifest.private,true);assert.equal(installedManifest.dependencies['@eosrio/hyperion-sdk'],'git+https://github.com/eosrio/hyperion-sdk.git#dc20a03f2b60ba05a3369d677222a9cf0d65d299');
+ assert.equal(installedManifest.private,true);assert.equal(installedManifest.dependencies['@eosrio/hyperion-sdk'],'git+https://github.com/eosrio/hyperion-sdk.git#cbfb26694b90b52266d1e0b9b5dbf6f8389e736b');
  const files={};for(const path of [...paths].sort()){const packedBytes=await readFile(join(installed,path));assert.equal(sha(packedBytes),sha(await readFile(join(root,path))),path);files[path]=sha(packedBytes);}
  await mkdir(join(consumer,'tests','fixtures'),{recursive:true});
  for(const path of ['config-component.test.mjs','fixtures/config-component.mjs','fixtures/config-original.mjs','fixtures/complete-kind-adapter.mjs'])

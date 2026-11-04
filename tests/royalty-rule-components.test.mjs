@@ -162,12 +162,12 @@ test('literal path collection is not name-validated or overridden by query/body'
  }
 });
 
-test('ALL methods and automatic HEAD preserve bodies without adding count or template routes',async()=>{
+test('ALL methods and automatic HEAD preserve attribute bodies without adding count routes',async()=>{
  const s=await prepared(),o=originalRules();try{
   assert.equal(o.bindings.length,6);assert.ok(o.cachedOptions.every(x=>x===undefined));
   for(const method of ['GET','POST','PUT','PATCH','DELETE','OPTIONS']){s.plan();const expected=await o.response('collection',{method}),actual=await s.api.inject({method,url:url('collection')});assert.deepEqual(clean(actual.statusCode,actual.json()),clean(expected.status,expected.body));}
   s.plan();const head=await s.api.inject({method:'HEAD',url:url('collection')});assert.equal(head.statusCode,200);assert.equal(head.body,'');
-  const before=s.adapter.queryCalls;assert.equal((await s.api.inject(url('collection')+'/_count')).statusCode,404);assert.equal((await s.api.inject('/atomicmarket/v1/royalties/collection/templates')).statusCode,404);assert.equal(s.adapter.queryCalls,before);
+  const before=s.adapter.queryCalls;assert.equal((await s.api.inject(url('collection')+'/_count')).statusCode,404);assert.equal(s.adapter.queryCalls,before);
  }finally{o.close();await s.close();}
 });
 

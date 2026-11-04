@@ -23,8 +23,9 @@ import {registerRoyaltyConfigRoute} from '../http/royalty-config-route.js';
 import type {IndexedLimitsV1,IndexedModelV1,IndexedQueryHostV1} from '@eosrio/hyperion-sdk/projection-stateful-indexed-query-v1';
 import {schemaListRequirement} from './schema-indexed.js';
 import {registerSchemaListRoutes} from '../http/schema-list-routes.js';
-import {royaltyRuleProjections,royaltyRuleProjectionId} from './royalty-rules.js';
+import {royaltyRuleProjections,royaltyRuleProjectionId,royaltyAttributeLimits} from './royalty-rules.js';
 import {registerRoyaltyAttributeRoute} from '../http/royalty-attribute-route.js';
+import {registerRoyaltyTemplateRoute} from '../http/royalty-template-route.js';
 import {ownedSchemaRequirement} from './owned-schema-indexed.js';
 import {registerOwnedSchemaRoute} from '../http/owned-schema-route.js';
 export {ATOMIC_HOOK_INVENTORY} from './hook-inventory.js';
@@ -41,6 +42,8 @@ export interface AtomicPluginOptions {
   readonly limits: StatefulLimits;
   /** Original namespace API ceilings, separate from unchanged state/read budgets. */
   readonly apiLimits?: {readonly schemas?: number;readonly royalties?: number};
+  /** Engineering only: requires SDK51 and a separately qualified template indexed backend. */
+  readonly engineeringRoyaltyTemplateQuery?: boolean;
   /** New generation only: caller must rebuild and qualify complete owned-schema count coverage. */
   readonly ownedSchemaCounts?: boolean;
 }
@@ -84,6 +87,7 @@ export const ATOMIC_CAPABILITY_GAPS = Object.freeze(['full original processor ef
 
 /** One compound projection; this module owns domain conversion, never source/owner/native authority. */
 export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
+  const engineeringRoyaltyTemplateQuery=options.engineeringRoyaltyTemplateQuery===true;
   const ownedSchemaCounts=options.ownedSchemaCounts===true;
   const projectionId = text(options.projectionId ?? 'atomicassets');
   const royaltyProjectionId = projectionId + ':royalty-config';
@@ -213,7 +217,7 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
         limits: JSON.parse(JSON.stringify(limits)) as StatefulLimits, requiredSourceCapabilities:sourceCapabilities,
         requiredCompleteKindRead: {family:'stateful-owner-complete-kind',interfaceVersion:1,limits:completeKindLimits},
         requiredIndexedQueries:[schemaListRequirement(limits),...(ownedSchemaCounts?[ownedSchemaRequirement(limits)]:[])],reduce},
-        royaltyConfigProjection(royaltyProjectionId,market,limits),...royaltyRuleProjections(projectionId,market,limits)]};
+        royaltyConfigProjection(royaltyProjectionId,market,limits),...royaltyRuleProjections(projectionId,market,limits,engineeringRoyaltyTemplateQuery)]};
     },
     addRoutes(server: FastifyInstance, context?: AtomicPluginApiContext): void {
       if (!context || typeof context.statefulQueryHost !== 'function') throw new Error('Atomic routes require the host request-scoped query context');
@@ -232,6 +236,10 @@ export function createAtomicStatefulPlugin(options: AtomicPluginOptions) {
       registerRoyaltyAttributeRoute(server,{projectionId:royaltyRuleProjectionId(projectionId,'royaltyattr'),contract:market,
         ...(options.apiLimits?.royalties!==undefined?{maximum:options.apiLimits.royalties}:{}),
         ...(context.statefulIndexedQueryHost?{indexedQueryHost:context.statefulIndexedQueryHost}:{})});
+      if(engineeringRoyaltyTemplateQuery)registerRoyaltyTemplateRoute(server,{projectionId:royaltyRuleProjectionId(projectionId,'royaltytemp'),contract:market,inputBounds:royaltyAttributeLimits(limits),
+        ...(options.apiLimits?.royalties!==undefined?{maximum:options.apiLimits.royalties}:{}),
+        ...(context.statefulIndexedQueryHost?{indexedQueryHost:context.statefulIndexedQueryHost}:{}),
+        ...(context.operatorLists?{operatorLists:context.operatorLists}:{})});
     },
   });
 }

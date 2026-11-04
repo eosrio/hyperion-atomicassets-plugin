@@ -2,7 +2,7 @@
   "baseline": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
   "issue": "https://github.com/eosrio/hyperion-atomicassets-plugin/issues/65",
   "implementation": {
-    "royaltytemp": "independent table reducer; no list query/route",
+    "royaltytemp": "independent table reducer; optional engineering indexed template list requires SDK51",
     "royaltyattr": "independent table reducer and one indexed attribute-list source component",
     "countRoutes": "not present in original template/attribute rule family",
     "qualifiedEndpointParity": false
@@ -27,7 +27,7 @@
   },
   "sourceControls": "actual pinned original functions with modeled storage/results; actual SDK candidate/indexed scope and ordinary Fastify inject",
   "remainingGates": [
-    "separately reviewed int64 membership plus original list[id] weak integer/null/overflow/cardinality semantics for templates",
+    "SDK51 int64 membership acceptance and integration; null/overflow database errors require SDK50",
     "qualified native text equality/numeric order/access paths and bounded working set; production offers remain empty",
     "actual source/index initialization and canonical coverage, same-input live changes/restart/fork recovery",
     "same-input PostgreSQL16.15/MongoDB8.0.34 SQL/native query, JSONB/types/error/timeout/explain/resource comparison",

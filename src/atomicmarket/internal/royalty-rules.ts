@@ -78,3 +78,11 @@ export function royaltyAttributeRows(answer:Extract<IndexedResultV1,{kind:'page'
     return Object.fromEntries(attributeColumns.map(name=>[name,name==='source'?Number(row.source):row[name]]));
   });
 }
+export function royaltyTemplateRows(answer:Extract<IndexedResultV1,{kind:'page'}>,contract:string,collection:string):AtomicObject[] {
+  return answer.rows.map(item=>{const candidate=item.records.rule,id=candidate?.template_id;
+    if(typeof id!=='string'||item.key!==domainKey(contract,collection,id))return unavailable('Royalty template query key differs');
+    const row=storedRow('royaltytemp',candidate,contract,collection,id);
+    for(const field of ['market_contract','collection_name','template_id'])if(item.fields[field]!==row[field])return unavailable('Royalty template query fields differ');
+    return Object.fromEntries(templateColumns.map(name=>[name,row[name]]));
+  });
+}

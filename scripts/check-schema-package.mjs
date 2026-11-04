@@ -31,11 +31,11 @@ try {
   'dist/atomicassets/internal/schema-list-parameters.js','dist/stateful/plugin.d.ts','docs/parity/atomicassets/schema-indexed.md','docs/parity/atomicassets/schema-indexed-ledger.json'])assert.ok(paths.has(path),path);
  const tarball=join(evidence,packed.filename);
  await writeFile(join(consumer,'package.json'),JSON.stringify({name:'atomic-schema-indexed-packed-control',private:true,type:'module',dependencies:{[name]:'file:'+tarball},
-  devDependencies:{typescript:'7.0.2',fastify:'5.12.7','@types/node':'25.5.0'},allowScripts:{'github:eosrio/hyperion-sdk#dc20a03f2b60ba05a3369d677222a9cf0d65d299':true}},null,2)+'\n');
+  devDependencies:{typescript:'7.0.2',fastify:'5.12.7','@types/node':'25.5.0'},allowScripts:{'github:eosrio/hyperion-sdk#cbfb26694b90b52266d1e0b9b5dbf6f8389e736b':true}},null,2)+'\n');
  await run('install',[npmCli,'install','--allow-git=all','--ignore-scripts=false','--no-audit','--no-fund','--cache',join(evidence,'npm-cache')],consumer);
  const installed=join(consumer,'node_modules',name),metadata=JSON.parse(await readFile(join(installed,'package.json')));
  assert.equal(metadata.private,true);
- assert.equal(metadata.dependencies['@eosrio/hyperion-sdk'],'git+https://github.com/eosrio/hyperion-sdk.git#dc20a03f2b60ba05a3369d677222a9cf0d65d299');
+ assert.equal(metadata.dependencies['@eosrio/hyperion-sdk'],'git+https://github.com/eosrio/hyperion-sdk.git#cbfb26694b90b52266d1e0b9b5dbf6f8389e736b');
  const files={};for(const path of [...paths].sort()){const raw=await readFile(join(installed,path));assert.equal(sha(raw),sha(await readFile(join(root,path))),path);files[path]={bytes:raw.length,sha256:sha(raw)};}
  await mkdir(join(consumer,'tests/fixtures'),{recursive:true});
  const copied=['schema-indexed-consumer.test.mjs','fixtures/schema-indexed-component.mjs','fixtures/schema-list-original.mjs','fixtures/complete-kind-adapter.mjs'];
