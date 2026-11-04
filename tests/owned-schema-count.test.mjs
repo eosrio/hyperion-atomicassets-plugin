@@ -34,3 +34,14 @@ test('unknown coverage, inconsistent seed, overflow and candidate failure refuse
  x.seed(a,1);const seeded=x.snapshot();x.fail(true);await assert.rejects(x.run(s=>transition(s,contract,'1',asset('1','a','alice'),null)));assert.deepEqual(x.snapshot(),seeded);
  await assert.rejects(x.run(s=>transition(s,contract,'1',null,asset('2','a','alice'))));
 });
+test('unchanged owned row transition still validates coverage and a positive consistent count',async()=>{
+ const old=asset('1','a','alice'),next={...old};
+ for(const count of [undefined,null,'0','-1','9223372036854775808']){
+  const f=fixture();if(count===null)f.mark(a);else if(count!==undefined)f.seed(a,count);
+  const before=f.snapshot();
+  await assert.rejects(f.run(s=>transition(s,contract,'1',old,next)));
+  assert.deepEqual(f.snapshot(),before);
+ }
+ const f=fixture();f.seed(a,1);const before=f.snapshot();
+ await f.run(s=>transition(s,contract,'1',old,next));assert.deepEqual(f.snapshot(),before);
+});

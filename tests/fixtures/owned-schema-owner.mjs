@@ -35,5 +35,6 @@ export async function ownerFixture(){
   return {result,source,target:hex(number+500),candidate:saved};}
  return {execute,async redeliver(source,target){return owner.executeStatefulOwnerBlockV2(d,adapter,{},target,source,custody,()=>{throw Error('duplicate reduced');},()=>{});},
   rollback(){const previous=undo.pop();assert.ok(previous);rows=previous.rows;view=previous.view;receipt=null;saved=null;},
+  dropCountForTest:key=>rows.delete('owned-schema-count:'+key),
   row:(kind,key)=>clone(rows.get(kind+':'+key)),all:kind=>[...rows.entries()].filter(([k])=>k.startsWith(kind+':')).map(([,v])=>clone(v))};
 }

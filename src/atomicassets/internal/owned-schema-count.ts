@@ -32,9 +32,9 @@ export async function stageOwnedSchemaTransition(stage:DomainStage,contract:stri
   old:AtomicObject|null,next:AtomicObject|null):Promise<void> {
   text(contract);decimal(id);
   const from=contribution(old,contract,id),to=contribution(next,contract,id);
-  if(from===to)return;
   const before=from===null?0n:await readCount(stage,from,contract);
   if(from!==null&&before===0n)return unavailable('Owned asset has no counted contribution');
+  if(from===to)return;
   const after=to===null?0n:await readCount(stage,to,contract);
   if(from!==null)writeCount(stage,from,before-1n);
   if(to!==null)writeCount(stage,to,after+1n);

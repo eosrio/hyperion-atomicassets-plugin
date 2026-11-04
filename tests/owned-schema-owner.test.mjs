@@ -36,6 +36,13 @@ test('SDK owner reduction path: mint, redelivery, transfer, multiple assets, bur
  f.rollback();assert.equal(f.row('owned-schema-count',schemaKey).owned,'2');await compare(f);
  await f.execute([action('logburnasset',{asset_id:input.assetId,asset_owner:'bob'})]);await f.execute([],second);assert.equal(f.row('owned-schema-count',schemaKey).owned,'0');await compare(f);
 });
+test('actual reducer rejects a repeated mint with a missing owned count before owner apply',async()=>{
+ const f=await ownerFixture();await f.execute(initial());
+ f.dropCountForTest(key(input.contract,input.collection,input.schema));
+ const before=f.all('asset');
+ await assert.rejects(f.execute([mint(input.assetId)]));
+ assert.deepEqual(f.all('asset'),before);
+});
 test('multiple schema membership and replayed upsert match original handler membership',async()=>{
  const f=await ownerFixture();await compare(f);await f.execute(initial());
  const second='1234567890124',other='second',schemaEvent=row('schemas',{schema_name:other,format:input.format}),mintEvent=mint(second);
