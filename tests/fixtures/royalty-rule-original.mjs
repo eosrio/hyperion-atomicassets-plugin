@@ -34,7 +34,7 @@ function jsonb(v){const result=JSON.parse(v);unicode(result);return result;}
 const tableName=table=>table==='royaltytemp'?'atomicmarket_royalties_templates':'atomicmarket_royalties_attributes';
 
 /** SQL storage casts/results are modeled; callbacks/handler/parser/builder/wrapper/registration execute original bytes. */
-export function originalRules(contract='atomicmarket',{maximum,lists={}}={}){
+export function originalRules(contract='atomicmarket',{maximum,lists={},queryPort}={}){
  let rows=new Map(),resultRows=[];const callbacks=[],actions=[],calls=[],bindings=[],cachedOptions=[];
  const db={async replace(table,row,keys,preserve){
   const template=table==='atomicmarket_royalties_templates';assert(template||table==='atomicmarket_royalties_attributes');
@@ -46,7 +46,7 @@ export function originalRules(contract='atomicmarket',{maximum,lists={}}={}){
   rows.set(key,{...value,...(previous?{created_at_block:previous.created_at_block,created_at_time:previous.created_at_time}:{})});
  },async delete(table,where){assert.ok(['atomicmarket_royalties_templates','atomicmarket_royalties_attributes'].includes(table));
   const[market,collection,id]=plain(where.values);rows.delete(JSON.stringify([table,market,collection,int(id)]));},
-  async query(sql,values){calls.push({sql,values:plain(values)});return{rows:plain(resultRows)};}};
+  async query(sql,values){calls.push({sql,values:plain(values)});return queryPort?queryPort(sql,plain(values)):{rows:plain(resultRows)};}};
  const processor={onContractRow(account,table,fn,priority){assert.equal(account,contract);assert.equal(priority,1010);const item={table,fn};callbacks.push(item);return()=>callbacks.splice(callbacks.indexOf(item),1);},
   onActionTrace(){const item={};actions.push(item);return()=>actions.splice(actions.indexOf(item),1);}};
  const destroy=royaltyProcessor({args:{atomicmarket_account:contract}},processor);
