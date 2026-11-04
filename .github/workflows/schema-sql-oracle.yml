@@ -5,6 +5,8 @@ on:
     paths:
       - '.github/workflows/schema-sql-oracle.yml'
       - 'harness/atomicassets/postgres/**'
+      - 'tests/fixtures/royalty-rule-original.mjs'
+      - 'tests/fixtures/royalty-rule-original-2.7/**'
       - 'fixtures/harness/atomicassets/lifecycle/provenance.json'
       - 'docs/parity/atomicassets/postgres-oracle-sources.json'
       - 'scripts/prepare-reference.mjs'
