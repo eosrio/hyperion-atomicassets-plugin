@@ -81,7 +81,7 @@ function verifySdk50(report){
  error(ops[0],'22003',500,'Internal Server Error');
  if(ops[1].http.status===500)error(ops[1],'22003',500,'Internal Server Error');
  else {ok(ops[1]);assert.ok(Array.isArray(ops[1].http.body.data));assert.equal(ops[1].http.body.data.length,1);
-  const row=ops[1].http.body.data[0];assert.ok(['missing','peer','zero'].includes(row?.schema_name));
+  const row=ops[1].http.body.data[0];assert.equal(row?.schema_name,'missing');
   assert.equal(row.contract,'atomicassets');assert.equal(row.collection?.collection_name,'colone');assert.equal(row.assets,0);}
  ok(ops[2]);assert.equal(ops[2].http.body.data,'4');
  error(ops[3],'57014',408,'Max database query time exceeded. Please try to add more filters to your query.');

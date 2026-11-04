@@ -31,7 +31,9 @@ test('SDK50 persisted gate accepts either consistent off-page result and rejects
   const r=structuredClone(good);mutate(r);assert.throws(()=>checkReport(r));
  }
  for(const mutate of [r=>{r.sdk50.operations[1].rowCount=0;},r=>{r.sdk50.operations[1].http.body.data=[];},
-  r=>{r.sdk50.operations[1].http.body.data[0].schema_name='positive';},r=>{r.sdk50.operations[1].http.body.data[0].collection.collection_name='coltwo';},
+  r=>{r.sdk50.operations[1].http.body.data[0].schema_name='positive';},
+  r=>{r.sdk50.operations[1].http.body.data[0].schema_name='peer';},
+  r=>{r.sdk50.operations[1].http.body.data[0].schema_name='zero';},r=>{r.sdk50.operations[1].http.body.data[0].collection.collection_name='coltwo';},
   r=>{r.sdk50.operations[1].http.body.data[0].assets=1;},r=>{r.sdk50.operations[1].dbError={code:'22003'};}]){
   const r=structuredClone(ok);mutate(r);assert.throws(()=>checkReport(r));
  }
