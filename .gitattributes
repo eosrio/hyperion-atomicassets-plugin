@@ -1,4 +1,5 @@
 # Original reference/helper blobs retain their exact bytes on every checkout.
+/tests/fixtures/owned-schema-pg71-report.json -text
 /fixtures/harness/atomicassets/lifecycle/original/** -text
 # The distributed original metadata codec and its notices have the same raw pins.
 /vendor/atomicassets-2.2.0/** -text
