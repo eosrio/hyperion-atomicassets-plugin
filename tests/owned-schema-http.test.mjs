@@ -10,6 +10,10 @@ import {SCHEMA_LIST_COMPARISON} from '../dist/stateful/schema-indexed.js';
 import {OWNED_SCHEMA_MODEL_ID} from '../dist/stateful/owned-schema-indexed.js';
 import {CompleteKindReference} from './fixtures/complete-kind-adapter.mjs';
 import {limits} from './fixtures/config-component.mjs';
+import {ownerFixture} from './fixtures/owned-schema-owner.mjs';
+import {input,initial,mint,transfer,action,row} from './fixtures/asset-domain-cases.mjs';
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 const hex=n=>n.toString(16).padStart(64,'0'),clone=structuredClone;
 async function setup(){
  const bounds={...limits(),recordKinds:22,responseRecords:5},plugin=createAtomicStatefulPlugin({limits:bounds,ownedSchemaCounts:true});
@@ -36,7 +40,33 @@ async function setup(){
  return state;
 }
 const count=value=>({kind:'count',exact:true,value:String(value)});
-const page=names=>({kind:'page',complete:true,rows:names.map(name=>({key:JSON.stringify(['atomicassets','cats',name]),fields:{schema_name:name},records:{}}))});
+const page=(names,collection='cats')=>({kind:'page',complete:true,rows:names.map(name=>({key:JSON.stringify(['atomicassets',collection,name]),fields:{schema_name:name},records:{}}))});
+test('SDK owner lifecycle and indexed route agree with retained original PostgreSQL membership snapshots',async()=>{
+ const bytes=readFileSync(new URL('./fixtures/owned-schema-pg71-report.json',import.meta.url));
+ assert.equal(createHash('sha256').update(bytes).digest('hex'),'dcfc8813f9c4fff797d563bb52f979e98cfca9e3071b2f9b06df4037ce7fec93');
+ const report=JSON.parse(bytes),oracle=report.ownedSchema;
+ assert.equal(oracle.baseline,'0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e');assert.equal(oracle.status,'passed');assert.equal(oracle.snapshots.length,8);
+ const f=await ownerFixture(),s=await setup(),a=input.assetId,b='9007199254740994',c='9007199254740995',g='9007199254740996';
+ const map=name=>name===input.schema?'alpha':name;
+ async function check(index){
+  const snapshot=oracle.snapshots[index],counts=f.all('owned-schema-count').map(x=>({schema_name:map(x.schema_name),owned:x.owned})).sort((x,y)=>x.schema_name.localeCompare(y.schema_name));
+  assert.deepEqual(counts,snapshot.counts.map(x=>({schema_name:x.schema_name,owned:x.owned})).sort((x,y)=>x.schema_name.localeCompare(y.schema_name)),snapshot.name+' counts');
+  const active=f.all('owned-schema-count').filter(x=>BigInt(x.owned)>0n).map(x=>x.schema_name).sort();
+  s.plans.push(count(active.length));if(active.length)s.plans.push(page(active,input.collection));
+  const response=await s.api.inject('/atomicassets/v1/collections/'+input.collection+'/schemas');assert.equal(response.statusCode,200,snapshot.name);
+  assert.deepEqual(response.json().data.map(x=>map(x.schema_name)).sort(),snapshot.handlerRows.map(x=>x.schema_name).sort(),snapshot.name+' handler');
+ }
+ try{
+  await check(0);await f.execute(initial());
+  const alpha2=mint(b);alpha2.value.new_asset_owner='bob';await f.execute([alpha2]);
+  const beta=mint(c);beta.value.schema_name='beta';beta.value.new_asset_owner='carol';await f.execute([row('schemas',{schema_name:'beta',format:input.format}),beta]);
+  const gamma=mint(g);gamma.value.schema_name='gamma';await f.execute([row('schemas',{schema_name:'gamma',format:input.format}),gamma]);await f.execute([action('logburnasset',{asset_id:g,asset_owner:'alice'})]);await check(1);
+  await f.execute([transfer('alice','dave')]);await check(2);
+  await f.execute([action('logburnasset',{asset_id:a,asset_owner:'dave'})]);await check(3);
+  await f.execute([action('logburnasset',{asset_id:b,asset_owner:'bob'})]);await check(4);f.rollback();await check(5);
+  await f.execute([],b);await check(6);await f.execute([],c);await check(7);
+ }finally{await s.api.close();}
+});
 test('actual SDK indexed scope and HTTP injection return complete bounded results and ignore parameters',async()=>{
  const s=await setup();try{s.plans.push(count(2),page(['a','b']));const r=await s.api.inject({method:'POST',url:'/atomicassets/v1/collections/cats/schemas?limit=bogus',payload:{ignored:true}});
   assert.equal(r.statusCode,200);assert.deepEqual(r.json().data,[{schema_name:'a'},{schema_name:'b'}]);assert.equal(s.calls.length,2);assert.equal(s.calls[0].kind,'count');assert.equal(s.calls[1].limit,2);assert.equal(s.calls[1].offset,'0');

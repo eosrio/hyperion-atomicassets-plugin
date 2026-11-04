@@ -44,3 +44,15 @@ The source and migration bytes must match the exact upstream Git blobs and pinne
 fixtures. Modeled controls verify reporting and failure paths; only a successful Linux CI
 artifact establishes this bounded PostgreSQL observation. It does not run the plugin or
 establish same-input MongoDB, indexed execution, managed HTTP or canonical fork recovery.
+
+An offline differential connects SDK owner lifecycle mutations to the request-bound
+indexed route and compares eight snapshots with the retained PostgreSQL report from
+PR #71 run `41794348457`, artifact `13304981202` (report SHA-256
+`dcfc8813f9c4fff797d563bb52f979e98cfca9e3071b2f9b06df4037ce7fec93`).
+The SDK inputs use a different collection, schema and asset identifiers, mapped to
+the original names for comparison. The original directly inserts a null-owner row;
+the SDK fixture creates and burns its matching asset before the first populated
+snapshot. Thus this compares corresponding resulting states, not identical source
+events. Its query adapter is a test double populated from the SDK owner's retained
+counts; it is not native indexed execution or a physical MongoDB comparison. Fork
+rollback and complete-generation initialization remain separately unqualified.
