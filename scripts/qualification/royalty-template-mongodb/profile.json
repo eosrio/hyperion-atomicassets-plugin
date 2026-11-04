@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "profile": "atomicmarket-royalty-template-cbfb-c561-qualification-v1",
   "sdk": "cbfb26694b90b52266d1e0b9b5dbf6f8389e736b",
-  "hapi": "c5619c990039b5d02dfa635d1540669305c3f3fe",
+  "hapi": "49dfe804590ab5b9cb17df05ebc85eb8e6976b14",
   "authority": "controlled synthetic fixture",
   "files": [
     {

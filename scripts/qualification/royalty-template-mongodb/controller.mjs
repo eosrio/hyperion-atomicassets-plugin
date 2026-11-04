@@ -14,7 +14,7 @@ import {runRoyaltyTemplateNativeDifferential} from './driver.mjs';
 const hex=n=>n.toString(16).padStart(64,'0'),digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 export const PROFILE='atomicmarket-royalty-template-cbfb-c561-qualification-v1';
 export const MODEL_SHA256='04a67391497f89d053ddf4df27d62bd73b38f82a7fb5fa06476d43ee549ce684';
-export const PROFILE_SHA256='6fc82b9a5dad2f442853a4265f71c61bc495652f62f18c83dbf8311be1ae55d9';
+export const PROFILE_SHA256='adcbb487ca38e85daffba3290a743e778a2d524f754d85dbb89f7acd39aebd4f';
 const root=new URL('../../../',import.meta.url);
 export function verifyRoyaltyProfile(read=path=>readFileSync(new URL(path,root),'utf8')){
  const raw=read('scripts/qualification/royalty-template-mongodb/profile.json').replace(/\r\n/g,'\n');assert.equal(digest(raw),PROFILE_SHA256,'royalty profile differs');
