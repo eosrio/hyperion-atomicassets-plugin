@@ -34,3 +34,13 @@ the pinned migration's owned-row semantics. The adapter's commit and rollback ar
 doubles; no PostgreSQL trigger or native recovery runs. Indexed-query tests use SDK
 capture/composition and injected HTTP with scripted native answers. PostgreSQL/MongoDB,
 production HTTP/cache, initialization and native fork/recovery acceptance remain pending.
+
+The isolated PostgreSQL16.15 CI oracle adds an original-handler and original-migration
+trigger scenario under issue #68. It records the trigger definition, each SQL statement,
+bindings, results or errors, and eight membership/count snapshots before assertions.
+Its constructed transaction exercises insert, owner transfer, burns, last-owned removal,
+savepoint rollback and deletion across multiple schemas, then rolls back the transaction.
+The source and migration bytes must match the exact upstream Git blobs and pinned local
+fixtures. Modeled controls verify reporting and failure paths; only a successful Linux CI
+artifact establishes this bounded PostgreSQL observation. It does not run the plugin or
+establish same-input MongoDB, indexed execution, managed HTTP or canonical fork recovery.

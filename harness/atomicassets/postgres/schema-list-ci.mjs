@@ -8,6 +8,7 @@ import {originalSource,copyDefinitions,sha} from './source.mjs';
 import {PIN} from './image-identity.mjs';
 import {CI,admitService,inspectCiDatabase} from './schema-list-ci-admission.mjs';
 import {templatePostgresOracle} from './royalty-template-oracle.mjs';
+import {ownedSchemaPostgresOracle} from './owned-schema-oracle.mjs';
 import {manifest as royaltyManifest} from '../../../tests/fixtures/royalty-rule-original.mjs';
 import {captureHarnessFiles} from './schema-list-ci-metadata.mjs';
 const require=createRequire(import.meta.url);
@@ -25,12 +26,16 @@ try {
  const id=process.env.AA_CI_CONTAINER_ID; assert.match(id??'',/^[a-f0-9]{64}$/);
  report.fixture=admitService(docker('inspect',id)[0],docker('image','inspect',PIN.image)[0],id); persist();
  const reference=originalSource(process.env.AA_REFERENCE_ROOT);
- const sourcePaths=['src/api/namespaces/atomicassets/handlers/schemas.ts','src/api/namespaces/atomicassets/format.ts','src/api/builder.ts','src/api/namespaces/lists.ts','src/api/namespaces/validation.ts','src/api/namespaces/utils.ts','src/api/namespaces/atomicassets/utils.ts','src/connections/postgres.ts','definitions/tables/atomicassets_tables.sql','definitions/views/atomicassets_schemas_master.sql','definitions/migrations/1.2.3/atomicassets.sql','definitions/migrations/1.3.15/atomicassets.sql'];
+ const sourcePaths=['src/api/namespaces/atomicassets/handlers/schemas.ts','src/api/namespaces/atomicassets/handlers/collections.ts','src/api/namespaces/atomicassets/format.ts','src/api/builder.ts','src/api/namespaces/lists.ts','src/api/namespaces/validation.ts','src/api/namespaces/utils.ts','src/api/namespaces/atomicassets/utils.ts','src/connections/postgres.ts','definitions/tables/atomicassets_tables.sql','definitions/views/atomicassets_schemas_master.sql','definitions/migrations/1.2.3/atomicassets.sql','definitions/migrations/1.3.15/atomicassets.sql'];
  report.reference={commit:reference.commit,lockSha256:reference.lockSha256,workingLockSha256:reference.actualWorkingLockSha256,checkedSources:reference.observed,
   additionalSources:sourcePaths.map(path=>{const bytes=execFileSync('git',['cat-file','blob',reference.commit+':'+path],{cwd:reference.root,timeout:10000,maxBuffer:2*1024**2});const working=readFileSync(join(reference.root,path));return {path,bytes:bytes.length,sha256:sha(bytes),workingBytes:working.length,workingSha256:sha(working)};})};
  report.royaltySources=Object.keys(royaltyManifest.sources).map(name=>{const pin=royaltyManifest.sources[name],bytes=execFileSync('git',['cat-file','blob',reference.commit+':'+pin.path],{cwd:reference.root,timeout:10000,maxBuffer:2*1024**2});assert.equal(bytes.length,pin.bytes);assert.equal(sha(bytes),pin.sha256);return {path:pin.path,bytes:bytes.length,sha256:sha(bytes),gitBlob:pin.gitBlob};});
  report.harness=captureHarnessFiles();
  report.royaltyHarness=['tests/fixtures/royalty-rule-original.mjs','tests/fixtures/royalty-rule-original-2.7/manifest.json',...Object.keys(royaltyManifest.sources).map(name=>'tests/fixtures/royalty-rule-original-2.7/'+name)].map(path=>{const bytes=readFileSync(new URL('../../../'+path,import.meta.url));return {path,bytes:bytes.length,sha256:sha(bytes)};});
+ report.ownedSource=[];for(const [fixture,path] of [['collections.ts','src/api/namespaces/atomicassets/handlers/collections.ts'],['migration.sql','definitions/migrations/1.3.15/atomicassets.sql']]){
+  const source=execFileSync('git',['cat-file','blob',reference.commit+':'+path],{cwd:reference.root,timeout:10000,maxBuffer:2*1024**2}),working=readFileSync(join(reference.root,path)),copy=readFileSync(new URL('../../../tests/fixtures/owned-schema-original-2.7/'+fixture,import.meta.url));
+  report.ownedSource.push({path,sourceSha256:sha(source),fixtureSha256:sha(copy),workingSha256:sha(working),bytes:source.length});persist();
+  assert.equal(sha(copy),sha(source));assert.equal(sha(working),sha(source));}
  report.runtime={version:process.version,executableSha256:sha(readFileSync(process.execPath)),platform:process.platform,arch:process.arch}; persist();
  const dir=mkdtempSync(join(tmpdir(),'aa-schema-ci-'));copyDefinitions(reference,dir);process.chdir(dir);
  for(const key of Object.keys(process.env)) if(key.startsWith('PG')||key.startsWith('POSTGRES_TEST_')||key.startsWith('REDIS_TEST_')||['NODE_OPTIONS','NODE_PATH','TS_NODE_PROJECT'].includes(key)) delete process.env[key];
@@ -41,7 +46,9 @@ try {
  report.admission=await inspectCiDatabase(db);persist();
  report.schema=await require('./schema.cjs')(reference.fromReference,db,report.admission,event=>{assert.ok(report.events.length<2048);report.events.push(event);});persist();
  report.result=await require('./schema-list-oracle.cjs')(reference.fromReference,db);persist();
- report.royaltyTemplate=await templatePostgresOracle(db,evidence=>{report.royaltyTemplate=evidence;persist();});report.status='passed';
+ report.royaltyTemplate=await templatePostgresOracle(db,evidence=>{report.royaltyTemplate=evidence;persist();});
+ const {getCollectionSchemasAction}=reference.fromReference('./src/api/namespaces/atomicassets/handlers/collections.ts');
+ report.ownedSchema=await ownedSchemaPostgresOracle(db,getCollectionSchemasAction,evidence=>{report.ownedSchema=evidence;persist();});report.status='passed';
 } catch(e) {report.status='failed';report.error=errorInfo(e);process.exitCode=1;persist();}
 finally {
  if(db){report.connectionClose={attempted:true};try{await db.end();report.connectionClose.succeeded=true;}catch(e){report.connectionClose.succeeded=false;report.connectionClose.error=errorInfo(e);report.status='failed';process.exitCode=1;}}
