@@ -41,6 +41,8 @@ jobs:
           test "$(bun -p process.versions.typescript)" = "7.0.2"
       - run: npm ci --allow-git=all
       - run: npm run typecheck
+      - name: Check JSONB display capture and failure custody without database effects
+        run: node --test harness/atomicassets/postgres/json-display-source.test.mjs harness/atomicassets/postgres/json-display-faults.test.mjs
       - name: Prepare exact upstream reference
         run: |
           npm run reference:prepare -- --destination "$AA_REFERENCE_ROOT"
