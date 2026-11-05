@@ -1,8 +1,6 @@
 name: Owned JSONB display MongoDB managed HTTP
 on:
   workflow_dispatch:
-  pull_request:
-    paths: ["scripts/qualification/jsonb-display-mongo-http*/**", "tests/jsonb-display*.mjs", ".github/workflows/jsonb-display-mongo-http.yml", "src/**", "package*.json"]
 permissions:
   contents: read
   actions: read
