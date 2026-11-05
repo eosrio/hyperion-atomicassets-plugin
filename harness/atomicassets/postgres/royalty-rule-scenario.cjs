@@ -27,7 +27,7 @@ module.exports=async function capture(fromReference,connection,config,record){
   await namespace.init();server.web.express.use('/atomicmarket',await namespace.router(server));server.httpServer.listen(0,'127.0.0.1');await once(server.httpServer,'listening');
   const snapshot=async name=>{const out={name};for(const [label,table,key]of [['templates','atomicmarket_royalties_templates','template_id'],['attributes','atomicmarket_royalties_attributes','rule_id']]){
    const cols=label==="templates"?"market_contract,collection_name,template_id::text AS template_id,recipients":"market_contract,collection_name,rule_id::text AS rule_id,source,field,value,weight::text AS weight,recipients,encode(lookup_hash, 'hex') AS lookup_hash";
-   const sql=`SELECT row_to_json(t)::text AS raw_json FROM (SELECT ${cols},updated_at_block::text AS updated_at_block,updated_at_time::text AS updated_at_time,created_at_block::text AS created_at_block,created_at_time::text AS created_at_time FROM ${table} WHERE market_contract=$1 AND collection_name=$2 ORDER BY ${key}) t`;
+   const sql=`SELECT row_to_json(t)::text AS raw_json FROM (SELECT ${cols},updated_at_block::text AS updated_at_block,updated_at_time::text AS updated_at_time,created_at_block::text AS created_at_block,created_at_time::text AS created_at_time FROM ${table} WHERE market_contract=$1 AND collection_name=$2 ORDER BY ${table}.${key}) t`;
    const r=await client.query(sql,['atomicmarket','oracle']);out[label]={sql,bindings:['atomicmarket','oracle'],rows:r.rows};}
    result.stages.push(out);record({kind:'royalty-stage',value:out});return out;};
   for(let i=0;i<steps.length;i++){
