@@ -1,8 +1,6 @@
 name: Schema ID JSONB display MongoDB managed HTTP
 on:
   workflow_dispatch:
-  pull_request:
-    branches: ["main"]
 permissions:
   contents: read
   actions: read

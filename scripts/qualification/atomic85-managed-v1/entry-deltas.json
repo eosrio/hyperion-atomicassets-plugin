@@ -1,0 +1,259 @@
+{
+  "base": "6261491b37e85c735bad563152147c9c59822f6e",
+  "entries": [
+    {
+      "source": "scripts/qualification/jsonb-display-bson-v3/ci.mjs",
+      "target": "scripts/qualification/atomic85-managed-v1/ci-owned.mjs",
+      "changes": [
+        {
+          "before": "import {admitController, root, hapiRoot} from './admission.mjs';",
+          "after": "import {admitOwnedController as admitController, root, hapiRoot} from './admission.mjs';"
+        },
+        {
+          "before": "'../jsonb-display-mongo-http/assembly.mjs'",
+          "after": "'./assembly.mjs'"
+        },
+        {
+          "before": "scripts/qualification/jsonb-display-bson-v3/child.mjs",
+          "after": "scripts/qualification/atomic85-managed-v1/child-owned.mjs"
+        },
+        {
+          "before": "out/jsonb-display-bson-v3-owned-",
+          "after": "out/atomic85-managed-owned-v1-"
+        },
+        {
+          "before": "from './guard.mjs'",
+          "after": "from '../jsonb-display-bson-v3/guard.mjs'"
+        },
+        {
+          "before": "from './io.mjs'",
+          "after": "from '../jsonb-display-bson-v3/io.mjs'"
+        },
+        {
+          "before": "from './reports.mjs'",
+          "after": "from '../jsonb-display-bson-v3/reports.mjs'"
+        }
+      ]
+    },
+    {
+      "source": "scripts/qualification/jsonb-display-bson-v3/child.mjs",
+      "target": "scripts/qualification/atomic85-managed-v1/child-owned.mjs",
+      "changes": [
+        {
+          "before": "import {admitController, root, hapiRoot} from './admission.mjs';",
+          "after": "import {admitOwnedController as admitController, root, hapiRoot} from './admission.mjs';"
+        },
+        {
+          "before": "'../jsonb-display-mongo-http/assembly.mjs'",
+          "after": "'./assembly.mjs'"
+        },
+        {
+          "before": "from './run-contract-v3.mjs'",
+          "after": "from './run-owned-contract.mjs'"
+        },
+        {
+          "before": "import('./run-lossless-bson-v3.mjs')",
+          "after": "import('./workload-owned.mjs')"
+        },
+        {
+          "before": "out/jsonb-display-bson-v3-owned-",
+          "after": "out/atomic85-managed-owned-v1-"
+        },
+        {
+          "before": "from './guard.mjs'",
+          "after": "from '../jsonb-display-bson-v3/guard.mjs'"
+        },
+        {
+          "before": "from './io.mjs'",
+          "after": "from '../jsonb-display-bson-v3/io.mjs'"
+        }
+      ]
+    },
+    {
+      "source": "scripts/qualification/jsonb-display-bson-v3/run-lossless-bson-v3.mjs",
+      "target": "scripts/qualification/atomic85-managed-v1/workload-owned.mjs",
+      "changes": [
+        {
+          "before": "from '../jsonb-display-mongo-http-ci/host-sdk.mjs'",
+          "after": "from './host-sdk.mjs'"
+        },
+        {
+          "before": "'../jsonb-display-mongo-http/assembly.mjs'",
+          "after": "'./assembly.mjs'"
+        },
+        {
+          "before": "from './run-contract-v3.mjs'",
+          "after": "from './run-owned-contract.mjs'"
+        },
+        {
+          "before": "from './bson-recorder.mjs'",
+          "after": "from '../jsonb-display-bson-v3/bson-recorder.mjs'"
+        },
+        {
+          "before": "from './cleanup.mjs'",
+          "after": "from '../jsonb-display-bson-v3/cleanup.mjs'"
+        }
+      ]
+    },
+    {
+      "source": "scripts/qualification/schema-id-mongo-v1/ci.mjs",
+      "target": "scripts/qualification/atomic85-managed-v1/ci-schema.mjs",
+      "changes": [
+        {
+          "before": "import {admitController, root, hapiRoot} from './admission.mjs';",
+          "after": "import {admitSchemaController as admitController, root, hapiRoot} from './admission.mjs';"
+        },
+        {
+          "before": "'../jsonb-display-mongo-http/assembly.mjs'",
+          "after": "'./assembly.mjs'"
+        },
+        {
+          "before": "scripts/qualification/schema-id-mongo-v1/child.mjs",
+          "after": "scripts/qualification/atomic85-managed-v1/child-schema.mjs"
+        },
+        {
+          "before": "out/schema-id-mongo-v1-owned-",
+          "after": "out/atomic85-managed-schema-v1-"
+        },
+        {
+          "before": "const CI_PROFILE = 'schema-id-mongo-owned-v1';",
+          "after": "import {SCHEMA_CI_PROFILE as CI_PROFILE} from './contract.mjs';"
+        },
+        {
+          "before": "from './reports.mjs'",
+          "after": "from '../schema-id-mongo-v1/reports.mjs'"
+        },
+        {
+          "before": "from './schema-oracle.mjs'",
+          "after": "from '../schema-id-mongo-v1/schema-oracle.mjs'"
+        }
+      ]
+    },
+    {
+      "source": "scripts/qualification/schema-id-mongo-v1/child.mjs",
+      "target": "scripts/qualification/atomic85-managed-v1/child-schema.mjs",
+      "changes": [
+        {
+          "before": "import {admitController, root, hapiRoot} from './admission.mjs';",
+          "after": "import {admitSchemaController as admitController, root, hapiRoot} from './admission.mjs';"
+        },
+        {
+          "before": "'../jsonb-display-mongo-http/assembly.mjs'",
+          "after": "'./assembly.mjs'"
+        },
+        {
+          "before": "from './contract.mjs'",
+          "after": "from './run-schema-contract.mjs'"
+        },
+        {
+          "before": "import('./workload.mjs')",
+          "after": "import('./workload-schema.mjs')"
+        },
+        {
+          "before": "out/schema-id-mongo-v1-owned-",
+          "after": "out/atomic85-managed-schema-v1-"
+        },
+        {
+          "before": "const CI_PROFILE = 'schema-id-mongo-owned-v1';",
+          "after": "import {SCHEMA_CI_PROFILE as CI_PROFILE} from './contract.mjs';"
+        },
+        {
+          "before": "import('./schema-oracle.mjs')",
+          "after": "import('../schema-id-mongo-v1/schema-oracle.mjs')"
+        }
+      ]
+    },
+    {
+      "source": "scripts/qualification/schema-id-mongo-v1/workload.mjs",
+      "target": "scripts/qualification/atomic85-managed-v1/workload-schema.mjs",
+      "changes": [
+        {
+          "before": "from '../jsonb-display-mongo-http-ci/host-sdk.mjs'",
+          "after": "from './host-sdk.mjs'"
+        },
+        {
+          "before": "'../jsonb-display-mongo-http/assembly.mjs'",
+          "after": "'./assembly.mjs'"
+        },
+        {
+          "before": "from './contract.mjs'",
+          "after": "from './run-schema-contract.mjs'"
+        },
+        {
+          "before": "from './refusal.mjs'",
+          "after": "from '../schema-id-mongo-v1/refusal.mjs'"
+        },
+        {
+          "before": "from './schema-oracle.mjs'",
+          "after": "from '../schema-id-mongo-v1/schema-oracle.mjs'"
+        }
+      ]
+    },
+    {
+      "source": "scripts/qualification/jsonb-display-mongo-http-ci/host-sdk.mjs",
+      "target": "scripts/qualification/atomic85-managed-v1/host-sdk.mjs",
+      "changes": [
+        {
+          "before": "from '../jsonb-display-mongo-http/contract.mjs'",
+          "after": "from './contract.mjs'"
+        },
+        {
+          "before": "import {sha} from './contract.mjs';",
+          "after": "import {sha} from './contract.mjs';\nimport {expectedAssembly} from './assembly.mjs';"
+        },
+        {
+          "before": "const expected = JSON.parse(readFileSync(new URL('../jsonb-display-mongo-http/profile.json', import.meta.url)));",
+          "after": "const expected = {profile: FROZEN_PROFILE, observation: expectedAssembly()};"
+        }
+      ]
+    },
+    {
+      "source": "scripts/qualification/jsonb-display-bson-v3/qualification.test.mjs",
+      "target": "scripts/qualification/atomic85-managed-v1/historical-bson-controls.test.mjs",
+      "changes": [
+        {
+          "before": "from './bson-recorder.mjs'",
+          "after": "from '../jsonb-display-bson-v3/bson-recorder.mjs'"
+        },
+        {
+          "before": "  const source = process.env.ATOMIC81_V3_ROUTE_BASELINE === '1'\n    ? execFileSync('git', ['-c', 'core.autocrlf=false', 'show', '11a7cd98369494d918df96c2ba2d3b3f6b74d59d:.github/workflows/jsonb-display-bson-v3.yml'], {cwd: root, encoding: 'utf8'})\n    : read('.github/workflows/jsonb-display-bson-v3.yml');",
+          "after": "  const source = execFileSync('git', ['-c', 'core.autocrlf=false', 'show', '6261491b37e85c735bad563152147c9c59822f6e:.github/workflows/jsonb-display-bson-v3.yml'], {cwd: root, encoding: 'utf8'});"
+        },
+        {
+          "before": "the new automatic route matches main",
+          "after": "the historical626 BSON automatic route matches main"
+        }
+      ]
+    },
+    {
+      "source": "scripts/qualification/schema-id-mongo-v1/schema-oracle.test.mjs",
+      "target": "scripts/qualification/atomic85-managed-v1/historical-schema-controls.test.mjs",
+      "changes": [
+        {
+          "before": "import {readFileSync} from 'node:fs';",
+          "after": "import {readFileSync} from 'node:fs';\nimport {execFileSync} from 'node:child_process';"
+        },
+        {
+          "before": "from './schema-oracle.mjs'",
+          "after": "from '../schema-id-mongo-v1/schema-oracle.mjs'"
+        },
+        {
+          "before": "from './reports.mjs'",
+          "after": "from '../schema-id-mongo-v1/reports.mjs'"
+        },
+        {
+          "before": "new URL('./",
+          "after": "new URL('../schema-id-mongo-v1/"
+        },
+        {
+          "before": "const workflow=readFileSync(new URL('../../../.github/workflows/schema-id-mongo-v1.yml',import.meta.url),'utf8');",
+          "after": "const workflow=execFileSync('git',['-c','core.autocrlf=false','show','6261491b37e85c735bad563152147c9c59822f6e:.github/workflows/schema-id-mongo-v1.yml'],{cwd:new URL('../../../',import.meta.url),encoding:'utf8'});"
+        },
+        {
+          "before": "four current original report pins and schema-only workload are explicit",
+          "after": "four original report pins, unchanged schema-only workload and historical626 route are explicit"
+        }
+      ]
+    }
+  ]
+}

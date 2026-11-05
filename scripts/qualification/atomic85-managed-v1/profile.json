@@ -1,0 +1,900 @@
+{
+  "schemaVersion": 1,
+  "profile": "atomic85-626-hapi7270-managed-assembly-v1",
+  "physicalAcceptance": "pending",
+  "pins": {
+    "atomic": "6261491b37e85c735bad563152147c9c59822f6e",
+    "atomicTree": "fa01541686ed5ee2eadb3fb09f29a1e960f7d6d4",
+    "hapi": "7270b1eba0e4e118e61fd282dbf44a66f361df47",
+    "hapiTree": "e4039b76850b365806cfb10e65702751e604a99d",
+    "sdk": "cbfb26694b90b52266d1e0b9b5dbf6f8389e736b",
+    "reference": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e"
+  },
+  "frozenAssemblySha256": "638329108ebcb9ec5810b7ec10b2842c126dd300665149d6c43072b1682f14ae",
+  "currentProduct": {
+    "atomicSources": [
+      {
+        "path": "atomicassets/asset.ts",
+        "bytes": 5224,
+        "sha256": "ec2d3ccb7d60b5968af1e95cdbda5ebc168aa1a44cb407829564e6bfdcf8428d"
+      },
+      {
+        "path": "atomicassets/internal/collections.ts",
+        "bytes": 2901,
+        "sha256": "7ab75568ef13fb8f40f1ca997cbf2f68ec138b958d7f26f7a9af7acff25f8b09"
+      },
+      {
+        "path": "atomicassets/internal/config.ts",
+        "bytes": 7505,
+        "sha256": "d167f6c2552f78bbad143b6aad51cdeabb2b1b5fe545579d787ec4560d2fd07a"
+      },
+      {
+        "path": "atomicassets/internal/database-json.ts",
+        "bytes": 1613,
+        "sha256": "c1f2510445bbdd684a65b6b6b82b74e3ab68f4ca517e71a64f8f6267da981262"
+      },
+      {
+        "path": "atomicassets/internal/jsonb-text.ts",
+        "bytes": 2481,
+        "sha256": "b00417e791aede990bc13257a3b46b2182edb2cc5cd472b462613cdb0440ec21"
+      },
+      {
+        "path": "atomicassets/internal/lifecycle-port.ts",
+        "bytes": 6664,
+        "sha256": "54af1f20beb14d94efd4932ee2f9bfc8b553e783c173bf479c58d75c45c42ba5"
+      },
+      {
+        "path": "atomicassets/internal/lifecycle.ts",
+        "bytes": 16585,
+        "sha256": "18692c2e19f1219ec6c7cb430182d4f82f0e779fa8b9b9bbfc457cdbf4d5a533"
+      },
+      {
+        "path": "atomicassets/internal/owned-schema-count.ts",
+        "bytes": 2232,
+        "sha256": "1a39910e338400b64b9786bb7954227cecab27e926b8d9946d7b33c76a135d07"
+      },
+      {
+        "path": "atomicassets/internal/schema-counts.ts",
+        "bytes": 2437,
+        "sha256": "30df0a8a15c654b6600182e742f457992cc8949ab77836f589d088179dbbd1a2"
+      },
+      {
+        "path": "atomicassets/internal/schema-list-parameters.ts",
+        "bytes": 7476,
+        "sha256": "2ecfe80d525b2b794661942681f2b0e91a5c88184a4bd8d43822c11f7becb9cc"
+      },
+      {
+        "path": "atomicassets/internal/schema-list.ts",
+        "bytes": 3620,
+        "sha256": "93c59725b3e358c7b8982cce10ee5a56c933aa0532118ef6ddd79689ed99d995"
+      },
+      {
+        "path": "atomicassets/internal/schema-query.ts",
+        "bytes": 5135,
+        "sha256": "b8cbfdc5cd12c72667193f7ca690109ffb03f340b14b074f8794bcc75d4770f5"
+      },
+      {
+        "path": "atomicassets/internal/templates.ts",
+        "bytes": 6693,
+        "sha256": "a52b7ba74e3c0e73b2024425f7d750cd5be79e5498d31474a0eecc8b8954ec77"
+      },
+      {
+        "path": "atomicmarket/internal/auction-assets.ts",
+        "bytes": 1256,
+        "sha256": "8f8460fe9117c7987689e32c6b5ada166e607ef2eb5fa0d035c42ec3b77be0e6"
+      },
+      {
+        "path": "atomicmarket/internal/auctions.ts",
+        "bytes": 12596,
+        "sha256": "5e96ae8b5d9eb3dbbae6722e9d59f0fb0a953401b22107d32df6db542b252ddb"
+      },
+      {
+        "path": "atomicmarket/internal/buyoffer-assets.ts",
+        "bytes": 1059,
+        "sha256": "5291c91990cedc7aa8be35a122ab54c23b58487fd30c2d7cd718da1773002622"
+      },
+      {
+        "path": "atomicmarket/internal/buyoffers.ts",
+        "bytes": 12352,
+        "sha256": "68eefb46dffb9c14e153d188afedc47d7776983d62b4df6f24bdac1aefef9b77"
+      },
+      {
+        "path": "atomicmarket/internal/fixed-sale-port.ts",
+        "bytes": 5162,
+        "sha256": "1fa0d95dcefabacb812cb82b7fb731eecd1056c6d13b6d82630f1924ac393685"
+      },
+      {
+        "path": "atomicmarket/internal/fixed-sale.ts",
+        "bytes": 14342,
+        "sha256": "69f6c43db7ab2591be6a7d127c7015eb7573d178de68f3f37dd785f094d7fc0e"
+      },
+      {
+        "path": "atomicmarket/internal/marketplace-state.ts",
+        "bytes": 3773,
+        "sha256": "ea0d2489d603838f0eaaf27e8c060aa8fac17b2d08f5c627ab566562355d6647"
+      },
+      {
+        "path": "atomicmarket/internal/relationships.ts",
+        "bytes": 8245,
+        "sha256": "ebc599aa384dfff56710e462bf1e8342271421d4ec0422aa26396604c37acafb"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-attribute-query.ts",
+        "bytes": 1954,
+        "sha256": "7ef0be059ed677f0182c106a4d8b4bdfd41a7f94a5b03aae057c1a28e10dbba4"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-config.ts",
+        "bytes": 5543,
+        "sha256": "2c6d65a1ae41dd8e22279f6e5fdbac3d562340ff5ab7840c6dcc21ee765c1656"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-rules.ts",
+        "bytes": 7599,
+        "sha256": "e2050b490c75c3f23295bf601622b962eb72bf0b174e51bac71367f46c13472e"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-template-query.ts",
+        "bytes": 4786,
+        "sha256": "a950d96495fafe885828798dd322f19bb76719f7f3f585dc0115a53014328288"
+      },
+      {
+        "path": "atomicmarket/internal/sale-assets.ts",
+        "bytes": 1696,
+        "sha256": "e7e026eb319d8986ca392f9789edebc7576dbc72c64b3b1177037c86c93a518e"
+      },
+      {
+        "path": "atomicmarket/marketplace-indexing.ts",
+        "bytes": 2304,
+        "sha256": "5ec7f0e10c45ae374eb69efd9cdb98ca8897866a6a80fd40f5c3a2112e389ef7"
+      },
+      {
+        "path": "atomicmarket/marketplace.ts",
+        "bytes": 2044,
+        "sha256": "fd4c270f233b2a95437492718ec198e7b22bcbf7e4e31bf9d3334d2eaa1d651a"
+      },
+      {
+        "path": "atomicmarket/sale.ts",
+        "bytes": 1995,
+        "sha256": "cce516c252c81ee55aaabcda7ac30bf00d0afb1ade25257dc7506ebe8f1a07fb"
+      },
+      {
+        "path": "http/id-routes.ts",
+        "bytes": 10124,
+        "sha256": "ed38f109fde76fe94916b087c23cc5dcc4e5fc56a03f50a9dc9bb19f3152567b"
+      },
+      {
+        "path": "http/owned-schema-route.ts",
+        "bytes": 2546,
+        "sha256": "935f736cf7de1b0f21a3f99331c6173cac7cefeb494f4767eb3c90e11b38b6ad"
+      },
+      {
+        "path": "http/royalty-attribute-route.ts",
+        "bytes": 2507,
+        "sha256": "ea84f180b3c2cb5c42ad6e12169231e3ec66be24c8bb1cfcdfa138ee74222bbd"
+      },
+      {
+        "path": "http/royalty-config-route.ts",
+        "bytes": 2080,
+        "sha256": "a51549134c934caba19f5782092c1b1350753fe5c8e6fe535816f47a4c646de6"
+      },
+      {
+        "path": "http/royalty-template-route.ts",
+        "bytes": 2745,
+        "sha256": "34a73f06b859dcf78e5c99627de9ac661b05e3ab6ddc4a049140fd9dc920a32c"
+      },
+      {
+        "path": "http/schema-list-routes.ts",
+        "bytes": 2964,
+        "sha256": "3aceb8dea23f23e5cde8734eecca213306ed5ca146c7eb9ee717c9ca15fc93db"
+      },
+      {
+        "path": "index.ts",
+        "bytes": 1331,
+        "sha256": "1c22149c7045a1becb57b25e4a29b14d490332e1d70a88e32c8039ed05f970d7"
+      },
+      {
+        "path": "reference-baseline.ts",
+        "bytes": 278,
+        "sha256": "da84b9b68eb307bdf5b57e89392dae7659979ff5d303c596125fb77d55a6daff"
+      },
+      {
+        "path": "stateful/hook-inventory.ts",
+        "bytes": 32373,
+        "sha256": "2fce6e3e2b709bfc6b6d63459e106b68e83c8a40e0d304a8f779ddfbbdd55821"
+      },
+      {
+        "path": "stateful/metadata-codec.ts",
+        "bytes": 1481,
+        "sha256": "7c90029b9bf0a3c404e22d11e4e7db0ee9be5371bd265796feea9126af17c691"
+      },
+      {
+        "path": "stateful/owned-schema-indexed.ts",
+        "bytes": 1614,
+        "sha256": "ea649961858496e1b5e2c0fbb5db640edcea1ed2ce9552300e8d44739a9a9c77"
+      },
+      {
+        "path": "stateful/plugin.ts",
+        "bytes": 20903,
+        "sha256": "3a76fc7b91243e1a1bb778b2ef440b6d9278e930ad0c2ba47b205419294c11d5"
+      },
+      {
+        "path": "stateful/royalty-config.ts",
+        "bytes": 1632,
+        "sha256": "286619654fc5ee6beb6281eb949457e4039572933a107e767ceaf92b37e08756"
+      },
+      {
+        "path": "stateful/royalty-rules.ts",
+        "bytes": 5379,
+        "sha256": "c7a88eee3a49f63e3c9f9317ffa4455770caa8e06c92effc6175400d1fdb2cdc"
+      },
+      {
+        "path": "stateful/schema-indexed.ts",
+        "bytes": 2960,
+        "sha256": "698acb75e413b1ec983ca1b935c961ca418e36c41c1925c537282c05f6e79a00"
+      }
+    ],
+    "pluginDist": [
+      {
+        "path": "atomicassets/asset.d.ts",
+        "bytes": 3212,
+        "sha256": "ad134b09e66f751d73641d1ba7d170c50089bdde50de785d57403007dc8b4581"
+      },
+      {
+        "path": "atomicassets/asset.js",
+        "bytes": 2538,
+        "sha256": "9ffdaa291c949776ccb495e6203f0db50b4f8970c8aba8b748fcb9e8d0e6bf91"
+      },
+      {
+        "path": "atomicassets/asset.js.map",
+        "bytes": 2562,
+        "sha256": "7f5df1b573c3678b922db58f047450684fc57a17b7383d6d2f345f9605fe1820"
+      },
+      {
+        "path": "atomicassets/internal/collections.d.ts",
+        "bytes": 655,
+        "sha256": "1c749f36d938d1fbe159018cd7b5a4af0c02c35556fa8f9cd523e223afa0d6a0"
+      },
+      {
+        "path": "atomicassets/internal/collections.js",
+        "bytes": 2937,
+        "sha256": "692736a27a831f8e2a378d6f37d4b895ac7034e0888d7586babc2d0d93f0ffc0"
+      },
+      {
+        "path": "atomicassets/internal/collections.js.map",
+        "bytes": 2917,
+        "sha256": "c73b3b5458064c39ee200cb520355014b38278fa1282116a982cebad94ef9996"
+      },
+      {
+        "path": "atomicassets/internal/config.d.ts",
+        "bytes": 751,
+        "sha256": "7c5cbcfa3907f3f5adf23cb72e05bb20a87acb7de5d9ab17a5a14eeabcbb4b37"
+      },
+      {
+        "path": "atomicassets/internal/config.js",
+        "bytes": 7249,
+        "sha256": "2088d03c773acb8a69f459d9f55907ba47dc3029aba168c12aa7301b4d12c9b0"
+      },
+      {
+        "path": "atomicassets/internal/config.js.map",
+        "bytes": 6912,
+        "sha256": "5ae36719cb734f2e8f49958b1ea8be0c34e6d17c504b7c08bea3bf2363f04888"
+      },
+      {
+        "path": "atomicassets/internal/database-json.d.ts",
+        "bytes": 595,
+        "sha256": "88c201fe4dedc5136769ba7b75d831dee620c4b75e7b23d3180802842787457c"
+      },
+      {
+        "path": "atomicassets/internal/database-json.js",
+        "bytes": 1688,
+        "sha256": "8c711eb98a071f5ea55d71e49827d096e72d9078396938d28a9db1494050f765"
+      },
+      {
+        "path": "atomicassets/internal/database-json.js.map",
+        "bytes": 1369,
+        "sha256": "df942c3ac616ea98b66b764128d843485ec4d65dd1c1699a2a9a079f44321ff1"
+      },
+      {
+        "path": "atomicassets/internal/jsonb-text.d.ts",
+        "bytes": 439,
+        "sha256": "414007cb8c4a12eb13d486450c3f0a2ab07e2aa19826dd47c20d69d207a2ea9b"
+      },
+      {
+        "path": "atomicassets/internal/jsonb-text.js",
+        "bytes": 2786,
+        "sha256": "ccec835c46ffaf43841dce35153c1b633da5de72aee8909e8652812cab23fe22"
+      },
+      {
+        "path": "atomicassets/internal/jsonb-text.js.map",
+        "bytes": 3085,
+        "sha256": "c247d9c3a1699b73aee1d9cfa35d59e241fb2ef57c30a997430b89491243a7ac"
+      },
+      {
+        "path": "atomicassets/internal/lifecycle-port.d.ts",
+        "bytes": 3127,
+        "sha256": "e9218407456c967e4ea506d1b0787946e13cdc556b3fd3da1d026aecb7d1fd2f"
+      },
+      {
+        "path": "atomicassets/internal/lifecycle-port.js",
+        "bytes": 4648,
+        "sha256": "9abb7ea0ee1bab34e834c26fa5215d01add0cf83a8b25fad8e5ebb403ffede8a"
+      },
+      {
+        "path": "atomicassets/internal/lifecycle-port.js.map",
+        "bytes": 5143,
+        "sha256": "f75903d7c8ccd14271cc29c741244c4d5e23d3fc00ff25da50e3e3b58575254e"
+      },
+      {
+        "path": "atomicassets/internal/lifecycle.d.ts",
+        "bytes": 1036,
+        "sha256": "b6e271b5762ace606bef966ae568dc7406e751954ed8a583b318e083d0cd95f2"
+      },
+      {
+        "path": "atomicassets/internal/lifecycle.js",
+        "bytes": 17712,
+        "sha256": "2b97e89bd10bf9ab23749bac357145cbc227e623e69eadc3a43be80ef8928124"
+      },
+      {
+        "path": "atomicassets/internal/lifecycle.js.map",
+        "bytes": 17534,
+        "sha256": "416c9a6f5c3bdfe560266d972fcaa50834a8e077c9173f9310dabac548e83b70"
+      },
+      {
+        "path": "atomicassets/internal/owned-schema-count.d.ts",
+        "bytes": 378,
+        "sha256": "c806ebfb49746993626f4a13493c4bc36d7810e8fb982fda8c51a56884c49445"
+      },
+      {
+        "path": "atomicassets/internal/owned-schema-count.js",
+        "bytes": 2268,
+        "sha256": "ab3fb81380b030f0e71b9333500cff9c8438da62a472cdb5e92cf8002795f818"
+      },
+      {
+        "path": "atomicassets/internal/owned-schema-count.js.map",
+        "bytes": 2548,
+        "sha256": "7147a3945b70d1aca20c81b773f4dcf0a5553c2a93978137a048f76f304c7aae"
+      },
+      {
+        "path": "atomicassets/internal/schema-counts.d.ts",
+        "bytes": 373,
+        "sha256": "dd058c6d995d0e19abb185e4d4f532d0a69f3d8277cf3c696b8a72bd51d77d43"
+      },
+      {
+        "path": "atomicassets/internal/schema-counts.js",
+        "bytes": 2533,
+        "sha256": "e34c2ca944429787de420a5f619c1e95eafe1d2b45c92c2463727d0606440927"
+      },
+      {
+        "path": "atomicassets/internal/schema-counts.js.map",
+        "bytes": 2856,
+        "sha256": "79ff9000669a44fb5cf211d3c144d59ab543b3357488ee9d2722ec579445c378"
+      },
+      {
+        "path": "atomicassets/internal/schema-list-parameters.d.ts",
+        "bytes": 640,
+        "sha256": "b45de5a0d191449c7a2d9f70f287ce48943f4353f3e3497d30ade0c00c3fd8fa"
+      },
+      {
+        "path": "atomicassets/internal/schema-list-parameters.js",
+        "bytes": 7764,
+        "sha256": "502cacb1059d38ad12296c1062fea7d6caf797a9d7d80b59a97181f120df0feb"
+      },
+      {
+        "path": "atomicassets/internal/schema-list-parameters.js.map",
+        "bytes": 8086,
+        "sha256": "e4d77921b20178f0004d01b2c1abb0844e731ef4902d8f3e4c75800a8908a53d"
+      },
+      {
+        "path": "atomicassets/internal/schema-list.d.ts",
+        "bytes": 472,
+        "sha256": "86b506b16edc141d771f3a8d49bc07c7a1e6b98b6e4012b91ce6d2c214840426"
+      },
+      {
+        "path": "atomicassets/internal/schema-list.js",
+        "bytes": 3727,
+        "sha256": "d02f134c7a343fc24ce93bd9452c8a95e31a5dc5d239246dcd8aaa243d6d96cc"
+      },
+      {
+        "path": "atomicassets/internal/schema-list.js.map",
+        "bytes": 3810,
+        "sha256": "1e7570ec1955386d274cfa112ecb83efb8ab2db9ffd77c868339308fe90ba0ca"
+      },
+      {
+        "path": "atomicassets/internal/schema-query.d.ts",
+        "bytes": 1320,
+        "sha256": "4cb66bc6d759af38b89a6109422496d10278c89b80fde1b762d608838e626ad9"
+      },
+      {
+        "path": "atomicassets/internal/schema-query.js",
+        "bytes": 5188,
+        "sha256": "cdba3a3ebccc2541b22f5e20a7387135b62d9b37f89bf2fceda06ced72fbffdc"
+      },
+      {
+        "path": "atomicassets/internal/schema-query.js.map",
+        "bytes": 5986,
+        "sha256": "01fd9906a205b2b49888872f080518785e093697a3a41dba60718777702dec06"
+      },
+      {
+        "path": "atomicassets/internal/templates.d.ts",
+        "bytes": 1299,
+        "sha256": "af88497113855fc96770d8e9c8e53a2302f568c30b9a5b132c824f0439c6b09b"
+      },
+      {
+        "path": "atomicassets/internal/templates.js",
+        "bytes": 6964,
+        "sha256": "eaf6b1a450df328249c23efb8cde4cd4cd6cefcc7f363135bb542b842b1f9d82"
+      },
+      {
+        "path": "atomicassets/internal/templates.js.map",
+        "bytes": 7339,
+        "sha256": "23084b27286592c6d2529241201103d499764ab2b98545dfba78b88cb2e6ff32"
+      },
+      {
+        "path": "atomicmarket/internal/auction-assets.d.ts",
+        "bytes": 362,
+        "sha256": "f2b1f6eec73af505de30d8b6e2b3e6291ad91d89468aea322c1ef54733ba09df"
+      },
+      {
+        "path": "atomicmarket/internal/auction-assets.js",
+        "bytes": 1208,
+        "sha256": "3e386c0b0534ab346e50d3aa2efd58bd74ed0a8a2fbc6045fdca49cd60f24546"
+      },
+      {
+        "path": "atomicmarket/internal/auction-assets.js.map",
+        "bytes": 1188,
+        "sha256": "60d81111863c9cfdc55d3ab3c1bab9b6bb4aeaa83558e964d2bb37b914d04f65"
+      },
+      {
+        "path": "atomicmarket/internal/auctions.d.ts",
+        "bytes": 1497,
+        "sha256": "50c79ad4adbf37a1f09b76c1a547a43a1adcee5e0fbc90035b39a2d45a369233"
+      },
+      {
+        "path": "atomicmarket/internal/auctions.js",
+        "bytes": 12942,
+        "sha256": "513df5986e041dfa089c95dd583010260b38ce3ed086eddbbcbdd185e2e9e07f"
+      },
+      {
+        "path": "atomicmarket/internal/auctions.js.map",
+        "bytes": 13672,
+        "sha256": "a9d02eb9525d0bc58bc96a91777474cdba5dd55fcc278c74b25401e46ade1fc4"
+      },
+      {
+        "path": "atomicmarket/internal/buyoffer-assets.d.ts",
+        "bytes": 359,
+        "sha256": "b27d5135473c830bc633b6a6ee4e8b4fed2e08e7e1ff9ff7fc376441ce44f928"
+      },
+      {
+        "path": "atomicmarket/internal/buyoffer-assets.js",
+        "bytes": 1066,
+        "sha256": "98226475ffdf9b2575dab8e7fe98887ba36f8f0108bb1aa58940264d1cab6174"
+      },
+      {
+        "path": "atomicmarket/internal/buyoffer-assets.js.map",
+        "bytes": 1066,
+        "sha256": "54989fd21e42c55556362ec4848e2263627bdfc6374eab3d3289e68e466f5255"
+      },
+      {
+        "path": "atomicmarket/internal/buyoffers.d.ts",
+        "bytes": 1432,
+        "sha256": "86e2e7cd35352cdfd475ff348b71a2cac37ceb68020f12383f628e89f076b3c1"
+      },
+      {
+        "path": "atomicmarket/internal/buyoffers.js",
+        "bytes": 12797,
+        "sha256": "732cec7908b9b741bd4553d3bb19c301970e05ff23321847336882506569d666"
+      },
+      {
+        "path": "atomicmarket/internal/buyoffers.js.map",
+        "bytes": 13840,
+        "sha256": "7d491f020f2d2b2994a5f4d73d85ec4111750145654a5ed98a4f431542536141"
+      },
+      {
+        "path": "atomicmarket/internal/fixed-sale-port.d.ts",
+        "bytes": 2478,
+        "sha256": "4e60fa43215372eda39201621ed88197016288a1bed31357dbd14870c33b712e"
+      },
+      {
+        "path": "atomicmarket/internal/fixed-sale-port.js",
+        "bytes": 3718,
+        "sha256": "7803f4343ff497d80c5847ddb73ab131614ca90c6efeaf6774cc4556aa506935"
+      },
+      {
+        "path": "atomicmarket/internal/fixed-sale-port.js.map",
+        "bytes": 4152,
+        "sha256": "9a216f4ee394d20a10a2dc9d3b2074339f188eca374a491340bedc1891359759"
+      },
+      {
+        "path": "atomicmarket/internal/fixed-sale.d.ts",
+        "bytes": 2134,
+        "sha256": "d2c12b817db7d3479c7b2ec0110af578d9bd31712623040617ac30b4588e5bff"
+      },
+      {
+        "path": "atomicmarket/internal/fixed-sale.js",
+        "bytes": 14519,
+        "sha256": "eb077b5ca2c678cfba50c640224231ac9cdb34d44c9e56c9ee865e7ae4347545"
+      },
+      {
+        "path": "atomicmarket/internal/fixed-sale.js.map",
+        "bytes": 14459,
+        "sha256": "14de658b0800eb1a76f73e92883dd0c8ffcf981996e5c9ec2e92884b3d672432"
+      },
+      {
+        "path": "atomicmarket/internal/marketplace-state.d.ts",
+        "bytes": 1121,
+        "sha256": "918d89019cd6c8852de65f2769d4b3c238131b959afba540f5d4bd30d4c6f495"
+      },
+      {
+        "path": "atomicmarket/internal/marketplace-state.js",
+        "bytes": 3313,
+        "sha256": "660a95db97adcacda932d55fbd42ea0c07c1b4377c421182b5e11dd218e9b233"
+      },
+      {
+        "path": "atomicmarket/internal/marketplace-state.js.map",
+        "bytes": 3280,
+        "sha256": "c34447724ff8bc925c8bb0021c976780e7d5f4720a987995867b60e2a13ddac0"
+      },
+      {
+        "path": "atomicmarket/internal/relationships.d.ts",
+        "bytes": 1352,
+        "sha256": "d56a94be706e8b6f8e160e1cd0e5187357b66c8cde725c58e17148de54ebc742"
+      },
+      {
+        "path": "atomicmarket/internal/relationships.js",
+        "bytes": 8452,
+        "sha256": "6fd4bea9ad97530985262f600981975f5899b48768b482dad5b23e1d111473b2"
+      },
+      {
+        "path": "atomicmarket/internal/relationships.js.map",
+        "bytes": 9010,
+        "sha256": "eff6fb5ae6995fc482125249a7d2a36f003dc0edb4c25dc355e6bd688e932f02"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-attribute-query.d.ts",
+        "bytes": 501,
+        "sha256": "494c498a41846d80dc5b96079faf88f944161a9d0e5bf0b8bb331b3edb2f9e9d"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-attribute-query.js",
+        "bytes": 2046,
+        "sha256": "b57a98df09eef09115362feb7a46c1b6dc60b9f3a7103c34888ba0c57b11f9e4"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-attribute-query.js.map",
+        "bytes": 2189,
+        "sha256": "d1f9490a8098a5f2a96fe861035e9106309605e80f8e4a1f3c6453946497f977"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-config.d.ts",
+        "bytes": 782,
+        "sha256": "e5998587a7dee06d69142c526df3ce491e792b24b1add175eb42ce241fc59967"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-config.js",
+        "bytes": 5596,
+        "sha256": "f0de8c4155637b5cfc69c3713d5f35b6460337a2971f6917216dc6b0148a7389"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-config.js.map",
+        "bytes": 5276,
+        "sha256": "23df0898ea8d9ea394413eb86da38bc495c0356adcd75384a45305dbfe1d4be9"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-rules.d.ts",
+        "bytes": 1464,
+        "sha256": "783490eb866208f95f67a421ac59788eaf22d10143a1ab62bb2b1fcb686eb7a7"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-rules.js",
+        "bytes": 7732,
+        "sha256": "118f3dd8ffbebf7a3e885b0f797cff2611c5558c49852c6d9134aa2a7610ae66"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-rules.js.map",
+        "bytes": 7941,
+        "sha256": "c32866b1430dbfdf96f05d38e145b1c667ac1ad6dde1b9cb4e5b4f59334c92c1"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-template-query.d.ts",
+        "bytes": 620,
+        "sha256": "6876017a6828499b47b305101efb9cee7db92699e2536a44a0fd83294c2d9857"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-template-query.js",
+        "bytes": 5596,
+        "sha256": "4fa57ebfeb142389fc91a3f35ae6ab5196b4e15190e095b50f07d763de71aad4"
+      },
+      {
+        "path": "atomicmarket/internal/royalty-template-query.js.map",
+        "bytes": 6156,
+        "sha256": "cce09ab3e8beff9c89ce65f88b961c14ddc3107ef96210aee97c1894119f9746"
+      },
+      {
+        "path": "atomicmarket/internal/sale-assets.d.ts",
+        "bytes": 486,
+        "sha256": "6cea0e120fc29e8e49302a3ba1d492b74ab16082ded119773bf5c6ccaae92fe4"
+      },
+      {
+        "path": "atomicmarket/internal/sale-assets.js",
+        "bytes": 1691,
+        "sha256": "8ce01cc5a650eff3910817b1a06db11e2872ac6f8889f85c2db7a7f4adc4749a"
+      },
+      {
+        "path": "atomicmarket/internal/sale-assets.js.map",
+        "bytes": 1143,
+        "sha256": "adcef4c7ace689127528fe86270ec0ac65e6288d0bec30c94fe1ee31a0a8da0f"
+      },
+      {
+        "path": "atomicmarket/marketplace-indexing.d.ts",
+        "bytes": 544,
+        "sha256": "8c4656d144a9d379e6dd3dabd7f46fc69f535f2a1f8c5ff8efb4b86a555644c6"
+      },
+      {
+        "path": "atomicmarket/marketplace-indexing.js",
+        "bytes": 2147,
+        "sha256": "41093215c90366463004f206246c4f4b526f7e8ea472b78d04a9ae190257534a"
+      },
+      {
+        "path": "atomicmarket/marketplace-indexing.js.map",
+        "bytes": 1981,
+        "sha256": "44e18d33475365f37be3e5cb72f6f19b749c92c846a711f31fef0041a7f44fc5"
+      },
+      {
+        "path": "atomicmarket/marketplace.d.ts",
+        "bytes": 1026,
+        "sha256": "656526413c02e94a081a5427a36d6e7b759b744b6a68cc1348be22ed88473388"
+      },
+      {
+        "path": "atomicmarket/marketplace.js",
+        "bytes": 1461,
+        "sha256": "4877f477c18b67707c026203c34a2d9a0bb5e602dc9f8b0246816b1f6d7f6875"
+      },
+      {
+        "path": "atomicmarket/marketplace.js.map",
+        "bytes": 1380,
+        "sha256": "bdcc8c836734c990fb9b0b0e5ff496dc9579c387b5aef20e9bdd115e94b883b8"
+      },
+      {
+        "path": "atomicmarket/sale.d.ts",
+        "bytes": 1597,
+        "sha256": "0365f3636314c5d53609bc2f4df69d195b97dc3806dd837e63eb2aa65cc91375"
+      },
+      {
+        "path": "atomicmarket/sale.js",
+        "bytes": 686,
+        "sha256": "ac9ecee4a1ca31fa631a599964a4399baa5e9e34910809cc0650c6aa2ab57e32"
+      },
+      {
+        "path": "atomicmarket/sale.js.map",
+        "bytes": 752,
+        "sha256": "dc7e2c09a065a2bd1e8e2283f53e4413930abf741b2cead3baa51adcaac927a6"
+      },
+      {
+        "path": "http/id-routes.d.ts",
+        "bytes": 1250,
+        "sha256": "ed63bcb417694b0e12d59da06f2d6b568196c791170de404d658fdbf3a6e1223"
+      },
+      {
+        "path": "http/id-routes.js",
+        "bytes": 10135,
+        "sha256": "4a5f3eaf7cbdae3b1c7763a181c01721ac5d72f3ff98c0547a0ef55af67f76e3"
+      },
+      {
+        "path": "http/id-routes.js.map",
+        "bytes": 9210,
+        "sha256": "0dd17232f42deacc6ef328e6018820777d2af25b5fb704b26c403ba1866faabf"
+      },
+      {
+        "path": "http/owned-schema-route.d.ts",
+        "bytes": 561,
+        "sha256": "acdad6a97f286666411078de7aa82ef22522dfb22051967b7a92a7f30b101147"
+      },
+      {
+        "path": "http/owned-schema-route.js",
+        "bytes": 2733,
+        "sha256": "cc7b9930e6a075299843025b1bd882c42b9f88c6133ebb5b805f9aacb332cf90"
+      },
+      {
+        "path": "http/owned-schema-route.js.map",
+        "bytes": 2775,
+        "sha256": "38a5c036329656953c147f99afd898f1e20684616735c966f40c7db2e743be4b"
+      },
+      {
+        "path": "http/royalty-attribute-route.d.ts",
+        "bytes": 596,
+        "sha256": "cfe4ef44468bfd602bd4289b824ce97a5587da9599475773d7bea5f3a886e656"
+      },
+      {
+        "path": "http/royalty-attribute-route.js",
+        "bytes": 2399,
+        "sha256": "eadf58e65b3ddb525c139878852a9ccace23a640b0fc754358578ae3a4d638a9"
+      },
+      {
+        "path": "http/royalty-attribute-route.js.map",
+        "bytes": 2066,
+        "sha256": "7dfc53fbdc2f36141e5d4943969afa7cee91a82f0180fe3423425c1a40df4988"
+      },
+      {
+        "path": "http/royalty-config-route.d.ts",
+        "bytes": 537,
+        "sha256": "b9d34b30454b9cf7420c60cfc6d46d4e54df97bf55f580a261f8d86575e5804f"
+      },
+      {
+        "path": "http/royalty-config-route.js",
+        "bytes": 1833,
+        "sha256": "0cb8b0ba66f3fbc949968c477a8577588be2f6c91bce2fe76fcbfddc4606dc72"
+      },
+      {
+        "path": "http/royalty-config-route.js.map",
+        "bytes": 1584,
+        "sha256": "6f193ae5e4e6ca927c42debc952cbeb5fa9028160aafb06894c454ed119b41db"
+      },
+      {
+        "path": "http/royalty-template-route.d.ts",
+        "bytes": 784,
+        "sha256": "c2afedd4a8a14f5e3f901feb2d042d50b38eff8d912fc35ed6167f7c2f7c1e67"
+      },
+      {
+        "path": "http/royalty-template-route.js",
+        "bytes": 2455,
+        "sha256": "157888935dadf3f799752bdc10b8f0ad3a64cffe608750daf77b9d5ea561f255"
+      },
+      {
+        "path": "http/royalty-template-route.js.map",
+        "bytes": 2207,
+        "sha256": "c4f869555ede155448f618615f9119e54ecb63e18a45ec3b63d01e5cf663fa0d"
+      },
+      {
+        "path": "http/schema-list-routes.d.ts",
+        "bytes": 771,
+        "sha256": "1ab9846f02c1c576a69b573253fca3e604dcc472099364df3bc9a21ceddf6e14"
+      },
+      {
+        "path": "http/schema-list-routes.js",
+        "bytes": 2946,
+        "sha256": "101d030cdf7d74a82d417e623be5931caca01bcb0250b784eaa1823f8babcdfc"
+      },
+      {
+        "path": "http/schema-list-routes.js.map",
+        "bytes": 2574,
+        "sha256": "40c44c9e2dc4d89562c547657fb1e7d50d147cfbfed16a994890c5bf4b69e030"
+      },
+      {
+        "path": "index.d.ts",
+        "bytes": 1050,
+        "sha256": "e30a4e793a455cc70d520b75072952d2e84c53a0d8b696cb370ad938c9e43bc2"
+      },
+      {
+        "path": "index.js",
+        "bytes": 1039,
+        "sha256": "4a9e9d88692285f351f8fee295c98c4fbedc93ead77e253c26e91c3ce4efd4bb"
+      },
+      {
+        "path": "index.js.map",
+        "bytes": 1004,
+        "sha256": "167e7d71a8121064b44edddce0c78801b000451a9b55fc47a5b48bcc9eedf24d"
+      },
+      {
+        "path": "reference-baseline.d.ts",
+        "bytes": 286,
+        "sha256": "e92f9c701f98c6d1216be4aa87abd10d818c76fe396082c10132ef96775d0c02"
+      },
+      {
+        "path": "reference-baseline.js",
+        "bytes": 330,
+        "sha256": "a3b92f6c0814913506727c5735d0566e01dd770f1fec5c343c55f349ea4d08c8"
+      },
+      {
+        "path": "reference-baseline.js.map",
+        "bytes": 274,
+        "sha256": "06fda595ab1e12e67d22b82fd24c1697f732deac8012a8be8aca7be9a14bf597"
+      },
+      {
+        "path": "stateful/hook-inventory.d.ts",
+        "bytes": 39140,
+        "sha256": "2a4a2dadd5271ce8dae154426367dcfd02d49917bd0877bc09ee646bce6cf56d"
+      },
+      {
+        "path": "stateful/hook-inventory.js",
+        "bytes": 38262,
+        "sha256": "049bff6b55f70699c07dba2b7e51de1d7ae289f6fb58cbe500a803f106d55f29"
+      },
+      {
+        "path": "stateful/hook-inventory.js.map",
+        "bytes": 18498,
+        "sha256": "e06c51d6757e86777cc74953fbbeb41619e0fe6e8dd29220dca400b67c3dbced"
+      },
+      {
+        "path": "stateful/metadata-codec.d.ts",
+        "bytes": 474,
+        "sha256": "8a1ec3d50ed8561e08a275e0fcebacb2dabf143425c142c1d62fba9766e3e456"
+      },
+      {
+        "path": "stateful/metadata-codec.js",
+        "bytes": 1118,
+        "sha256": "0f61b67b2bbcfcf6e8cbd2fd5191a25b0c81cdf43bb4d3a9b568d9066c6e035b"
+      },
+      {
+        "path": "stateful/metadata-codec.js.map",
+        "bytes": 1076,
+        "sha256": "fee1719035d54459c61977ddaa4070a3bc297b8d1361f3fca6f9b2ccdc614f56"
+      },
+      {
+        "path": "stateful/owned-schema-indexed.d.ts",
+        "bytes": 967,
+        "sha256": "3c2fad074f1d211d9cbebc0684b13edd929b049787606385e40019e0ce71728c"
+      },
+      {
+        "path": "stateful/owned-schema-indexed.js",
+        "bytes": 1591,
+        "sha256": "75d1197a5f0580105fb5042b70e913bd97a7c836253788175ff87bf8d15a3e72"
+      },
+      {
+        "path": "stateful/owned-schema-indexed.js.map",
+        "bytes": 1557,
+        "sha256": "23f2d3fed9404c29285face7a07994455d63f19688a08a782d9917d607b171c4"
+      },
+      {
+        "path": "stateful/plugin.d.ts",
+        "bytes": 4611,
+        "sha256": "0a3ae6e9dc0e75de3c59e119adf172571518c19df24e96310ca88498ad472c4d"
+      },
+      {
+        "path": "stateful/plugin.js",
+        "bytes": 18757,
+        "sha256": "161035ca82bff39fa5f695191a47a1564200d20f7a3018cc7a3e229160c45453"
+      },
+      {
+        "path": "stateful/plugin.js.map",
+        "bytes": 16084,
+        "sha256": "b7a97219fec6b598139b258a7b81feff98ba01d54642bc9af5717ef8aa1eb471"
+      },
+      {
+        "path": "stateful/royalty-config.d.ts",
+        "bytes": 386,
+        "sha256": "738218be07f35daebb716e83aa1a4f4c5a978264206873e2efdd7dbc2a46112a"
+      },
+      {
+        "path": "stateful/royalty-config.js",
+        "bytes": 1652,
+        "sha256": "be603f6bdcbcfc5a78413b626375e9140d8838cc96b50faadd85c4bbacfba4d7"
+      },
+      {
+        "path": "stateful/royalty-config.js.map",
+        "bytes": 1409,
+        "sha256": "b16241429bcfbbe872d96464133516d250b2a6613ef103680d3e16be940295d5"
+      },
+      {
+        "path": "stateful/royalty-rules.d.ts",
+        "bytes": 1973,
+        "sha256": "611ee0015b5647ed48c600a349b3101470f6c73a313776e8009659b83fb69b4c"
+      },
+      {
+        "path": "stateful/royalty-rules.js",
+        "bytes": 5403,
+        "sha256": "1b3cb3c5c1764abd16b77890364205903f0f4341861a1234afae3e3a23d90339"
+      },
+      {
+        "path": "stateful/royalty-rules.js.map",
+        "bytes": 4920,
+        "sha256": "5f9f5326a25966537837fe5e94a4b75ce3cb55efc1cbb4ad8f66deee8ff2085b"
+      },
+      {
+        "path": "stateful/schema-indexed.d.ts",
+        "bytes": 1079,
+        "sha256": "c1240131224d760ffc7f7c546ba873cdb8e64b0d1a7dde200a5a1ae25aee2664"
+      },
+      {
+        "path": "stateful/schema-indexed.js",
+        "bytes": 2996,
+        "sha256": "2727e790439e5ee01bf6ef75d3a46a3e91f401fa77ebb106db4494f49e21e257"
+      },
+      {
+        "path": "stateful/schema-indexed.js.map",
+        "bytes": 3113,
+        "sha256": "d7470b27c49ad2f6c241df6338f28803fb9cfcc2454001bffacbf500995c7f98"
+      }
+    ]
+  }
+}
