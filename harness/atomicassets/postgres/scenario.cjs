@@ -4,7 +4,7 @@ const {once} = require('node:events');
 const {createHash} = require('node:crypto');
 const copy = value => structuredClone(value);
 const json = value => JSON.parse(JSON.stringify(value, (_, v) => typeof v === 'bigint' ? String(v) : v));
-module.exports = async function scenario(fromReference, connection, config, record, inputProfile, captureProfile, displayCapture) {
+const scenario = async function scenario(fromReference, connection, config, record, inputProfile, captureProfile, displayCapture, owned) {
   if(displayCapture!==undefined){assert.deepEqual(displayCapture,{mode:'json39'});assert.equal(captureProfile,undefined);}
   const profiles = require('../lifecycle-input.cjs');
   const selected = inputProfile === undefined ? profiles.loadInputProfile() : profiles.validateInputProfile(inputProfile);
@@ -20,7 +20,9 @@ module.exports = async function scenario(fromReference, connection, config, reco
   const {AtomicAssetsNamespace} = fromReference('./src/api/namespaces/atomicassets/index.ts');
   const {formatAsset} = fromReference('./src/api/namespaces/atomicassets/format.ts');
   const {Client} = fromReference('pg');
-  const client = new Client({...config, ssl: false, application_name: 'aa-original-oracle', connectionTimeoutMillis: 5000, statement_timeout: 30000});
+  const acquire=(name,fn)=>owned?owned.acquire(name,fn):fn();
+  const client = acquire('scenario-client',()=>new Client({...config, ssl: false, application_name: 'aa-original-oracle', connectionTimeoutMillis: 5000, statement_timeout: 30000}));
+  if(owned)owned.own('scenario-client',()=>client.end(),6);
   require('./query-observer.cjs')(client,record,'lifecycle-sql');
   const rpc = [], notifications = [], stages = [], queue = [], executed = [];
   const {contract, collection, schema, assetId} = input;
@@ -35,12 +37,20 @@ module.exports = async function scenario(fromReference, connection, config, reco
     else throw new Error('Unexpected bootstrap RPC request');
     rpc.push({args, rows: copy(rows)}); record({kind:'constructed-bootstrap-rpc',args,rows:copy(rows)}); return {rows};
   }, async get_info() {return {head_block_num: input.block.block_num, last_irreversible_block_num: input.block.block_num - 1};}};
-  const core = new AtomicAssetsHandler({connection: {database: connection, chain: {rpc: rpcBoundary}}, reader: {name: 'original-pg-oracle'}},
-    {atomicassets_account: contract, store_transfers: true, store_logs: false});
-  const bootstrap = await connection.begin();
-  try {await core.init(bootstrap); await bootstrap.query('COMMIT');}
-  catch (error) {await bootstrap.query('ROLLBACK'); throw error;} finally {bootstrap.release();}
-  const processor = new DataProcessor(ProcessingState.HEAD, helper.createMockModuleLoader());
+  const core = acquire('core',()=>new AtomicAssetsHandler({connection: {database: connection, chain: {rpc: rpcBoundary}}, reader: {name: 'original-pg-oracle'}},
+    {atomicassets_account: contract, store_transfers: true, store_logs: false}));
+  const bootstrap = owned?await owned.acquireAsync('bootstrap',()=>connection.begin()):await connection.begin();
+  if(owned){let primary,failed=false,releaseSucceeded=false;const secondary=[];
+    try{await core.init(bootstrap);await bootstrap.query('COMMIT');}
+    catch(e){primary=e;failed=true;try{await bootstrap.query('ROLLBACK');}catch(error){secondary.push(error);}}
+    finally{try{bootstrap.release();releaseSucceeded=true;}catch(error){if(!failed){primary=error;failed=true;}else secondary.push(error);}}
+    owned.setupCleanup={releaseAttempted:true,releaseSucceeded,secondary:secondary.map(owned.describe)};if(failed)throw primary;
+  } else {
+    try {await core.init(bootstrap); await bootstrap.query('COMMIT');}
+    catch (error) {await bootstrap.query('ROLLBACK'); throw error;} finally {bootstrap.release();}
+  }
+  const processor = acquire('processor',()=>new DataProcessor(ProcessingState.HEAD, helper.createMockModuleLoader()));
+  if(owned)owned.verifyListeners=()=>{assert.equal(processor.getActiveListeners().trace_listeners.length,0);assert.equal(processor.getActiveListeners().table_listeners.length,0);};
   for (const [method, kind] of [['onContractRow','row'],['onActionTrace','action']]) {
     const register = processor[method].bind(processor);
     processor[method] = (account, name, callback, priority, ...rest) => register(account, name, async (...args) => {
@@ -51,17 +61,23 @@ module.exports = async function scenario(fromReference, connection, config, reco
   processor.onPriorityComplete = (threshold, callback, value) => priority(threshold, async (...args) => {
     executed.push({kind: 'priority-complete', threshold, priority: value}); return await callback(...args);
   }, value);
-  const releases = [fromReference('./src/filler/handlers/atomicassets/processors/config.ts').configProcessor(core, processor),
-    fromReference('./src/filler/handlers/atomicassets/processors/collections.ts').collectionProcessor(core, processor),
-    fromReference('./src/filler/handlers/atomicassets/processors/schemas.ts').schemaProcessor(core, processor),
-    fromReference('./src/filler/handlers/atomicassets/processors/assets.ts').assetProcessor(core, processor,
-      {sendActionTrace: (channel, block, tx, trace) => notifications.push(json({channel, block, tx, trace}))})];
+  let listener=0;const register=fn=>{const i=listener++,release=acquire('listener-'+i,fn);if(owned)owned.own('listener-'+i,release,i);return release;};
+  const releases = [register(()=>fromReference('./src/filler/handlers/atomicassets/processors/config.ts').configProcessor(core, processor)),
+    register(()=>fromReference('./src/filler/handlers/atomicassets/processors/collections.ts').collectionProcessor(core, processor)),
+    register(()=>fromReference('./src/filler/handlers/atomicassets/processors/schemas.ts').schemaProcessor(core, processor)),
+    register(()=>fromReference('./src/filler/handlers/atomicassets/processors/assets.ts').assetProcessor(core, processor,
+      {sendActionTrace: (channel, block, tx, trace) => notifications.push(json({channel, block, tx, trace}))}))];
   const unavailableRedis = new Proxy({}, {get() {throw new Error('Redis is outside the original PG fixture');}});
   let healthCalls = 0;
-  const server = new HTTPServer({server_name: 'original-pg.invalid', cache_life: 0, max_db_connections: 2, max_query_time_ms: 10000},
-    {database: connection, redis: {ioRedis: unavailableRedis}, chain: {name: 'original-pg-fixture', rpc: {async get_info() {healthCalls++; return {};}}}});
-  const namespace = new AtomicAssetsNamespace('/atomicassets', server.connection,
-    {atomicassets_account: contract, connected_reader: 'original-pg-oracle'});
+  const server = acquire('server',()=>new HTTPServer({server_name: 'original-pg.invalid', cache_life: 0, max_db_connections: 2, max_query_time_ms: 10000},
+    {database: connection, redis: {ioRedis: unavailableRedis}, chain: {name: 'original-pg-fixture', rpc: {async get_info() {healthCalls++; return {};}}}}));
+  if(owned){const steps=[];owned.own('http',async()=>{let primary,failed=false;
+    for(const [name,fn]of [['connections',()=>server.httpServer.closeAllConnections()],['socket-server',()=>new Promise(resolve=>server.socket.io.close(resolve))]]){
+      const row={name,attempted:true};steps.push(row);try{await fn();row.succeeded=true;}catch(e){row.succeeded=false;row.error=owned.describe(e);if(!failed){primary=e;failed=true;}}}
+    if(failed)throw primary;
+  },4,steps);owned.own('server-database',()=>server.database.end(),5);}
+  const namespace = acquire('namespace',()=>new AtomicAssetsNamespace('/atomicassets', server.connection,
+    {atomicassets_account: contract, connected_reader: 'original-pg-oracle'}));
   let sequence = 9007199254741093n;
   const tx = {id: 'ab'.repeat(32)};
   const block = n => ({block_num: (capture?.appliedBlock.blockNum ?? input.block.block_num) + n, block_id: BigInt(n + 1).toString(16).padStart(64, '0'),
@@ -99,7 +115,6 @@ module.exports = async function scenario(fromReference, connection, config, reco
       http: {status: response.status, headers: Object.fromEntries(response.headers), rawText: text, body}};
     stages.push(value); record({kind:'physical-view-http-stage',value}); return value;
   }
-  let displayFailure;
   try {
     await client.connect(); await namespace.init(); server.web.express.use('/atomicassets', await namespace.router(server));
     server.httpServer.listen(0, '127.0.0.1'); await once(server.httpServer, 'listening');
@@ -199,25 +214,39 @@ module.exports = async function scenario(fromReference, connection, config, reco
       bootstrapRpc:{constructedInputs:true,requests:rpc,maintenanceSkippedForUnknownReader:true},schemaAudit:{currentView,constraints},healthCalls,
       scope:{originalProcessors:true,originalHandlerBootstrap:true,originalViewAndHttp:true,realPostgres:true,reversibleBookkeeping:false,
         constructedInputs:true,mongoParity:false,postgresFixtureCleanupQualified:false,fullParity:false}};
-  } catch(error) {displayFailure=error;throw error;} finally {
-    if(displayCapture) {
-      const cleanup=[];let first;
-      const close=async(name,fn)=>{const row={name,attempted:true};cleanup.push(row);
-        try{await fn();row.succeeded=true;}catch(error){row.succeeded=false;row.error={name:error.name,message:String(error.message).slice(0,2048)};first??=error;}};
-      for(const [i,release]of releases.entries())await close('listener-'+i,()=>{release();if(i===releases.length-1){
-        assert.equal(processor.getActiveListeners().trace_listeners.length,0);assert.equal(processor.getActiveListeners().table_listeners.length,0);}});
-      await close('http',async()=>{server.httpServer.closeAllConnections();await new Promise(resolve=>server.socket.io.close(resolve));});
-      await close('server-database',()=>server.database.end());await close('scenario-client',()=>client.end());
-      try{record({kind:'json39-original-cleanup',cleanup,primaryErrorPreserved:Boolean(displayFailure)});}
-      catch(error){if(!displayFailure&&!first)throw error;}
-      if(first&&!displayFailure)throw first;
-    } else {
+  } finally {
+    if(!owned) {
     for(const release of releases)release(); assert.equal(processor.getActiveListeners().trace_listeners.length,0);
     assert.equal(processor.getActiveListeners().table_listeners.length,0);
     server.httpServer.closeAllConnections(); await new Promise(resolve=>server.socket.io.close(resolve));
     await server.database.end(); await client.end();
     }
   }
+};
+
+// Ownership starts before any JSON39 acquisition. Unreturned constructor effects
+// are explicitly unknown; only returned handles have attempted closers.
+module.exports = async function(...args) {
+  if(args[6]===undefined)return scenario(...args.slice(0,7));
+  assert.deepEqual(args[6],{mode:'json39'});
+  const record=args[3],acquisitions=[],closers=[],cleanup=[];
+  const describe=e=>({name:e?.name??'Error',message:String(e?.message??e).slice(0,2048)});
+  const owned={describe,acquire(name,fn){const row={name,attempted:true,returned:false};acquisitions.push(row);
+    try{const value=fn();row.returned=true;return value;}catch(e){row.error=describe(e);row.unreturnedEffectsUnknown=true;throw e;}},
+    async acquireAsync(name,fn){const row={name,attempted:true,returned:false};acquisitions.push(row);
+      try{const value=await fn();row.returned=true;return value;}catch(e){row.error=describe(e);row.unreturnedEffectsUnknown=true;throw e;}},
+    own(name,close,order,steps){assert.equal(typeof close,'function');closers.push({name,close,order,steps});}};
+  let primary,hasPrimary=false,value;const retain=e=>{if(!hasPrimary){primary=e;hasPrimary=true;}};
+  try{value=await scenario(...args.slice(0,7),owned);}catch(e){retain(e);}
+  finally {
+    for(const item of closers.sort((a,b)=>a.order-b.order)){const row={name:item.name,attempted:true,...(item.steps?{steps:item.steps}:{})};cleanup.push(row);
+      try{await item.close();row.succeeded=true;}catch(e){row.succeeded=false;row.error=describe(e);retain(e);}}
+    const listenerVerification={attempted:Boolean(owned.verifyListeners)};
+    if(owned.verifyListeners)try{owned.verifyListeners();listenerVerification.succeeded=true;}catch(e){listenerVerification.succeeded=false;listenerVerification.error=describe(e);retain(e);}
+    const event={kind:'json39-original-cleanup',acquisitions,cleanup,listenerVerification,setupCleanup:owned.setupCleanup??null,primaryErrorPreserved:hasPrimary};
+    try{record(event);}catch(e){event.recordError=describe(e);retain(e);event.primaryErrorPreserved=true;}
+  }
+  if(hasPrimary)throw primary;return value;
 };
 
 module.exports.codecProbeCases=converted=>[['locked-codec',converted],['nul',{text:'a\u0000b'}],['literal-escape',{text:'a\\u0000b'}]];

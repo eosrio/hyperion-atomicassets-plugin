@@ -16,10 +16,12 @@ const root=process.env.RUNNER_TEMP;assert.ok(root);const output=join(root,'json-
 const report={schemaVersion:1,status:'running',qualified:false,startedAt:new Date().toISOString(),events:[],
   fixtureRetirement:{performedByHarness:false,owner:'GitHub job service teardown; independent retirement acceptance remains external'}};
 const persist=()=>{const data=JSON.stringify(report,null,2)+'\n';assert.ok(Buffer.byteLength(data)<=PIN.reportBytes);writeFileSync(output,data);};
-persist();let db;
+persist();let db;const connectionClosers=[];
 const timer=setTimeout(()=>{report.status='failed';report.deadlineExceeded=true;report.cleanupIncomplete=true;
-  report.error??={name:'TimeoutError',message:'Original180-second oracle deadline expired'};persist();process.exit(1);},PIN.childDeadlineMS);
-await lifecycle(report,{persist,closers:[['originalConnection',async()=>{if(db)await db.end();}]],work:async()=>{
+  report.error??={name:'TimeoutError',message:'Original180-second oracle deadline expired'};
+  try{persist();}catch(e){process.stderr.write(JSON.stringify({kind:'deadline-report-persistence-failed',primary:report.error,secondary:String(e).slice(0,2048)})+'\n');}
+  finally{process.exit(1);}},PIN.childDeadlineMS);
+try{await lifecycle(report,{persist:()=>{report.completedAt=new Date().toISOString();persist();},closers:connectionClosers,work:async()=>{
   const git=(...args)=>execFileSync('git',args,{encoding:'utf8',timeout:10000,maxBuffer:2*1024**2}).trim();
   report.plugin={head:git('rev-parse','HEAD'),tree:git('rev-parse','HEAD^{tree}'),trackedStatus:git('status','--porcelain=v1','--untracked-files=no')};
   assert.equal(report.plugin.trackedStatus,'');assert.equal(report.plugin.head,process.env.GITHUB_SHA);
@@ -34,14 +36,15 @@ await lifecycle(report,{persist,closers:[['originalConnection',async()=>{if(db)a
   for(const k of Object.keys(process.env))if(k.startsWith('PG')||k.startsWith('POSTGRES_TEST_')||k.startsWith('REDIS_TEST_')||['NODE_OPTIONS','NODE_PATH','TS_NODE_PROJECT'].includes(k))delete process.env[k];
   process.env.SWC_NODE_PROJECT=join(reference.root,'tsconfig.json');process.env.SWC_NODE_CACHE_DIR=join(dir,'swc-cache');process.env.PGSSLMODE='disable';process.env.PG_POOL_MAX='4';
   reference.fromReference('@swc-node/register');const Connection=reference.fromReference('./src/connections/postgres.ts').default;
-  db=new Connection('127.0.0.1',CI.port,CI.user,CI.password,CI.database);report.admission=await inspectCiDatabase(db);persist();
+  report.connectionAcquisition={attempted:true,returned:false};
+  db=new Connection('127.0.0.1',CI.port,CI.user,CI.password,CI.database);report.connectionAcquisition.returned=true;
+  connectionClosers.push(['originalConnection',()=>db.end()]);report.admission=await inspectCiDatabase(db);persist();
   const record=event=>{assert.ok(report.events.length<2048);report.events.push(event);persist();};
   report.schema=await require('./schema.cjs')(reference.fromReference,db,report.admission,record);persist();
   const selected=require('../lifecycle-input.cjs').loadInputProfile(process.env.AA_JSON39_PROFILE);
   report.inputProfile=selected.descriptor;persist();
   return await require('./scenario.cjs')(reference.fromReference,db,{host:'127.0.0.1',port:CI.port,user:CI.user,password:CI.password,database:CI.database},record,selected.descriptor,undefined,{mode:'json39'});
-}});
-clearTimeout(timer);report.completedAt=new Date().toISOString();persist();
+}});}finally{clearTimeout(timer);}
 // The original HTTPServer owns a process-local health interval. All explicit
 // HTTP/SQL closers run before this normal final exit; timeout remains a failure.
 process.exit(report.status==='passed'?0:1);

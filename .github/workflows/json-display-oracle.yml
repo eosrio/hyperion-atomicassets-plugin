@@ -34,7 +34,7 @@ jobs:
       - run: npm install --global pnpm@11.13.1
       - run: pnpm --dir "$RUNNER_TEMP/atomicassets-api-2.7.0" install --frozen-lockfile
       - name: Pure capture and lifecycle controls
-        run: node --test harness/atomicassets/postgres/json-display-source.test.mjs
+        run: node --test harness/atomicassets/postgres/json-display-source.test.mjs harness/atomicassets/postgres/json-display-faults.test.mjs
       - name: Capture original encoder, storage, views and HTTP
         env:
           AA_REFERENCE_ROOT: ${{ runner.temp }}/atomicassets-api-2.7.0

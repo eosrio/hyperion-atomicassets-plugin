@@ -61,9 +61,10 @@ test('complete structural gate model accepts only all cases, source pins, hashes
   const report={status:'passed',qualified:false,completedAt:'MODEL NOT EXECUTION',inputProfile:profile,
     runtime:{version:'v24.0.0',executableSha256:'0'.repeat(64)},plugin:{head:process.env.GITHUB_SHA??'a'.repeat(40),tree:'b'.repeat(40),trackedStatus:''},fixture:{containerId:'0'.repeat(64)},
     reference:{commit:'0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e',sources:inventory.map(r=>({path:r.path,gitSha256:r.sha256,workingSha256:r.sha256,workingBytes:r.bytes}))},
-    admission:{version:'16.15',emptyObjects:true},cleanup:[{name:'originalConnection',attempted:true,succeeded:true}],
+    admission:{version:'16.15',emptyObjects:true},connectionAcquisition:{attempted:true,returned:true},cleanup:[{name:'originalConnection',attempted:true,succeeded:true}],
     harness:names.map(path=>{const b=readFileSync(new URL('./'+path,import.meta.url));return {path,bytes:b.length,sha256:hash(b)};}),
-    events:[{kind:'json39-original-cleanup',cleanup:Array.from({length:7},()=>({attempted:true,succeeded:true}))}],result:{inputProfile:profile,display}};
+    events:[{kind:'json39-original-cleanup',acquisitions:[{name:'model-only',returned:true}],listenerVerification:{attempted:true,succeeded:true},setupCleanup:{releaseSucceeded:true,secondary:[]},
+      cleanup:['listener-0','listener-1','listener-2','listener-3','http','server-database','scenario-client'].map(name=>({name,attempted:true,succeeded:true,...(name==='http'?{steps:[{name:'connections',attempted:true,succeeded:true},{name:'socket-server',attempted:true,succeeded:true}]}:{})}))}],result:{inputProfile:profile,display}};
   assert.equal(check(report).captureComplete,true);
   for(const mutate of [r=>r.result.display.cases.pop(),r=>r.result.display.cases[0].http.asset.sha256='0'.repeat(64),
     r=>r.events[0].cleanup[0].succeeded=false,r=>r.reference.sources[0].workingSha256='0'.repeat(64),r=>r.harness.pop(),r=>r.plugin.trackedStatus='M source',

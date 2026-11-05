@@ -22,14 +22,20 @@ function check(report) {
   for(let i=0;i<inventory.length;i++){const a=report.reference.sources[i],e=inventory[i];assert.equal(a.path,e.path);assert.equal(a.gitSha256,e.sha256);assert.equal(a.workingSha256,e.sha256);assert.equal(a.workingBytes,e.bytes);}
   assert.equal(report.admission.version,'16.15');assert.equal(report.admission.emptyObjects,true);
   assert.equal(report.cleanup.length,1);assert.deepEqual(report.cleanup[0],{name:'originalConnection',attempted:true,succeeded:true});
+  assert.deepEqual(report.connectionAcquisition,{attempted:true,returned:true});assert.equal(report.persistenceError,undefined);
   const close=report.events.filter(e=>e.kind==='json39-original-cleanup');assert.equal(close.length,1);
   assert.equal(close[0].cleanup.length,7);assert.ok(close[0].cleanup.every(r=>r.attempted&&r.succeeded));
+  assert.deepEqual(close[0].cleanup.map(r=>r.name),['listener-0','listener-1','listener-2','listener-3','http','server-database','scenario-client']);
+  assert.deepEqual(close[0].listenerVerification,{attempted:true,succeeded:true});assert.equal(close[0].setupCleanup.releaseSucceeded,true);
+  assert.deepEqual(close[0].setupCleanup.secondary,[]);assert.equal(close[0].recordError,undefined);
+  assert.ok(close[0].acquisitions.length>0&&close[0].acquisitions.every(r=>r.returned&&!r.error));
+  assert.deepEqual(close[0].cleanup.find(r=>r.name==='http').steps,[{name:'connections',attempted:true,succeeded:true},{name:'socket-server',attempted:true,succeeded:true}]);
   const result=report.result.display;assert.equal(result.kind,'original-json-display-capture');assert.equal(result.originalVectors,21);assert.equal(result.rotations,3);
   const plans=cases();assert.equal(result.cases.length,63);
   result.cases.forEach((row,i)=>{
     const plan=plans[i];for(const k of ['name','rotation','rawInput','negativeZeroPaths','sourceVectorSha256'])assert.deepEqual(row[k],plan[k]);
     assert.equal(row.encodedBytes,Buffer.byteLength(row.encoded));assert.equal(row.encodedSha256,sha(row.encoded));
-    assert.deepEqual(row.restore,{attempted:true,succeeded:true});assert.equal(row.failure,undefined);
+    assert.deepEqual(row.restore,{attempted:true,succeeded:true});assert.equal(row.failure,undefined);assert.equal(row.completionRecordError,undefined);
     const outcome=r=>{assert.equal(typeof r.accepted,'boolean');assert.equal(typeof r.sql,'string');assert.ok(Array.isArray(r.bindings));
       if(r.accepted){assert.ok(Array.isArray(r.rows));assert.equal(r.error,undefined);}else{assert.equal(typeof r.error.message,'string');assert.match(r.error.code??'',/^22[A-Z0-9]{3}$/,'Only observed SQL data exceptions are input outcomes; transport/timeout/setup errors fail the gate');assert.equal(r.rows,undefined);}};
     for(const k of ['json','jsonb','unencodedJsonbArray'])outcome(row.boundaries[k]);

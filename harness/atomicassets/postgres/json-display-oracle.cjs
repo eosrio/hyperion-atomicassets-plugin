@@ -39,7 +39,8 @@ async function capture({client,encode,contract,collection,assetId,http,record}) 
       try {const r=await client.query(sql,bindings);return {accepted:true,sql,bindings,rowCount:r.rowCount,rows:r.rows};}
       catch(e){return {accepted:false,sql,bindings,error:error(e)};}
     };
-    let primary;
+    let primary,hasPrimary=false;
+    const retain=e=>{if(!hasPrimary){primary=e;hasPrimary=true;}};
     try {
       row.boundaries.json=await probe('json',SQL.json,[row.encoded]);
       row.boundaries.jsonb=await probe('jsonb',SQL.jsonb,[row.encoded]);
@@ -59,15 +60,16 @@ async function capture({client,encode,contract,collection,assetId,http,record}) 
         row.rejectedWriteLeftBaseline=(await client.query(SQL.before,[contract,collection])).rows[0].data_text===baseline;
         assert.equal(row.rejectedWriteLeftBaseline,true);
       }
-    } catch(e){primary=e;row.failure=error(e);}
+    } catch(e){retain(e);row.failure=error(e);}
     finally {
       row.restore.attempted=true;
       try {const r=await client.query(SQL.write,[contract,collection,baseline]);assert.equal(r.rowCount,1);
         assert.equal((await client.query(SQL.before,[contract,collection])).rows[0].data_text,baseline);row.restore.succeeded=true;}
-      catch(e){row.restore.succeeded=false;row.restore.error=error(e);if(!primary)primary=e;}
-      record({kind:'json39-case-complete',row});
+      catch(e){row.restore.succeeded=false;row.restore.error=error(e);retain(e);}
+      try{record({kind:'json39-case-complete',row});}
+      catch(e){row.completionRecordError=error(e);retain(e);}
     }
-    if(primary)throw primary;
+    if(hasPrimary)throw primary;
   }
   out.numericLiterals=[];
   for(const raw of numericLiterals){const row={kind:'native-SQL-literal-not-original-encoder',raw,boundaries:{}};out.numericLiterals.push(row);
