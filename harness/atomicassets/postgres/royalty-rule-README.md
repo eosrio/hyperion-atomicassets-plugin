@@ -1,0 +1,8 @@
+# Original royalty-rule PostgreSQL candidate
+
+Scoped to Atomic #65 and Tools #24. Pending root review and physical Linux execution. This candidate uses original 2.7.0 (`0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e`) `royaltyProcessor` through its `DataProcessor` and real `ContractDBTransaction`, then reads the original PostgreSQL tables and calls the original AtomicMarket namespace, router, handler and HTTP wrapper. The pinned original handlers query the two royalty tables directly; there is no separate royalty master view to qualify. Inputs are constructed callback events, not proved chain-source values.
+
+The bounded plan covers both routes, source zero, signed 64-bit weight storage, lookup hash, first-created metadata through update/delete/recreate, template membership branches, validation, body/query and HEAD. Retain original SQL bindings/results, raw table JSON with text projections for exact bigint values, HTTP bytes/headers and rejection behavior. It does not establish full endpoint, Atomic, SDK error, chain-source, MongoDB or Wire parity; source-representability, other filter combinations, true listener failure behavior, imported state, scale and 500/408 mappings remain pending. The historical seeded template oracle remains unchanged.
+
+The Linux-only candidate reuses original-source and service admission, database setup and lifecycle cleanup; limits remain 2 CPU/1 GiB, 180 seconds, 30-second SQL, 2 MiB HTTP response, 8 MiB report. Artifact creation is not physical qualification: the current CI service retirement is owned by the GitHub job, and independent retirement evidence remains pending. No Windows service or physical workload is authorized by these controls.
+\n
