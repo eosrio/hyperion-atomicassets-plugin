@@ -67,7 +67,14 @@ test('complete structural gate model accepts only all cases, source pins, hashes
     events:[{kind:'schema-id-json39-original-cleanup',acquisitions:[{name:'model-only',returned:true}],listenerVerification:{attempted:true,succeeded:true},setupCleanup:{releaseSucceeded:true,secondary:[]},
       cleanup:['listener-0','listener-1','listener-2','listener-3','http','server-database','scenario-client'].map(name=>({name,attempted:true,succeeded:true,...(name==='http'?{steps:[{name:'connections',attempted:true,succeeded:true},{name:'socket-server',attempted:true,succeeded:true}]}:{})}))}],result:{inputProfile:profile,display}};
   assert.equal(check(report).captureComplete,true);
-  for(const mutate of [r=>r.result.display.cases.pop(),r=>r.result.display.cases[0].http.schema.sha256='0'.repeat(64),
+  for(const mutate of [
+    r=>{r.result.display.cases[0].boundaries.scalar=[];},
+    r=>{const a=r.result.display.cases[0].boundaries.scalar;a.push(structuredClone(a[0]));},
+    r=>{r.result.display.cases[0].boundaries.scalar[0].field='images';},
+    r=>{r.result.display.cases[0].boundaries.scalar[0].bindings=['wrong'];},
+    r=>{r.result.display.cases[0].boundaries.scalar[0].sql='SELECT $1::json';},
+    r=>{r.result.display.cases[0].boundaries.scalar={};},
+    r=>r.result.display.cases.pop(),r=>r.result.display.cases[0].http.schema.sha256='0'.repeat(64),
     r=>r.events[0].cleanup[0].succeeded=false,r=>r.reference.sources[0].workingSha256='0'.repeat(64),r=>r.harness.pop(),r=>r.plugin.trackedStatus='M source',
     r=>{r.result.display.cases[0].boundaries.json={accepted:false,sql:SQL.json,bindings:['MODEL'],error:{code:'57014',message:'model timeout'}};},
     r=>{const row=r.result.display.numericLiterals[0];row.boundaries.json={accepted:false,bindings:[row.raw],error:{code:'ECONNRESET'}};}]){

@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict');
 const {readFileSync}=require('node:fs');
 const {createHash}=require('node:crypto');
-const {cases,numericLiterals}=require('./schema-id-json39-oracle.cjs');
+const {cases,numericLiterals,SQL}=require('./schema-id-json39-oracle.cjs');
 const profiles=require('../lifecycle-input.cjs');
 const sha=b=>createHash('sha256').update(b).digest('hex');
 function check(report) {
@@ -43,7 +43,10 @@ function check(report) {
     const outcome=r=>{assert.equal(typeof r.accepted,'boolean');assert.equal(typeof r.sql,'string');assert.ok(Array.isArray(r.bindings));
       if(r.accepted){assert.ok(Array.isArray(r.rows));assert.equal(r.error,undefined);}else{assert.equal(typeof r.error.message,'string');assert.match(r.error.code??'',/^22[A-Z0-9]{3}$/,'Only observed SQL data exceptions are input outcomes; transport/timeout/setup errors fail the gate');assert.equal(r.rows,undefined);}};
     for(const k of ['json','jsonb','unencodedJsonbArray'])outcome(row.boundaries[k]);
-    for(const r of row.boundaries.scalar)outcome(r);
+    const scalarFields=['name','img','images'].filter(k=>Object.hasOwn(plan.input,k)&&typeof plan.input[k]==='string');
+    assert.ok(Array.isArray(row.boundaries.scalar));
+    assert.deepEqual(row.boundaries.scalar.map(r=>r.field),scalarFields);
+    for(const r of row.boundaries.scalar){assert.equal(r.sql,SQL.scalar);assert.deepEqual(r.bindings,[plan.input[r.field]]);outcome(r);}
     outcome(row.storage);assert.equal(row.storage.accepted,row.boundaries.jsonb.accepted);
     if(row.storage.accepted){
       for(const k of ['schema']){
