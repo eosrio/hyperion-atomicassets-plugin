@@ -1,3 +1,4 @@
+import {jsonbText} from './jsonb-text.js';
 import type {StatefulCompleteKindReadV1} from '@eosrio/hyperion-sdk/projection-stateful-owner-v2';
 import type {OperatorListResultV1} from '@eosrio/hyperion-sdk/operator-lists';
 import {formatSchema, type AtomicSchema} from '../asset.js';
@@ -48,9 +49,9 @@ export async function readSchemaId(reader: StatefulCompleteKindReadV1, contract:
   const assets=count ? BigInt(decimal(count.assets)) : 0n;
   if(assets>2147483647n) return unavailable('Schema count exceeds original integer range');
   if(typeof joined.allow_notify!=='boolean' || typeof joined.market_fee!=='number' || !Number.isFinite(joined.market_fee)) return unavailable('Invalid collection fields');
-  const metadata=record(joined.data), selected=(v:unknown)=>v==null?null:typeof v==='string'?v:unavailable('Unsupported collection metadata');
+  const metadata=record(joined.data);
   const types=records(row.types).map(v=>({...v,name:text(v.name)}));
-  const collectionValue={collection_name:collection,name:selected(metadata.name),img:selected(metadata.img),images:selected(metadata.images),
+  const collectionValue={collection_name:collection,name:jsonbText(metadata.name ?? null),img:jsonbText(metadata.img ?? null),images:jsonbText(metadata.images ?? null),
     author:text(joined.author),allow_notify:joined.allow_notify,authorized_accounts:strings(joined.authorized_accounts),notify_accounts:strings(joined.notify_accounts),
     market_fee:joined.market_fee,created_at_block:decimal(joined.created_at_block),created_at_time:decimal(joined.created_at_time)};
   const formatted=formatSchema({contract,schema_name:name,collection:collectionValue,format:format(row.format),types,

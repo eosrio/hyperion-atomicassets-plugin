@@ -1,3 +1,4 @@
+import {jsonbText} from '../../atomicassets/internal/jsonb-text.js';
 import type {AtomicObject} from '../../atomicassets/asset.js';
 import {PG_MAX, bool, fraction, hash, key, marketplace, object, read, source, strings, text, uint, unavailable,
   type FixedSaleContext, type SaleReader, type SaleStage, type SaleSourceEvidence} from './fixed-sale-port.js';
@@ -111,7 +112,6 @@ export async function reduceAuctions(b: FixedSaleContext, occurrences: readonly 
   }
 }
 
-const selected = (v:unknown) => v === null || v === undefined ? null : text(v,true);
 /** Source-derived view assembly; every lookup must use the caller's same fenced read view. */
 export async function assembleAuctionLight(reader: SaleReader, market: string, id: string): Promise<AtomicObject | null> {
   text(market); uint(id);
@@ -122,7 +122,7 @@ export async function assembleAuctionLight(reader: SaleReader, market: string, i
   if (!collection) return null;
   if (collection.contract !== assets || collection.collection_name !== a.collection_name) return unavailable('Mismatched auction collection');
   const data = object(collection.data), currentFee = fraction(collection.market_fee);
-  const joined: AtomicObject = {collection_name:a.collection_name,name:selected(data.name),img:selected(data.img),images:selected(data.images),
+  const joined: AtomicObject = {collection_name:a.collection_name,name:jsonbText(data.name ?? null),img:jsonbText(data.img ?? null),images:jsonbText(data.images ?? null),
     author:text(collection.author),allow_notify:bool(collection.allow_notify),authorized_accounts:strings(collection.authorized_accounts),
     notify_accounts:strings(collection.notify_accounts),market_fee:a.collection_fee,created_at_block:uint(collection.created_at_block),created_at_time:uint(collection.created_at_time)};
   const token = await read(reader,'market-token',key(market,symbol));

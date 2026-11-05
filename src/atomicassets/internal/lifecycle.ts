@@ -1,3 +1,4 @@
+import {jsonbText} from './jsonb-text.js';
 import {formatAsset, type AtomicAsset, type AtomicAssetInput, type AtomicObject} from '../asset.js';
 import {stageAssetTransition} from './schema-counts.js';
 import {reduceTemplateRow,readTemplateForAsset,templateId} from './templates.js';
@@ -189,9 +190,6 @@ export async function reduceAssetLifecycle(b: LifecycleBlock, events: readonly L
   }
 }
 
-const pgText = (value: unknown): string | null => value === undefined || value === null ? null
-  : typeof value === 'string' ? value : unavailable('Nontext selected collection metadata is outside this tracer');
-
 /** INTERNAL fixed light-view assembly; caller's read view must fence every awaited lookup. */
 export async function assembleAssetLightView(reader: DomainReader, contract: string, assetId: string): Promise<AtomicAssetInput | null> {
   text(contract); decimal(assetId);
@@ -211,7 +209,7 @@ export async function assembleAssetLightView(reader: DomainReader, contract: str
   const data = record(collection.data), view: AtomicObject = {
     contract, asset_id: assetId, owner: asset.owner === null ? null : text(asset.owner),
     is_transferable: template?.is_transferable ?? true, is_burnable: template?.is_burnable ?? true, collection_name: asset.collection_name,
-    collection: {collection_name: collection.collection_name, name: pgText(data.name), img: pgText(data.img), images: pgText(data.images),
+    collection: {collection_name: collection.collection_name, name: jsonbText(data.name ?? null), img: jsonbText(data.img ?? null), images: jsonbText(data.images ?? null),
       author: text(collection.author), allow_notify: bool(collection.allow_notify), authorized_accounts: strings(collection.authorized_accounts),
       notify_accounts: strings(collection.notify_accounts), market_fee: fraction(collection.market_fee),
       created_at_block: decimal(collection.created_at_block), created_at_time: decimal(collection.created_at_time)},

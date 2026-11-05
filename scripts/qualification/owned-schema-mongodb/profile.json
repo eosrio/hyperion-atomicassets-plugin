@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "profile": "atomicassets-owned-schema-cbfb-c561-qualification-v1",
+  "profile": "atomicassets-owned-schema-cbfb-jsonb-display-qualification-v2",
   "sdk": "cbfb26694b90b52266d1e0b9b5dbf6f8389e736b",
   "hapi": "49dfe804590ab5b9cb17df05ebc85eb8e6976b14",
   "authority": "controlled synthetic fixture",
@@ -31,7 +31,7 @@
     },
     {
       "path": "src/atomicassets/internal/lifecycle.ts",
-      "sha256": "8d8a9e9e867792190c4d5701e1fbf7df486d743ef816c00cce8cb10e81ee6a41"
+      "sha256": "18692c2e19f1219ec6c7cb430182d4f82f0e779fa8b9b9bbfc457cdbf4d5a533"
     },
     {
       "path": "tests/fixtures/asset-domain-cases.mjs",
@@ -56,6 +56,38 @@
     {
       "path": "scripts/qualification/owned-schema-mongodb/driver.mjs",
       "sha256": "225f9179262e2c18ed4ed0941834e5f543f973893fce1d004cc4e80444a98a20"
+    },
+    {
+      "path": "src/atomicassets/internal/collections.ts",
+      "sha256": "7ab75568ef13fb8f40f1ca997cbf2f68ec138b958d7f26f7a9af7acff25f8b09"
+    },
+    {
+      "path": "src/atomicassets/internal/jsonb-text.ts",
+      "sha256": "b00417e791aede990bc13257a3b46b2182edb2cc5cd472b462613cdb0440ec21"
+    },
+    {
+      "path": "src/atomicassets/internal/schema-query.ts",
+      "sha256": "b8cbfdc5cd12c72667193f7ca690109ffb03f340b14b074f8794bcc75d4770f5"
+    },
+    {
+      "path": "src/atomicassets/internal/templates.ts",
+      "sha256": "a52b7ba74e3c0e73b2024425f7d750cd5be79e5498d31474a0eecc8b8954ec77"
+    },
+    {
+      "path": "src/atomicmarket/internal/auctions.ts",
+      "sha256": "5e96ae8b5d9eb3dbbae6722e9d59f0fb0a953401b22107d32df6db542b252ddb"
+    },
+    {
+      "path": "src/atomicmarket/internal/buyoffers.ts",
+      "sha256": "68eefb46dffb9c14e153d188afedc47d7776983d62b4df6f24bdac1aefef9b77"
+    },
+    {
+      "path": "src/atomicmarket/internal/fixed-sale.ts",
+      "sha256": "69f6c43db7ab2591be6a7d127c7015eb7573d178de68f3f37dd785f094d7fc0e"
+    },
+    {
+      "path": "src/atomicassets/internal/lifecycle-port.ts",
+      "sha256": "54af1f20beb14d94efd4932ee2f9bfc8b553e783c173bf479c58d75c45c42ba5"
     }
   ],
   "pluginDist": [
@@ -81,13 +113,13 @@
     },
     {
       "path": "atomicassets/internal/collections.js",
-      "bytes": 3028,
-      "sha256": "fc4fa74b239f031f4f03389dad01981dbaca67b186cfb20a8d7f02bec197038f"
+      "bytes": 2937,
+      "sha256": "692736a27a831f8e2a378d6f37d4b895ac7034e0888d7586babc2d0d93f0ffc0"
     },
     {
       "path": "atomicassets/internal/collections.js.map",
-      "bytes": 3034,
-      "sha256": "3fea93f9206ff9d2bf987786d68ea9d5b1b07632799c22db2c48f04d8c4f50d0"
+      "bytes": 2917,
+      "sha256": "c73b3b5458064c39ee200cb520355014b38278fa1282116a982cebad94ef9996"
     },
     {
       "path": "atomicassets/internal/config.d.ts",
@@ -121,18 +153,18 @@
     },
     {
       "path": "atomicassets/internal/jsonb-text.d.ts",
-      "bytes": 265,
-      "sha256": "734c92acafd95f7ecc8f72def7ab95f3864f0c5921816309ca8cbdb4b75dd14e"
+      "bytes": 439,
+      "sha256": "414007cb8c4a12eb13d486450c3f0a2ab07e2aa19826dd47c20d69d207a2ea9b"
     },
     {
       "path": "atomicassets/internal/jsonb-text.js",
-      "bytes": 2493,
-      "sha256": "67afba0708ea4fa7cb45bc412c450d7c382bb03b2aec856bf8f6693a7b945e01"
+      "bytes": 2786,
+      "sha256": "ccec835c46ffaf43841dce35153c1b633da5de72aee8909e8652812cab23fe22"
     },
     {
       "path": "atomicassets/internal/jsonb-text.js.map",
-      "bytes": 3024,
-      "sha256": "85bd4a4d458179c42b03701ffbad87de38d918b7ddd90f621e4b47dcc0f378eb"
+      "bytes": 3085,
+      "sha256": "c247d9c3a1699b73aee1d9cfa35d59e241fb2ef57c30a997430b89491243a7ac"
     },
     {
       "path": "atomicassets/internal/lifecycle-port.d.ts",
@@ -156,13 +188,13 @@
     },
     {
       "path": "atomicassets/internal/lifecycle.js",
-      "bytes": 17823,
-      "sha256": "22d13a19147640e4a86a75e4ae0d778141ee0516b47eba4fefcfe00521c1dcaf"
+      "bytes": 17712,
+      "sha256": "2b97e89bd10bf9ab23749bac357145cbc227e623e69eadc3a43be80ef8928124"
     },
     {
       "path": "atomicassets/internal/lifecycle.js.map",
-      "bytes": 17661,
-      "sha256": "cb37805397f1f20773781c7e1360e7d3b27ee4383ca06d6589f544ec4945e040"
+      "bytes": 17534,
+      "sha256": "416c9a6f5c3bdfe560266d972fcaa50834a8e077c9173f9310dabac548e83b70"
     },
     {
       "path": "atomicassets/internal/owned-schema-count.d.ts",
@@ -231,13 +263,13 @@
     },
     {
       "path": "atomicassets/internal/schema-query.js",
-      "bytes": 5229,
-      "sha256": "fe54cb91bc263822477d348423157146cbf7a6919a90e39c3fc79b06624600d2"
+      "bytes": 5188,
+      "sha256": "cdba3a3ebccc2541b22f5e20a7387135b62d9b37f89bf2fceda06ced72fbffdc"
     },
     {
       "path": "atomicassets/internal/schema-query.js.map",
-      "bytes": 6080,
-      "sha256": "a211ad698a51695d6f87ffb8ca5618116d5c17ea8e93f2e2dd9aa9da97cc331f"
+      "bytes": 5986,
+      "sha256": "01fd9906a205b2b49888872f080518785e093697a3a41dba60718777702dec06"
     },
     {
       "path": "atomicassets/internal/templates.d.ts",
@@ -246,13 +278,13 @@
     },
     {
       "path": "atomicassets/internal/templates.js",
-      "bytes": 7015,
-      "sha256": "6bae642d19b68dd1dc2e4c7f6ba41c89aff53d3b96ac94d95bb4aca187c11cb2"
+      "bytes": 6964,
+      "sha256": "eaf6b1a450df328249c23efb8cde4cd4cd6cefcc7f363135bb542b842b1f9d82"
     },
     {
       "path": "atomicassets/internal/templates.js.map",
-      "bytes": 7445,
-      "sha256": "318aa264d8db0f7ce2f063b1056b1d06db6aea6543aa81c66be8fa3dcb83f076"
+      "bytes": 7339,
+      "sha256": "23084b27286592c6d2529241201103d499764ab2b98545dfba78b88cb2e6ff32"
     },
     {
       "path": "atomicmarket/internal/auction-assets.d.ts",
@@ -276,13 +308,13 @@
     },
     {
       "path": "atomicmarket/internal/auctions.js",
-      "bytes": 12922,
-      "sha256": "9331e5781d854f611e2eed12addd43563777a2df2d7a2b295a4fa170cf5131a5"
+      "bytes": 12942,
+      "sha256": "513df5986e041dfa089c95dd583010260b38ce3ed086eddbbcbdd185e2e9e07f"
     },
     {
       "path": "atomicmarket/internal/auctions.js.map",
-      "bytes": 13750,
-      "sha256": "3e2c76d0ee78a42b30751161dd676f9ab849728b9a306d488bc49866e2191912"
+      "bytes": 13672,
+      "sha256": "a9d02eb9525d0bc58bc96a91777474cdba5dd55fcc278c74b25401e46ade1fc4"
     },
     {
       "path": "atomicmarket/internal/buyoffer-assets.d.ts",
@@ -306,13 +338,13 @@
     },
     {
       "path": "atomicmarket/internal/buyoffers.js",
-      "bytes": 12777,
-      "sha256": "de9d25aaf844f8ff809ce3a0633e1e88d98470d4b52d97b881f2c7abdcc4b49e"
+      "bytes": 12797,
+      "sha256": "732cec7908b9b741bd4553d3bb19c301970e05ff23321847336882506569d666"
     },
     {
       "path": "atomicmarket/internal/buyoffers.js.map",
-      "bytes": 13918,
-      "sha256": "5ca98853a1c9f9784ccf5310a6b67009076af7604d31f13ed05f09d11f3df932"
+      "bytes": 13840,
+      "sha256": "7d491f020f2d2b2994a5f4d73d85ec4111750145654a5ed98a4f431542536141"
     },
     {
       "path": "atomicmarket/internal/fixed-sale-port.d.ts",
@@ -336,13 +368,13 @@
     },
     {
       "path": "atomicmarket/internal/fixed-sale.js",
-      "bytes": 14539,
-      "sha256": "23810be60c86d1b825b4861f041c9b67abca1070bc5f8041311cf8fc6ffa8909"
+      "bytes": 14519,
+      "sha256": "eb077b5ca2c678cfba50c640224231ac9cdb34d44c9e56c9ee865e7ae4347545"
     },
     {
       "path": "atomicmarket/internal/fixed-sale.js.map",
-      "bytes": 14538,
-      "sha256": "1e61e2a2efdf6519d6e903d2a5051439ac26e4ca4afa3895f14e935c436eb03f"
+      "bytes": 14459,
+      "sha256": "14de658b0800eb1a76f73e92883dd0c8ffcf981996e5c9ec2e92884b3d672432"
     },
     {
       "path": "atomicmarket/internal/marketplace-state.d.ts",
@@ -906,5 +938,17 @@
       "bytes": 11,
       "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
     }
-  ]
+  ],
+  "sourceBinding": {
+    "displayCommit": "bbd3ceb01f01c7896ec52b105d7d5bd479a40799",
+    "displayTree": "8fc7c8dd741b43ad984e3966356fc937514443ad",
+    "physicalQualification": "not-run",
+    "supersedes": {
+      "commit": "92e57c492976dab46af45bd014f234e7dff8b1fe",
+      "path": "scripts/qualification/owned-schema-mongodb/profile.json",
+      "sha256": "591bacf8fc107abc9b875e4e1164094c0f6449d37303d9a880021c0af3cacca3",
+      "profile": "atomicassets-owned-schema-cbfb-c561-qualification-v1"
+    },
+    "scope": "Source/emission successor only. Historical physical reports do not qualify this display source."
+  }
 }

@@ -1,3 +1,4 @@
+import {jsonbText} from './jsonb-text.js';
 import {formatSchema, type AtomicSchema} from '../asset.js';
 import {databaseMetadata} from './database-json.js';
 import {createHash} from 'node:crypto';
@@ -68,12 +69,11 @@ export async function readTemplateId(reader: DomainReader, contract: string, col
     schema.collection_name!==row.collection_name || schema.schema_name!==row.schema_name) return unavailable('Mismatched template join');
   if(row.collection_name!==collectionName) return null;
   const nested=await readTemplateForAsset(reader,contract,id), metadata=record(collection.data);
-  const selected=(v: unknown): string | null => v==null?null:typeof v==='string'?v:unavailable('Unsupported collection metadata');
   if(typeof collection.allow_notify!=='boolean' || typeof collection.market_fee!=='number' || !Number.isFinite(collection.market_fee))
     return unavailable('Invalid collection fields');
   const mutable=nested.mutable_data??{}, immutable=nested.immutable_data??{}, data={...mutable,...immutable};
-  return record({contract,...nested,collection:{collection_name:collection.collection_name,name:selected(metadata.name),img:selected(metadata.img),
-    images:selected(metadata.images),author:text(collection.author),allow_notify:collection.allow_notify,
+  return record({contract,...nested,collection:{collection_name:collection.collection_name,name:jsonbText(metadata.name ?? null),img:jsonbText(metadata.img ?? null),
+    images:jsonbText(metadata.images ?? null),author:text(collection.author),allow_notify:collection.allow_notify,
     authorized_accounts:strings(collection.authorized_accounts),notify_accounts:strings(collection.notify_accounts),market_fee:collection.market_fee,
     created_at_block:decimal(collection.created_at_block),created_at_time:decimal(collection.created_at_time)},
     schema:JSON.parse(JSON.stringify(formatSchema({schema_name:text(schema.schema_name),format:format(schema.format),types:records(schema.types).map(v=>({...v,name:text(v.name)})),

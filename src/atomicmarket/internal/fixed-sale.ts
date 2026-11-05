@@ -1,3 +1,4 @@
+import {jsonbText} from '../../atomicassets/internal/jsonb-text.js';
 import type {AtomicObject} from '../../atomicassets/asset.js';
 import {formatSale, type AtomicSale, type AtomicSaleInput} from '../sale.js';
 import {PG_MAX, bool, fraction, hash, key, marketplace, object, read, source, strings, text, uint, unavailable,
@@ -125,14 +126,13 @@ export async function reduceFixedSales(value: FixedSaleContext, occurrences: rea
   }
 }
 
-function selectedText(value: unknown): string | null {return value === undefined || value === null ? null : text(value, true);}
 function precision(value: unknown): number {
   return typeof value === 'number' && Number.isInteger(value) && value >= 0 && value <= 18 ? value : unavailable('Unsupported token precision');
 }
 function currentCollection(row: AtomicObject): AtomicObject {
   const data = object(row.data);
-  return {contract: text(row.contract), collection_name: text(row.collection_name), name: selectedText(data.name), img: selectedText(data.img),
-    images: selectedText(data.images), author: text(row.author), allow_notify: bool(row.allow_notify),
+  return {contract: text(row.contract), collection_name: text(row.collection_name), name: jsonbText(data.name ?? null), img: jsonbText(data.img ?? null),
+    images: jsonbText(data.images ?? null), author: text(row.author), allow_notify: bool(row.allow_notify),
     authorized_accounts: strings(row.authorized_accounts), notify_accounts: strings(row.notify_accounts), market_fee: fraction(row.market_fee),
     created_at_block: uint(row.created_at_block), created_at_time: uint(row.created_at_time)};
 }
