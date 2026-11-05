@@ -1,0 +1,58 @@
+name: Original royalty rule PostgreSQL oracle v1
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['24.22.1', '26.4.0']
+    services:
+      postgres:
+        image: docker.io/library/postgres@sha256:cbf42f0edc946c0bc1b8eeed62403734e1f25dc67a3491455d07a92fdb558b28
+        env:
+          POSTGRES_DB: aa_ci_oracle
+          POSTGRES_USER: oracle
+          POSTGRES_PASSWORD: ci-only-disposable
+        ports:
+          - 127.0.0.1:5432:5432
+        options: >-
+          --cpus 2 --memory 1g --memory-swap 1g
+          --health-cmd "pg_isready -U oracle -d aa_ci_oracle"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm ci --allow-git=all
+      - run: node scripts/prepare-reference.mjs --destination "$RUNNER_TEMP/atomicassets-api-2.7.0"
+      - run: npm install --global pnpm@11.13.1
+      - run: pnpm --dir "$RUNNER_TEMP/atomicassets-api-2.7.0" install --frozen-lockfile
+      - run: node --test harness/atomicassets/postgres/royalty-rule-source.test.mjs harness/atomicassets/postgres/royalty-rule-original-dml.test.mjs
+      - name: Capture original callback, PostgreSQL and HTTP
+        env:
+          AA_REFERENCE_ROOT: ${{ runner.temp }}/atomicassets-api-2.7.0
+          AA_CI_CONTAINER_ID: ${{ job.services.postgres.id }}
+          AA_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: node harness/atomicassets/postgres/royalty-rule-ci.mjs
+      - name: Require complete capture
+        env:
+          AA_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        if: always() && !cancelled()
+        run: node harness/atomicassets/postgres/royalty-rule-gate.cjs "$RUNNER_TEMP/royalty-rule-pg-oracle-v1.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: royalty-rule-pg-oracle-v1-${{ matrix.node }}
+          path: ${{ runner.temp }}/royalty-rule-pg-oracle-v1.json
+          if-no-files-found: error

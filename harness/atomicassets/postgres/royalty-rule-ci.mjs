@@ -1,0 +1,35 @@
+// Future reviewed Linux CI only; imports shared admission, setup and cleanup mechanics.
+import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
+import {mkdtempSync,readFileSync,writeFileSync} from 'node:fs';
+import {join} from 'node:path';import {tmpdir} from 'node:os';import {createRequire} from 'node:module';
+import {originalSource,copyDefinitions,sha} from './source.mjs';
+import {CI,admitService,inspectCiDatabase} from './schema-list-ci-admission.mjs';
+import {PIN} from './image-identity.mjs';import {lifecycle} from './json-display-lifecycle.mjs';
+const require=createRequire(import.meta.url);assert.equal(process.platform,'linux');assert.equal(process.env.GITHUB_ACTIONS,'true');
+assert.ok([24,26].includes(Number(process.versions.node.split('.')[0])));assert.equal(process.versions.bun,undefined);
+const output=join(process.env.RUNNER_TEMP,'royalty-rule-pg-oracle-v1.json');
+const report={schemaVersion:1,status:'running',qualified:false,events:[],startedAt:new Date().toISOString(),scope:{source:'synthetic',fullParity:false,serviceRetirement:'external'}};
+const persist=()=>{const b=JSON.stringify(report,null,2)+'\n';assert(Buffer.byteLength(b)<=PIN.reportBytes);writeFileSync(output,b);};persist();
+const timer=setTimeout(()=>{report.status='failed';report.deadlineExceeded=true;report.cleanupIncomplete=true;try{persist();}finally{process.exit(1);}},PIN.childDeadlineMS);
+const closers=[];
+try{await lifecycle(report,{persist:()=>{report.completedAt=new Date().toISOString();persist();},closers,work:async()=>{
+ const git=(...args)=>execFileSync('git',args,{encoding:'utf8',timeout:10000,maxBuffer:2*1024**2}).trim();
+ report.plugin={head:git('rev-parse','HEAD'),tree:git('rev-parse','HEAD^{tree}'),trackedStatus:git('status','--porcelain=v1','--untracked-files=no')};assert.equal(report.plugin.head,process.env.AA_EXPECTED_HEAD);assert.equal(report.plugin.trackedStatus,'');
+ const docker=(...args)=>JSON.parse(execFileSync('docker',args,{encoding:'utf8',timeout:10000,maxBuffer:2*1024**2}));const id=process.env.AA_CI_CONTAINER_ID;
+ report.fixture=admitService(docker('inspect',id)[0],docker('image','inspect',PIN.image)[0],id);
+ const reference=originalSource(process.env.AA_REFERENCE_ROOT);report.reference={commit:reference.commit,sources:reference.observed};
+ const manifest=JSON.parse(readFileSync(new URL('../../../tests/fixtures/royalty-rule-original-2.7/manifest.json',import.meta.url)));assert.equal(manifest.baseline,reference.commit);
+ report.royaltySources=Object.values(manifest.sources).map(pin=>{const blob=execFileSync('git',['show',reference.commit+':'+pin.path],{cwd:reference.root,timeout:10000,maxBuffer:2*1024**2}),working=readFileSync(join(reference.root,pin.path));assert.equal(blob.length,pin.bytes);assert.equal(sha(blob),pin.sha256);assert.equal(sha(working),pin.sha256);return {path:pin.path,bytes:pin.bytes,sha256:pin.sha256};});
+ report.harness=require('./royalty-rule-gate.cjs').names.map(path=>{const b=readFileSync(new URL('./'+path,import.meta.url));return {path,bytes:b.length,sha256:sha(b)};});
+  const extra=JSON.parse(readFileSync(new URL('./royalty-rule-extra-pins.json',import.meta.url)));assert.equal(extra.commit,reference.commit);report.namespaceSources=extra.sources.map(pin=>{const blob=execFileSync('git',['show',reference.commit+':'+pin.path],{cwd:reference.root,timeout:10000,maxBuffer:2*1024**2}),working=readFileSync(join(reference.root,pin.path));assert.equal(blob.length,pin.bytes);assert.equal(sha(blob),pin.sha256);assert.equal(sha(working),pin.sha256);return pin;});
+ report.runtime={node:process.version,sha256:sha(readFileSync(process.execPath))};
+ const dir=mkdtempSync(join(tmpdir(),'aa-royalty-pg-'));copyDefinitions(reference,dir);process.chdir(dir);
+ for(const key of Object.keys(process.env))if(key.startsWith('PG')||key.startsWith('POSTGRES_TEST_')||key.startsWith('REDIS_TEST_')||['NODE_OPTIONS','NODE_PATH','TS_NODE_PROJECT'].includes(key))delete process.env[key];
+ process.env.SWC_NODE_PROJECT=join(reference.root,'tsconfig.json');process.env.SWC_NODE_CACHE_DIR=join(dir,'swc-cache');process.env.PGSSLMODE='disable';process.env.PG_POOL_MAX='4';
+ reference.fromReference('@swc-node/register');const Connection=reference.fromReference('./src/connections/postgres.ts').default;
+ const db=new Connection('127.0.0.1',CI.port,CI.user,CI.password,CI.database);closers.push(['originalConnection',()=>db.end()]);report.admission=await inspectCiDatabase(db);persist();
+ const record=value=>{assert(report.events.length<2048);report.events.push(value);persist();};
+ report.schema=await require('./schema.cjs')(reference.fromReference,db,report.admission,record);persist();
+ return await require('./royalty-rule-scenario.cjs')(reference.fromReference,db,{host:'127.0.0.1',port:CI.port,user:CI.user,password:CI.password,database:CI.database},record);
+}});}finally{clearTimeout(timer);}process.exit(report.status==='passed'?0:1);
