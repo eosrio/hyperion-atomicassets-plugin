@@ -1,0 +1,61 @@
+name: Original schema ID JSONB display capture v1
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['24.22.1', '26.4.0']
+        profile: [original-lifecycle, portable-safe-image]
+    services:
+      postgres:
+        image: docker.io/library/postgres@sha256:cbf42f0edc946c0bc1b8eeed62403734e1f25dc67a3491455d07a92fdb558b28
+        env:
+          POSTGRES_DB: aa_ci_oracle
+          POSTGRES_USER: oracle
+          POSTGRES_PASSWORD: ci-only-disposable
+        ports:
+          - 127.0.0.1:5432:5432
+        options: >-
+          --cpus 2 --memory 1g --memory-swap 1g
+          --health-cmd "pg_isready -U oracle -d aa_ci_oracle"
+          --health-interval 5s --health-timeout 5s --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm ci --allow-git=all
+      - run: node scripts/prepare-reference.mjs --destination "$RUNNER_TEMP/atomicassets-api-2.7.0"
+      - run: npm install --global pnpm@11.13.1
+      - run: pnpm --dir "$RUNNER_TEMP/atomicassets-api-2.7.0" install --frozen-lockfile
+      - name: Pure capture and lifecycle controls
+        run: node --test harness/atomicassets/postgres/schema-id-json39-source.test.mjs harness/atomicassets/postgres/schema-id-json39-faults.test.mjs harness/atomicassets/postgres/json-display-source.test.mjs harness/atomicassets/postgres/json-display-faults.test.mjs
+      - name: Capture original encoder, storage, views and HTTP
+        env:
+          AA_REFERENCE_ROOT: ${{ runner.temp }}/atomicassets-api-2.7.0
+          AA_CI_CONTAINER_ID: ${{ job.services.postgres.id }}
+          AA_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+          AA_JSON39_PROFILE: ${{ matrix.profile }}
+        run: node harness/atomicassets/postgres/schema-id-json39-ci.mjs
+      - name: Require complete capture and successful connection cleanup
+        env:
+          AA_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+        if: always() && !cancelled()
+        run: node harness/atomicassets/postgres/schema-id-json39-gate.cjs "$RUNNER_TEMP/schema-id-json39-oracle-v1.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: schema-id-json39-v1-${{ matrix.node }}-${{ matrix.profile }}
+          path: ${{ runner.temp }}/schema-id-json39-oracle-v1.json
+          if-no-files-found: error
