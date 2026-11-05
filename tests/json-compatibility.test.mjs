@@ -134,11 +134,12 @@ test('combined20 packaged factory preserves metadata encoding and coherent asset
   await assert.rejects(reduce({...port(new Map()),source:source(bad)}),AssetDomainUnavailable);}
 });
 
-test('unproven nontext JSONB display selections still refuse instead of guessing PostgreSQL text',async()=>{
+test('nontext JSONB display selections use the pinned PostgreSQL text convention',async()=>{
  const s=storage();await s.run(reduce,block(0),initial());const k=key(input.contract,input.collection),v=s.snapshot().get('collection:'+k);
- for(const value of [true,0,0.1,[1,null],{z:1,a:2}]){s.seed('collection',k,{...v,data:{...v.data,name:value}});
-  await assert.rejects(readCollectionId(s.reader(),input.contract,input.collection),AssetDomainUnavailable);
-  await assert.rejects(readLifecycleAsset(s.reader(),input.contract,input.assetId),AssetDomainUnavailable);}
+ for(const [value,expected] of [[true,'true'],[0,'0'],[0.1,'0.1'],[[1,null],'[1, null]'],[{z:1,a:2},'{"a": 2, "z": 1}']]){
+  s.seed('collection',k,{...v,data:{...v.data,name:value}});
+  assert.equal((await readCollectionId(s.reader(),input.contract,input.collection)).name,expected);
+  assert.equal((await readLifecycleAsset(s.reader(),input.contract,input.assetId)).collection.name,expected);}
 });
 
 test('physical display vectors bind actual SQL probes without any prefilled engine result',()=>{

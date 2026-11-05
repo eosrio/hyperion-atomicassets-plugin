@@ -1,0 +1,2224 @@
+{
+  "schemaVersion": 1,
+  "kind": "measured-original-jsonb-display-extract",
+  "qualified": false,
+  "referenceCommit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+  "pluginCaptureCommit": "f13815acfa32d3a732b4722e4d2ad584bd15f617",
+  "pluginCaptureTree": "38432c47533471c062c8414f08a611bad110572c",
+  "workflowRun": 41958628616,
+  "postgresVersion": "16.15",
+  "reports": [
+    {
+      "file": "json-display-24.x-original-lifecycle.json",
+      "sha256": "940ffeb34202d301153ffd1ce70eb6edb795f841f41bcd1bc059c09bcee34698",
+      "bytes": 1982062,
+      "runtime": {
+        "version": "v24.22.1",
+        "executableSha256": "e32e2d16081cf644f88392934288086e7662529d0d43277c34f7aad2207cfafb"
+      }
+    },
+    {
+      "file": "json-display-24.x-portable-safe-image.json",
+      "sha256": "b2da942607a8c72f648f2cc571f4e7d017782d83ed9c0fc3ea50b6d913fcc3b4",
+      "bytes": 1982099,
+      "runtime": {
+        "version": "v24.22.2",
+        "executableSha256": "904a6d3484241d466989f9df9ba3aab822b1496191bdb28230eb491a55c32a52"
+      }
+    },
+    {
+      "file": "json-display-26.x-original-lifecycle.json",
+      "sha256": "a6d2587729de25abac9ff6b721c74f7fb5e11a1c081a69b8bd9854827e0143f4",
+      "bytes": 1982062,
+      "runtime": {
+        "version": "v26.13.0",
+        "executableSha256": "0adde40d1b7dfa57c8bc83cbc319758c3ec6ebba21363bb2fa752ea6b267ad1b"
+      }
+    },
+    {
+      "file": "json-display-26.x-portable-safe-image.json",
+      "sha256": "293317c714dd5326e0e925eb9cfd47d7f814d2d203ed81477094b4db7d02f0be",
+      "bytes": 1982099,
+      "runtime": {
+        "version": "v26.13.0",
+        "executableSha256": "0adde40d1b7dfa57c8bc83cbc319758c3ec6ebba21363bb2fa752ea6b267ad1b"
+      }
+    }
+  ],
+  "scope": "Original JS encoder to PostgreSQL JSONB/storage/view/HTTP display fields. Native SQL literals are separate and are never parsed into JS metadata to infer lost numeric precision or scale. No plugin DB or full parity qualification.",
+  "cases": [
+    {
+      "name": "text",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"plain\",\"img\":\"image\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "45d195daab28542b9d0743861481c4775e78db3ce3580b04b3e3d0c3cdf41a6e",
+      "encoded": "{\"name\":\"plain\",\"img\":\"image\"}",
+      "encodedBytes": 30,
+      "encodedSha256": "45d195daab28542b9d0743861481c4775e78db3ce3580b04b3e3d0c3cdf41a6e",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": \"image\", \"name\": \"plain\"}",
+        "name_text": "plain",
+        "img_text": "image",
+        "images_text": null
+      },
+      "storageText": "{\"img\": \"image\", \"name\": \"plain\"}",
+      "collectionView": {
+        "name": "plain",
+        "img": "image"
+      },
+      "assetView": {
+        "name": "plain",
+        "img": "image",
+        "images": null
+      },
+      "collectionHttp": {
+        "name": "plain",
+        "img": "image"
+      },
+      "assetHttp": {
+        "name": "plain",
+        "img": "image",
+        "images": null
+      }
+    },
+    {
+      "name": "text",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"plain\",\"images\":\"image\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "45d195daab28542b9d0743861481c4775e78db3ce3580b04b3e3d0c3cdf41a6e",
+      "encoded": "{\"img\":\"plain\",\"images\":\"image\"}",
+      "encodedBytes": 32,
+      "encodedSha256": "f71d5c28ccbe42c3e6dbfd3271604c631e2ca1afb0e8f11b9e520a961ace8f1e",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": \"plain\", \"images\": \"image\"}",
+        "name_text": null,
+        "img_text": "plain",
+        "images_text": "image"
+      },
+      "storageText": "{\"img\": \"plain\", \"images\": \"image\"}",
+      "collectionView": {
+        "name": null,
+        "img": "plain"
+      },
+      "assetView": {
+        "name": null,
+        "img": "plain",
+        "images": "image"
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": "plain"
+      },
+      "assetHttp": {
+        "name": null,
+        "img": "plain",
+        "images": "image"
+      }
+    },
+    {
+      "name": "text",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"plain\",\"name\":\"image\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "45d195daab28542b9d0743861481c4775e78db3ce3580b04b3e3d0c3cdf41a6e",
+      "encoded": "{\"images\":\"plain\",\"name\":\"image\"}",
+      "encodedBytes": 33,
+      "encodedSha256": "11befbb6fea1bc115cd827d7cc121c5c1f0ce6639e49feb9113a21bfb0665592",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"name\": \"image\", \"images\": \"plain\"}",
+        "name_text": "image",
+        "img_text": null,
+        "images_text": "plain"
+      },
+      "storageText": "{\"name\": \"image\", \"images\": \"plain\"}",
+      "collectionView": {
+        "name": "image",
+        "img": null
+      },
+      "assetView": {
+        "name": "image",
+        "img": null,
+        "images": "plain"
+      },
+      "collectionHttp": {
+        "name": "image",
+        "img": null
+      },
+      "assetHttp": {
+        "name": "image",
+        "img": null,
+        "images": "plain"
+      }
+    },
+    {
+      "name": "nul-value",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"a\\u0000b\",\"img\":\"image\\u0000hash\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "b15bbb0a5696011bfb4f482a31e95c5c6a1a98f345407d2baff9141ab3b2431d",
+      "encoded": "{\"name\":\"a b\",\"img\":\"image hash\"}",
+      "encodedBytes": 33,
+      "encodedSha256": "1a1585f3a6cccff98839c7aa8e8d03165c00e4ee4c7144b1a2ea153825368580",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": \"image hash\", \"name\": \"a b\"}",
+        "name_text": "a b",
+        "img_text": "image hash",
+        "images_text": null
+      },
+      "storageText": "{\"img\": \"image hash\", \"name\": \"a b\"}",
+      "collectionView": {
+        "name": "a b",
+        "img": "image hash"
+      },
+      "assetView": {
+        "name": "a b",
+        "img": "image hash",
+        "images": null
+      },
+      "collectionHttp": {
+        "name": "a b",
+        "img": "image hash"
+      },
+      "assetHttp": {
+        "name": "a b",
+        "img": "image hash",
+        "images": null
+      }
+    },
+    {
+      "name": "nul-value",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"a\\u0000b\",\"images\":\"image\\u0000hash\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "b15bbb0a5696011bfb4f482a31e95c5c6a1a98f345407d2baff9141ab3b2431d",
+      "encoded": "{\"img\":\"a b\",\"images\":\"image hash\"}",
+      "encodedBytes": 35,
+      "encodedSha256": "3291f18ec6fdd7d0c49a4d395fafdc0c7efc6fee9cc9aa37356b65088803e41b",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": \"a b\", \"images\": \"image hash\"}",
+        "name_text": null,
+        "img_text": "a b",
+        "images_text": "image hash"
+      },
+      "storageText": "{\"img\": \"a b\", \"images\": \"image hash\"}",
+      "collectionView": {
+        "name": null,
+        "img": "a b"
+      },
+      "assetView": {
+        "name": null,
+        "img": "a b",
+        "images": "image hash"
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": "a b"
+      },
+      "assetHttp": {
+        "name": null,
+        "img": "a b",
+        "images": "image hash"
+      }
+    },
+    {
+      "name": "nul-value",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"a\\u0000b\",\"name\":\"image\\u0000hash\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "b15bbb0a5696011bfb4f482a31e95c5c6a1a98f345407d2baff9141ab3b2431d",
+      "encoded": "{\"images\":\"a b\",\"name\":\"image hash\"}",
+      "encodedBytes": 36,
+      "encodedSha256": "29494d3a1741fc9440eece81a2e0aad6fa2021316347e551b264d4aaf995fedb",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"name\": \"image hash\", \"images\": \"a b\"}",
+        "name_text": "image hash",
+        "img_text": null,
+        "images_text": "a b"
+      },
+      "storageText": "{\"name\": \"image hash\", \"images\": \"a b\"}",
+      "collectionView": {
+        "name": "image hash",
+        "img": null
+      },
+      "assetView": {
+        "name": "image hash",
+        "img": null,
+        "images": "a b"
+      },
+      "collectionHttp": {
+        "name": "image hash",
+        "img": null
+      },
+      "assetHttp": {
+        "name": "image hash",
+        "img": null,
+        "images": "a b"
+      }
+    },
+    {
+      "name": "literal-escape",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"a\\\\u0000b\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "45669081d3d284a164bbb9b5016c6b72003fa39700de088a543a4840fa5ea0d1",
+      "encoded": "{\"name\":\"a\\ b\"}",
+      "encodedBytes": 15,
+      "encodedSha256": "8be94aec22f543a1e25ceeceaa779e4b1c5601dde703e9808ce5aaf25245a71e",
+      "storageAccepted": false,
+      "storageError": {
+        "name": "error",
+        "code": "22P02",
+        "message": "invalid input syntax for type json"
+      },
+      "rejectedWriteLeftBaseline": true
+    },
+    {
+      "name": "literal-escape",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"a\\\\u0000b\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "45669081d3d284a164bbb9b5016c6b72003fa39700de088a543a4840fa5ea0d1",
+      "encoded": "{\"img\":\"a\\ b\"}",
+      "encodedBytes": 14,
+      "encodedSha256": "ae250a233122781cf4a2d5b46a5060973f05dc03eb97af7bbc741e67399d01f8",
+      "storageAccepted": false,
+      "storageError": {
+        "name": "error",
+        "code": "22P02",
+        "message": "invalid input syntax for type json"
+      },
+      "rejectedWriteLeftBaseline": true
+    },
+    {
+      "name": "literal-escape",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"a\\\\u0000b\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "45669081d3d284a164bbb9b5016c6b72003fa39700de088a543a4840fa5ea0d1",
+      "encoded": "{\"images\":\"a\\ b\"}",
+      "encodedBytes": 17,
+      "encodedSha256": "3f603f7c1be7b7002526e9fe61a9d7feba79ee1d53a49b02c51f6680889c69c1",
+      "storageAccepted": false,
+      "storageError": {
+        "name": "error",
+        "code": "22P02",
+        "message": "invalid input syntax for type json"
+      },
+      "rejectedWriteLeftBaseline": true
+    },
+    {
+      "name": "mixed-nul-literal",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"a\\u0000b\\\\u0000c\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "7c96ef660da97786c84eb7426ee94cdaa7358ced3ca0cd6f6a05d7ca1d447683",
+      "encoded": "{\"name\":\"a b\\ c\"}",
+      "encodedBytes": 17,
+      "encodedSha256": "79937719c8dd5a5d0ea327af3e7035ee0f50ed88ffef536ab41343740a0232fa",
+      "storageAccepted": false,
+      "storageError": {
+        "name": "error",
+        "code": "22P02",
+        "message": "invalid input syntax for type json"
+      },
+      "rejectedWriteLeftBaseline": true
+    },
+    {
+      "name": "mixed-nul-literal",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"a\\u0000b\\\\u0000c\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "7c96ef660da97786c84eb7426ee94cdaa7358ced3ca0cd6f6a05d7ca1d447683",
+      "encoded": "{\"img\":\"a b\\ c\"}",
+      "encodedBytes": 16,
+      "encodedSha256": "22a9fa46ba1a58c0dde4194b86483247b815a9c9e153a2d05847d82cea5f022c",
+      "storageAccepted": false,
+      "storageError": {
+        "name": "error",
+        "code": "22P02",
+        "message": "invalid input syntax for type json"
+      },
+      "rejectedWriteLeftBaseline": true
+    },
+    {
+      "name": "mixed-nul-literal",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"a\\u0000b\\\\u0000c\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "7c96ef660da97786c84eb7426ee94cdaa7358ced3ca0cd6f6a05d7ca1d447683",
+      "encoded": "{\"images\":\"a b\\ c\"}",
+      "encodedBytes": 19,
+      "encodedSha256": "c7c21622d39c530874f23f9c5d239cce2b592a5cd9258e1653a8bfb44efc1c52",
+      "storageAccepted": false,
+      "storageError": {
+        "name": "error",
+        "code": "22P02",
+        "message": "invalid input syntax for type json"
+      },
+      "rejectedWriteLeftBaseline": true
+    },
+    {
+      "name": "nul-key",
+      "rotation": 0,
+      "rawInput": "{\"a\\u0000b\":\"nul key\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "28a129abb094b9e4a4a83e8b80c5be33ef0cc8dcd72790f77d689c9c2492ae3e",
+      "encoded": "{\"a b\":\"nul key\"}",
+      "encodedBytes": 17,
+      "encodedSha256": "a44f86b60986c65714272ebc88f8063ac177bf2276d6d31604ed94b2ec51df94",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"a b\": \"nul key\"}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"a b\": \"nul key\"}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "nul-key",
+      "rotation": 1,
+      "rawInput": "{\"a\\u0000b\":\"nul key\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "28a129abb094b9e4a4a83e8b80c5be33ef0cc8dcd72790f77d689c9c2492ae3e",
+      "encoded": "{\"a b\":\"nul key\"}",
+      "encodedBytes": 17,
+      "encodedSha256": "a44f86b60986c65714272ebc88f8063ac177bf2276d6d31604ed94b2ec51df94",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"a b\": \"nul key\"}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"a b\": \"nul key\"}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "nul-key",
+      "rotation": 2,
+      "rawInput": "{\"a\\u0000b\":\"nul key\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "28a129abb094b9e4a4a83e8b80c5be33ef0cc8dcd72790f77d689c9c2492ae3e",
+      "encoded": "{\"a b\":\"nul key\"}",
+      "encodedBytes": 17,
+      "encodedSha256": "a44f86b60986c65714272ebc88f8063ac177bf2276d6d31604ed94b2ec51df94",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"a b\": \"nul key\"}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"a b\": \"nul key\"}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "colliding-keys-later-space",
+      "rotation": 0,
+      "rawInput": "{\"a\\u0000b\":\"first\",\"a b\":\"last\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "ed876fbbc6956f3d7501ba7e2047b4e8c201159e2e0c5b6d80bfce3042bd6cd9",
+      "encoded": "{\"a b\":\"first\",\"a b\":\"last\"}",
+      "encodedBytes": 28,
+      "encodedSha256": "e08ab82f012efc6d4bc6dbeb001d21854662b3d70a3acee610cbc6c5f5a02b8c",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"a b\": \"last\"}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"a b\": \"last\"}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "colliding-keys-later-space",
+      "rotation": 1,
+      "rawInput": "{\"a\\u0000b\":\"first\",\"a b\":\"last\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "ed876fbbc6956f3d7501ba7e2047b4e8c201159e2e0c5b6d80bfce3042bd6cd9",
+      "encoded": "{\"a b\":\"first\",\"a b\":\"last\"}",
+      "encodedBytes": 28,
+      "encodedSha256": "e08ab82f012efc6d4bc6dbeb001d21854662b3d70a3acee610cbc6c5f5a02b8c",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"a b\": \"last\"}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"a b\": \"last\"}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "colliding-keys-later-space",
+      "rotation": 2,
+      "rawInput": "{\"a\\u0000b\":\"first\",\"a b\":\"last\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "ed876fbbc6956f3d7501ba7e2047b4e8c201159e2e0c5b6d80bfce3042bd6cd9",
+      "encoded": "{\"a b\":\"first\",\"a b\":\"last\"}",
+      "encodedBytes": 28,
+      "encodedSha256": "e08ab82f012efc6d4bc6dbeb001d21854662b3d70a3acee610cbc6c5f5a02b8c",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"a b\": \"last\"}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"a b\": \"last\"}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "colliding-keys-later-nul",
+      "rotation": 0,
+      "rawInput": "{\"a b\":\"first\",\"a\\u0000b\":\"last\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "a2dc0a9950f1b2ca0d8ef2e7aeb7ab69aee53c9ecfa0c74c073a8bec088b177e",
+      "encoded": "{\"a b\":\"first\",\"a b\":\"last\"}",
+      "encodedBytes": 28,
+      "encodedSha256": "e08ab82f012efc6d4bc6dbeb001d21854662b3d70a3acee610cbc6c5f5a02b8c",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"a b\": \"last\"}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"a b\": \"last\"}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "colliding-keys-later-nul",
+      "rotation": 1,
+      "rawInput": "{\"a b\":\"first\",\"a\\u0000b\":\"last\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "a2dc0a9950f1b2ca0d8ef2e7aeb7ab69aee53c9ecfa0c74c073a8bec088b177e",
+      "encoded": "{\"a b\":\"first\",\"a b\":\"last\"}",
+      "encodedBytes": 28,
+      "encodedSha256": "e08ab82f012efc6d4bc6dbeb001d21854662b3d70a3acee610cbc6c5f5a02b8c",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"a b\": \"last\"}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"a b\": \"last\"}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "colliding-keys-later-nul",
+      "rotation": 2,
+      "rawInput": "{\"a b\":\"first\",\"a\\u0000b\":\"last\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "a2dc0a9950f1b2ca0d8ef2e7aeb7ab69aee53c9ecfa0c74c073a8bec088b177e",
+      "encoded": "{\"a b\":\"first\",\"a b\":\"last\"}",
+      "encodedBytes": 28,
+      "encodedSha256": "e08ab82f012efc6d4bc6dbeb001d21854662b3d70a3acee610cbc6c5f5a02b8c",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"a b\": \"last\"}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"a b\": \"last\"}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "nested-values",
+      "rotation": 0,
+      "rawInput": "{\"name\":{\"longer\":[null,true,0,0,1.25,1e-7,1e+21],\"a\":\"n\\u0000l\"},\"img\":[{\"z\":1,\"a\":2},null,\"q\\\"\\\\\"]}",
+      "negativeZeroPaths": [
+        [
+          "name",
+          "longer",
+          "3"
+        ]
+      ],
+      "sourceVectorSha256": "f164212517abb801a06328966dafa9d1b9924b8dda51d6937ac8df6315734524",
+      "encoded": "{\"name\":{\"longer\":[null,true,0,0,1.25,1e-7,1e+21],\"a\":\"n l\"},\"img\":[{\"z\":1,\"a\":2},null,\"q\\\"\\\\\"]}",
+      "encodedBytes": 96,
+      "encodedSha256": "7d60b9feabeaf0bfa7a22b3e25df4d15c53d41ba973f51b6f093a912b0b47a1d",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": [{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"], \"name\": {\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}}",
+        "name_text": "{\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}",
+        "img_text": "[{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"]",
+        "images_text": null
+      },
+      "storageText": "{\"img\": [{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"], \"name\": {\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}}",
+      "collectionView": {
+        "name": "{\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}",
+        "img": "[{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"]"
+      },
+      "assetView": {
+        "name": "{\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}",
+        "img": "[{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"]",
+        "images": null
+      },
+      "collectionHttp": {
+        "name": "{\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}",
+        "img": "[{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"]"
+      },
+      "assetHttp": {
+        "name": "{\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}",
+        "img": "[{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"]",
+        "images": null
+      }
+    },
+    {
+      "name": "nested-values",
+      "rotation": 1,
+      "rawInput": "{\"img\":{\"longer\":[null,true,0,0,1.25,1e-7,1e+21],\"a\":\"n\\u0000l\"},\"images\":[{\"z\":1,\"a\":2},null,\"q\\\"\\\\\"]}",
+      "negativeZeroPaths": [
+        [
+          "img",
+          "longer",
+          "3"
+        ]
+      ],
+      "sourceVectorSha256": "f164212517abb801a06328966dafa9d1b9924b8dda51d6937ac8df6315734524",
+      "encoded": "{\"img\":{\"longer\":[null,true,0,0,1.25,1e-7,1e+21],\"a\":\"n l\"},\"images\":[{\"z\":1,\"a\":2},null,\"q\\\"\\\\\"]}",
+      "encodedBytes": 98,
+      "encodedSha256": "8c8093050c8deeda7ad317467a31e0f5595bc8ca1696ea4ffd02dcc892140cf0",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": {\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}, \"images\": [{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"]}",
+        "name_text": null,
+        "img_text": "{\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}",
+        "images_text": "[{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"]"
+      },
+      "storageText": "{\"img\": {\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}, \"images\": [{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"]}",
+      "collectionView": {
+        "name": null,
+        "img": "{\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}"
+      },
+      "assetView": {
+        "name": null,
+        "img": "{\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}",
+        "images": "[{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"]"
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": "{\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}"
+      },
+      "assetHttp": {
+        "name": null,
+        "img": "{\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}",
+        "images": "[{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"]"
+      }
+    },
+    {
+      "name": "nested-values",
+      "rotation": 2,
+      "rawInput": "{\"images\":{\"longer\":[null,true,0,0,1.25,1e-7,1e+21],\"a\":\"n\\u0000l\"},\"name\":[{\"z\":1,\"a\":2},null,\"q\\\"\\\\\"]}",
+      "negativeZeroPaths": [
+        [
+          "images",
+          "longer",
+          "3"
+        ]
+      ],
+      "sourceVectorSha256": "f164212517abb801a06328966dafa9d1b9924b8dda51d6937ac8df6315734524",
+      "encoded": "{\"images\":{\"longer\":[null,true,0,0,1.25,1e-7,1e+21],\"a\":\"n l\"},\"name\":[{\"z\":1,\"a\":2},null,\"q\\\"\\\\\"]}",
+      "encodedBytes": 99,
+      "encodedSha256": "d994d73e334de9350c032abee91fe343bd5ac0beb6b665f307371c53c6466b48",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"name\": [{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"], \"images\": {\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}}",
+        "name_text": "[{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"]",
+        "img_text": null,
+        "images_text": "{\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}"
+      },
+      "storageText": "{\"name\": [{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"], \"images\": {\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}}",
+      "collectionView": {
+        "name": "[{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"]",
+        "img": null
+      },
+      "assetView": {
+        "name": "[{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"]",
+        "img": null,
+        "images": "{\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}"
+      },
+      "collectionHttp": {
+        "name": "[{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"]",
+        "img": null
+      },
+      "assetHttp": {
+        "name": "[{\"a\": 2, \"z\": 1}, null, \"q\\\"\\\\\"]",
+        "img": null,
+        "images": "{\"a\": \"n l\", \"longer\": [null, true, 0, 0, 1.25, 0.0000001, 1000000000000000000000]}"
+      }
+    },
+    {
+      "name": "zero",
+      "rotation": 0,
+      "rawInput": "{\"name\":0,\"img\":0}",
+      "negativeZeroPaths": [
+        [
+          "img"
+        ]
+      ],
+      "sourceVectorSha256": "24b27c205452713c68cc638a10565e4b968ad79fbad2d1a6723d38417b8b6ba4",
+      "encoded": "{\"name\":0,\"img\":0}",
+      "encodedBytes": 18,
+      "encodedSha256": "24b27c205452713c68cc638a10565e4b968ad79fbad2d1a6723d38417b8b6ba4",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": 0, \"name\": 0}",
+        "name_text": "0",
+        "img_text": "0",
+        "images_text": null
+      },
+      "storageText": "{\"img\": 0, \"name\": 0}",
+      "collectionView": {
+        "name": "0",
+        "img": "0"
+      },
+      "assetView": {
+        "name": "0",
+        "img": "0",
+        "images": null
+      },
+      "collectionHttp": {
+        "name": "0",
+        "img": "0"
+      },
+      "assetHttp": {
+        "name": "0",
+        "img": "0",
+        "images": null
+      }
+    },
+    {
+      "name": "zero",
+      "rotation": 1,
+      "rawInput": "{\"img\":0,\"images\":0}",
+      "negativeZeroPaths": [
+        [
+          "images"
+        ]
+      ],
+      "sourceVectorSha256": "24b27c205452713c68cc638a10565e4b968ad79fbad2d1a6723d38417b8b6ba4",
+      "encoded": "{\"img\":0,\"images\":0}",
+      "encodedBytes": 20,
+      "encodedSha256": "c789e048bb01bdb8e87531597f34792bf36d9ad1cc0b01940d3bef7a1687272b",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": 0, \"images\": 0}",
+        "name_text": null,
+        "img_text": "0",
+        "images_text": "0"
+      },
+      "storageText": "{\"img\": 0, \"images\": 0}",
+      "collectionView": {
+        "name": null,
+        "img": "0"
+      },
+      "assetView": {
+        "name": null,
+        "img": "0",
+        "images": "0"
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": "0"
+      },
+      "assetHttp": {
+        "name": null,
+        "img": "0",
+        "images": "0"
+      }
+    },
+    {
+      "name": "zero",
+      "rotation": 2,
+      "rawInput": "{\"images\":0,\"name\":0}",
+      "negativeZeroPaths": [
+        [
+          "name"
+        ]
+      ],
+      "sourceVectorSha256": "24b27c205452713c68cc638a10565e4b968ad79fbad2d1a6723d38417b8b6ba4",
+      "encoded": "{\"images\":0,\"name\":0}",
+      "encodedBytes": 21,
+      "encodedSha256": "77e2754d9a6eb52357d80d387cb04c1d215b96a25939de47a782b32b80fe1705",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"name\": 0, \"images\": 0}",
+        "name_text": "0",
+        "img_text": null,
+        "images_text": "0"
+      },
+      "storageText": "{\"name\": 0, \"images\": 0}",
+      "collectionView": {
+        "name": "0",
+        "img": null
+      },
+      "assetView": {
+        "name": "0",
+        "img": null,
+        "images": "0"
+      },
+      "collectionHttp": {
+        "name": "0",
+        "img": null
+      },
+      "assetHttp": {
+        "name": "0",
+        "img": null,
+        "images": "0"
+      }
+    },
+    {
+      "name": "fraction",
+      "rotation": 0,
+      "rawInput": "{\"name\":0.1,\"img\":1e-7}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "cdd1fe6b27245afa5586332362af475e29874b7392340b06890a9238b6834667",
+      "encoded": "{\"name\":0.1,\"img\":1e-7}",
+      "encodedBytes": 23,
+      "encodedSha256": "cdd1fe6b27245afa5586332362af475e29874b7392340b06890a9238b6834667",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": 0.0000001, \"name\": 0.1}",
+        "name_text": "0.1",
+        "img_text": "0.0000001",
+        "images_text": null
+      },
+      "storageText": "{\"img\": 0.0000001, \"name\": 0.1}",
+      "collectionView": {
+        "name": "0.1",
+        "img": "0.0000001"
+      },
+      "assetView": {
+        "name": "0.1",
+        "img": "0.0000001",
+        "images": null
+      },
+      "collectionHttp": {
+        "name": "0.1",
+        "img": "0.0000001"
+      },
+      "assetHttp": {
+        "name": "0.1",
+        "img": "0.0000001",
+        "images": null
+      }
+    },
+    {
+      "name": "fraction",
+      "rotation": 1,
+      "rawInput": "{\"img\":0.1,\"images\":1e-7}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "cdd1fe6b27245afa5586332362af475e29874b7392340b06890a9238b6834667",
+      "encoded": "{\"img\":0.1,\"images\":1e-7}",
+      "encodedBytes": 25,
+      "encodedSha256": "377a34132f13f2e18b9a6352c372de7599f8c0b68f1ea0fd8f1b8b109e23095e",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": 0.1, \"images\": 0.0000001}",
+        "name_text": null,
+        "img_text": "0.1",
+        "images_text": "0.0000001"
+      },
+      "storageText": "{\"img\": 0.1, \"images\": 0.0000001}",
+      "collectionView": {
+        "name": null,
+        "img": "0.1"
+      },
+      "assetView": {
+        "name": null,
+        "img": "0.1",
+        "images": "0.0000001"
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": "0.1"
+      },
+      "assetHttp": {
+        "name": null,
+        "img": "0.1",
+        "images": "0.0000001"
+      }
+    },
+    {
+      "name": "fraction",
+      "rotation": 2,
+      "rawInput": "{\"images\":0.1,\"name\":1e-7}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "cdd1fe6b27245afa5586332362af475e29874b7392340b06890a9238b6834667",
+      "encoded": "{\"images\":0.1,\"name\":1e-7}",
+      "encodedBytes": 26,
+      "encodedSha256": "7a45709333f3ac859a9341b5cba0fb54387312446d52ca839e0aee1b82f275ae",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"name\": 0.0000001, \"images\": 0.1}",
+        "name_text": "0.0000001",
+        "img_text": null,
+        "images_text": "0.1"
+      },
+      "storageText": "{\"name\": 0.0000001, \"images\": 0.1}",
+      "collectionView": {
+        "name": "0.0000001",
+        "img": null
+      },
+      "assetView": {
+        "name": "0.0000001",
+        "img": null,
+        "images": "0.1"
+      },
+      "collectionHttp": {
+        "name": "0.0000001",
+        "img": null
+      },
+      "assetHttp": {
+        "name": "0.0000001",
+        "img": null,
+        "images": "0.1"
+      }
+    },
+    {
+      "name": "exponent",
+      "rotation": 0,
+      "rawInput": "{\"name\":1e+21,\"img\":1e-20}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "3478b9982a22a035c707d51500123bfce40180526b0ec6d5dc915bbcbbb28b13",
+      "encoded": "{\"name\":1e+21,\"img\":1e-20}",
+      "encodedBytes": 26,
+      "encodedSha256": "3478b9982a22a035c707d51500123bfce40180526b0ec6d5dc915bbcbbb28b13",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": 0.00000000000000000001, \"name\": 1000000000000000000000}",
+        "name_text": "1000000000000000000000",
+        "img_text": "0.00000000000000000001",
+        "images_text": null
+      },
+      "storageText": "{\"img\": 0.00000000000000000001, \"name\": 1000000000000000000000}",
+      "collectionView": {
+        "name": "1000000000000000000000",
+        "img": "0.00000000000000000001"
+      },
+      "assetView": {
+        "name": "1000000000000000000000",
+        "img": "0.00000000000000000001",
+        "images": null
+      },
+      "collectionHttp": {
+        "name": "1000000000000000000000",
+        "img": "0.00000000000000000001"
+      },
+      "assetHttp": {
+        "name": "1000000000000000000000",
+        "img": "0.00000000000000000001",
+        "images": null
+      }
+    },
+    {
+      "name": "exponent",
+      "rotation": 1,
+      "rawInput": "{\"img\":1e+21,\"images\":1e-20}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "3478b9982a22a035c707d51500123bfce40180526b0ec6d5dc915bbcbbb28b13",
+      "encoded": "{\"img\":1e+21,\"images\":1e-20}",
+      "encodedBytes": 28,
+      "encodedSha256": "0c31c35ba4a9c00bf0ac1527fa48bf4aa7e7dca5146283818d7e8a2a67df9443",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": 1000000000000000000000, \"images\": 0.00000000000000000001}",
+        "name_text": null,
+        "img_text": "1000000000000000000000",
+        "images_text": "0.00000000000000000001"
+      },
+      "storageText": "{\"img\": 1000000000000000000000, \"images\": 0.00000000000000000001}",
+      "collectionView": {
+        "name": null,
+        "img": "1000000000000000000000"
+      },
+      "assetView": {
+        "name": null,
+        "img": "1000000000000000000000",
+        "images": "0.00000000000000000001"
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": "1000000000000000000000"
+      },
+      "assetHttp": {
+        "name": null,
+        "img": "1000000000000000000000",
+        "images": "0.00000000000000000001"
+      }
+    },
+    {
+      "name": "exponent",
+      "rotation": 2,
+      "rawInput": "{\"images\":1e+21,\"name\":1e-20}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "3478b9982a22a035c707d51500123bfce40180526b0ec6d5dc915bbcbbb28b13",
+      "encoded": "{\"images\":1e+21,\"name\":1e-20}",
+      "encodedBytes": 29,
+      "encodedSha256": "7f913f75c06606edbc82c497cb3eec5f2f03be2f6c6a3c5f07869b4d29721af3",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"name\": 0.00000000000000000001, \"images\": 1000000000000000000000}",
+        "name_text": "0.00000000000000000001",
+        "img_text": null,
+        "images_text": "1000000000000000000000"
+      },
+      "storageText": "{\"name\": 0.00000000000000000001, \"images\": 1000000000000000000000}",
+      "collectionView": {
+        "name": "0.00000000000000000001",
+        "img": null
+      },
+      "assetView": {
+        "name": "0.00000000000000000001",
+        "img": null,
+        "images": "1000000000000000000000"
+      },
+      "collectionHttp": {
+        "name": "0.00000000000000000001",
+        "img": null
+      },
+      "assetHttp": {
+        "name": "0.00000000000000000001",
+        "img": null,
+        "images": "1000000000000000000000"
+      }
+    },
+    {
+      "name": "booleans",
+      "rotation": 0,
+      "rawInput": "{\"name\":true,\"img\":false}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "77a49986513d671612224e3930da949d3113c073c729187a4c3a2a13145934f5",
+      "encoded": "{\"name\":true,\"img\":false}",
+      "encodedBytes": 25,
+      "encodedSha256": "77a49986513d671612224e3930da949d3113c073c729187a4c3a2a13145934f5",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": false, \"name\": true}",
+        "name_text": "true",
+        "img_text": "false",
+        "images_text": null
+      },
+      "storageText": "{\"img\": false, \"name\": true}",
+      "collectionView": {
+        "name": "true",
+        "img": "false"
+      },
+      "assetView": {
+        "name": "true",
+        "img": "false",
+        "images": null
+      },
+      "collectionHttp": {
+        "name": "true",
+        "img": "false"
+      },
+      "assetHttp": {
+        "name": "true",
+        "img": "false",
+        "images": null
+      }
+    },
+    {
+      "name": "booleans",
+      "rotation": 1,
+      "rawInput": "{\"img\":true,\"images\":false}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "77a49986513d671612224e3930da949d3113c073c729187a4c3a2a13145934f5",
+      "encoded": "{\"img\":true,\"images\":false}",
+      "encodedBytes": 27,
+      "encodedSha256": "43dba31009b65a4209b6086ff3ee48d21fd2cea407946a7bf11f5f6c531ca766",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": true, \"images\": false}",
+        "name_text": null,
+        "img_text": "true",
+        "images_text": "false"
+      },
+      "storageText": "{\"img\": true, \"images\": false}",
+      "collectionView": {
+        "name": null,
+        "img": "true"
+      },
+      "assetView": {
+        "name": null,
+        "img": "true",
+        "images": "false"
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": "true"
+      },
+      "assetHttp": {
+        "name": null,
+        "img": "true",
+        "images": "false"
+      }
+    },
+    {
+      "name": "booleans",
+      "rotation": 2,
+      "rawInput": "{\"images\":true,\"name\":false}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "77a49986513d671612224e3930da949d3113c073c729187a4c3a2a13145934f5",
+      "encoded": "{\"images\":true,\"name\":false}",
+      "encodedBytes": 28,
+      "encodedSha256": "82c669c78c51129648c6a0ace4c90258ffbf2972fe7d114b5b7cf817d9480a2f",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"name\": false, \"images\": true}",
+        "name_text": "false",
+        "img_text": null,
+        "images_text": "true"
+      },
+      "storageText": "{\"name\": false, \"images\": true}",
+      "collectionView": {
+        "name": "false",
+        "img": null
+      },
+      "assetView": {
+        "name": "false",
+        "img": null,
+        "images": "true"
+      },
+      "collectionHttp": {
+        "name": "false",
+        "img": null
+      },
+      "assetHttp": {
+        "name": "false",
+        "img": null,
+        "images": "true"
+      }
+    },
+    {
+      "name": "null",
+      "rotation": 0,
+      "rawInput": "{\"name\":null,\"img\":null}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "51eea2bcbfa3cdea40be80e216bcd590a1cc50354171be95771ab5866a006f68",
+      "encoded": "{\"name\":null,\"img\":null}",
+      "encodedBytes": 24,
+      "encodedSha256": "51eea2bcbfa3cdea40be80e216bcd590a1cc50354171be95771ab5866a006f68",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": null, \"name\": null}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"img\": null, \"name\": null}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "null",
+      "rotation": 1,
+      "rawInput": "{\"img\":null,\"images\":null}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "51eea2bcbfa3cdea40be80e216bcd590a1cc50354171be95771ab5866a006f68",
+      "encoded": "{\"img\":null,\"images\":null}",
+      "encodedBytes": 26,
+      "encodedSha256": "b1b9e806bb4f503780115b5650b43070016128b8209e5411a2d3195bab3a7493",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": null, \"images\": null}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"img\": null, \"images\": null}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "null",
+      "rotation": 2,
+      "rawInput": "{\"images\":null,\"name\":null}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "51eea2bcbfa3cdea40be80e216bcd590a1cc50354171be95771ab5866a006f68",
+      "encoded": "{\"images\":null,\"name\":null}",
+      "encodedBytes": 27,
+      "encodedSha256": "a5b1a8ff5455aacfa555a5d1b80fa39da7223f2497475803c5b93b0e207a696d",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"name\": null, \"images\": null}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"name\": null, \"images\": null}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "missing",
+      "rotation": 0,
+      "rawInput": "{\"other\":\"present\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "d2ee13fd81fe14416b354019a77237333685888ebbb806f90801200142235e87",
+      "encoded": "{\"other\":\"present\"}",
+      "encodedBytes": 19,
+      "encodedSha256": "d2ee13fd81fe14416b354019a77237333685888ebbb806f90801200142235e87",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"other\": \"present\"}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"other\": \"present\"}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "missing",
+      "rotation": 1,
+      "rawInput": "{\"other\":\"present\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "d2ee13fd81fe14416b354019a77237333685888ebbb806f90801200142235e87",
+      "encoded": "{\"other\":\"present\"}",
+      "encodedBytes": 19,
+      "encodedSha256": "d2ee13fd81fe14416b354019a77237333685888ebbb806f90801200142235e87",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"other\": \"present\"}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"other\": \"present\"}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "missing",
+      "rotation": 2,
+      "rawInput": "{\"other\":\"present\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "d2ee13fd81fe14416b354019a77237333685888ebbb806f90801200142235e87",
+      "encoded": "{\"other\":\"present\"}",
+      "encodedBytes": 19,
+      "encodedSha256": "d2ee13fd81fe14416b354019a77237333685888ebbb806f90801200142235e87",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"other\": \"present\"}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"other\": \"present\"}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "ordered-unicode",
+      "rotation": 0,
+      "rawInput": "{\"name\":{\"\u00e9\":1,\"e\u0301\":2,\"\u77ed\":3,\"a\":4},\"img\":\"emoji \ud83e\udded\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "7c7f8eebfbfc86382daa07c5b954f77af054245deb43f843241d502fe1d91b39",
+      "encoded": "{\"name\":{\"\u00e9\":1,\"e\u0301\":2,\"\u77ed\":3,\"a\":4},\"img\":\"emoji \ud83e\udded\"}",
+      "encodedBytes": 58,
+      "encodedSha256": "7c7f8eebfbfc86382daa07c5b954f77af054245deb43f843241d502fe1d91b39",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": \"emoji \ud83e\udded\", \"name\": {\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}}",
+        "name_text": "{\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}",
+        "img_text": "emoji \ud83e\udded",
+        "images_text": null
+      },
+      "storageText": "{\"img\": \"emoji \ud83e\udded\", \"name\": {\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}}",
+      "collectionView": {
+        "name": "{\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}",
+        "img": "emoji \ud83e\udded"
+      },
+      "assetView": {
+        "name": "{\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}",
+        "img": "emoji \ud83e\udded",
+        "images": null
+      },
+      "collectionHttp": {
+        "name": "{\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}",
+        "img": "emoji \ud83e\udded"
+      },
+      "assetHttp": {
+        "name": "{\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}",
+        "img": "emoji \ud83e\udded",
+        "images": null
+      }
+    },
+    {
+      "name": "ordered-unicode",
+      "rotation": 1,
+      "rawInput": "{\"img\":{\"\u00e9\":1,\"e\u0301\":2,\"\u77ed\":3,\"a\":4},\"images\":\"emoji \ud83e\udded\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "7c7f8eebfbfc86382daa07c5b954f77af054245deb43f843241d502fe1d91b39",
+      "encoded": "{\"img\":{\"\u00e9\":1,\"e\u0301\":2,\"\u77ed\":3,\"a\":4},\"images\":\"emoji \ud83e\udded\"}",
+      "encodedBytes": 60,
+      "encodedSha256": "216cd6af4f314d2266d2cf3e4d32723454725d2def6d1ba9fb31588597171b1a",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": {\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}, \"images\": \"emoji \ud83e\udded\"}",
+        "name_text": null,
+        "img_text": "{\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}",
+        "images_text": "emoji \ud83e\udded"
+      },
+      "storageText": "{\"img\": {\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}, \"images\": \"emoji \ud83e\udded\"}",
+      "collectionView": {
+        "name": null,
+        "img": "{\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}"
+      },
+      "assetView": {
+        "name": null,
+        "img": "{\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}",
+        "images": "emoji \ud83e\udded"
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": "{\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}"
+      },
+      "assetHttp": {
+        "name": null,
+        "img": "{\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}",
+        "images": "emoji \ud83e\udded"
+      }
+    },
+    {
+      "name": "ordered-unicode",
+      "rotation": 2,
+      "rawInput": "{\"images\":{\"\u00e9\":1,\"e\u0301\":2,\"\u77ed\":3,\"a\":4},\"name\":\"emoji \ud83e\udded\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "7c7f8eebfbfc86382daa07c5b954f77af054245deb43f843241d502fe1d91b39",
+      "encoded": "{\"images\":{\"\u00e9\":1,\"e\u0301\":2,\"\u77ed\":3,\"a\":4},\"name\":\"emoji \ud83e\udded\"}",
+      "encodedBytes": 61,
+      "encodedSha256": "5780bb1d1973c9049ad7e035bf2a1d79e7b015e9ac7128080ac1733ba0b6875a",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"name\": \"emoji \ud83e\udded\", \"images\": {\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}}",
+        "name_text": "emoji \ud83e\udded",
+        "img_text": null,
+        "images_text": "{\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}"
+      },
+      "storageText": "{\"name\": \"emoji \ud83e\udded\", \"images\": {\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}}",
+      "collectionView": {
+        "name": "emoji \ud83e\udded",
+        "img": null
+      },
+      "assetView": {
+        "name": "emoji \ud83e\udded",
+        "img": null,
+        "images": "{\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}"
+      },
+      "collectionHttp": {
+        "name": "emoji \ud83e\udded",
+        "img": null
+      },
+      "assetHttp": {
+        "name": "emoji \ud83e\udded",
+        "img": null,
+        "images": "{\"a\": 4, \"\u00e9\": 1, \"e\u0301\": 2, \"\u77ed\": 3}"
+      }
+    },
+    {
+      "name": "controls",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"img\":\"\\u0001\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "3f03bd2ef454c6de91c0e17df3d59629f8ac5b1c02badb5d9058aee09befe6c2",
+      "encoded": "{\"name\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"img\":\"\\u0001\"}",
+      "encodedBytes": 54,
+      "encodedSha256": "3f03bd2ef454c6de91c0e17df3d59629f8ac5b1c02badb5d9058aee09befe6c2",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": \"\\u0001\", \"name\": \"tab\\tline\\nquote\\\"slash\\\\end\"}",
+        "name_text": "tab\tline\nquote\"slash\\end",
+        "img_text": "\u0001",
+        "images_text": null
+      },
+      "storageText": "{\"img\": \"\\u0001\", \"name\": \"tab\\tline\\nquote\\\"slash\\\\end\"}",
+      "collectionView": {
+        "name": "tab\tline\nquote\"slash\\end",
+        "img": "\u0001"
+      },
+      "assetView": {
+        "name": "tab\tline\nquote\"slash\\end",
+        "img": "\u0001",
+        "images": null
+      },
+      "collectionHttp": {
+        "name": "tab\tline\nquote\"slash\\end",
+        "img": "\u0001"
+      },
+      "assetHttp": {
+        "name": "tab\tline\nquote\"slash\\end",
+        "img": "\u0001",
+        "images": null
+      }
+    },
+    {
+      "name": "controls",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"images\":\"\\u0001\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "3f03bd2ef454c6de91c0e17df3d59629f8ac5b1c02badb5d9058aee09befe6c2",
+      "encoded": "{\"img\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"images\":\"\\u0001\"}",
+      "encodedBytes": 56,
+      "encodedSha256": "1eb59ac21469fce3f719ad08c2ede16461220c7df5ddefbb4d439c8681fe761c",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": \"tab\\tline\\nquote\\\"slash\\\\end\", \"images\": \"\\u0001\"}",
+        "name_text": null,
+        "img_text": "tab\tline\nquote\"slash\\end",
+        "images_text": "\u0001"
+      },
+      "storageText": "{\"img\": \"tab\\tline\\nquote\\\"slash\\\\end\", \"images\": \"\\u0001\"}",
+      "collectionView": {
+        "name": null,
+        "img": "tab\tline\nquote\"slash\\end"
+      },
+      "assetView": {
+        "name": null,
+        "img": "tab\tline\nquote\"slash\\end",
+        "images": "\u0001"
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": "tab\tline\nquote\"slash\\end"
+      },
+      "assetHttp": {
+        "name": null,
+        "img": "tab\tline\nquote\"slash\\end",
+        "images": "\u0001"
+      }
+    },
+    {
+      "name": "controls",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"name\":\"\\u0001\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "3f03bd2ef454c6de91c0e17df3d59629f8ac5b1c02badb5d9058aee09befe6c2",
+      "encoded": "{\"images\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"name\":\"\\u0001\"}",
+      "encodedBytes": 57,
+      "encodedSha256": "25c158f98077b979a8fc7f740dacc42dc6c3ff15b83cd9f0e6d61c9325094a5a",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"name\": \"\\u0001\", \"images\": \"tab\\tline\\nquote\\\"slash\\\\end\"}",
+        "name_text": "\u0001",
+        "img_text": null,
+        "images_text": "tab\tline\nquote\"slash\\end"
+      },
+      "storageText": "{\"name\": \"\\u0001\", \"images\": \"tab\\tline\\nquote\\\"slash\\\\end\"}",
+      "collectionView": {
+        "name": "\u0001",
+        "img": null
+      },
+      "assetView": {
+        "name": "\u0001",
+        "img": null,
+        "images": "tab\tline\nquote\"slash\\end"
+      },
+      "collectionHttp": {
+        "name": "\u0001",
+        "img": null
+      },
+      "assetHttp": {
+        "name": "\u0001",
+        "img": null,
+        "images": "tab\tline\nquote\"slash\\end"
+      }
+    },
+    {
+      "name": "literal-other-escape",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"\\\\u0041\",\"img\":\"\\\\u0001\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "c8131b956537303c2310dbbe252d7d62942335f484210daa1707f581f3bee65f",
+      "encoded": "{\"name\":\"\\\\u0041\",\"img\":\"\\\\u0001\"}",
+      "encodedBytes": 34,
+      "encodedSha256": "c8131b956537303c2310dbbe252d7d62942335f484210daa1707f581f3bee65f",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": \"\\\\u0001\", \"name\": \"\\\\u0041\"}",
+        "name_text": "\\u0041",
+        "img_text": "\\u0001",
+        "images_text": null
+      },
+      "storageText": "{\"img\": \"\\\\u0001\", \"name\": \"\\\\u0041\"}",
+      "collectionView": {
+        "name": "\\u0041",
+        "img": "\\u0001"
+      },
+      "assetView": {
+        "name": "\\u0041",
+        "img": "\\u0001",
+        "images": null
+      },
+      "collectionHttp": {
+        "name": "\\u0041",
+        "img": "\\u0001"
+      },
+      "assetHttp": {
+        "name": "\\u0041",
+        "img": "\\u0001",
+        "images": null
+      }
+    },
+    {
+      "name": "literal-other-escape",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"\\\\u0041\",\"images\":\"\\\\u0001\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "c8131b956537303c2310dbbe252d7d62942335f484210daa1707f581f3bee65f",
+      "encoded": "{\"img\":\"\\\\u0041\",\"images\":\"\\\\u0001\"}",
+      "encodedBytes": 36,
+      "encodedSha256": "23e7f7c770dce74ccb8a84fed94e895a8bffa69deeeebabd6d5406c79aed2ff3",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": \"\\\\u0041\", \"images\": \"\\\\u0001\"}",
+        "name_text": null,
+        "img_text": "\\u0041",
+        "images_text": "\\u0001"
+      },
+      "storageText": "{\"img\": \"\\\\u0041\", \"images\": \"\\\\u0001\"}",
+      "collectionView": {
+        "name": null,
+        "img": "\\u0041"
+      },
+      "assetView": {
+        "name": null,
+        "img": "\\u0041",
+        "images": "\\u0001"
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": "\\u0041"
+      },
+      "assetHttp": {
+        "name": null,
+        "img": "\\u0041",
+        "images": "\\u0001"
+      }
+    },
+    {
+      "name": "literal-other-escape",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"\\\\u0041\",\"name\":\"\\\\u0001\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "c8131b956537303c2310dbbe252d7d62942335f484210daa1707f581f3bee65f",
+      "encoded": "{\"images\":\"\\\\u0041\",\"name\":\"\\\\u0001\"}",
+      "encodedBytes": 37,
+      "encodedSha256": "a9690bc94c86fa3c7f7731fc241bd8c6ebabd5b895c19d529a3817fb48cb7c88",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"name\": \"\\\\u0001\", \"images\": \"\\\\u0041\"}",
+        "name_text": "\\u0001",
+        "img_text": null,
+        "images_text": "\\u0041"
+      },
+      "storageText": "{\"name\": \"\\\\u0001\", \"images\": \"\\\\u0041\"}",
+      "collectionView": {
+        "name": "\\u0001",
+        "img": null
+      },
+      "assetView": {
+        "name": "\\u0001",
+        "img": null,
+        "images": "\\u0041"
+      },
+      "collectionHttp": {
+        "name": "\\u0001",
+        "img": null
+      },
+      "assetHttp": {
+        "name": "\\u0001",
+        "img": null,
+        "images": "\\u0041"
+      }
+    },
+    {
+      "name": "valid-surrogate-pair",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"\ud83e\udded\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "252b21015ebd56a4192e745cc518550bf3328e5778e46e1046b432caafb6fc23",
+      "encoded": "{\"name\":\"\ud83e\udded\"}",
+      "encodedBytes": 15,
+      "encodedSha256": "252b21015ebd56a4192e745cc518550bf3328e5778e46e1046b432caafb6fc23",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"name\": \"\ud83e\udded\"}",
+        "name_text": "\ud83e\udded",
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"name\": \"\ud83e\udded\"}",
+      "collectionView": {
+        "name": "\ud83e\udded",
+        "img": null
+      },
+      "assetView": {
+        "name": "\ud83e\udded",
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": "\ud83e\udded",
+        "img": null
+      },
+      "assetHttp": {
+        "name": "\ud83e\udded",
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "valid-surrogate-pair",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"\ud83e\udded\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "252b21015ebd56a4192e745cc518550bf3328e5778e46e1046b432caafb6fc23",
+      "encoded": "{\"img\":\"\ud83e\udded\"}",
+      "encodedBytes": 14,
+      "encodedSha256": "5d6089881aaf77e51b669d3187cc93079d9e4e55ab27dda7d160c6279a3d1303",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": \"\ud83e\udded\"}",
+        "name_text": null,
+        "img_text": "\ud83e\udded",
+        "images_text": null
+      },
+      "storageText": "{\"img\": \"\ud83e\udded\"}",
+      "collectionView": {
+        "name": null,
+        "img": "\ud83e\udded"
+      },
+      "assetView": {
+        "name": null,
+        "img": "\ud83e\udded",
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": "\ud83e\udded"
+      },
+      "assetHttp": {
+        "name": null,
+        "img": "\ud83e\udded",
+        "images": null
+      }
+    },
+    {
+      "name": "valid-surrogate-pair",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"\ud83e\udded\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "252b21015ebd56a4192e745cc518550bf3328e5778e46e1046b432caafb6fc23",
+      "encoded": "{\"images\":\"\ud83e\udded\"}",
+      "encodedBytes": 17,
+      "encodedSha256": "8a027b585ab6a97f3e6f339873841ee5bb7a33e89a21dc3212dcc4ecc42700c0",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"images\": \"\ud83e\udded\"}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": "\ud83e\udded"
+      },
+      "storageText": "{\"images\": \"\ud83e\udded\"}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": "\ud83e\udded"
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": "\ud83e\udded"
+      }
+    },
+    {
+      "name": "unpaired-surrogate-value",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"\\ud800\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "bcef4f1aec4e0c7a55643476d083de53e2dd4f8717d18cd1bb816ec050041efc",
+      "encoded": "{\"name\":\"\\ud800\"}",
+      "encodedBytes": 17,
+      "encodedSha256": "bcef4f1aec4e0c7a55643476d083de53e2dd4f8717d18cd1bb816ec050041efc",
+      "storageAccepted": false,
+      "storageError": {
+        "name": "error",
+        "code": "22P02",
+        "message": "invalid input syntax for type json"
+      },
+      "rejectedWriteLeftBaseline": true
+    },
+    {
+      "name": "unpaired-surrogate-value",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"\\ud800\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "bcef4f1aec4e0c7a55643476d083de53e2dd4f8717d18cd1bb816ec050041efc",
+      "encoded": "{\"img\":\"\\ud800\"}",
+      "encodedBytes": 16,
+      "encodedSha256": "136b7b83174781bfffa6166cb6db7029c8343ac081fc05b45a41b4cb953c6f42",
+      "storageAccepted": false,
+      "storageError": {
+        "name": "error",
+        "code": "22P02",
+        "message": "invalid input syntax for type json"
+      },
+      "rejectedWriteLeftBaseline": true
+    },
+    {
+      "name": "unpaired-surrogate-value",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"\\ud800\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "bcef4f1aec4e0c7a55643476d083de53e2dd4f8717d18cd1bb816ec050041efc",
+      "encoded": "{\"images\":\"\\ud800\"}",
+      "encodedBytes": 19,
+      "encodedSha256": "f71cc348f48ff36fd94406fa68d4d2605612f04785b9de25f7d00393f9ab2d07",
+      "storageAccepted": false,
+      "storageError": {
+        "name": "error",
+        "code": "22P02",
+        "message": "invalid input syntax for type json"
+      },
+      "rejectedWriteLeftBaseline": true
+    },
+    {
+      "name": "unpaired-surrogate-key",
+      "rotation": 0,
+      "rawInput": "{\"\\udc00\":\"value\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "57459120775ac92476812eca3ce92d466a471c31da86cd41e9357ed9189af372",
+      "encoded": "{\"\\udc00\":\"value\"}",
+      "encodedBytes": 18,
+      "encodedSha256": "57459120775ac92476812eca3ce92d466a471c31da86cd41e9357ed9189af372",
+      "storageAccepted": false,
+      "storageError": {
+        "name": "error",
+        "code": "22P02",
+        "message": "invalid input syntax for type json"
+      },
+      "rejectedWriteLeftBaseline": true
+    },
+    {
+      "name": "unpaired-surrogate-key",
+      "rotation": 1,
+      "rawInput": "{\"\\udc00\":\"value\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "57459120775ac92476812eca3ce92d466a471c31da86cd41e9357ed9189af372",
+      "encoded": "{\"\\udc00\":\"value\"}",
+      "encodedBytes": 18,
+      "encodedSha256": "57459120775ac92476812eca3ce92d466a471c31da86cd41e9357ed9189af372",
+      "storageAccepted": false,
+      "storageError": {
+        "name": "error",
+        "code": "22P02",
+        "message": "invalid input syntax for type json"
+      },
+      "rejectedWriteLeftBaseline": true
+    },
+    {
+      "name": "unpaired-surrogate-key",
+      "rotation": 2,
+      "rawInput": "{\"\\udc00\":\"value\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "57459120775ac92476812eca3ce92d466a471c31da86cd41e9357ed9189af372",
+      "encoded": "{\"\\udc00\":\"value\"}",
+      "encodedBytes": 18,
+      "encodedSha256": "57459120775ac92476812eca3ce92d466a471c31da86cd41e9357ed9189af372",
+      "storageAccepted": false,
+      "storageError": {
+        "name": "error",
+        "code": "22P02",
+        "message": "invalid input syntax for type json"
+      },
+      "rejectedWriteLeftBaseline": true
+    },
+    {
+      "name": "prototype-key",
+      "rotation": 0,
+      "rawInput": "{\"__proto__\":{\"name\":\"owned\"},\"constructor\":\"data\",\"name\":\"plain\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "a552b3960ad82c50ee430819c673bbad546f74deaa000b8bda97290c6c9d56b5",
+      "encoded": "{\"__proto__\":{\"name\":\"owned\"},\"constructor\":\"data\",\"name\":\"plain\"}",
+      "encodedBytes": 66,
+      "encodedSha256": "a552b3960ad82c50ee430819c673bbad546f74deaa000b8bda97290c6c9d56b5",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"name\": \"plain\", \"__proto__\": {\"name\": \"owned\"}, \"constructor\": \"data\"}",
+        "name_text": "plain",
+        "img_text": null,
+        "images_text": null
+      },
+      "storageText": "{\"name\": \"plain\", \"__proto__\": {\"name\": \"owned\"}, \"constructor\": \"data\"}",
+      "collectionView": {
+        "name": "plain",
+        "img": null
+      },
+      "assetView": {
+        "name": "plain",
+        "img": null,
+        "images": null
+      },
+      "collectionHttp": {
+        "name": "plain",
+        "img": null
+      },
+      "assetHttp": {
+        "name": "plain",
+        "img": null,
+        "images": null
+      }
+    },
+    {
+      "name": "prototype-key",
+      "rotation": 1,
+      "rawInput": "{\"__proto__\":{\"name\":\"owned\"},\"constructor\":\"data\",\"img\":\"plain\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "a552b3960ad82c50ee430819c673bbad546f74deaa000b8bda97290c6c9d56b5",
+      "encoded": "{\"__proto__\":{\"name\":\"owned\"},\"constructor\":\"data\",\"img\":\"plain\"}",
+      "encodedBytes": 65,
+      "encodedSha256": "7b76ff8cf2468a88cb92f6fc68ea5d21275755f235105b404691afe003c0923f",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"img\": \"plain\", \"__proto__\": {\"name\": \"owned\"}, \"constructor\": \"data\"}",
+        "name_text": null,
+        "img_text": "plain",
+        "images_text": null
+      },
+      "storageText": "{\"img\": \"plain\", \"__proto__\": {\"name\": \"owned\"}, \"constructor\": \"data\"}",
+      "collectionView": {
+        "name": null,
+        "img": "plain"
+      },
+      "assetView": {
+        "name": null,
+        "img": "plain",
+        "images": null
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": "plain"
+      },
+      "assetHttp": {
+        "name": null,
+        "img": "plain",
+        "images": null
+      }
+    },
+    {
+      "name": "prototype-key",
+      "rotation": 2,
+      "rawInput": "{\"__proto__\":{\"name\":\"owned\"},\"constructor\":\"data\",\"images\":\"plain\"}",
+      "negativeZeroPaths": [],
+      "sourceVectorSha256": "a552b3960ad82c50ee430819c673bbad546f74deaa000b8bda97290c6c9d56b5",
+      "encoded": "{\"__proto__\":{\"name\":\"owned\"},\"constructor\":\"data\",\"images\":\"plain\"}",
+      "encodedBytes": 68,
+      "encodedSha256": "7bfb58089b1598c2b9346adecb757bbeb3caa8a33c8a6ef705ea4dddbf5de4bc",
+      "storageAccepted": true,
+      "sqlText": {
+        "postgres_text": "{\"images\": \"plain\", \"__proto__\": {\"name\": \"owned\"}, \"constructor\": \"data\"}",
+        "name_text": null,
+        "img_text": null,
+        "images_text": "plain"
+      },
+      "storageText": "{\"images\": \"plain\", \"__proto__\": {\"name\": \"owned\"}, \"constructor\": \"data\"}",
+      "collectionView": {
+        "name": null,
+        "img": null
+      },
+      "assetView": {
+        "name": null,
+        "img": null,
+        "images": "plain"
+      },
+      "collectionHttp": {
+        "name": null,
+        "img": null
+      },
+      "assetHttp": {
+        "name": null,
+        "img": null,
+        "images": "plain"
+      }
+    }
+  ],
+  "nativeSqlNumericProbes": [
+    {
+      "kind": "native-SQL-literal-not-original-encoder",
+      "raw": "{\"name\":9007199254740993,\"img\":-0,\"images\":1.2300}",
+      "boundaries": {
+        "json": {
+          "accepted": true,
+          "sql": "SELECT $1::json::text AS postgres_text",
+          "bindings": [
+            "{\"name\":9007199254740993,\"img\":-0,\"images\":1.2300}"
+          ],
+          "rows": [
+            {
+              "postgres_text": "{\"name\":9007199254740993,\"img\":-0,\"images\":1.2300}"
+            }
+          ],
+          "rowCount": 1
+        },
+        "jsonb": {
+          "accepted": true,
+          "sql": "SELECT $1::jsonb::text AS postgres_text, $1::jsonb->>'name' AS name_text, $1::jsonb->>'img' AS img_text, $1::jsonb->>'images' AS images_text",
+          "bindings": [
+            "{\"name\":9007199254740993,\"img\":-0,\"images\":1.2300}"
+          ],
+          "rows": [
+            {
+              "postgres_text": "{\"img\": 0, \"name\": 9007199254740993, \"images\": 1.2300}",
+              "name_text": "9007199254740993",
+              "img_text": "0",
+              "images_text": "1.2300"
+            }
+          ],
+          "rowCount": 1
+        }
+      }
+    },
+    {
+      "kind": "native-SQL-literal-not-original-encoder",
+      "raw": "{\"name\":1e21,\"img\":1e-20,\"images\":1e-7}",
+      "boundaries": {
+        "json": {
+          "accepted": true,
+          "sql": "SELECT $1::json::text AS postgres_text",
+          "bindings": [
+            "{\"name\":1e21,\"img\":1e-20,\"images\":1e-7}"
+          ],
+          "rows": [
+            {
+              "postgres_text": "{\"name\":1e21,\"img\":1e-20,\"images\":1e-7}"
+            }
+          ],
+          "rowCount": 1
+        },
+        "jsonb": {
+          "accepted": true,
+          "sql": "SELECT $1::jsonb::text AS postgres_text, $1::jsonb->>'name' AS name_text, $1::jsonb->>'img' AS img_text, $1::jsonb->>'images' AS images_text",
+          "bindings": [
+            "{\"name\":1e21,\"img\":1e-20,\"images\":1e-7}"
+          ],
+          "rows": [
+            {
+              "postgres_text": "{\"img\": 0.00000000000000000001, \"name\": 1000000000000000000000, \"images\": 0.0000001}",
+              "name_text": "1000000000000000000000",
+              "img_text": "0.00000000000000000001",
+              "images_text": "0.0000001"
+            }
+          ],
+          "rowCount": 1
+        }
+      }
+    },
+    {
+      "kind": "native-SQL-literal-not-original-encoder",
+      "raw": "{\"name\":1e131072}",
+      "boundaries": {
+        "json": {
+          "accepted": true,
+          "sql": "SELECT $1::json::text AS postgres_text",
+          "bindings": [
+            "{\"name\":1e131072}"
+          ],
+          "rows": [
+            {
+              "postgres_text": "{\"name\":1e131072}"
+            }
+          ],
+          "rowCount": 1
+        },
+        "jsonb": {
+          "accepted": false,
+          "sql": "SELECT $1::jsonb::text AS postgres_text, $1::jsonb->>'name' AS name_text, $1::jsonb->>'img' AS img_text, $1::jsonb->>'images' AS images_text",
+          "bindings": [
+            "{\"name\":1e131072}"
+          ],
+          "error": {
+            "name": "error",
+            "code": "22003",
+            "message": "value overflows numeric format"
+          }
+        }
+      }
+    }
+  ]
+}

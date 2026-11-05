@@ -140,6 +140,8 @@ try {
     {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   await run(['--test', join(root, 'tests/json-compatibility.test.mjs')], root, 'consumer-original-metadata-json',
     {...env, AA_DOMAIN_MODULE_ROOT: join(installed, 'dist'), ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
+  await run(['--test', join(root, 'tests/jsonb-display.test.mjs')], root, 'consumer-jsonb-display',
+    {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   await run(['--test', join(root, 'tests/marketplace-id.test.mjs')], root, 'consumer-marketplace-id',
     {...env, ATOMIC_PLUGIN_DIST_ROOT: join(installed, 'dist')});
   // Keep the existing per-command deadline: run every selected control once in bounded groups.

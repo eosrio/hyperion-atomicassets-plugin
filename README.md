@@ -198,9 +198,10 @@ Original-handler/Fastify inject controls cover a bounded subset; the full 93-rou
 actual HAPI admission/final publication remain open.
 
 The field-specific [original metadata JSON boundary](docs/parity/atomicassets/json-compatibility.md)
-now has direct 2.7.0 encoder controls for raw NUL and literal escapes. Older safe-input captures
-remain unchanged historical evidence. Actual PostgreSQL display bytes, nontext display formatting,
-and full original/default-profile physical parity remain pending.
+has direct 2.7.0 encoder controls and a bounded original PostgreSQL/view/HTTP display capture.
+Shared portable collection joins now match the captured nontext display strings through finite
+emitted-code controls. Older safe-input captures remain unchanged historical evidence. Exact-head
+native/package CI, plugin database execution and full original/default-profile parity remain pending.
 
 The [royalty rule component](docs/parity/atomicmarket/royalty-rules.md) adds independent template/
 attribute table reducers and the attribute-list source consumer. Template-list membership, native

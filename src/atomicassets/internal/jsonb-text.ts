@@ -10,9 +10,13 @@ function numeric(value:number):string {
   const point=(unsigned.includes('.')?unsigned.indexOf('.'):unsigned.length)+Number(exponent),digits=unsigned.replace('.','');
   return (negative?'-':'')+(point<=0?'0.'+'0'.repeat(-point)+digits:point>=digits.length?digits+'0'.repeat(point-digits.length):digits.slice(0,point)+'.'+digits.slice(point));
 }
-/** PostgreSQL16 JSONB output: byte-length/binary object keys, comma/colon spaces, numeric output.
- * Applies only to the view's ->> boundary; it does not sort query results or qualify collation. */
+/** PostgreSQL16 JSONB text for values originating at the original JS metadata boundary.
+ * Match byte-length/binary key order, spaces and expanded finite JS numbers. This cannot recover
+ * precision or scale from native SQL numeric lexemes that were already parsed as JS numbers.
+ * Applies only to ->> response shaping, never scalar text or metadata storage encoding. */
 export function jsonbText(input:unknown):string|null {
+  // A missing object path and JSON null both extract as SQL NULL.
+  if(input===undefined)return null;
   let value:unknown;try {value=metadataInputRecord({value:input}).value;}catch{return invalid();}
   function render(current:unknown):string {
     if(current===null)return 'null';
