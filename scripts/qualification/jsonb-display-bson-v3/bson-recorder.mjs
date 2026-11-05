@@ -80,6 +80,3 @@ export function createBsonRecorder({ databaseName, serialize, persistBinary, raw
   }
   return { commandStarted, commandSucceeded: event => terminal(event, 'succeeded'), commandFailed: event => terminal(event, 'failed'), assertHealthy, assertComplete, summary, receipt: () => ({ ...summary(), refs: refs.map(row => ({ ...row, ...(row.failure ? { failure: { ...row.failure } } : {}) })) }) };
 }
-
-
-

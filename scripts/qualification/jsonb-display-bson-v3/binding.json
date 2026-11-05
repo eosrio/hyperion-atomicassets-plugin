@@ -36,13 +36,13 @@
       },
       {
         "path": "scripts/qualification/jsonb-display-bson-v3/bson-recorder.mjs",
-        "bytes": 5805,
-        "sha256": "770f045e349a18eb6ca3359c27887426b5c83ed2dd13538660ede8851577f8c0"
+        "bytes": 5798,
+        "sha256": "6bd7f9e97cb77adf629b19ec7684206c2648786d5b717131f99aeef125a02b9d"
       },
       {
         "path": "scripts/qualification/jsonb-display-bson-v3/bson-recorder.test.mjs",
-        "bytes": 6349,
-        "sha256": "07dceb1dc1d45bd83a97c719765fa708f13b893490da15ba949091bed470f007"
+        "bytes": 6345,
+        "sha256": "1a39d18e900aadebcc8fa37037270abf5f30e696b0a76773cad6cee0e4e2e775"
       },
       {
         "path": "scripts/qualification/jsonb-display-bson-v3/child.mjs",
