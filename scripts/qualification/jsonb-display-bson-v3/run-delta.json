@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "base": "2294d97f0e248ab68c4e6792b63523e230622b2c",
+  "source": "scripts/qualification/jsonb-display-mongo-http-ci/run-host-sdk-v2.mjs",
+  "changes": [
+    {
+      "before": "// Version 2 executes the unchanged workload with the actual admitted HAPI SDK instance.\n// Frozen v1 remains failed; never import/execute this entry point on Windows.",
+      "after": "// Version 3 keeps the original workload and host SDK with lossless bounded binary BSON capture.\n// Frozen v1/v2 remain failed; never import/execute this entry point on Windows."
+    },
+    {
+      "before": "import {loadHostSdkPorts} from './host-sdk.mjs';",
+      "after": "import {loadHostSdkPorts} from '../jsonb-display-mongo-http-ci/host-sdk.mjs';\nimport {createBsonRecorder} from './bson-recorder.mjs';\nimport {cleanupOwnedDatabase} from './cleanup.mjs';"
+    },
+    {
+      "before": "from './run-contract-v2.mjs';",
+      "after": "from './run-contract-v3.mjs';"
+    },
+    {
+      "before": "const {profile, hapiRoot, client, databaseName, inputProfile = 'original-lifecycle', persist, guard} = options;",
+      "after": "const {profile, hapiRoot, client, databaseName, inputProfile = 'original-lifecycle', persist, persistBinary, guard: physicalGuard} = options;\n  let recorder; const guard = () => {physicalGuard(); recorder?.assertHealthy();};"
+    },
+    {
+      "before": "const marker = randomBytes(24).toString('hex'), database = client.db(databaseName), hosts = [], trace = [], sessions = [];",
+      "after": "const marker = randomBytes(24).toString('hex'), database = client.db(databaseName), hosts = [], sessions = [];"
+    },
+    {
+      "before": "let owned = false, primary, serial = 1000, commandsBytes = 0, replyBytes = 0;\n  const activeCommands = new Map();",
+      "after": "let owned = false, primary, serial = 1000;\n  recorder = createBsonRecorder({databaseName, serialize: value => BSON.serialize(value), persistBinary});"
+    },
+    {
+      "before": "  const command = event => {\n    if (event.databaseName !== databaseName && !['commitTransaction', 'abortTransaction', 'endSessions'].includes(event.commandName)) return;\n    const bytes = BSON.serialize(event.command); commandsBytes += bytes.length; assert(trace.length < 16384 && commandsBytes + replyBytes <= 32 * 1024 * 1024);\n    assert(!activeCommands.has(event.requestId)); activeCommands.set(event.requestId, event.commandName);\n    trace.push({event: 'started', name: event.commandName, requestId: event.requestId, commandBsonHex: bytes.toString('hex')});\n  };\n  const terminal = (event, ok) => {if (!activeCommands.has(event.requestId)) return;\n    activeCommands.delete(event.requestId); const bytes = ok ? BSON.serialize(event.reply) : undefined; replyBytes += bytes?.length ?? 0;\n    assert(trace.length < 16384 && commandsBytes + replyBytes <= 32 * 1024 * 1024); trace.push({event: ok ? 'succeeded' : 'failed', requestId: event.requestId,\n      ...(ok ? {replyBsonHex: bytes.toString('hex')} : {failure: failure(event.failure)})});};\n  const succeeded = event => terminal(event, true), failed = event => terminal(event, false);\n",
+      "after": "  const command = recorder.commandStarted, succeeded = recorder.commandSucceeded, failed = recorder.commandFailed;\n"
+    },
+    {
+      "before": "    assert.equal(activeCommands.size, 0, 'All observed native operations need an actual terminal receipt');\n    assert(trace.some(row => row.event === 'started' && ['insert', 'update', 'commitTransaction'].includes(row.name)), 'Actual native write monitoring is mandatory');\n    assert(trace.some(row => row.event === 'succeeded'), 'Actual native wire replies are mandatory');\n",
+      "after": "    recorder.assertComplete();\n"
+    },
+    {
+      "before": "  finally {\n    let closedHosts = 0, closureEvidence = true;\n    for (const host of hosts) try {const closed = await host.close(); closedHosts++; await persist({event: 'host-resource-closure', ...closed});} catch (error) {closureEvidence = false; retain(error);}\n    report.cleanup.httpClosed = hosts.length > 0 && closedHosts === hosts.length; report.cleanup.readsClosed = report.cleanup.httpClosed;\n    report.sessions = {opened: sessions.length, ended: sessions.filter(row => row.ended).length};\n    report.cleanup.sessionsEnded = sessions.every(row => row.ended);\n    if (!report.cleanup.sessionsEnded) retain(new Error('Native session closure unproved'));\n    try {await persist({event: 'before-owned-database-cleanup', report, trace});} catch (error) {closureEvidence = false; retain(error);}\n    if (owned && closureEvidence && report.cleanup.httpClosed && report.cleanup.readsClosed && report.cleanup.sessionsEnded) {\n      try {const row = await database.collection('_qualification_owner').findOne({_id: marker}); assert.equal(row?.profile, PROFILE);\n        await database.dropDatabase({writeConcern: {w: 'majority', j: true}}); assert.equal((await database.listCollections().toArray()).length, 0); report.cleanup.databaseDropped = true;}\n      catch (error) {retain(error); report.cleanup.failure = failure(error);}\n    } else if (owned) report.cleanup.databaseRetained = 'Failure or missing resource-closure proof; Root owns guarded cleanup';\n    client.off('commandStarted', command); client.off('commandSucceeded', succeeded); client.off('commandFailed', failed); client.startSession = startSession;\n    report.traceEvents = trace.length; report.nativeCommandBytes = commandsBytes; report.nativeReplyBytes = replyBytes; report.nativeCommandsPending = activeCommands.size;\n    if (primary) {report.status = 'failed'; report.failure ??= failure(primary); report.acceptance.physicalMongoHTTP = 'failed';}\n    try {await persist({event: 'native-command-trace', trace}); await persist({event: 'terminal-report', report});} catch (error) {retain(error);}\n  }\n",
+      "after": "  finally {\n    try {await cleanupOwnedDatabase({hosts, sessions, owned, database, marker, profile: PROFILE, physicalGuard, persist, report, retain,\n      captureSummary: () => recorder.summary()});}\n    catch (error) {retain(error);}\n    finally {client.off('commandStarted', command); client.off('commandSucceeded', succeeded); client.off('commandFailed', failed); client.startSession = startSession;}\n    try {recorder.assertComplete();} catch (error) {retain(error);}\n    const capture = recorder.receipt(), summary = recorder.summary();\n    report.traceEvents = summary.counts.started + summary.counts.succeeded + summary.counts.failed;\n    report.nativeCommandBytes = summary.commandBytes; report.nativeReplyBytes = summary.replyBytes;\n    report.nativeCommandsPending = summary.pending; report.nativeCapture = {format: 'binary-bson-references-v1', ...summary};\n    const settle = () => {if (primary) {report.status = 'failed'; report.failure ??= failure(primary); report.acceptance.physicalMongoHTTP = 'failed';}};\n    settle();\n    try {await persist({event: 'native-command-trace', format: 'binary-bson-references-v1', capture});} catch (error) {retain(error);}\n    settle();\n    try {await persist({event: 'terminal-report', report});} catch (error) {retain(error);}\n  }\n"
+    }
+  ]
+}

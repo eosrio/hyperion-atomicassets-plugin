@@ -1,0 +1,11 @@
+{
+  "repository": "eosrio/hyperion-atomicassets-plugin",
+  "run": 41958628616,
+  "source": "https://api.github.com/repos/eosrio/hyperion-atomicassets-plugin/actions/runs/41958628616/artifacts",
+  "artifacts": [
+    {"id":13384441794,"name":"json-display-24.x-original-lifecycle","size":84613,"sha256":"a0b5b9421ad395cdf6645a0fdbbbadf24086795fb9d1442c891b3a4e2e83cdc9"},
+    {"id":13383619840,"name":"json-display-24.x-portable-safe-image","size":84693,"sha256":"cd2de7f162ad5083fac476b04bf65f05e0120a50b95f8d1e48217278a8697d1a"},
+    {"id":13384765071,"name":"json-display-26.x-original-lifecycle","size":84562,"sha256":"8f190617375cb336070ba158b90113a4b084307a7097d79399ff8e03ee299f11"},
+    {"id":13384750117,"name":"json-display-26.x-portable-safe-image","size":84753,"sha256":"e7c09bea090ac2122849fddc31babffe4e1706d0ace284714d8c0aa82ba6a659"}
+  ]
+}
