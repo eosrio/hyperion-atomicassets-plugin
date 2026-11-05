@@ -1,0 +1,2451 @@
+{
+  "schemaVersion": 1,
+  "kind": "pure-original-codec-callback-source-representability",
+  "physicalAcceptance": "pending",
+  "referenceCommit": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+  "workflowRun": 41958628616,
+  "cases": [
+    {
+      "id": "text:0",
+      "index": 0,
+      "name": "text",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"plain\",\"img\":\"image\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "img",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0405706c61696e0505696d616765",
+        "originalDecoded": {
+          "name": "plain",
+          "img": "image"
+        },
+        "originalEncoded": "{\"name\":\"plain\",\"img\":\"image\"}"
+      },
+      "format": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "img",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "0405706c61696e0505696d616765",
+      "originalDecoded": {
+        "name": "plain",
+        "img": "image"
+      },
+      "originalEncoded": "{\"name\":\"plain\",\"img\":\"image\"}",
+      "encodedSha256": "45d195daab28542b9d0743861481c4775e78db3ce3580b04b3e3d0c3cdf41a6e",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"name\":\"plain\",\"img\":\"image\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "text:1",
+      "index": 1,
+      "name": "text",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"plain\",\"images\":\"image\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "img",
+            "type": "string"
+          },
+          {
+            "name": "images",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0405706c61696e0505696d616765",
+        "originalDecoded": {
+          "img": "plain",
+          "images": "image"
+        },
+        "originalEncoded": "{\"img\":\"plain\",\"images\":\"image\"}"
+      },
+      "format": [
+        {
+          "name": "img",
+          "type": "string"
+        },
+        {
+          "name": "images",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "0405706c61696e0505696d616765",
+      "originalDecoded": {
+        "img": "plain",
+        "images": "image"
+      },
+      "originalEncoded": "{\"img\":\"plain\",\"images\":\"image\"}",
+      "encodedSha256": "f71d5c28ccbe42c3e6dbfd3271604c631e2ca1afb0e8f11b9e520a961ace8f1e",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"img\":\"plain\",\"images\":\"image\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "text:2",
+      "index": 2,
+      "name": "text",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"plain\",\"name\":\"image\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "images",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0405706c61696e0505696d616765",
+        "originalDecoded": {
+          "images": "plain",
+          "name": "image"
+        },
+        "originalEncoded": "{\"images\":\"plain\",\"name\":\"image\"}"
+      },
+      "format": [
+        {
+          "name": "images",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "0405706c61696e0505696d616765",
+      "originalDecoded": {
+        "images": "plain",
+        "name": "image"
+      },
+      "originalEncoded": "{\"images\":\"plain\",\"name\":\"image\"}",
+      "encodedSha256": "11befbb6fea1bc115cd827d7cc121c5c1f0ce6639e49feb9113a21bfb0665592",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"images\":\"plain\",\"name\":\"image\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "nul-value:0",
+      "index": 3,
+      "name": "nul-value",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"a\\u0000b\",\"img\":\"image\\u0000hash\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "img",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0403610062050a696d6167650068617368",
+        "originalDecoded": {
+          "name": "a\u0000b",
+          "img": "image\u0000hash"
+        },
+        "originalEncoded": "{\"name\":\"a b\",\"img\":\"image hash\"}"
+      },
+      "format": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "img",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "0403610062050a696d6167650068617368",
+      "originalDecoded": {
+        "name": "a\u0000b",
+        "img": "image\u0000hash"
+      },
+      "originalEncoded": "{\"name\":\"a b\",\"img\":\"image hash\"}",
+      "encodedSha256": "1a1585f3a6cccff98839c7aa8e8d03165c00e4ee4c7144b1a2ea153825368580",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"name\":\"a b\",\"img\":\"image hash\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "nul-value:1",
+      "index": 4,
+      "name": "nul-value",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"a\\u0000b\",\"images\":\"image\\u0000hash\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "img",
+            "type": "string"
+          },
+          {
+            "name": "images",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0403610062050a696d6167650068617368",
+        "originalDecoded": {
+          "img": "a\u0000b",
+          "images": "image\u0000hash"
+        },
+        "originalEncoded": "{\"img\":\"a b\",\"images\":\"image hash\"}"
+      },
+      "format": [
+        {
+          "name": "img",
+          "type": "string"
+        },
+        {
+          "name": "images",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "0403610062050a696d6167650068617368",
+      "originalDecoded": {
+        "img": "a\u0000b",
+        "images": "image\u0000hash"
+      },
+      "originalEncoded": "{\"img\":\"a b\",\"images\":\"image hash\"}",
+      "encodedSha256": "3291f18ec6fdd7d0c49a4d395fafdc0c7efc6fee9cc9aa37356b65088803e41b",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"img\":\"a b\",\"images\":\"image hash\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "nul-value:2",
+      "index": 5,
+      "name": "nul-value",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"a\\u0000b\",\"name\":\"image\\u0000hash\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "images",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0403610062050a696d6167650068617368",
+        "originalDecoded": {
+          "images": "a\u0000b",
+          "name": "image\u0000hash"
+        },
+        "originalEncoded": "{\"images\":\"a b\",\"name\":\"image hash\"}"
+      },
+      "format": [
+        {
+          "name": "images",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "0403610062050a696d6167650068617368",
+      "originalDecoded": {
+        "images": "a\u0000b",
+        "name": "image\u0000hash"
+      },
+      "originalEncoded": "{\"images\":\"a b\",\"name\":\"image hash\"}",
+      "encodedSha256": "29494d3a1741fc9440eece81a2e0aad6fa2021316347e551b264d4aaf995fedb",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"images\":\"a b\",\"name\":\"image hash\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "literal-escape:0",
+      "index": 6,
+      "name": "literal-escape",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"a\\\\u0000b\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": false,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0408615c753030303062",
+        "originalDecoded": {
+          "name": "a\\u0000b"
+        },
+        "originalEncoded": "{\"name\":\"a\\ b\"}"
+      },
+      "format": [
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "0408615c753030303062",
+      "originalDecoded": {
+        "name": "a\\u0000b"
+      },
+      "originalEncoded": "{\"name\":\"a\\ b\"}",
+      "encodedSha256": "8be94aec22f543a1e25ceeceaa779e4b1c5601dde703e9808ce5aaf25245a71e",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"name\":\"a\\ b\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "literal-escape:1",
+      "index": 7,
+      "name": "literal-escape",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"a\\\\u0000b\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": false,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "img",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0408615c753030303062",
+        "originalDecoded": {
+          "img": "a\\u0000b"
+        },
+        "originalEncoded": "{\"img\":\"a\\ b\"}"
+      },
+      "format": [
+        {
+          "name": "img",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "0408615c753030303062",
+      "originalDecoded": {
+        "img": "a\\u0000b"
+      },
+      "originalEncoded": "{\"img\":\"a\\ b\"}",
+      "encodedSha256": "ae250a233122781cf4a2d5b46a5060973f05dc03eb97af7bbc741e67399d01f8",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"img\":\"a\\ b\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "literal-escape:2",
+      "index": 8,
+      "name": "literal-escape",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"a\\\\u0000b\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": false,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "images",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0408615c753030303062",
+        "originalDecoded": {
+          "images": "a\\u0000b"
+        },
+        "originalEncoded": "{\"images\":\"a\\ b\"}"
+      },
+      "format": [
+        {
+          "name": "images",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "0408615c753030303062",
+      "originalDecoded": {
+        "images": "a\\u0000b"
+      },
+      "originalEncoded": "{\"images\":\"a\\ b\"}",
+      "encodedSha256": "3f603f7c1be7b7002526e9fe61a9d7feba79ee1d53a49b02c51f6680889c69c1",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"images\":\"a\\ b\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "mixed-nul-literal:0",
+      "index": 9,
+      "name": "mixed-nul-literal",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"a\\u0000b\\\\u0000c\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": false,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "040a6100625c753030303063",
+        "originalDecoded": {
+          "name": "a\u0000b\\u0000c"
+        },
+        "originalEncoded": "{\"name\":\"a b\\ c\"}"
+      },
+      "format": [
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "040a6100625c753030303063",
+      "originalDecoded": {
+        "name": "a\u0000b\\u0000c"
+      },
+      "originalEncoded": "{\"name\":\"a b\\ c\"}",
+      "encodedSha256": "79937719c8dd5a5d0ea327af3e7035ee0f50ed88ffef536ab41343740a0232fa",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"name\":\"a b\\ c\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "mixed-nul-literal:1",
+      "index": 10,
+      "name": "mixed-nul-literal",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"a\\u0000b\\\\u0000c\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": false,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "img",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "040a6100625c753030303063",
+        "originalDecoded": {
+          "img": "a\u0000b\\u0000c"
+        },
+        "originalEncoded": "{\"img\":\"a b\\ c\"}"
+      },
+      "format": [
+        {
+          "name": "img",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "040a6100625c753030303063",
+      "originalDecoded": {
+        "img": "a\u0000b\\u0000c"
+      },
+      "originalEncoded": "{\"img\":\"a b\\ c\"}",
+      "encodedSha256": "22a9fa46ba1a58c0dde4194b86483247b815a9c9e153a2d05847d82cea5f022c",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"img\":\"a b\\ c\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "mixed-nul-literal:2",
+      "index": 11,
+      "name": "mixed-nul-literal",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"a\\u0000b\\\\u0000c\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": false,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "images",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "040a6100625c753030303063",
+        "originalDecoded": {
+          "images": "a\u0000b\\u0000c"
+        },
+        "originalEncoded": "{\"images\":\"a b\\ c\"}"
+      },
+      "format": [
+        {
+          "name": "images",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "040a6100625c753030303063",
+      "originalDecoded": {
+        "images": "a\u0000b\\u0000c"
+      },
+      "originalEncoded": "{\"images\":\"a b\\ c\"}",
+      "encodedSha256": "c7c21622d39c530874f23f9c5d239cce2b592a5cd9258e1653a8bfb44efc1c52",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"images\":\"a b\\ c\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "nul-key:0",
+      "index": 12,
+      "name": "nul-key",
+      "rotation": 0,
+      "rawInput": "{\"a\\u0000b\":\"nul key\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "NUL or unpaired-surrogate format names require separate original config/JSONB-array proof"
+    },
+    {
+      "id": "nul-key:1",
+      "index": 13,
+      "name": "nul-key",
+      "rotation": 1,
+      "rawInput": "{\"a\\u0000b\":\"nul key\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "NUL or unpaired-surrogate format names require separate original config/JSONB-array proof"
+    },
+    {
+      "id": "nul-key:2",
+      "index": 14,
+      "name": "nul-key",
+      "rotation": 2,
+      "rawInput": "{\"a\\u0000b\":\"nul key\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "NUL or unpaired-surrogate format names require separate original config/JSONB-array proof"
+    },
+    {
+      "id": "colliding-keys-later-space:0",
+      "index": 15,
+      "name": "colliding-keys-later-space",
+      "rotation": 0,
+      "rawInput": "{\"a\\u0000b\":\"first\",\"a b\":\"last\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "NUL or unpaired-surrogate format names require separate original config/JSONB-array proof"
+    },
+    {
+      "id": "colliding-keys-later-space:1",
+      "index": 16,
+      "name": "colliding-keys-later-space",
+      "rotation": 1,
+      "rawInput": "{\"a\\u0000b\":\"first\",\"a b\":\"last\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "NUL or unpaired-surrogate format names require separate original config/JSONB-array proof"
+    },
+    {
+      "id": "colliding-keys-later-space:2",
+      "index": 17,
+      "name": "colliding-keys-later-space",
+      "rotation": 2,
+      "rawInput": "{\"a\\u0000b\":\"first\",\"a b\":\"last\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "NUL or unpaired-surrogate format names require separate original config/JSONB-array proof"
+    },
+    {
+      "id": "colliding-keys-later-nul:0",
+      "index": 18,
+      "name": "colliding-keys-later-nul",
+      "rotation": 0,
+      "rawInput": "{\"a b\":\"first\",\"a\\u0000b\":\"last\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "NUL or unpaired-surrogate format names require separate original config/JSONB-array proof"
+    },
+    {
+      "id": "colliding-keys-later-nul:1",
+      "index": 19,
+      "name": "colliding-keys-later-nul",
+      "rotation": 1,
+      "rawInput": "{\"a b\":\"first\",\"a\\u0000b\":\"last\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "NUL or unpaired-surrogate format names require separate original config/JSONB-array proof"
+    },
+    {
+      "id": "colliding-keys-later-nul:2",
+      "index": 20,
+      "name": "colliding-keys-later-nul",
+      "rotation": 2,
+      "rawInput": "{\"a b\":\"first\",\"a\\u0000b\":\"last\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "NUL or unpaired-surrogate format names require separate original config/JSONB-array proof"
+    },
+    {
+      "id": "nested-values:0",
+      "index": 21,
+      "name": "nested-values",
+      "rotation": 0,
+      "rawInput": "{\"name\":{\"longer\":[null,true,0,0,1.25,1e-7,1e+21],\"a\":\"n\\u0000l\"},\"img\":[{\"z\":1,\"a\":2},null,\"q\\\"\\\\\"]}",
+      "negativeZeroPaths": [
+        [
+          "name",
+          "longer",
+          "3"
+        ]
+      ],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "No exact declared Atomic 2.2.0 scalar/vector collection type for this value"
+    },
+    {
+      "id": "nested-values:1",
+      "index": 22,
+      "name": "nested-values",
+      "rotation": 1,
+      "rawInput": "{\"img\":{\"longer\":[null,true,0,0,1.25,1e-7,1e+21],\"a\":\"n\\u0000l\"},\"images\":[{\"z\":1,\"a\":2},null,\"q\\\"\\\\\"]}",
+      "negativeZeroPaths": [
+        [
+          "img",
+          "longer",
+          "3"
+        ]
+      ],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "No exact declared Atomic 2.2.0 scalar/vector collection type for this value"
+    },
+    {
+      "id": "nested-values:2",
+      "index": 23,
+      "name": "nested-values",
+      "rotation": 2,
+      "rawInput": "{\"images\":{\"longer\":[null,true,0,0,1.25,1e-7,1e+21],\"a\":\"n\\u0000l\"},\"name\":[{\"z\":1,\"a\":2},null,\"q\\\"\\\\\"]}",
+      "negativeZeroPaths": [
+        [
+          "images",
+          "longer",
+          "3"
+        ]
+      ],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "No exact declared Atomic 2.2.0 scalar/vector collection type for this value"
+    },
+    {
+      "id": "zero:0",
+      "index": 24,
+      "name": "zero",
+      "rotation": 0,
+      "rawInput": "{\"name\":0,\"img\":0}",
+      "negativeZeroPaths": [
+        [
+          "img"
+        ]
+      ],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "name",
+            "type": "double"
+          },
+          {
+            "name": "img",
+            "type": "double"
+          }
+        ],
+        "serializedHex": "040000000000000000050000000000000080",
+        "originalDecoded": {
+          "name": 0,
+          "img": 0
+        },
+        "originalEncoded": "{\"name\":0,\"img\":0}"
+      },
+      "format": [
+        {
+          "name": "name",
+          "type": "double"
+        },
+        {
+          "name": "img",
+          "type": "double"
+        }
+      ],
+      "serializedHex": "040000000000000000050000000000000080",
+      "originalDecoded": {
+        "name": 0,
+        "img": 0
+      },
+      "originalEncoded": "{\"name\":0,\"img\":0}",
+      "encodedSha256": "24b27c205452713c68cc638a10565e4b968ad79fbad2d1a6723d38417b8b6ba4",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"name\":0,\"img\":0}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "zero:1",
+      "index": 25,
+      "name": "zero",
+      "rotation": 1,
+      "rawInput": "{\"img\":0,\"images\":0}",
+      "negativeZeroPaths": [
+        [
+          "images"
+        ]
+      ],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "img",
+            "type": "double"
+          },
+          {
+            "name": "images",
+            "type": "double"
+          }
+        ],
+        "serializedHex": "040000000000000000050000000000000080",
+        "originalDecoded": {
+          "img": 0,
+          "images": 0
+        },
+        "originalEncoded": "{\"img\":0,\"images\":0}"
+      },
+      "format": [
+        {
+          "name": "img",
+          "type": "double"
+        },
+        {
+          "name": "images",
+          "type": "double"
+        }
+      ],
+      "serializedHex": "040000000000000000050000000000000080",
+      "originalDecoded": {
+        "img": 0,
+        "images": 0
+      },
+      "originalEncoded": "{\"img\":0,\"images\":0}",
+      "encodedSha256": "c789e048bb01bdb8e87531597f34792bf36d9ad1cc0b01940d3bef7a1687272b",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"img\":0,\"images\":0}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "zero:2",
+      "index": 26,
+      "name": "zero",
+      "rotation": 2,
+      "rawInput": "{\"images\":0,\"name\":0}",
+      "negativeZeroPaths": [
+        [
+          "name"
+        ]
+      ],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "images",
+            "type": "double"
+          },
+          {
+            "name": "name",
+            "type": "double"
+          }
+        ],
+        "serializedHex": "040000000000000000050000000000000080",
+        "originalDecoded": {
+          "images": 0,
+          "name": 0
+        },
+        "originalEncoded": "{\"images\":0,\"name\":0}"
+      },
+      "format": [
+        {
+          "name": "images",
+          "type": "double"
+        },
+        {
+          "name": "name",
+          "type": "double"
+        }
+      ],
+      "serializedHex": "040000000000000000050000000000000080",
+      "originalDecoded": {
+        "images": 0,
+        "name": 0
+      },
+      "originalEncoded": "{\"images\":0,\"name\":0}",
+      "encodedSha256": "77e2754d9a6eb52357d80d387cb04c1d215b96a25939de47a782b32b80fe1705",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"images\":0,\"name\":0}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "fraction:0",
+      "index": 27,
+      "name": "fraction",
+      "rotation": 0,
+      "rawInput": "{\"name\":0.1,\"img\":1e-7}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "name",
+            "type": "double"
+          },
+          {
+            "name": "img",
+            "type": "double"
+          }
+        ],
+        "serializedHex": "049a9999999999b93f0548afbc9af2d77a3e",
+        "originalDecoded": {
+          "name": 0.1,
+          "img": 1e-7
+        },
+        "originalEncoded": "{\"name\":0.1,\"img\":1e-7}"
+      },
+      "format": [
+        {
+          "name": "name",
+          "type": "double"
+        },
+        {
+          "name": "img",
+          "type": "double"
+        }
+      ],
+      "serializedHex": "049a9999999999b93f0548afbc9af2d77a3e",
+      "originalDecoded": {
+        "name": 0.1,
+        "img": 1e-7
+      },
+      "originalEncoded": "{\"name\":0.1,\"img\":1e-7}",
+      "encodedSha256": "cdd1fe6b27245afa5586332362af475e29874b7392340b06890a9238b6834667",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"name\":0.1,\"img\":1e-7}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "fraction:1",
+      "index": 28,
+      "name": "fraction",
+      "rotation": 1,
+      "rawInput": "{\"img\":0.1,\"images\":1e-7}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "img",
+            "type": "double"
+          },
+          {
+            "name": "images",
+            "type": "double"
+          }
+        ],
+        "serializedHex": "049a9999999999b93f0548afbc9af2d77a3e",
+        "originalDecoded": {
+          "img": 0.1,
+          "images": 1e-7
+        },
+        "originalEncoded": "{\"img\":0.1,\"images\":1e-7}"
+      },
+      "format": [
+        {
+          "name": "img",
+          "type": "double"
+        },
+        {
+          "name": "images",
+          "type": "double"
+        }
+      ],
+      "serializedHex": "049a9999999999b93f0548afbc9af2d77a3e",
+      "originalDecoded": {
+        "img": 0.1,
+        "images": 1e-7
+      },
+      "originalEncoded": "{\"img\":0.1,\"images\":1e-7}",
+      "encodedSha256": "377a34132f13f2e18b9a6352c372de7599f8c0b68f1ea0fd8f1b8b109e23095e",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"img\":0.1,\"images\":1e-7}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "fraction:2",
+      "index": 29,
+      "name": "fraction",
+      "rotation": 2,
+      "rawInput": "{\"images\":0.1,\"name\":1e-7}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "images",
+            "type": "double"
+          },
+          {
+            "name": "name",
+            "type": "double"
+          }
+        ],
+        "serializedHex": "049a9999999999b93f0548afbc9af2d77a3e",
+        "originalDecoded": {
+          "images": 0.1,
+          "name": 1e-7
+        },
+        "originalEncoded": "{\"images\":0.1,\"name\":1e-7}"
+      },
+      "format": [
+        {
+          "name": "images",
+          "type": "double"
+        },
+        {
+          "name": "name",
+          "type": "double"
+        }
+      ],
+      "serializedHex": "049a9999999999b93f0548afbc9af2d77a3e",
+      "originalDecoded": {
+        "images": 0.1,
+        "name": 1e-7
+      },
+      "originalEncoded": "{\"images\":0.1,\"name\":1e-7}",
+      "encodedSha256": "7a45709333f3ac859a9341b5cba0fb54387312446d52ca839e0aee1b82f275ae",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"images\":0.1,\"name\":1e-7}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "exponent:0",
+      "index": 30,
+      "name": "exponent",
+      "rotation": 0,
+      "rawInput": "{\"name\":1e+21,\"img\":1e-20}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "name",
+            "type": "double"
+          },
+          {
+            "name": "img",
+            "type": "double"
+          }
+        ],
+        "serializedHex": "0450efe2d6e41a4b44052342920ca19cc73b",
+        "originalDecoded": {
+          "name": 1e+21,
+          "img": 1e-20
+        },
+        "originalEncoded": "{\"name\":1e+21,\"img\":1e-20}"
+      },
+      "format": [
+        {
+          "name": "name",
+          "type": "double"
+        },
+        {
+          "name": "img",
+          "type": "double"
+        }
+      ],
+      "serializedHex": "0450efe2d6e41a4b44052342920ca19cc73b",
+      "originalDecoded": {
+        "name": 1e+21,
+        "img": 1e-20
+      },
+      "originalEncoded": "{\"name\":1e+21,\"img\":1e-20}",
+      "encodedSha256": "3478b9982a22a035c707d51500123bfce40180526b0ec6d5dc915bbcbbb28b13",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"name\":1e+21,\"img\":1e-20}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "exponent:1",
+      "index": 31,
+      "name": "exponent",
+      "rotation": 1,
+      "rawInput": "{\"img\":1e+21,\"images\":1e-20}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "img",
+            "type": "double"
+          },
+          {
+            "name": "images",
+            "type": "double"
+          }
+        ],
+        "serializedHex": "0450efe2d6e41a4b44052342920ca19cc73b",
+        "originalDecoded": {
+          "img": 1e+21,
+          "images": 1e-20
+        },
+        "originalEncoded": "{\"img\":1e+21,\"images\":1e-20}"
+      },
+      "format": [
+        {
+          "name": "img",
+          "type": "double"
+        },
+        {
+          "name": "images",
+          "type": "double"
+        }
+      ],
+      "serializedHex": "0450efe2d6e41a4b44052342920ca19cc73b",
+      "originalDecoded": {
+        "img": 1e+21,
+        "images": 1e-20
+      },
+      "originalEncoded": "{\"img\":1e+21,\"images\":1e-20}",
+      "encodedSha256": "0c31c35ba4a9c00bf0ac1527fa48bf4aa7e7dca5146283818d7e8a2a67df9443",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"img\":1e+21,\"images\":1e-20}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "exponent:2",
+      "index": 32,
+      "name": "exponent",
+      "rotation": 2,
+      "rawInput": "{\"images\":1e+21,\"name\":1e-20}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "images",
+            "type": "double"
+          },
+          {
+            "name": "name",
+            "type": "double"
+          }
+        ],
+        "serializedHex": "0450efe2d6e41a4b44052342920ca19cc73b",
+        "originalDecoded": {
+          "images": 1e+21,
+          "name": 1e-20
+        },
+        "originalEncoded": "{\"images\":1e+21,\"name\":1e-20}"
+      },
+      "format": [
+        {
+          "name": "images",
+          "type": "double"
+        },
+        {
+          "name": "name",
+          "type": "double"
+        }
+      ],
+      "serializedHex": "0450efe2d6e41a4b44052342920ca19cc73b",
+      "originalDecoded": {
+        "images": 1e+21,
+        "name": 1e-20
+      },
+      "originalEncoded": "{\"images\":1e+21,\"name\":1e-20}",
+      "encodedSha256": "7f913f75c06606edbc82c497cb3eec5f2f03be2f6c6a3c5f07869b4d29721af3",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"images\":1e+21,\"name\":1e-20}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "booleans:0",
+      "index": 33,
+      "name": "booleans",
+      "rotation": 0,
+      "rawInput": "{\"name\":true,\"img\":false}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "name",
+            "type": "bool"
+          },
+          {
+            "name": "img",
+            "type": "bool"
+          }
+        ],
+        "serializedHex": "04010500",
+        "originalDecoded": {
+          "name": 1,
+          "img": 0
+        },
+        "originalEncoded": "{\"name\":1,\"img\":0}"
+      },
+      "reason": "Codec cannot produce the exact original JS input"
+    },
+    {
+      "id": "booleans:1",
+      "index": 34,
+      "name": "booleans",
+      "rotation": 1,
+      "rawInput": "{\"img\":true,\"images\":false}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "img",
+            "type": "bool"
+          },
+          {
+            "name": "images",
+            "type": "bool"
+          }
+        ],
+        "serializedHex": "04010500",
+        "originalDecoded": {
+          "img": 1,
+          "images": 0
+        },
+        "originalEncoded": "{\"img\":1,\"images\":0}"
+      },
+      "reason": "Codec cannot produce the exact original JS input"
+    },
+    {
+      "id": "booleans:2",
+      "index": 35,
+      "name": "booleans",
+      "rotation": 2,
+      "rawInput": "{\"images\":true,\"name\":false}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "images",
+            "type": "bool"
+          },
+          {
+            "name": "name",
+            "type": "bool"
+          }
+        ],
+        "serializedHex": "04010500",
+        "originalDecoded": {
+          "images": 1,
+          "name": 0
+        },
+        "originalEncoded": "{\"images\":1,\"name\":0}"
+      },
+      "reason": "Codec cannot produce the exact original JS input"
+    },
+    {
+      "id": "null:0",
+      "index": 36,
+      "name": "null",
+      "rotation": 0,
+      "rawInput": "{\"name\":null,\"img\":null}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "No exact declared Atomic 2.2.0 scalar/vector collection type for this value"
+    },
+    {
+      "id": "null:1",
+      "index": 37,
+      "name": "null",
+      "rotation": 1,
+      "rawInput": "{\"img\":null,\"images\":null}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "No exact declared Atomic 2.2.0 scalar/vector collection type for this value"
+    },
+    {
+      "id": "null:2",
+      "index": 38,
+      "name": "null",
+      "rotation": 2,
+      "rawInput": "{\"images\":null,\"name\":null}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "No exact declared Atomic 2.2.0 scalar/vector collection type for this value"
+    },
+    {
+      "id": "missing:0",
+      "index": 39,
+      "name": "missing",
+      "rotation": 0,
+      "rawInput": "{\"other\":\"present\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "other",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "040770726573656e74",
+        "originalDecoded": {
+          "other": "present"
+        },
+        "originalEncoded": "{\"other\":\"present\"}"
+      },
+      "format": [
+        {
+          "name": "other",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "040770726573656e74",
+      "originalDecoded": {
+        "other": "present"
+      },
+      "originalEncoded": "{\"other\":\"present\"}",
+      "encodedSha256": "d2ee13fd81fe14416b354019a77237333685888ebbb806f90801200142235e87",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"other\":\"present\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "missing:1",
+      "index": 40,
+      "name": "missing",
+      "rotation": 1,
+      "rawInput": "{\"other\":\"present\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "other",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "040770726573656e74",
+        "originalDecoded": {
+          "other": "present"
+        },
+        "originalEncoded": "{\"other\":\"present\"}"
+      },
+      "format": [
+        {
+          "name": "other",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "040770726573656e74",
+      "originalDecoded": {
+        "other": "present"
+      },
+      "originalEncoded": "{\"other\":\"present\"}",
+      "encodedSha256": "d2ee13fd81fe14416b354019a77237333685888ebbb806f90801200142235e87",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"other\":\"present\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "missing:2",
+      "index": 41,
+      "name": "missing",
+      "rotation": 2,
+      "rawInput": "{\"other\":\"present\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "other",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "040770726573656e74",
+        "originalDecoded": {
+          "other": "present"
+        },
+        "originalEncoded": "{\"other\":\"present\"}"
+      },
+      "format": [
+        {
+          "name": "other",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "040770726573656e74",
+      "originalDecoded": {
+        "other": "present"
+      },
+      "originalEncoded": "{\"other\":\"present\"}",
+      "encodedSha256": "d2ee13fd81fe14416b354019a77237333685888ebbb806f90801200142235e87",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"other\":\"present\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "ordered-unicode:0",
+      "index": 42,
+      "name": "ordered-unicode",
+      "rotation": 0,
+      "rawInput": "{\"name\":{\"é\":1,\"é\":2,\"短\":3,\"a\":4},\"img\":\"emoji 🧭\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "No exact declared Atomic 2.2.0 scalar/vector collection type for this value"
+    },
+    {
+      "id": "ordered-unicode:1",
+      "index": 43,
+      "name": "ordered-unicode",
+      "rotation": 1,
+      "rawInput": "{\"img\":{\"é\":1,\"é\":2,\"短\":3,\"a\":4},\"images\":\"emoji 🧭\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "No exact declared Atomic 2.2.0 scalar/vector collection type for this value"
+    },
+    {
+      "id": "ordered-unicode:2",
+      "index": 44,
+      "name": "ordered-unicode",
+      "rotation": 2,
+      "rawInput": "{\"images\":{\"é\":1,\"é\":2,\"短\":3,\"a\":4},\"name\":\"emoji 🧭\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "No exact declared Atomic 2.2.0 scalar/vector collection type for this value"
+    },
+    {
+      "id": "controls:0",
+      "index": 45,
+      "name": "controls",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"img\":\"\\u0001\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "img",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0418746162096c696e650a71756f746522736c6173685c656e64050101",
+        "originalDecoded": {
+          "name": "tab\tline\nquote\"slash\\end",
+          "img": "\u0001"
+        },
+        "originalEncoded": "{\"name\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"img\":\"\\u0001\"}"
+      },
+      "format": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "img",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "0418746162096c696e650a71756f746522736c6173685c656e64050101",
+      "originalDecoded": {
+        "name": "tab\tline\nquote\"slash\\end",
+        "img": "\u0001"
+      },
+      "originalEncoded": "{\"name\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"img\":\"\\u0001\"}",
+      "encodedSha256": "3f03bd2ef454c6de91c0e17df3d59629f8ac5b1c02badb5d9058aee09befe6c2",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"name\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"img\":\"\\u0001\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "controls:1",
+      "index": 46,
+      "name": "controls",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"images\":\"\\u0001\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "img",
+            "type": "string"
+          },
+          {
+            "name": "images",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0418746162096c696e650a71756f746522736c6173685c656e64050101",
+        "originalDecoded": {
+          "img": "tab\tline\nquote\"slash\\end",
+          "images": "\u0001"
+        },
+        "originalEncoded": "{\"img\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"images\":\"\\u0001\"}"
+      },
+      "format": [
+        {
+          "name": "img",
+          "type": "string"
+        },
+        {
+          "name": "images",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "0418746162096c696e650a71756f746522736c6173685c656e64050101",
+      "originalDecoded": {
+        "img": "tab\tline\nquote\"slash\\end",
+        "images": "\u0001"
+      },
+      "originalEncoded": "{\"img\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"images\":\"\\u0001\"}",
+      "encodedSha256": "1eb59ac21469fce3f719ad08c2ede16461220c7df5ddefbb4d439c8681fe761c",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"img\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"images\":\"\\u0001\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "controls:2",
+      "index": 47,
+      "name": "controls",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"name\":\"\\u0001\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "images",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0418746162096c696e650a71756f746522736c6173685c656e64050101",
+        "originalDecoded": {
+          "images": "tab\tline\nquote\"slash\\end",
+          "name": "\u0001"
+        },
+        "originalEncoded": "{\"images\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"name\":\"\\u0001\"}"
+      },
+      "format": [
+        {
+          "name": "images",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "0418746162096c696e650a71756f746522736c6173685c656e64050101",
+      "originalDecoded": {
+        "images": "tab\tline\nquote\"slash\\end",
+        "name": "\u0001"
+      },
+      "originalEncoded": "{\"images\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"name\":\"\\u0001\"}",
+      "encodedSha256": "25c158f98077b979a8fc7f740dacc42dc6c3ff15b83cd9f0e6d61c9325094a5a",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"images\":\"tab\\tline\\nquote\\\"slash\\\\end\",\"name\":\"\\u0001\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "literal-other-escape:0",
+      "index": 48,
+      "name": "literal-other-escape",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"\\\\u0041\",\"img\":\"\\\\u0001\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "name": "img",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "04065c753030343105065c7530303031",
+        "originalDecoded": {
+          "name": "\\u0041",
+          "img": "\\u0001"
+        },
+        "originalEncoded": "{\"name\":\"\\\\u0041\",\"img\":\"\\\\u0001\"}"
+      },
+      "format": [
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "img",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "04065c753030343105065c7530303031",
+      "originalDecoded": {
+        "name": "\\u0041",
+        "img": "\\u0001"
+      },
+      "originalEncoded": "{\"name\":\"\\\\u0041\",\"img\":\"\\\\u0001\"}",
+      "encodedSha256": "c8131b956537303c2310dbbe252d7d62942335f484210daa1707f581f3bee65f",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"name\":\"\\\\u0041\",\"img\":\"\\\\u0001\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "literal-other-escape:1",
+      "index": 49,
+      "name": "literal-other-escape",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"\\\\u0041\",\"images\":\"\\\\u0001\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "img",
+            "type": "string"
+          },
+          {
+            "name": "images",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "04065c753030343105065c7530303031",
+        "originalDecoded": {
+          "img": "\\u0041",
+          "images": "\\u0001"
+        },
+        "originalEncoded": "{\"img\":\"\\\\u0041\",\"images\":\"\\\\u0001\"}"
+      },
+      "format": [
+        {
+          "name": "img",
+          "type": "string"
+        },
+        {
+          "name": "images",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "04065c753030343105065c7530303031",
+      "originalDecoded": {
+        "img": "\\u0041",
+        "images": "\\u0001"
+      },
+      "originalEncoded": "{\"img\":\"\\\\u0041\",\"images\":\"\\\\u0001\"}",
+      "encodedSha256": "23e7f7c770dce74ccb8a84fed94e895a8bffa69deeeebabd6d5406c79aed2ff3",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"img\":\"\\\\u0041\",\"images\":\"\\\\u0001\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "literal-other-escape:2",
+      "index": 50,
+      "name": "literal-other-escape",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"\\\\u0041\",\"name\":\"\\\\u0001\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "images",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "04065c753030343105065c7530303031",
+        "originalDecoded": {
+          "images": "\\u0041",
+          "name": "\\u0001"
+        },
+        "originalEncoded": "{\"images\":\"\\\\u0041\",\"name\":\"\\\\u0001\"}"
+      },
+      "format": [
+        {
+          "name": "images",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "04065c753030343105065c7530303031",
+      "originalDecoded": {
+        "images": "\\u0041",
+        "name": "\\u0001"
+      },
+      "originalEncoded": "{\"images\":\"\\\\u0041\",\"name\":\"\\\\u0001\"}",
+      "encodedSha256": "a9690bc94c86fa3c7f7731fc241bd8c6ebabd5b895c19d529a3817fb48cb7c88",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"images\":\"\\\\u0041\",\"name\":\"\\\\u0001\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "valid-surrogate-pair:0",
+      "index": 51,
+      "name": "valid-surrogate-pair",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"🧭\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0404f09fa7ad",
+        "originalDecoded": {
+          "name": "🧭"
+        },
+        "originalEncoded": "{\"name\":\"🧭\"}"
+      },
+      "format": [
+        {
+          "name": "name",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "0404f09fa7ad",
+      "originalDecoded": {
+        "name": "🧭"
+      },
+      "originalEncoded": "{\"name\":\"🧭\"}",
+      "encodedSha256": "252b21015ebd56a4192e745cc518550bf3328e5778e46e1046b432caafb6fc23",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"name\":\"🧭\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "valid-surrogate-pair:1",
+      "index": 52,
+      "name": "valid-surrogate-pair",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"🧭\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "img",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0404f09fa7ad",
+        "originalDecoded": {
+          "img": "🧭"
+        },
+        "originalEncoded": "{\"img\":\"🧭\"}"
+      },
+      "format": [
+        {
+          "name": "img",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "0404f09fa7ad",
+      "originalDecoded": {
+        "img": "🧭"
+      },
+      "originalEncoded": "{\"img\":\"🧭\"}",
+      "encodedSha256": "5d6089881aaf77e51b669d3187cc93079d9e4e55ab27dda7d160c6279a3d1303",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"img\":\"🧭\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "valid-surrogate-pair:2",
+      "index": 53,
+      "name": "valid-surrogate-pair",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"🧭\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": true,
+      "projectionCoverage": "pending-physical-execution",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "images",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0404f09fa7ad",
+        "originalDecoded": {
+          "images": "🧭"
+        },
+        "originalEncoded": "{\"images\":\"🧭\"}"
+      },
+      "format": [
+        {
+          "name": "images",
+          "type": "string"
+        }
+      ],
+      "serializedHex": "0404f09fa7ad",
+      "originalDecoded": {
+        "images": "🧭"
+      },
+      "originalEncoded": "{\"images\":\"🧭\"}",
+      "encodedSha256": "8a027b585ab6a97f3e6f339873841ee5bb7a33e89a21dc3212dcc4ecc42700c0",
+      "originalCallbackWrite": {
+        "contract": "atomicassets",
+        "collection_name": "fixturecoll",
+        "author": "author",
+        "allow_notify": true,
+        "authorized_accounts": [
+          "author",
+          "editor"
+        ],
+        "notify_accounts": [
+          "watcher"
+        ],
+        "market_fee": 0.05,
+        "data": "{\"images\":\"🧭\"}",
+        "created_at_block": 1,
+        "created_at_time": 1793016000500
+      }
+    },
+    {
+      "id": "unpaired-surrogate-value:0",
+      "index": 54,
+      "name": "unpaired-surrogate-value",
+      "rotation": 0,
+      "rawInput": "{\"name\":\"\\ud800\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": false,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "name",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0403efbfbd",
+        "originalDecoded": {
+          "name": "�"
+        },
+        "originalEncoded": "{\"name\":\"�\"}"
+      },
+      "reason": "Codec cannot produce the exact original JS input"
+    },
+    {
+      "id": "unpaired-surrogate-value:1",
+      "index": 55,
+      "name": "unpaired-surrogate-value",
+      "rotation": 1,
+      "rawInput": "{\"img\":\"\\ud800\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": false,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "img",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0403efbfbd",
+        "originalDecoded": {
+          "img": "�"
+        },
+        "originalEncoded": "{\"img\":\"�\"}"
+      },
+      "reason": "Codec cannot produce the exact original JS input"
+    },
+    {
+      "id": "unpaired-surrogate-value:2",
+      "index": 56,
+      "name": "unpaired-surrogate-value",
+      "rotation": 2,
+      "rawInput": "{\"images\":\"\\ud800\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": false,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "codecAttempt": {
+        "format": [
+          {
+            "name": "images",
+            "type": "string"
+          }
+        ],
+        "serializedHex": "0403efbfbd",
+        "originalDecoded": {
+          "images": "�"
+        },
+        "originalEncoded": "{\"images\":\"�\"}"
+      },
+      "reason": "Codec cannot produce the exact original JS input"
+    },
+    {
+      "id": "unpaired-surrogate-key:0",
+      "index": 57,
+      "name": "unpaired-surrogate-key",
+      "rotation": 0,
+      "rawInput": "{\"\\udc00\":\"value\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": false,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "NUL or unpaired-surrogate format names require separate original config/JSONB-array proof"
+    },
+    {
+      "id": "unpaired-surrogate-key:1",
+      "index": 58,
+      "name": "unpaired-surrogate-key",
+      "rotation": 1,
+      "rawInput": "{\"\\udc00\":\"value\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": false,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "NUL or unpaired-surrogate format names require separate original config/JSONB-array proof"
+    },
+    {
+      "id": "unpaired-surrogate-key:2",
+      "index": 59,
+      "name": "unpaired-surrogate-key",
+      "rotation": 2,
+      "rawInput": "{\"\\udc00\":\"value\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": false,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "NUL or unpaired-surrogate format names require separate original config/JSONB-array proof"
+    },
+    {
+      "id": "prototype-key:0",
+      "index": 60,
+      "name": "prototype-key",
+      "rotation": 0,
+      "rawInput": "{\"__proto__\":{\"name\":\"owned\"},\"constructor\":\"data\",\"name\":\"plain\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "No exact declared Atomic 2.2.0 scalar/vector collection type for this value"
+    },
+    {
+      "id": "prototype-key:1",
+      "index": 61,
+      "name": "prototype-key",
+      "rotation": 1,
+      "rawInput": "{\"__proto__\":{\"name\":\"owned\"},\"constructor\":\"data\",\"img\":\"plain\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "No exact declared Atomic 2.2.0 scalar/vector collection type for this value"
+    },
+    {
+      "id": "prototype-key:2",
+      "index": 62,
+      "name": "prototype-key",
+      "rotation": 2,
+      "rawInput": "{\"__proto__\":{\"name\":\"owned\"},\"constructor\":\"data\",\"images\":\"plain\"}",
+      "negativeZeroPaths": [],
+      "originalSqlAccepted": true,
+      "sourceRepresentable": false,
+      "projectionCoverage": "pending-source-or-import-path",
+      "reason": "No exact declared Atomic 2.2.0 scalar/vector collection type for this value"
+    }
+  ]
+}
