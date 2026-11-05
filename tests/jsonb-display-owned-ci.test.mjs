@@ -8,6 +8,11 @@ import {EventEmitter} from 'node:events';
 import {expectedHead, assertOwnedUri, assertChildReceipt, LIMITS, IMAGE} from '../scripts/qualification/jsonb-display-mongo-http-ci/contract.mjs';
 const read = name => readFileSync(new URL('../scripts/qualification/jsonb-display-mongo-http-ci/' + name, import.meta.url), 'utf8');
 const head = 'a'.repeat(40), tree = 'b'.repeat(40), run = 'c'.repeat(32), root = '/owned/atomic';
+const readinessContext = {assert};
+const readinessSource = read('ci.mjs');
+runInNewContext(readinessSource.slice(readinessSource.indexOf('async function waitForOwnedReadiness('),
+  readinessSource.indexOf('\nasync function supervisedChild(')) + '\nthis.run=waitForOwnedReadiness;', readinessContext);
+const waitForOwnedReadiness = readinessContext.run;
 
 test('PR identity uses its actual head and refuses a missing head instead of the GitHub merge SHA', () => {
   assert.equal(expectedHead('pull_request', {pull_request: {head: {sha: head}}}, 'd'.repeat(40)), head);
@@ -26,11 +31,17 @@ test('the child accepts only the owned loopback replica and actual terminal EOF/
   for (const field of ['spawnObserved', 'closed', 'stdoutEOF', 'stderrEOF', 'streamFilesClosed']) for (const value of [false, 1, 'true', undefined])
     assert.throws(() => assertChildReceipt({...receipt, [field]: value}));
 });
-function controller({failure, custodyChange, cleanupFailure = false} = {}) {
+function controller({failure, custodyChange, cleanupFailure = false, readinessCloseFailure = false} = {}) {
   const source = read('ci.mjs'), start = source.indexOf('export async function runCI('), end = source.indexOf('\nif (process.argv[1]', start);
   const effects = [], records = [], admission = {reviewedHarness: {commit: head, tree}, runtime: {node: 'v26.4.0', sha256: 'f'.repeat(64)}};
   const receipt = {spawnObserved: true, closed: true, stdoutEOF: true, stderrEOF: true, streamFilesClosed: true, pid: 7, birth: '123', code: 0, signal: null, status: 'passed', ...custodyChange};
-  const client = {async close() {effects.push('readiness-close');}}, physical = {guard() {effects.push('guard');}, checkpoint(phase) {effects.push('checkpoint:' + phase);}, report: () => ({status: 'passed'})};
+  let readinessClients = 0;
+  const physical = {guard() {effects.push('guard');}, checkpoint(phase) {effects.push('checkpoint:' + phase);}, report: () => ({status: 'passed'})};
+  class ReadinessClient {
+    constructor(_uri, options) {this.number = ++readinessClients; assert.equal(options.timeoutMS, 1000);}
+    async close() {effects.push('readiness-close'); if (readinessCloseFailure && this.number === 1 && !this.closeFailed) {
+      this.closeFailed = true; throw new Error('failed-readiness-attempt-close');}}
+  }
   class Fixture {
     constructor() {effects.push('fixture-constructor'); this.run = run; this.replicaSet = 'h45rs_' + run; this.volume = {name: 'e'.repeat(64)}; this.cleanupResult = {verified: true};}
     command(args) {effects.push('docker-info'); return args[0] === 'context' ? args[1] === 'show' ? 'default' : JSON.stringify([{Endpoints: {docker: {Host: 'unix:///var/run/docker.sock'}}}]) : '5.15.0';} prepare() {effects.push('docker-prepare');} start() {effects.push('docker-start'); return 'mongodb://127.0.0.1:30001/?directConnection=true';}
@@ -48,8 +59,8 @@ function controller({failure, custodyChange, cleanupFailure = false} = {}) {
     admitController: async () => {effects.push('admit'); if (failure === 'admission') throw new Error('source-failure'); return admission;},
     stageOriginalReports: async () => {effects.push('stage-all-four'); if (failure === 'reports') throw new Error('report-failure'); return [1, 2, 3, 4];},
     injectedLoad: async path => path.includes('assembly') ? {verifyOriginalReports: () => [1, 2, 3, 4]} : path.includes('projection-fixture') ?
-      {OwnedMongoFixture: Fixture, waitForMongo: async make => {make(); return client;}} : {runChild() {}},
-    pathToFileURL: path => path, createRequire: () => () => ({MongoClient: class {}}), assertOwnedUri, assertChildReceipt,
+      {OwnedMongoFixture: Fixture, waitForMongo: async make => {if (readinessCloseFailure) {const failed = make(); await failed.close().catch(() => {});} return make();}} : {runChild() {}},
+    pathToFileURL: path => path, createRequire: () => () => ({MongoClient: ReadinessClient}), assertOwnedUri, assertChildReceipt, waitForOwnedReadiness,
     supervisedChild: async () => {effects.push('child'); return {receipt, primary: failure === 'child' ? new Error('child-primary') : undefined};},
     readFileSync: () => JSON.stringify({status: 'passed', clientClosed: true, admission, identity: {pid: 7, birth: '123'},
       result: {status: 'passed-bounded-source-representable-IDs-only', cleanup: {httpClosed: true, readsClosed: true, sessionsEnded: true, databaseDropped: true}}}), console: {log() {}}
@@ -74,6 +85,32 @@ test('unclosed child prevents fixture destruction; a closed failed child cleans 
   }
   const c = controller({failure: 'child', cleanupFailure: true}); await assert.rejects(c.run(), /child-primary/); assert(c.effects.includes('cleanup'));
   const lost = controller({failure: 'cleanup-persist'}); await assert.rejects(lost.run(), /durable-cleanup-evidence-failure/); assert(!lost.effects.includes('cleanup'));
+});
+
+test('a suppressed failed-attempt close cannot admit a child after later readiness success', async () => {
+  const c = controller({readinessCloseFailure: true});
+  await assert.rejects(c.run(), /failed-readiness-attempt-close/);
+  assert(!c.effects.includes('child')); assert(c.effects.includes('cleanup'));
+  const terminal = c.records.find(row => row.path?.endsWith('controller-terminal.json')).value;
+  assert.equal(terminal.status, 'failed'); assert.equal(terminal.physicalAcceptance, 'failed');
+});
+
+test('actual readiness code bounds each operation, closes every created client and preserves the first close failure', async () => {
+  for (const closeFailure of [false, true]) {
+    const rows = [], clients = []; const error = new Error('first-close-failure'); let next = 0;
+    class MongoClient {
+      constructor(_uri, options) {this.id = next++; this.calls = 0; clients.push(this);
+        assert.equal(options.timeoutMS, 1000); assert.equal(options.retryReads, false); assert.equal(options.retryWrites, false);}
+      async close() {this.calls++; if (closeFailure && this.id === 0 && this.calls === 1) throw error; this.closed = true;}
+    }
+    const work = waitForOwnedReadiness({MongoClient, uri: 'owned', primary: true, replicaSet: 'owned', guard() {}, persist: row => rows.push(row),
+      waitForMongo: async make => {const failed = make(); await failed.close().catch(() => {}); return make();}});
+    if (closeFailure) await assert.rejects(work, e => e === error); else await work;
+    assert(clients.every(client => client.closed));
+    assert.equal(rows.length, 1); assert.equal(rows[0].status, closeFailure ? 'failed' : 'passed');
+    if (closeFailure) {assert.equal(clients.length, 1); assert.equal(rows[0].attempts[0].closeFailure, error.message);}
+    else assert.equal(clients.length, 2);
+  }
 });
 test('actual exclusive persistence fsyncs file and directory; missing directory durability fails', () => {
   const source = read('io.mjs'), start = source.indexOf('export function syncDirectory('), end = source.indexOf('export function evidenceWriter(', start);

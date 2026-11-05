@@ -12,6 +12,38 @@ import {ownedOutput, evidenceWriter, exclusiveFile, processIdentity} from './io.
 import {stageOriginalReports} from './reports.mjs';
 const json = (path, value) => exclusiveFile(path, Buffer.from(JSON.stringify(value) + '\n'));
 
+async function waitForOwnedReadiness({MongoClient, uri, primary, replicaSet, waitForMongo, guard, persist}) {
+  const attempts = []; let firstCloseFailure, failure, returned;
+  try {
+    returned = await waitForMongo(() => {
+      guard(); if (firstCloseFailure) throw firstCloseFailure;
+      const client = new MongoClient(uri, {directConnection: true, retryReads: false, retryWrites: false,
+        maxAdaptiveRetries: 0, promoteLongs: false, monitorCommands: true, maxPoolSize: 1,
+        serverSelectionTimeoutMS: 1000, connectTimeoutMS: 1000, timeoutMS: 1000});
+      const close = client.close.bind(client), state = {client, closed: false, closeCalls: 0}; attempts.push(state);
+      client.close = async (...args) => {
+        state.closeCalls++;
+        try {await close(...args); state.closed = true;}
+        catch (error) {state.closeFailure ??= error; firstCloseFailure ??= error; throw error;}
+      };
+      return client;
+    }, {primary, replicaSet, timeoutMS: 60000});
+    assert(attempts.some(state => state.client === returned), 'Readiness returned an unowned client');
+  } catch (error) {failure = error;}
+  finally {
+    // The pinned polling helper suppresses close rejections; retain every one independently.
+    // A cleanup retry may close the client but cannot erase the original failed attempt.
+    for (const state of attempts) if (!state.closed) try {await state.client.close();} catch (error) {failure ??= error;}
+    failure = firstCloseFailure ?? failure;
+    if (attempts.some(state => !state.closed)) failure ??= new Error('Readiness client closure is incomplete');
+    try {guard();} catch (error) {failure ??= error;}
+    try {persist({kind: 'mongo-readiness', primary, status: failure ? 'failed' : 'passed', attempts: attempts.map(state => ({
+      closed: state.closed, closeCalls: state.closeCalls, closeFailure: state.closeFailure ? String(state.closeFailure.message).slice(0, 2048) : null}))});}
+    catch (error) {failure ??= error;}
+  }
+  if (failure) throw failure;
+}
+
 async function supervisedChild(intent, output, signal, runChild) {
   const argv = [join(root, 'scripts/qualification/jsonb-display-mongo-http-ci/child.mjs'), join(output, 'child-intent.json')];
   const receipt = {profile: CI_PROFILE, executable: process.execPath, argv, cwd: root, spawnObserved: false, closed: false,
@@ -83,10 +115,8 @@ export async function runCI(inputProfile) {
     const kernel = fixture.command(['info', '--format', '{{.KernelVersion}}']), version = /^(\d+)\.(\d+)\.(\d+)/.exec(kernel); report.dockerKernel = kernel;
     assert(!version || !(Number(version[1]) === 6 && Number(version[2]) >= 19 || Number(version[1]) === 7 && Number(version[2]) === 0 && Number(version[3]) < 14), 'Pinned MongoDB kernel constraint');
     guard(); fixture.prepare(); guard(); const uri = fixture.start('replica'); guard();
-    const ready = async primary => {const client = await waitForMongo(() => {guard(); return new MongoClient(uri, {directConnection: true,
-      retryReads: false, retryWrites: false, maxAdaptiveRetries: 0, promoteLongs: false, monitorCommands: true,
-      maxPoolSize: 1, serverSelectionTimeoutMS: 1000, connectTimeoutMS: 1000});}, {primary, replicaSet: fixture.replicaSet, timeoutMS: 60000});
-      await client.close(); guard();};
+    const ready = primary => waitForOwnedReadiness({MongoClient, uri, primary, replicaSet: fixture.replicaSet,
+      waitForMongo, guard, persist: row => writer.persist(row)});
     await ready(false); guard(); fixture.initializeReplica(); await ready(true); guard();
     const container = fixture.ownedContainer('replica'), image = fixture.inspect('image', IMAGE);
     assert.equal(container.Image, image.Id); assert.equal(image.Os, 'linux'); assert.equal(image.Architecture, 'amd64');

@@ -18,8 +18,8 @@
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/README.md",
-        "bytes": 5534,
-        "sha256": "b8d4f51f2baac1493384d587c4e8569e2b3ba91b1ae18a954b0fe16dd34d3d32"
+        "bytes": 6086,
+        "sha256": "c0afa8ed5950dd346c724710e86022bded4d8c5776e422ffc12dfe03516938a7"
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/child.mjs",
@@ -28,8 +28,8 @@
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/ci.mjs",
-        "bytes": 11920,
-        "sha256": "7a12b013649551ade07137803c219cb62825822c5efc9824c0e489954eadd6cc"
+        "bytes": 13677,
+        "sha256": "fa2bcfefefa4b733782c3469a949cedf0ae6589685e3a65a09fc1ec139161df6"
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/contract.mjs",
@@ -38,13 +38,13 @@
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/guard.mjs",
-        "bytes": 4920,
-        "sha256": "f864dfc403695edadeb7bb5102255b3cd67db3b9bf4355836494cf7952e61a8c"
+        "bytes": 5174,
+        "sha256": "308a7ef64a3688709ba9b2215f92627fef165b667de9402329cd1a9630eb683d"
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/guard.test.mjs",
-        "bytes": 3015,
-        "sha256": "b025be54b53c8539d7a7b806fde9de15a5a424b8a705e034205b7bc79c3e399b"
+        "bytes": 5037,
+        "sha256": "9a451ff18c545ef5f05ed27b9b0e6ce3c94442f7492d526716e0465632258d45"
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/host-sdk.mjs",
@@ -133,8 +133,8 @@
       },
       {
         "path": "tests/jsonb-display-owned-ci.test.mjs",
-        "bytes": 12113,
-        "sha256": "5c4dc3e34211c7007a876cb65b655cce93130dcd4ebf36d412a31b6a50994599"
+        "bytes": 14743,
+        "sha256": "0a5abcbfc18594bf680bf2b9f1e0877afd6cea56276df95446be67cfc0c51534"
       }
     ]
   }

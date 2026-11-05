@@ -28,9 +28,20 @@ export function evaluateSnapshot(s, phase, baseline, deadlineMS) {
 // Internal pure core: callers must provide inert observations; production never accepts these ports.
 export function createGuardCore({deadlineMS,persist,observe}) {
  assert(Number.isFinite(deadlineMS)&&deadlineMS>0&&deadlineMS<=LIMITS.maximumDeadlineMS,'finite bounded deadline required'); assert.equal(typeof persist,'function'); assert.equal(typeof observe,'function');
- const baseline=observe(); let latest;
- function sample(phase) { let row, s; try { s=observe(); evaluateSnapshot(s,phase,baseline,deadlineMS); row={phase,status:'passed',snapshot:s,baseline,limits:LIMITS,deadlineMS}; } catch(error) { row={phase,status:'failed',error:String(error.message),snapshot:s??null,baseline,limits:LIMITS,deadlineMS}; const result=persist(row); assert.equal(result,undefined,'persist must be synchronous and return undefined'); latest=row; throw error; } const result=persist(row); assert.equal(result,undefined,'persist must be synchronous and return undefined'); latest=row; return row; }
- return Object.freeze({guard:()=>sample('during'),checkpoint:phase=>{assert(['before','after'].includes(phase)); return sample(phase);},report:()=>latest});
+ const baseline=observe(); let latest, firstFailure, failed=false;
+ const latch=error=>{if(!failed){failed=true;firstFailure=error;}};
+ function sample(phase) {
+  if(failed)throw firstFailure;
+  let row,s;
+  try {s=observe();evaluateSnapshot(s,phase,baseline,deadlineMS);row={phase,status:'passed',snapshot:s,baseline,limits:LIMITS,deadlineMS};}
+  catch(error){latch(error);row={phase,status:'failed',error:String(error?.message??error),snapshot:s??null,baseline,limits:LIMITS,deadlineMS};}
+  try {const result=persist(row);assert.equal(result,undefined,'persist must be synchronous and return undefined');}
+  catch(error){latch(error);row={...row,status:'failed',error:row.error??String(firstFailure?.message??firstFailure),persistenceFailure:String(error?.message??error)};}
+  latest=row;
+  if(failed)throw firstFailure;
+  return row;
+ }
+ return Object.freeze({guard:()=>sample('during'),checkpoint:phase=>{if(failed)throw firstFailure;assert(['before','after'].includes(phase)); return sample(phase);},report:()=>latest});
 }
 export function createPhysicalGuard({root,deadlineMS,persist}) {
  assert.equal(process.platform,'linux','physical guard requires Linux'); assert.equal(typeof root,'string');

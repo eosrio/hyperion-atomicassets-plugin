@@ -41,6 +41,10 @@ MongoDB process identity. It accepts no database URL or executable override.
 Both readiness and workload clients use the pinned HAPI driver with
 `retryReads:false`, `retryWrites:false`, `maxAdaptiveRetries:0`,
 `promoteLongs:false` and `monitorCommands:true`.
+Every readiness command also has a 1,000 ms operation timeout. The owner tracks
+all readiness clients and their close outcomes outside the pinned polling helper;
+a suppressed failed-attempt close remains fatal even if later cleanup succeeds.
+All created clients are closed before readiness can admit the workload child.
 
 Before Docker effects, the controller downloads all four exact original artifacts
 from the official GitHub API for run 41958628616. Artifact IDs, ZIP sizes/digests
@@ -54,7 +58,10 @@ The child verifies the complete report set again before creating a MongoDB clien
 Fresh physical observations check boot/PID/birth, cgroup OOM counter, available
 memory and disk, CPU/total-memory envelope and a finite monotonic deadline before,
 during and after execution. Missing readings and evidence-write failures fail the
-run. The parent deadline is 600 seconds, workload deadline 360 seconds, supervised
+run. A first sampling or evidence-persistence failure remains latched: later
+guards and checkpoints throw that same error and retain the failed report even
+if resources recover. A secondary write error cannot replace the original cause.
+The parent deadline is 600 seconds, workload deadline 360 seconds, supervised
 child deadline 420 seconds with a 10-second kill grace, and each child stream is
 limited to 1 MiB. Individual evidence files, total evidence and file count are
 bounded. This is a resource envelope, not a performance qualification result.
