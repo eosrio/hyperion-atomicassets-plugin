@@ -11,6 +11,7 @@ import {cleanupOwnedDatabase} from '../jsonb-display-bson-v3/cleanup.mjs';
 import profiles from '../../../harness/atomicassets/lifecycle-input.cjs';
 import {PROFILE, ACCEPTANCE, assertRunInput} from './contract.mjs';
 import {corpus, classifyCorpus, codec, sha} from '../jsonb-display-mongo-http/corpus.mjs';
+import {expectedRefusal} from './refusal.mjs';
 import {verifySchemaReports, schemaExpectations} from './schema-oracle.mjs';
 import {verifyAssembly, verifyOriginalReports} from '../jsonb-display-mongo-http/assembly.mjs';
 const hex = n => n.toString(16).padStart(64, '0'), copy = structuredClone;
@@ -117,10 +118,10 @@ export async function runJsonbDisplayQualification(options) {
     const captured = await captureStatefulSourceV2(declaration, source); state.candidate = undefined;
     await emit({event: 'admitted-source', target, source, capturedDigest: captured.digest});
     if (refusal) {
-      const baseline = copy(refusal.baseline); let rejected;
-      try {await owner.executeStatefulOwnerBlockV2(declaration, adapter, state.lease, target.digest, source, state.store, entry.reduce, guard);}
-      catch (error) {rejected = error;}
-      assert(rejected, 'Original SQL refusal must never become a successful plugin candidate'); assert.equal(state.candidate, undefined);
+      const baseline = copy(refusal.baseline);
+      const {rejected,evidence} = await expectedRefusal({plan:refusal.plan, original:corpus.cases[refusal.plan.index], reduce:entry.reduce,
+        execute:hook=>owner.executeStatefulOwnerBlockV2(declaration, adapter, state.lease, target.digest, source, state.store, hook, guard)});
+      assert.equal(state.candidate, undefined, 'No rejected source candidate may be retained');
       const beforeGap = await adapter.recovery(); assert.deepEqual(beforeGap.view, previous);
       const read = await adapter.reductionRead(state.lease, target.digest, captured.digest);
       try {const after = await adapter.readReduction(read, previous, [{kind: 'collection', key: collectionKey}]); assert.equal(after.results[0].status, 'present'); assert.deepEqual(copy(after.results[0].value), baseline);}
@@ -129,7 +130,7 @@ export async function runJsonbDisplayQualification(options) {
       const recovery = await adapter.recovery(); assert(recovery.gap); assert.deepEqual(recovery.view, previous);
       const http = await state.host.observe('/atomicassets/v1/schemas/' + input.collection + '/' + input.schema, previous, 503);
       const receipt = {id: refusal.plan.id, originalSQL: corpus.cases[refusal.plan.index].storageError, error: failure(rejected),
-        candidateRetained: false, baselineUnchanged: true, recovery, http}; report.refusals.push(receipt); await emit({event: 'source-refusal', ...receipt}); return;
+        candidateRetained: false, baselineUnchanged: true, refusalEvidence: evidence, recovery, http}; report.refusals.push(receipt); await emit({event: 'source-refusal', ...receipt}); return;
     }
     const result = await owner.executeStatefulOwnerBlockV2(declaration, adapter, state.lease, target.digest, source, state.store, entry.reduce, guard);
     assert.equal(result.status, 'applied'); assert(state.candidate);
