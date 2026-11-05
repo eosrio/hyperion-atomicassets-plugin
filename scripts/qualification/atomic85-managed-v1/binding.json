@@ -40,8 +40,8 @@
       },
       {
         "path": ".github/workflows/ci.yml",
-        "bytes": 2670,
-        "sha256": "f552cc21ab073933ec91958298f747dc976e897d9ddd9f8de15c0ee967df60fa"
+        "bytes": 2711,
+        "sha256": "efd85df4f99b1ef5880bee0e8f2445a0cabdab36d091ab5cf68e74320bac334f"
       },
       {
         "path": ".github/workflows/jsonb-display-bson-v3.yml",
