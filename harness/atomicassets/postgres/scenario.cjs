@@ -4,7 +4,8 @@ const {once} = require('node:events');
 const {createHash} = require('node:crypto');
 const copy = value => structuredClone(value);
 const json = value => JSON.parse(JSON.stringify(value, (_, v) => typeof v === 'bigint' ? String(v) : v));
-module.exports = async function scenario(fromReference, connection, config, record, inputProfile, captureProfile) {
+module.exports = async function scenario(fromReference, connection, config, record, inputProfile, captureProfile, displayCapture) {
+  if(displayCapture!==undefined){assert.deepEqual(displayCapture,{mode:'json39'});assert.equal(captureProfile,undefined);}
   const profiles = require('../lifecycle-input.cjs');
   const selected = inputProfile === undefined ? profiles.loadInputProfile() : profiles.validateInputProfile(inputProfile);
   const {input, descriptor} = selected;
@@ -98,6 +99,7 @@ module.exports = async function scenario(fromReference, connection, config, reco
       http: {status: response.status, headers: Object.fromEntries(response.headers), rawText: text, body}};
     stages.push(value); record({kind:'physical-view-http-stage',value}); return value;
   }
+  let displayFailure;
   try {
     await client.connect(); await namespace.init(); server.web.express.use('/atomicassets', await namespace.router(server));
     server.httpServer.listen(0, '127.0.0.1'); await once(server.httpServer, 'listening');
@@ -112,6 +114,18 @@ module.exports = async function scenario(fromReference, connection, config, reco
     const minted = await snapshot('mint-and-replacement'); assert.equal(minted.asset.template_id,null);
     assert.equal(minted.asset.mutable_data.name,'replacement mutable'); assert.equal(Object.hasOwn(minted.asset.mutable_data,'old'),false);
     assert.equal(minted.asset.immutable_data.serial,'18446744073709551615');
+    if(displayCapture) {
+      const http=async path=>{
+        const response=await fetch('http://127.0.0.1:'+server.httpServer.address().port+path,
+          {redirect:'manual',signal:AbortSignal.timeout(10000)});
+        const chunks=[];let bytes=0;for await(const chunk of response.body){bytes+=chunk.length;assert.ok(bytes<=2097152);chunks.push(chunk);}
+        const body=Buffer.concat(chunks);return {status:response.status,headers:Object.fromEntries(response.headers),
+          bytes:body.length,sha256:createHash('sha256').update(body).digest('hex'),rawText:body.toString('utf8')};
+      };
+      const display=await require('./json-display-oracle.cjs').capture({client,encode:encodeDatabaseJson,contract,collection,assetId,http,record});
+      return {inputProfile:descriptor,stages,display,scope:{originalProcessors:true,originalViewAndHttp:true,
+        realPostgres:true,constructedInputs:true,mongoParity:false,fullParity:false}};
+    }
     if(capture)return {inputProfile:descriptor,captureProfile:capture,stages,queue,executed,notifications,
       scope:{originalProcessors:true,originalViewAndHttp:true,realPostgres:true,constructedInputs:true,
         originalDefaultLifecycleQualified:false,mongoParity:false,fullParity:false}};
@@ -185,11 +199,24 @@ module.exports = async function scenario(fromReference, connection, config, reco
       bootstrapRpc:{constructedInputs:true,requests:rpc,maintenanceSkippedForUnknownReader:true},schemaAudit:{currentView,constraints},healthCalls,
       scope:{originalProcessors:true,originalHandlerBootstrap:true,originalViewAndHttp:true,realPostgres:true,reversibleBookkeeping:false,
         constructedInputs:true,mongoParity:false,postgresFixtureCleanupQualified:false,fullParity:false}};
-  } finally {
+  } catch(error) {displayFailure=error;throw error;} finally {
+    if(displayCapture) {
+      const cleanup=[];let first;
+      const close=async(name,fn)=>{const row={name,attempted:true};cleanup.push(row);
+        try{await fn();row.succeeded=true;}catch(error){row.succeeded=false;row.error={name:error.name,message:String(error.message).slice(0,2048)};first??=error;}};
+      for(const [i,release]of releases.entries())await close('listener-'+i,()=>{release();if(i===releases.length-1){
+        assert.equal(processor.getActiveListeners().trace_listeners.length,0);assert.equal(processor.getActiveListeners().table_listeners.length,0);}});
+      await close('http',async()=>{server.httpServer.closeAllConnections();await new Promise(resolve=>server.socket.io.close(resolve));});
+      await close('server-database',()=>server.database.end());await close('scenario-client',()=>client.end());
+      try{record({kind:'json39-original-cleanup',cleanup,primaryErrorPreserved:Boolean(displayFailure)});}
+      catch(error){if(!displayFailure&&!first)throw error;}
+      if(first&&!displayFailure)throw first;
+    } else {
     for(const release of releases)release(); assert.equal(processor.getActiveListeners().trace_listeners.length,0);
     assert.equal(processor.getActiveListeners().table_listeners.length,0);
     server.httpServer.closeAllConnections(); await new Promise(resolve=>server.socket.io.close(resolve));
     await server.database.end(); await client.end();
+    }
   }
 };
 
