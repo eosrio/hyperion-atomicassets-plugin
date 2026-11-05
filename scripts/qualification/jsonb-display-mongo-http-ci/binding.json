@@ -48,8 +48,8 @@
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/io.mjs",
-        "bytes": 2422,
-        "sha256": "f7543d8c33aa399613696eb2f9980512def5c7364e3250f228b1f529ebf601d2"
+        "bytes": 2827,
+        "sha256": "3e02d794b3022bf19b6221beb1c1b625713f42fe384f0590e3a59e21dd5a1d31"
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/original-artifacts.json",
@@ -113,8 +113,8 @@
       },
       {
         "path": "tests/jsonb-display-owned-ci.test.mjs",
-        "bytes": 10573,
-        "sha256": "768de74a4f24b517a3efcbb70ab6f566517ea128917a658afb9c4610bf25b816"
+        "bytes": 12113,
+        "sha256": "5c4dc3e34211c7007a876cb65b655cce93130dcd4ebf36d412a31b6a50994599"
       }
     ]
   }

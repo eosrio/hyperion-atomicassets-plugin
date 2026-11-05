@@ -42,7 +42,7 @@ function controller({failure, custodyChange, cleanupFailure = false} = {}) {
   const context = {assert, Buffer, JSON, LIMITS, IMAGE, CI_PROFILE: 'ci', root, hapiRoot: '/pinned/hapi', join: posix.join, resolve: posix.resolve, AbortController,
     process: {platform: 'linux', env: {}, execPath: '/node', once() {}, removeListener() {}},
     ownedOutput: (_root, path) => {effects.push('output'); return path;},
-    evidenceWriter: () => ({write() {}, persist(row) {records.push(row);}, summary: () => ({files: 0})}),
+    evidenceWriter: () => ({write() {}, persist(row) {records.push(row); if (failure === 'cleanup-persist' && row.kind === 'before-fixture-cleanup') throw new Error('durable-cleanup-evidence-failure');}, summary: () => ({files: 0})}),
     createPhysicalGuard: () => physical, processIdentity: () => ({pid: 1, birth: '1', bootId: 'boot'}),
     json: (path, value) => records.push({path, value}),
     admitController: async () => {effects.push('admit'); if (failure === 'admission') throw new Error('source-failure'); return admission;},
@@ -73,6 +73,21 @@ test('unclosed child prevents fixture destruction; a closed failed child cleans 
     assert(c.records.some(row => row.path?.endsWith('controller-terminal.json') && row.value.cleanup.retained));
   }
   const c = controller({failure: 'child', cleanupFailure: true}); await assert.rejects(c.run(), /child-primary/); assert(c.effects.includes('cleanup'));
+  const lost = controller({failure: 'cleanup-persist'}); await assert.rejects(lost.run(), /durable-cleanup-evidence-failure/); assert(!lost.effects.includes('cleanup'));
+});
+test('actual exclusive persistence fsyncs file and directory; missing directory durability fails', () => {
+  const source = read('io.mjs'), start = source.indexOf('export function syncDirectory('), end = source.indexOf('export function evidenceWriter(', start);
+  for (const failDirectory of [false, true]) {
+    const events = [], context = {assert, Buffer, dirname: posix.dirname,
+      openSync: (path, flags) => {events.push(['open', path, flags]); return path === '/owned/file.json' ? 7 : 8;},
+      writeSync: (fd, bytes) => {events.push(['write', fd]); return bytes.length;},
+      fsyncSync: fd => {events.push(['fsync', fd]); if (failDirectory && fd === 8) throw new Error('directory-durability-failure');},
+      closeSync: fd => events.push(['close', fd])};
+    runInNewContext(source.slice(start, end).replaceAll('export ', '') + '\nthis.run=exclusiveFile;', context);
+    if (failDirectory) assert.throws(() => context.run('/owned/file.json', Buffer.from('{}')), /directory-durability-failure/);
+    else context.run('/owned/file.json', Buffer.from('{}'));
+    assert.deepEqual(events, [['open', '/owned/file.json', 'wx'], ['write', 7], ['fsync', 7], ['close', 7], ['open', '/owned', 'r'], ['fsync', 8], ['close', 8]]);
+  }
 });
 test('actual supervisor persists intent before spawn, captures birth/EOF and drains failures before terminal receipt', async () => {
   const source = read('ci.mjs'), start = source.indexOf('async function supervisedChild('), end = source.indexOf('\nexport async function runCI(', start);
