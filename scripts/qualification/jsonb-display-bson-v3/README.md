@@ -22,6 +22,9 @@ the separately named raw BSON ceiling is 128 MiB, based on measured v2 volume.
 There is no truncation or selected-event exclusion on a successful capture.
 The concrete child sink uses exclusive fsynced file/directory writes and returns
 the exact reference receipt. The final reference index carries no raw hex array.
+Terminal evidence also reports aggregate binary write elapsed time, bytes/files,
+file/directory fsync attempts/completions and child CPU usage. These measurements
+attribute recorder cost; they do not imply a throughput or parity improvement.
 
 Observers never throw into the MongoDB driver. A first serialization, size, sink,
 receipt or event-pairing failure stays latched. Later callbacks do not grow maps,
@@ -44,6 +47,8 @@ The v3 binding records old/new full hashes and the unchanged jobs-body hash.
 PR path filters use the complete PR diff; a sibling namespace alone would still
 launch the old workflow. The new workflow explicitly targets the actual `main`
 base and has positive/full-diff routing controls for all four Node/profile jobs.
+Every bound file and transitive frozen source/harness path is checked individually
+against that trigger; a change limited to an older dependency cannot bypass it.
 
 The workload is the v2 source with nine enumerated recorder/profile/cleanup
 edits, checked against the complete prior body. The admitted HAPI SDK instance,

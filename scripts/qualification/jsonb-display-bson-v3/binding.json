@@ -21,8 +21,8 @@
     "files": [
       {
         "path": ".github/workflows/jsonb-display-bson-v3.yml",
-        "bytes": 2690,
-        "sha256": "b68101008fcc3d936163ea613715fb498f1ad23e3f8cd03eff959578742487f0"
+        "bytes": 3143,
+        "sha256": "8e8f1adf6c41c5d6fa95c2e8039688de347378cbe7fcde57b16f0f2ae024b430"
       },
       {
         "path": ".github/workflows/jsonb-display-mongo-http.yml",
@@ -31,8 +31,8 @@
       },
       {
         "path": "scripts/qualification/jsonb-display-bson-v3/README.md",
-        "bytes": 3596,
-        "sha256": "5d925643b979bdfc392148973391da4440571f5082cc8ac7fbc9c69af28c3b65"
+        "bytes": 4001,
+        "sha256": "08a099e1d1b54c733d96275c3bc72d888ac76c9913b16b40f08c0537255d0855"
       },
       {
         "path": "scripts/qualification/jsonb-display-bson-v3/bson-recorder.mjs",
@@ -46,8 +46,8 @@
       },
       {
         "path": "scripts/qualification/jsonb-display-bson-v3/child.mjs",
-        "bytes": 5514,
-        "sha256": "f2d5b09cf79160cef84304793168621a6e3ef1a3541e13aff18934041b9285c6"
+        "bytes": 5544,
+        "sha256": "35515f7fd5675b9cf3deeaceadbc44cb360db3c8f938584b9a4181d95c821c65"
       },
       {
         "path": "scripts/qualification/jsonb-display-bson-v3/ci.mjs",
@@ -81,8 +81,13 @@
       },
       {
         "path": "scripts/qualification/jsonb-display-bson-v3/io.mjs",
-        "bytes": 2827,
-        "sha256": "3e02d794b3022bf19b6221beb1c1b625713f42fe384f0590e3a59e21dd5a1d31"
+        "bytes": 3722,
+        "sha256": "6af60a162d1968cf9ac619642944eb4991a981c921acf137f1bc3c53d6629ac4"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/io.test.mjs",
+        "bytes": 2710,
+        "sha256": "8d9f3994305ac34b8f24fe6fea828190fe2db97fd628b3ba3ec21db9c15bcc29"
       },
       {
         "path": "scripts/qualification/jsonb-display-bson-v3/original-artifacts.json",
@@ -91,8 +96,8 @@
       },
       {
         "path": "scripts/qualification/jsonb-display-bson-v3/qualification.test.mjs",
-        "bytes": 6076,
-        "sha256": "5ded0346acd5fa16582ef275baf9ddd25ae41a52adc34fb62bc9e40f471e69bc"
+        "bytes": 6840,
+        "sha256": "234106551ff69021b9576335590d4c3468d910d92a650bdf0f234f8f11997f9d"
       },
       {
         "path": "scripts/qualification/jsonb-display-bson-v3/reports.mjs",

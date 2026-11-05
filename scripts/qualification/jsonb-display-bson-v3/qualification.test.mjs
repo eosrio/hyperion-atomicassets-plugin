@@ -55,13 +55,20 @@ test('only the old automatic trigger is retired; its manual jobs body remains by
 });
 
 test('the new automatic route matches main and the full stacked PR diff while retaining all four physical jobs', () => {
-  const source = read('.github/workflows/jsonb-display-bson-v3.yml');
+  const source = process.env.ATOMIC81_V3_ROUTE_BASELINE === '1'
+    ? execFileSync('git', ['-c', 'core.autocrlf=false', 'show', '11a7cd98369494d918df96c2ba2d3b3f6b74d59d:.github/workflows/jsonb-display-bson-v3.yml'], {cwd: root, encoding: 'utf8'})
+    : read('.github/workflows/jsonb-display-bson-v3.yml');
   const route = source.match(/  pull_request:\n    branches: (\[[^\n]+\])\n    paths: (\[[^\n]+\])/); assert(route);
   const branches = JSON.parse(route[1]), paths = JSON.parse(route[2]);
   const glob = (pattern, path) => new RegExp('^' + pattern.split('**').map(part => part.split('*').map(word => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('[^/]*')).join('.*') + '$').test(path);
   const matches = (base, changed) => branches.includes(base) && changed.some(path => paths.some(pattern => glob(pattern, path)));
   const fullPrDiff = [v2 + 'child.mjs', v3 + 'run-lossless-bson-v3.mjs', '.github/workflows/jsonb-display-mongo-http.yml', '.github/workflows/jsonb-display-bson-v3.yml'];
   assert(matches('main', fullPrDiff)); assert(matches('main', [v3 + 'bson-recorder.mjs']));
+  const binding = JSON.parse(read(v3 + 'binding.json')).observation;
+  const assembly = JSON.parse(read('scripts/qualification/jsonb-display-mongo-http/profile.json')).observation;
+  const dependencyPaths = [...binding.files.map(row => row.path), ...assembly.harness.map(row => row.path),
+    ...assembly.atomicSources.map(row => 'src/' + row.path), ...assembly.vendor.map(row => 'vendor/' + row.path)];
+  for (const path of dependencyPaths) assert(matches('main', [path]), 'Bound dependency bypasses qualification: ' + path);
   assert(!matches('unlisted-base', fullPrDiff)); assert(!matches('main', ['README.md']));
   assert(source.includes("node: ['24.22.1', '26.4.0']")); assert(source.includes('profile: [original-lifecycle, portable-safe-image]'));
   assert(source.includes('2294d97f0e248ab68c4e6792b63523e230622b2c')); assert(source.includes('node scripts/qualification/jsonb-display-bson-v3/ci.mjs'));

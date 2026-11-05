@@ -54,7 +54,7 @@ export async function main() {
     process.removeListener('SIGINT', interrupted); process.removeListener('SIGTERM', interrupted);
     Object.assign(terminal, {status: primary ? 'failed' : 'passed', clientCreated: !!client, clientClosed,
       result: result ? {status: result.status, observations: result.observations.length, refusals: result.refusals.length, cleanup: result.cleanup} : null,
-      failure: primary ? {name: primary.name, message: String(primary.message).slice(0, 4096)} : null, physical: physical.report(), evidence: writer.summary()});
+      failure: primary ? {name: primary.name, message: String(primary.message).slice(0, 4096)} : null, physical: physical.report(), evidence: writer.summary(), cpuUsage: process.cpuUsage()});
     try {exclusiveFile(join(output, 'child-result.json'), Buffer.from(JSON.stringify(terminal) + '\n'));} catch (error) {retain(error);}
   }
   if (primary) throw primary;
