@@ -1,0 +1,55 @@
+name: Owned JSONB display MongoDB managed HTTP
+on:
+  workflow_dispatch:
+  pull_request:
+    paths: ["scripts/qualification/jsonb-display-mongo-http*/**", "tests/jsonb-display*.mjs", ".github/workflows/jsonb-display-mongo-http.yml", "src/**", "package*.json"]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  owned-display:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['24.22.1', '26.4.0']
+        profile: [original-lifecycle, portable-safe-image]
+    env:
+      HYPERION_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          repository: eosrio/hyperion-history-api
+          ref: 7270b1eba0e4e118e61fd282dbf44a66f361df47
+          path: out/jsonb-display-inputs/hapi
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+      - run: npm ci --allow-git=all
+      - run: npm ci --prefix out/jsonb-display-inputs/hapi/packages/backend-mongodb --allow-git=all --ignore-scripts=false
+      - run: npm ci --prefix out/jsonb-display-inputs/hapi --allow-git=all
+      - run: npm run build
+      - run: npm run build --prefix out/jsonb-display-inputs/hapi
+      - run: npm run typecheck
+      - run: npm run typecheck --prefix out/jsonb-display-inputs/hapi
+      - name: Pure original codec and owned-controller controls
+        run: node --test tests/jsonb-display-mongo-http.test.mjs tests/jsonb-display-owned-ci.test.mjs scripts/qualification/jsonb-display-mongo-http-ci/*.test.mjs
+      - name: Qualify exclusively owned MongoDB and actual managed HTTP
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/qualification/jsonb-display-mongo-http-ci/ci.mjs ${{ matrix.profile }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: jsonb-display-owned-${{ matrix.node }}-${{ matrix.profile }}
+          path: out/jsonb-display-owned-${{ matrix.profile }}
+          if-no-files-found: warn
