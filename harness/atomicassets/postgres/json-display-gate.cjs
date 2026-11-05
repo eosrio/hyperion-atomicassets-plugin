@@ -31,7 +31,7 @@ function check(report) {
     assert.equal(row.encodedBytes,Buffer.byteLength(row.encoded));assert.equal(row.encodedSha256,sha(row.encoded));
     assert.deepEqual(row.restore,{attempted:true,succeeded:true});assert.equal(row.failure,undefined);
     const outcome=r=>{assert.equal(typeof r.accepted,'boolean');assert.equal(typeof r.sql,'string');assert.ok(Array.isArray(r.bindings));
-      if(r.accepted){assert.ok(Array.isArray(r.rows));assert.equal(r.error,undefined);}else{assert.equal(typeof r.error.message,'string');assert.equal(typeof r.error.code,'string');assert.equal(r.rows,undefined);}};
+      if(r.accepted){assert.ok(Array.isArray(r.rows));assert.equal(r.error,undefined);}else{assert.equal(typeof r.error.message,'string');assert.match(r.error.code??'',/^22[A-Z0-9]{3}$/,'Only observed SQL data exceptions are input outcomes; transport/timeout/setup errors fail the gate');assert.equal(r.rows,undefined);}};
     for(const k of ['json','jsonb','unencodedJsonbArray'])outcome(row.boundaries[k]);
     for(const r of row.boundaries.scalar)outcome(r);
     outcome(row.storage);assert.equal(row.storage.accepted,row.boundaries.jsonb.accepted);
@@ -46,7 +46,7 @@ function check(report) {
   assert.equal(result.numericLiterals.length,3);
   result.numericLiterals.forEach((row,i)=>{assert.equal(row.kind,'native-SQL-literal-not-original-encoder');assert.equal(row.raw,numericLiterals[i]);
     for(const name of ['json','jsonb']){const r=row.boundaries[name];assert.equal(typeof r.accepted,'boolean');assert.deepEqual(r.bindings,[row.raw]);
-      if(r.accepted)assert.ok(Array.isArray(r.rows));else assert.equal(typeof r.error.code,'string');}});
+      if(r.accepted)assert.ok(Array.isArray(r.rows));else assert.match(r.error.code??'',/^22[A-Z0-9]{3}$/);}});
   return {captureComplete:true,originalVectors:21,observedCases:63,physicalServiceRetirementNotImplied:true,parityQualified:false};
 }
 module.exports={check};

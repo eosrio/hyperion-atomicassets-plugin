@@ -66,7 +66,9 @@ test('complete structural gate model accepts only all cases, source pins, hashes
     events:[{kind:'json39-original-cleanup',cleanup:Array.from({length:7},()=>({attempted:true,succeeded:true}))}],result:{inputProfile:profile,display}};
   assert.equal(check(report).captureComplete,true);
   for(const mutate of [r=>r.result.display.cases.pop(),r=>r.result.display.cases[0].http.asset.sha256='0'.repeat(64),
-    r=>r.events[0].cleanup[0].succeeded=false,r=>r.reference.sources[0].workingSha256='0'.repeat(64),r=>r.harness.pop(),r=>r.plugin.trackedStatus='M source']){
+    r=>r.events[0].cleanup[0].succeeded=false,r=>r.reference.sources[0].workingSha256='0'.repeat(64),r=>r.harness.pop(),r=>r.plugin.trackedStatus='M source',
+    r=>{r.result.display.cases[0].boundaries.json={accepted:false,sql:SQL.json,bindings:['MODEL'],error:{code:'57014',message:'model timeout'}};},
+    r=>{const row=r.result.display.numericLiterals[0];row.boundaries.json={accepted:false,bindings:[row.raw],error:{code:'ECONNRESET'}};}]){
     const bad=structuredClone(report);mutate(bad);assert.throws(()=>check(bad));
   }
 });
