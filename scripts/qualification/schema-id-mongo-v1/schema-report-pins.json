@@ -1,0 +1,40 @@
+{
+  "repository": "eosrio/hyperion-atomicassets-plugin",
+  "run": 41992627221,
+  "head": "fec2bc877be9869e1ddd8b18ab4d8628515e8790",
+  "tree": "a7bbf31f8e6ad336460b02e90498e57dd81d42b5",
+  "artifacts": [
+    {
+      "id": 13398254612,
+      "name": "schema-id-json39-v1-24.22.1-original-lifecycle",
+      "size": 76140,
+      "sha256": "bfff895bd56c983a78ff91468c4d612fdd3ef1d749fb4ab3899c2f89b04fff7c",
+      "reportBytes": 1583135,
+      "reportSha256": "930d772812da320fd78dada57bbddf583597ad980295d2b8b75d3c00543e52eb"
+    },
+    {
+      "id": 13398184765,
+      "name": "schema-id-json39-v1-26.4.0-original-lifecycle",
+      "size": 76177,
+      "sha256": "230308820c566387211d07d8ce520c0ab0a9f60ed4b62333fa7f3e39aa16a1f8",
+      "reportBytes": 1583134,
+      "reportSha256": "8f5ee4344a99ecb7c530a5f5ee54327858e7d251edeb3179b390efdc2a355a5c"
+    },
+    {
+      "id": 13399180477,
+      "name": "schema-id-json39-v1-24.22.1-portable-safe-image",
+      "size": 76252,
+      "sha256": "db2a34654ad2dc437df4fef7cc065b22dd53a4110ef5bf014b62beed28cab12b",
+      "reportBytes": 1583172,
+      "reportSha256": "502945f5341fd8b7084b65c2abcd0e1937542026a05444d76e259f02ad96d3d8"
+    },
+    {
+      "id": 13398009991,
+      "name": "schema-id-json39-v1-26.4.0-portable-safe-image",
+      "size": 76237,
+      "sha256": "8d5e83c97e439f473e54da87d6f4dab75e2eea55732d71a3bdbea6024aa1d721",
+      "reportBytes": 1583171,
+      "reportSha256": "e85a7b424896ec5d8347715b527665505a15c4458557caf51cf0eeb60bca1f29"
+    }
+  ]
+}
