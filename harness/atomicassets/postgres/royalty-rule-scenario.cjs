@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict');
 const {once}=require('node:events');
 const {createHash}=require('node:crypto');
-const {steps,cases}=require('./royalty-rule-plan.cjs');const {readBody,transaction}=require('./royalty-rule-runtime.cjs');
+const {steps,cases}=require('./royalty-rule-plan.cjs');const {readBody,transaction,observedQuery}=require('./royalty-rule-runtime.cjs');
 const hash=b=>createHash('sha256').update(b).digest('hex');
 // Original processor, PostgreSQL transaction, namespace, router and wrapper; no expected answer rows.
 module.exports=async function capture(fromReference,connection,config,record){
@@ -13,10 +13,9 @@ module.exports=async function capture(fromReference,connection,config,record){
  const {AtomicMarketNamespace}=fromReference('./src/api/namespaces/atomicmarket/index.ts');
  const {Client}=fromReference('pg');
  const client=new Client({...config,ssl:false,connectionTimeoutMillis:5000,statement_timeout:30000,application_name:'royalty-original-pg'});
- let processor,release,server,primary,queryPhase=null,callbackPhase=null;const cleanup=[],handlerQueries=[],callbackQueries=[];
- const clientQuery=client.query.bind(client);client.query=async function(sql,bindings,...rest){if(!callbackPhase)return clientQuery(sql,bindings,...rest);assert.equal(typeof sql,'string');const row={stage:callbackPhase,sql,bindings:bindings??[]};callbackQueries.push(row);try{const value=await clientQuery(sql,bindings,...rest);row.rowCount=value.rowCount;return value;}catch(error){row.error={code:error.code??null,message:String(error.message).slice(0,2048)};throw error;}finally{record({kind:'royalty-callback-sql',value:row});}};
- const observeServer=server=>{const originalQuery=server.query.bind(server);server.query=async function(sql,bindings,...rest){if(!queryPhase)return originalQuery(sql,bindings,...rest);const row={case:queryPhase,sql,bindings:bindings??[]};handlerQueries.push(row);try{const value=await originalQuery(sql,bindings,...rest);row.rowCount=value.rowCount;row.rows=value.rows;return value;}catch(error){row.error={code:error.code??null,message:String(error.message).slice(0,2048)};throw error;}finally{record({kind:'royalty-handler-sql',value:row});}};};
- const result={kind:'original-royalty-rule-pg-capture',scope:{constructedSource:true,chainAuthority:false,fullParity:false},stages:[],responses:[]};
+ let processor,release,server,primary,hasPrimary=false,queryPhase=null,callbackPhase=null;const cleanup=[],handlerQueries=[],callbackQueries=[];
+ const clientQuery=client.query.bind(client);client.query=async function(sql,bindings,...rest){if(!callbackPhase)return clientQuery(sql,bindings,...rest);assert.equal(typeof sql,'string');const row={stage:callbackPhase,sql,bindings:bindings??[]};callbackQueries.push(row);return observedQuery(()=>clientQuery(sql,bindings,...rest),row,record,'royalty-callback-sql');};
+ const observeServer=server=>{const originalQuery=server.query.bind(server);server.query=async function(sql,bindings,...rest){if(!queryPhase)return originalQuery(sql,bindings,...rest);const row={case:queryPhase,sql,bindings:bindings??[]};handlerQueries.push(row);return observedQuery(()=>originalQuery(sql,bindings,...rest),row,record,'royalty-handler-sql');};}; const result={kind:'original-royalty-rule-pg-capture',scope:{constructedSource:true,chainAuthority:false,fullParity:false},stages:[],responses:[]};
  try{
   await client.connect();
   processor=new DataProcessor(ProcessingState.HEAD,helper.createMockModuleLoader());
@@ -43,12 +42,12 @@ module.exports=async function capture(fromReference,connection,config,record){
    const raw=await readBody(response);
    const row={...plan,path,status:response.status,headers:Object.fromEntries(response.headers),rawText:raw.toString('utf8'),bytes:raw.length,sha256:hash(raw)};
    if(method!=='HEAD')JSON.parse(row.rawText);queryPhase=null;result.responses.push(row);record({kind:'royalty-http',value:row});}
- }catch(e){primary=e;}
+ }catch(e){primary=e;hasPrimary=true;}
  finally{
-  const close=async(name,fn)=>{const row={name,attempted:true};cleanup.push(row);try{await fn();row.succeeded=true;}catch(e){row.succeeded=false;row.error=String(e.message);primary??=e;}};
+  const close=async(name,fn)=>{const row={name,attempted:true};cleanup.push(row);try{await fn();row.succeeded=true;}catch(e){row.succeeded=false;row.error=String(e?.message??e);if(!hasPrimary){primary=e;hasPrimary=true;}}};
   if(release)await close('listeners',async()=>{release();assert.equal(processor.getActiveListeners().table_listeners.length,0);assert.equal(processor.getActiveListeners().trace_listeners.length,0);});
   if(server){await close('http',async()=>{server.httpServer.closeAllConnections();await new Promise(resolve=>server.socket.io.close(resolve));});await close('server-database',()=>server.database.end());}
-  await close('scenario-client',()=>client.end());result.handlerQueries=handlerQueries;result.callbackQueries=callbackQueries;result.cleanup=cleanup;try{record({kind:'royalty-cleanup',cleanup});}catch(e){primary??=e;}
+  await close('scenario-client',()=>client.end());result.handlerQueries=handlerQueries;result.callbackQueries=callbackQueries;result.cleanup=cleanup;try{record({kind:'royalty-cleanup',cleanup});}catch(e){if(!hasPrimary){primary=e;hasPrimary=true;}}
  }
- if(primary)throw primary;return result;
+ if(hasPrimary)throw primary;return result;
 };

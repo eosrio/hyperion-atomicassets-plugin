@@ -38,7 +38,7 @@ jobs:
       - run: node scripts/prepare-reference.mjs --destination "$RUNNER_TEMP/atomicassets-api-2.7.0"
       - run: npm install --global pnpm@11.13.1
       - run: pnpm --dir "$RUNNER_TEMP/atomicassets-api-2.7.0" install --frozen-lockfile
-      - run: node --test harness/atomicassets/postgres/royalty-rule-source.test.mjs
+      - run: node --test harness/atomicassets/postgres/royalty-rule-source.test.mjs harness/atomicassets/postgres/royalty-rule-original-dml.test.mjs
       - name: Capture original callback, PostgreSQL and HTTP
         env:
           AA_REFERENCE_ROOT: ${{ runner.temp }}/atomicassets-api-2.7.0
