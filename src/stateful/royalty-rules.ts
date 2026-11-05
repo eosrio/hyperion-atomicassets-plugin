@@ -8,6 +8,8 @@ export const ROYALTY_ATTRIBUTE_MODEL_ID='atomicmarket-royalty-attributes';
 export const ROYALTY_ATTRIBUTE_MODEL_REVISION='atomicmarket-270-royalty-attributes-v1';
 /** Required semantics only; no current Mongo/simple qualification is inferred. */
 export const ROYALTY_ATTRIBUTE_COMPARISON='atomicmarket-270-royalty-attribute-pg16-v1';
+/** Engineering-only native simple comparison; not a PostgreSQL equivalence claim. */
+export const ROYALTY_ATTRIBUTE_MONGO_ENGINEERING_COMPARISON='mongodb-simple-utf8-v1';
 export const ROYALTY_TEMPLATE_MODEL_ID='atomicmarket-royalty-templates';
 export const ROYALTY_TEMPLATE_MODEL_REVISION='atomicmarket-270-royalty-templates-v1';
 export const ROYALTY_TEMPLATE_COMPARISON='atomicmarket-270-royalty-template-pg16-v1';
@@ -19,27 +21,27 @@ export function royaltyTemplateModel(mongoEngineering=false):IndexedModelV1 {ret
   {id:'template_id',alias:'rule',path:['template_id'],type:'int64',nullable:false,operators:['eq','in']}],
   textComparison:mongoEngineering?ROYALTY_TEMPLATE_MONGO_ENGINEERING_COMPARISON:ROYALTY_TEMPLATE_COMPARISON,orders:[[{field:'template_id',direction:'asc',nulls:'last'}]]};}
 export const royaltyRuleProjectionId=(root:string,table:RoyaltyRuleTable):string=>root+(table==='royaltytemp'?':royalty-template-rules':':royalty-attribute-rules');
-export function royaltyAttributeModel():IndexedModelV1 {
+export function royaltyAttributeModel(mongoEngineering=false):IndexedModelV1 {
   return {id:ROYALTY_ATTRIBUTE_MODEL_ID,base:{alias:'rule',kind:ROYALTY_ATTRIBUTE_KIND},joins:[],fields:[
     {id:'market_contract',alias:'rule',path:['market_contract'],type:'text',nullable:false,operators:['eq']},
     {id:'collection_name',alias:'rule',path:['collection_name'],type:'text',nullable:false,operators:['eq']},
     {id:'source',alias:'rule',path:['source'],type:'int64',nullable:false,operators:['eq']},
     {id:'field',alias:'rule',path:['field'],type:'text',nullable:false,operators:['eq']},
     {id:'rule_id',alias:'rule',path:['rule_id'],type:'int64',nullable:false,operators:[]}],
-    textComparison:ROYALTY_ATTRIBUTE_COMPARISON,orders:[[{field:'rule_id',direction:'asc',nulls:'last'}]]};
+    textComparison:mongoEngineering?ROYALTY_ATTRIBUTE_MONGO_ENGINEERING_COMPARISON:ROYALTY_ATTRIBUTE_COMPARISON,orders:[[{field:'rule_id',direction:'asc',nulls:'last'}]]};
 }
 export function royaltyAttributeLimits(limits:StatefulLimits):IndexedLimitsV1 {
   return {readAttempts:limits.readAttempts,responseRecords:limits.responseRecords,responseBytes:limits.responseBytes,
     queryBytes:Math.min(limits.inputBytes,limits.responseBytes),predicates:limits.value.fields,orderTerms:Math.min(1,limits.value.fields),setValues:limits.value.arrayElements};
 }
-export function royaltyRuleProjections(root:string,contract:string,limits:StatefulLimits,engineeringTemplateQuery=false,engineeringMongoComparison=false):AtomicPluginRegistration['projections'] {
+export function royaltyRuleProjections(root:string,contract:string,limits:StatefulLimits,engineeringTemplateQuery=false,engineeringMongoComparison=false,engineeringAttributeMongoComparison=false):AtomicPluginRegistration['projections'] {
   return (['royaltytemp','royaltyattr'] as const).map(table=>({
     definition:{family:'stateful-projection-recovery' as const,interfaceVersion:1 as const,id:royaltyRuleProjectionId(root,table),
       selectors:[{id:contract+':table:'+table,contract,kind:'table' as const,name:table}],records:[{kind:royaltyRuleKind(table),integers:[]}]},
     limits:JSON.parse(JSON.stringify(limits)) as StatefulLimits,requiredSourceCapabilities:[],
     requiredCompleteKindRead:{family:'stateful-owner-complete-kind' as const,interfaceVersion:1 as const,
       limits:{readAttempts:limits.readAttempts,responseRecords:limits.responseRecords,responseBytes:limits.responseBytes}},
-    ...(table==='royaltyattr'?{requiredIndexedQueries:[{modelRevision:ROYALTY_ATTRIBUTE_MODEL_REVISION,model:royaltyAttributeModel(),limits:royaltyAttributeLimits(limits)}]}:
+    ...(table==='royaltyattr'?{requiredIndexedQueries:[{modelRevision:ROYALTY_ATTRIBUTE_MODEL_REVISION,model:royaltyAttributeModel(engineeringAttributeMongoComparison),limits:royaltyAttributeLimits(limits)}]}:
       engineeringTemplateQuery?{requiredIndexedQueries:[{modelRevision:ROYALTY_TEMPLATE_MODEL_REVISION,model:royaltyTemplateModel(engineeringMongoComparison),limits:royaltyAttributeLimits(limits)}]}:{}),
     async reduce(port:StatefulReductionV2){
       const block=port.source.block;

@@ -9,6 +9,14 @@
   },
   "requiredComparisonProfile": "atomicmarket-270-royalty-attribute-pg16-v1",
   "profileIsQualificationOrDefaultOffer": false,
+  "attributeEngineeringComparison": {
+    "option": "engineeringRoyaltyAttributeMongoComparison",
+    "profile": "mongodb-simple-utf8-v1",
+    "defaultChanged": false,
+    "productionOffer": false,
+    "sameInputSourceControl": "four original PostgreSQL16.15 attribute stages and six HTTP cases; finite SDK reader under both comparison choices",
+    "physicalMongoComparison": false
+  },
   "sourceIdentity": "configured market plus original contract-row identity.scope; no KV scope inference",
   "sourceOrder": "original equal-priority occurrence order; preserve first creation until delete/recreate",
   "internalIntegers": "canonical exact signed decimal strings; only proven signed16 source becomes a JSON number",

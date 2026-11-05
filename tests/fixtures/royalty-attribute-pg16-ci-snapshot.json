@@ -1,0 +1,677 @@
+{
+  "provenance": {
+    "run": 42014752481,
+    "head": "af07febcbc1146f162817c3a84ec7cbbebd76114",
+    "tree": "8e9e6b433f2245fdeaab7b6ef13e7dfd54eb401f",
+    "baseline": "0aabc47dcf8bd0804d4dcecb336c90fc02a9c89e",
+    "postgres": "16.15",
+    "artifacts": [
+      {
+        "node": "24",
+        "artifactId": "13408438511",
+        "zipSha256": "baf3a6468f3cb83d38b0e3239309811669fbcd1e39cf236daf18338ef457bcb5",
+        "reportSha256": "39750b69303dba6ecd980237dd5f9aab793fb454a1cf7fe9d5b4599a7b559627"
+      },
+      {
+        "node": "26",
+        "artifactId": "13408208855",
+        "zipSha256": "a3bcb2288d3127681e576bf8d415b44eb609bf0ccc6c91ddd444082ccfc9e03b",
+        "reportSha256": "3fa7018e515c797139c30cb6929d0eeff96b12eb7c081359d713c86e654ae11f"
+      }
+    ],
+    "extraction": "Exact attribute-only input/stage/SQL/raw HTTP subsections from the Node24 report; Node26 agrees after omitting HTTP headers and query_time."
+  },
+  "royaltyAttribute": {
+    "inputs": [
+      {
+        "kind": "royalty-callback-input",
+        "stage": "insert",
+        "block": {
+          "block_num": 1,
+          "block_id": "0000000000000000000000000000000000000000000000000000000000000001",
+          "timestamp": "2023-11-14T22:13:00.000"
+        },
+        "rows": [
+          {
+            "table": "royaltyattr",
+            "value": {
+              "index": "1",
+              "source": 0,
+              "field": "name",
+              "value": [
+                "string",
+                "Gold"
+              ],
+              "weight": "9223372036854775807",
+              "recipients": [
+                {
+                  "recipient": "alice",
+                  "weight": 5
+                }
+              ],
+              "lookup_hash": "abababababababababababababababababababababababababababababababab"
+            }
+          },
+          {
+            "table": "royaltyattr",
+            "value": {
+              "index": "2",
+              "source": 0,
+              "field": "name",
+              "value": [
+                "string",
+                "Gold"
+              ],
+              "weight": "-9223372036854775808",
+              "recipients": [
+                {
+                  "recipient": "alice",
+                  "weight": 5
+                }
+              ],
+              "lookup_hash": "abababababababababababababababababababababababababababababababab"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "royalty-callback-input",
+        "stage": "update",
+        "block": {
+          "block_num": 2,
+          "block_id": "0000000000000000000000000000000000000000000000000000000000000002",
+          "timestamp": "2023-11-14T22:13:01.000"
+        },
+        "rows": [
+          {
+            "table": "royaltyattr",
+            "value": {
+              "index": "1",
+              "source": 0,
+              "field": "updated",
+              "value": [
+                "string",
+                "Gold"
+              ],
+              "weight": "0",
+              "recipients": [
+                {
+                  "recipient": "alice",
+                  "weight": 5
+                }
+              ],
+              "lookup_hash": "abababababababababababababababababababababababababababababababab"
+            }
+          }
+        ]
+      },
+      {
+        "kind": "royalty-callback-input",
+        "stage": "delete",
+        "block": {
+          "block_num": 3,
+          "block_id": "0000000000000000000000000000000000000000000000000000000000000003",
+          "timestamp": "2023-11-14T22:13:02.000"
+        },
+        "rows": [
+          {
+            "table": "royaltyattr",
+            "value": {
+              "index": "1",
+              "source": 0,
+              "field": "name",
+              "value": [
+                "string",
+                "Gold"
+              ],
+              "weight": "9223372036854775807",
+              "recipients": [
+                {
+                  "recipient": "alice",
+                  "weight": 5
+                }
+              ],
+              "lookup_hash": "abababababababababababababababababababababababababababababababab"
+            },
+            "present": false
+          }
+        ]
+      },
+      {
+        "kind": "royalty-callback-input",
+        "stage": "recreate",
+        "block": {
+          "block_num": 4,
+          "block_id": "0000000000000000000000000000000000000000000000000000000000000004",
+          "timestamp": "2023-11-14T22:13:03.000"
+        },
+        "rows": [
+          {
+            "table": "royaltyattr",
+            "value": {
+              "index": "1",
+              "source": 0,
+              "field": "name",
+              "value": [
+                "string",
+                "Gold"
+              ],
+              "weight": "-9223372036854775808",
+              "recipients": [
+                {
+                  "recipient": "alice",
+                  "weight": 5
+                }
+              ],
+              "lookup_hash": "abababababababababababababababababababababababababababababababab"
+            }
+          }
+        ]
+      }
+    ],
+    "stages": [
+      {
+        "name": "insert",
+        "attributes": {
+          "sql": "SELECT row_to_json(t)::text AS raw_json FROM (SELECT market_contract,collection_name,rule_id::text AS rule_id,source,field,value,weight::text AS weight,recipients,encode(lookup_hash, 'hex') AS lookup_hash,updated_at_block::text AS updated_at_block,updated_at_time::text AS updated_at_time,created_at_block::text AS created_at_block,created_at_time::text AS created_at_time FROM atomicmarket_royalties_attributes WHERE market_contract=$1 AND collection_name=$2 ORDER BY atomicmarket_royalties_attributes.rule_id) t",
+          "bindings": [
+            "atomicmarket",
+            "oracle"
+          ],
+          "rows": [
+            {
+              "raw_json": "{\"market_contract\":\"atomicmarket\",\"collection_name\":\"oracle\",\"rule_id\":\"1\",\"source\":0,\"field\":\"name\",\"value\":[\"string\", \"Gold\"],\"weight\":\"9223372036854775807\",\"recipients\":[{\"weight\": 5, \"recipient\": \"alice\"}],\"lookup_hash\":\"abababababababababababababababababababababababababababababababab\",\"updated_at_block\":\"1\",\"updated_at_time\":\"1699999980000\",\"created_at_block\":\"1\",\"created_at_time\":\"1699999980000\"}"
+            },
+            {
+              "raw_json": "{\"market_contract\":\"atomicmarket\",\"collection_name\":\"oracle\",\"rule_id\":\"2\",\"source\":0,\"field\":\"name\",\"value\":[\"string\", \"Gold\"],\"weight\":\"-9223372036854775808\",\"recipients\":[{\"weight\": 5, \"recipient\": \"alice\"}],\"lookup_hash\":\"abababababababababababababababababababababababababababababababab\",\"updated_at_block\":\"1\",\"updated_at_time\":\"1699999980000\",\"created_at_block\":\"1\",\"created_at_time\":\"1699999980000\"}"
+            }
+          ]
+        }
+      },
+      {
+        "name": "update",
+        "attributes": {
+          "sql": "SELECT row_to_json(t)::text AS raw_json FROM (SELECT market_contract,collection_name,rule_id::text AS rule_id,source,field,value,weight::text AS weight,recipients,encode(lookup_hash, 'hex') AS lookup_hash,updated_at_block::text AS updated_at_block,updated_at_time::text AS updated_at_time,created_at_block::text AS created_at_block,created_at_time::text AS created_at_time FROM atomicmarket_royalties_attributes WHERE market_contract=$1 AND collection_name=$2 ORDER BY atomicmarket_royalties_attributes.rule_id) t",
+          "bindings": [
+            "atomicmarket",
+            "oracle"
+          ],
+          "rows": [
+            {
+              "raw_json": "{\"market_contract\":\"atomicmarket\",\"collection_name\":\"oracle\",\"rule_id\":\"1\",\"source\":0,\"field\":\"updated\",\"value\":[\"string\", \"Gold\"],\"weight\":\"0\",\"recipients\":[{\"weight\": 5, \"recipient\": \"alice\"}],\"lookup_hash\":\"abababababababababababababababababababababababababababababababab\",\"updated_at_block\":\"2\",\"updated_at_time\":\"1699999981000\",\"created_at_block\":\"1\",\"created_at_time\":\"1699999980000\"}"
+            },
+            {
+              "raw_json": "{\"market_contract\":\"atomicmarket\",\"collection_name\":\"oracle\",\"rule_id\":\"2\",\"source\":0,\"field\":\"name\",\"value\":[\"string\", \"Gold\"],\"weight\":\"-9223372036854775808\",\"recipients\":[{\"weight\": 5, \"recipient\": \"alice\"}],\"lookup_hash\":\"abababababababababababababababababababababababababababababababab\",\"updated_at_block\":\"1\",\"updated_at_time\":\"1699999980000\",\"created_at_block\":\"1\",\"created_at_time\":\"1699999980000\"}"
+            }
+          ]
+        }
+      },
+      {
+        "name": "delete",
+        "attributes": {
+          "sql": "SELECT row_to_json(t)::text AS raw_json FROM (SELECT market_contract,collection_name,rule_id::text AS rule_id,source,field,value,weight::text AS weight,recipients,encode(lookup_hash, 'hex') AS lookup_hash,updated_at_block::text AS updated_at_block,updated_at_time::text AS updated_at_time,created_at_block::text AS created_at_block,created_at_time::text AS created_at_time FROM atomicmarket_royalties_attributes WHERE market_contract=$1 AND collection_name=$2 ORDER BY atomicmarket_royalties_attributes.rule_id) t",
+          "bindings": [
+            "atomicmarket",
+            "oracle"
+          ],
+          "rows": [
+            {
+              "raw_json": "{\"market_contract\":\"atomicmarket\",\"collection_name\":\"oracle\",\"rule_id\":\"2\",\"source\":0,\"field\":\"name\",\"value\":[\"string\", \"Gold\"],\"weight\":\"-9223372036854775808\",\"recipients\":[{\"weight\": 5, \"recipient\": \"alice\"}],\"lookup_hash\":\"abababababababababababababababababababababababababababababababab\",\"updated_at_block\":\"1\",\"updated_at_time\":\"1699999980000\",\"created_at_block\":\"1\",\"created_at_time\":\"1699999980000\"}"
+            }
+          ]
+        }
+      },
+      {
+        "name": "recreate",
+        "attributes": {
+          "sql": "SELECT row_to_json(t)::text AS raw_json FROM (SELECT market_contract,collection_name,rule_id::text AS rule_id,source,field,value,weight::text AS weight,recipients,encode(lookup_hash, 'hex') AS lookup_hash,updated_at_block::text AS updated_at_block,updated_at_time::text AS updated_at_time,created_at_block::text AS created_at_block,created_at_time::text AS created_at_time FROM atomicmarket_royalties_attributes WHERE market_contract=$1 AND collection_name=$2 ORDER BY atomicmarket_royalties_attributes.rule_id) t",
+          "bindings": [
+            "atomicmarket",
+            "oracle"
+          ],
+          "rows": [
+            {
+              "raw_json": "{\"market_contract\":\"atomicmarket\",\"collection_name\":\"oracle\",\"rule_id\":\"1\",\"source\":0,\"field\":\"name\",\"value\":[\"string\", \"Gold\"],\"weight\":\"-9223372036854775808\",\"recipients\":[{\"weight\": 5, \"recipient\": \"alice\"}],\"lookup_hash\":\"abababababababababababababababababababababababababababababababab\",\"updated_at_block\":\"4\",\"updated_at_time\":\"1699999983000\",\"created_at_block\":\"4\",\"created_at_time\":\"1699999983000\"}"
+            },
+            {
+              "raw_json": "{\"market_contract\":\"atomicmarket\",\"collection_name\":\"oracle\",\"rule_id\":\"2\",\"source\":0,\"field\":\"name\",\"value\":[\"string\", \"Gold\"],\"weight\":\"-9223372036854775808\",\"recipients\":[{\"weight\": 5, \"recipient\": \"alice\"}],\"lookup_hash\":\"abababababababababababababababababababababababababababababababab\",\"updated_at_block\":\"1\",\"updated_at_time\":\"1699999980000\",\"created_at_block\":\"1\",\"created_at_time\":\"1699999980000\"}"
+            }
+          ]
+        }
+      }
+    ],
+    "handlerQueries": [
+      {
+        "case": "attribute-all",
+        "sql": "\n        SELECT market_contract, collection_name, rule_id, source, field, value, weight, recipients,\n            encode(lookup_hash::bytea, 'hex') lookup_hash,\n            updated_at_block, updated_at_time, created_at_block, created_at_time\n        FROM atomicmarket_royalties_attributes\n     WHERE market_contract = $1 AND collection_name = $2 ORDER BY rule_id ASC LIMIT $3 OFFSET $4  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          100,
+          0
+        ],
+        "rowCount": 2,
+        "rows": [
+          {
+            "market_contract": "atomicmarket",
+            "collection_name": "oracle",
+            "rule_id": "1",
+            "source": 0,
+            "field": "name",
+            "value": [
+              "string",
+              "Gold"
+            ],
+            "weight": "-9223372036854775808",
+            "recipients": [
+              {
+                "weight": 5,
+                "recipient": "alice"
+              }
+            ],
+            "lookup_hash": "abababababababababababababababababababababababababababababababab",
+            "updated_at_block": "4",
+            "updated_at_time": "1699999983000",
+            "created_at_block": "4",
+            "created_at_time": "1699999983000"
+          },
+          {
+            "market_contract": "atomicmarket",
+            "collection_name": "oracle",
+            "rule_id": "2",
+            "source": 0,
+            "field": "name",
+            "value": [
+              "string",
+              "Gold"
+            ],
+            "weight": "-9223372036854775808",
+            "recipients": [
+              {
+                "weight": 5,
+                "recipient": "alice"
+              }
+            ],
+            "lookup_hash": "abababababababababababababababababababababababababababababababab",
+            "updated_at_block": "1",
+            "updated_at_time": "1699999980000",
+            "created_at_block": "1",
+            "created_at_time": "1699999980000"
+          }
+        ]
+      },
+      {
+        "case": "attribute-zero",
+        "sql": "\n        SELECT market_contract, collection_name, rule_id, source, field, value, weight, recipients,\n            encode(lookup_hash::bytea, 'hex') lookup_hash,\n            updated_at_block, updated_at_time, created_at_block, created_at_time\n        FROM atomicmarket_royalties_attributes\n     WHERE market_contract = $1 AND collection_name = $2 AND source = $3 ORDER BY rule_id ASC LIMIT $4 OFFSET $3  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          0,
+          100
+        ],
+        "rowCount": 2,
+        "rows": [
+          {
+            "market_contract": "atomicmarket",
+            "collection_name": "oracle",
+            "rule_id": "1",
+            "source": 0,
+            "field": "name",
+            "value": [
+              "string",
+              "Gold"
+            ],
+            "weight": "-9223372036854775808",
+            "recipients": [
+              {
+                "weight": 5,
+                "recipient": "alice"
+              }
+            ],
+            "lookup_hash": "abababababababababababababababababababababababababababababababab",
+            "updated_at_block": "4",
+            "updated_at_time": "1699999983000",
+            "created_at_block": "4",
+            "created_at_time": "1699999983000"
+          },
+          {
+            "market_contract": "atomicmarket",
+            "collection_name": "oracle",
+            "rule_id": "2",
+            "source": 0,
+            "field": "name",
+            "value": [
+              "string",
+              "Gold"
+            ],
+            "weight": "-9223372036854775808",
+            "recipients": [
+              {
+                "weight": 5,
+                "recipient": "alice"
+              }
+            ],
+            "lookup_hash": "abababababababababababababababababababababababababababababababab",
+            "updated_at_block": "1",
+            "updated_at_time": "1699999980000",
+            "created_at_block": "1",
+            "created_at_time": "1699999980000"
+          }
+        ]
+      },
+      {
+        "case": "attribute-field",
+        "sql": "\n        SELECT market_contract, collection_name, rule_id, source, field, value, weight, recipients,\n            encode(lookup_hash::bytea, 'hex') lookup_hash,\n            updated_at_block, updated_at_time, created_at_block, created_at_time\n        FROM atomicmarket_royalties_attributes\n     WHERE market_contract = $1 AND collection_name = $2 AND field = $3 ORDER BY rule_id ASC LIMIT $4 OFFSET $5  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          "name",
+          100,
+          0
+        ],
+        "rowCount": 2,
+        "rows": [
+          {
+            "market_contract": "atomicmarket",
+            "collection_name": "oracle",
+            "rule_id": "1",
+            "source": 0,
+            "field": "name",
+            "value": [
+              "string",
+              "Gold"
+            ],
+            "weight": "-9223372036854775808",
+            "recipients": [
+              {
+                "weight": 5,
+                "recipient": "alice"
+              }
+            ],
+            "lookup_hash": "abababababababababababababababababababababababababababababababab",
+            "updated_at_block": "4",
+            "updated_at_time": "1699999983000",
+            "created_at_block": "4",
+            "created_at_time": "1699999983000"
+          },
+          {
+            "market_contract": "atomicmarket",
+            "collection_name": "oracle",
+            "rule_id": "2",
+            "source": 0,
+            "field": "name",
+            "value": [
+              "string",
+              "Gold"
+            ],
+            "weight": "-9223372036854775808",
+            "recipients": [
+              {
+                "weight": 5,
+                "recipient": "alice"
+              }
+            ],
+            "lookup_hash": "abababababababababababababababababababababababababababababababab",
+            "updated_at_block": "1",
+            "updated_at_time": "1699999980000",
+            "created_at_block": "1",
+            "created_at_time": "1699999980000"
+          }
+        ]
+      },
+      {
+        "case": "attribute-body-query",
+        "sql": "\n        SELECT market_contract, collection_name, rule_id, source, field, value, weight, recipients,\n            encode(lookup_hash::bytea, 'hex') lookup_hash,\n            updated_at_block, updated_at_time, created_at_block, created_at_time\n        FROM atomicmarket_royalties_attributes\n     WHERE market_contract = $1 AND collection_name = $2 AND source = $3 AND field = $4 ORDER BY rule_id ASC LIMIT $5 OFFSET $3  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          0,
+          "name",
+          100
+        ],
+        "rowCount": 2,
+        "rows": [
+          {
+            "market_contract": "atomicmarket",
+            "collection_name": "oracle",
+            "rule_id": "1",
+            "source": 0,
+            "field": "name",
+            "value": [
+              "string",
+              "Gold"
+            ],
+            "weight": "-9223372036854775808",
+            "recipients": [
+              {
+                "weight": 5,
+                "recipient": "alice"
+              }
+            ],
+            "lookup_hash": "abababababababababababababababababababababababababababababababab",
+            "updated_at_block": "4",
+            "updated_at_time": "1699999983000",
+            "created_at_block": "4",
+            "created_at_time": "1699999983000"
+          },
+          {
+            "market_contract": "atomicmarket",
+            "collection_name": "oracle",
+            "rule_id": "2",
+            "source": 0,
+            "field": "name",
+            "value": [
+              "string",
+              "Gold"
+            ],
+            "weight": "-9223372036854775808",
+            "recipients": [
+              {
+                "weight": 5,
+                "recipient": "alice"
+              }
+            ],
+            "lookup_hash": "abababababababababababababababababababababababababababababababab",
+            "updated_at_block": "1",
+            "updated_at_time": "1699999980000",
+            "created_at_block": "1",
+            "created_at_time": "1699999980000"
+          }
+        ]
+      },
+      {
+        "case": "attribute-head",
+        "sql": "\n        SELECT market_contract, collection_name, rule_id, source, field, value, weight, recipients,\n            encode(lookup_hash::bytea, 'hex') lookup_hash,\n            updated_at_block, updated_at_time, created_at_block, created_at_time\n        FROM atomicmarket_royalties_attributes\n     WHERE market_contract = $1 AND collection_name = $2 ORDER BY rule_id ASC LIMIT $3 OFFSET $4  ",
+        "bindings": [
+          "atomicmarket",
+          "oracle",
+          100,
+          0
+        ],
+        "rowCount": 2,
+        "rows": [
+          {
+            "market_contract": "atomicmarket",
+            "collection_name": "oracle",
+            "rule_id": "1",
+            "source": 0,
+            "field": "name",
+            "value": [
+              "string",
+              "Gold"
+            ],
+            "weight": "-9223372036854775808",
+            "recipients": [
+              {
+                "weight": 5,
+                "recipient": "alice"
+              }
+            ],
+            "lookup_hash": "abababababababababababababababababababababababababababababababab",
+            "updated_at_block": "4",
+            "updated_at_time": "1699999983000",
+            "created_at_block": "4",
+            "created_at_time": "1699999983000"
+          },
+          {
+            "market_contract": "atomicmarket",
+            "collection_name": "oracle",
+            "rule_id": "2",
+            "source": 0,
+            "field": "name",
+            "value": [
+              "string",
+              "Gold"
+            ],
+            "weight": "-9223372036854775808",
+            "recipients": [
+              {
+                "weight": 5,
+                "recipient": "alice"
+              }
+            ],
+            "lookup_hash": "abababababababababababababababababababababababababababababababab",
+            "updated_at_block": "1",
+            "updated_at_time": "1699999980000",
+            "created_at_block": "1",
+            "created_at_time": "1699999980000"
+          }
+        ]
+      }
+    ],
+    "responses": [
+      {
+        "name": "attribute-all",
+        "route": "attributes",
+        "path": "/atomicmarket/v1/royalties/oracle/attributes",
+        "status": 200,
+        "headers": {
+          "access-control-allow-headers": "*",
+          "connection": "keep-alive",
+          "content-length": "858",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Thu, 05 Nov 2026 10:56:25 GMT",
+          "keep-alive": "timeout=65",
+          "last-modified": "Thu, 05 Nov 2026 10:56:25 GMT",
+          "vary": "Origin, Accept-Encoding"
+        },
+        "rawText": "{\"success\":true,\"data\":[{\"market_contract\":\"atomicmarket\",\"collection_name\":\"oracle\",\"rule_id\":\"1\",\"source\":0,\"field\":\"name\",\"value\":[\"string\",\"Gold\"],\"weight\":\"-9223372036854775808\",\"recipients\":[{\"weight\":5,\"recipient\":\"alice\"}],\"lookup_hash\":\"abababababababababababababababababababababababababababababababab\",\"updated_at_block\":\"4\",\"updated_at_time\":\"1699999983000\",\"created_at_block\":\"4\",\"created_at_time\":\"1699999983000\"},{\"market_contract\":\"atomicmarket\",\"collection_name\":\"oracle\",\"rule_id\":\"2\",\"source\":0,\"field\":\"name\",\"value\":[\"string\",\"Gold\"],\"weight\":\"-9223372036854775808\",\"recipients\":[{\"weight\":5,\"recipient\":\"alice\"}],\"lookup_hash\":\"abababababababababababababababababababababababababababababababab\",\"updated_at_block\":\"1\",\"updated_at_time\":\"1699999980000\",\"created_at_block\":\"1\",\"created_at_time\":\"1699999980000\"}],\"query_time\":1793876185237}",
+        "bytes": 858,
+        "sha256": "f761fbfc5595d831add4fcd2b0b966d5abaf9cd4a493f74d5ca329db03d9b20a"
+      },
+      {
+        "name": "attribute-zero",
+        "route": "attributes",
+        "query": {
+          "source": "0"
+        },
+        "path": "/atomicmarket/v1/royalties/oracle/attributes",
+        "status": 200,
+        "headers": {
+          "access-control-allow-headers": "*",
+          "connection": "keep-alive",
+          "content-length": "858",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Thu, 05 Nov 2026 10:56:25 GMT",
+          "keep-alive": "timeout=65",
+          "last-modified": "Thu, 05 Nov 2026 10:56:25 GMT",
+          "vary": "Origin, Accept-Encoding"
+        },
+        "rawText": "{\"success\":true,\"data\":[{\"market_contract\":\"atomicmarket\",\"collection_name\":\"oracle\",\"rule_id\":\"1\",\"source\":0,\"field\":\"name\",\"value\":[\"string\",\"Gold\"],\"weight\":\"-9223372036854775808\",\"recipients\":[{\"weight\":5,\"recipient\":\"alice\"}],\"lookup_hash\":\"abababababababababababababababababababababababababababababababab\",\"updated_at_block\":\"4\",\"updated_at_time\":\"1699999983000\",\"created_at_block\":\"4\",\"created_at_time\":\"1699999983000\"},{\"market_contract\":\"atomicmarket\",\"collection_name\":\"oracle\",\"rule_id\":\"2\",\"source\":0,\"field\":\"name\",\"value\":[\"string\",\"Gold\"],\"weight\":\"-9223372036854775808\",\"recipients\":[{\"weight\":5,\"recipient\":\"alice\"}],\"lookup_hash\":\"abababababababababababababababababababababababababababababababab\",\"updated_at_block\":\"1\",\"updated_at_time\":\"1699999980000\",\"created_at_block\":\"1\",\"created_at_time\":\"1699999980000\"}],\"query_time\":1793876185256}",
+        "bytes": 858,
+        "sha256": "5390f4d04c6ef6d2ce9559049c09f92bc976f0439a29241b6fcd9120b3b7c724"
+      },
+      {
+        "name": "attribute-field",
+        "route": "attributes",
+        "query": {
+          "field": "name"
+        },
+        "path": "/atomicmarket/v1/royalties/oracle/attributes",
+        "status": 200,
+        "headers": {
+          "access-control-allow-headers": "*",
+          "connection": "keep-alive",
+          "content-length": "858",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Thu, 05 Nov 2026 10:56:25 GMT",
+          "keep-alive": "timeout=65",
+          "last-modified": "Thu, 05 Nov 2026 10:56:25 GMT",
+          "vary": "Origin, Accept-Encoding"
+        },
+        "rawText": "{\"success\":true,\"data\":[{\"market_contract\":\"atomicmarket\",\"collection_name\":\"oracle\",\"rule_id\":\"1\",\"source\":0,\"field\":\"name\",\"value\":[\"string\",\"Gold\"],\"weight\":\"-9223372036854775808\",\"recipients\":[{\"weight\":5,\"recipient\":\"alice\"}],\"lookup_hash\":\"abababababababababababababababababababababababababababababababab\",\"updated_at_block\":\"4\",\"updated_at_time\":\"1699999983000\",\"created_at_block\":\"4\",\"created_at_time\":\"1699999983000\"},{\"market_contract\":\"atomicmarket\",\"collection_name\":\"oracle\",\"rule_id\":\"2\",\"source\":0,\"field\":\"name\",\"value\":[\"string\",\"Gold\"],\"weight\":\"-9223372036854775808\",\"recipients\":[{\"weight\":5,\"recipient\":\"alice\"}],\"lookup_hash\":\"abababababababababababababababababababababababababababababababab\",\"updated_at_block\":\"1\",\"updated_at_time\":\"1699999980000\",\"created_at_block\":\"1\",\"created_at_time\":\"1699999980000\"}],\"query_time\":1793876185263}",
+        "bytes": 858,
+        "sha256": "6887c8a45e79b3723a38e43aa20ba7dc4fdf5781d927005a782fb9a1d1bc1abd"
+      },
+      {
+        "name": "attribute-invalid",
+        "route": "attributes",
+        "query": {
+          "source": "-1"
+        },
+        "path": "/atomicmarket/v1/royalties/oracle/attributes",
+        "status": 400,
+        "headers": {
+          "access-control-allow-headers": "*",
+          "connection": "keep-alive",
+          "content-length": "64",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Thu, 05 Nov 2026 10:56:25 GMT",
+          "keep-alive": "timeout=65",
+          "last-modified": "Thu, 05 Nov 2026 10:56:25 GMT",
+          "vary": "Origin, Accept-Encoding"
+        },
+        "rawText": "{\"success\":false,\"message\":\"Invalid value for parameter source\"}",
+        "bytes": 64,
+        "sha256": "b8adcdd8d96c4cc110cbf85ef49b70a95f83882ef2c492184507fdd78c5136dd"
+      },
+      {
+        "name": "attribute-body-query",
+        "route": "attributes",
+        "method": "POST",
+        "query": {
+          "source": "1",
+          "field": "not-name"
+        },
+        "body": {
+          "source": "0",
+          "field": "name"
+        },
+        "path": "/atomicmarket/v1/royalties/oracle/attributes",
+        "status": 200,
+        "headers": {
+          "access-control-allow-headers": "*",
+          "connection": "keep-alive",
+          "content-length": "858",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Thu, 05 Nov 2026 10:56:25 GMT",
+          "keep-alive": "timeout=65",
+          "last-modified": "Thu, 05 Nov 2026 10:56:25 GMT",
+          "vary": "Origin, Accept-Encoding"
+        },
+        "rawText": "{\"success\":true,\"data\":[{\"market_contract\":\"atomicmarket\",\"collection_name\":\"oracle\",\"rule_id\":\"1\",\"source\":0,\"field\":\"name\",\"value\":[\"string\",\"Gold\"],\"weight\":\"-9223372036854775808\",\"recipients\":[{\"weight\":5,\"recipient\":\"alice\"}],\"lookup_hash\":\"abababababababababababababababababababababababababababababababab\",\"updated_at_block\":\"4\",\"updated_at_time\":\"1699999983000\",\"created_at_block\":\"4\",\"created_at_time\":\"1699999983000\"},{\"market_contract\":\"atomicmarket\",\"collection_name\":\"oracle\",\"rule_id\":\"2\",\"source\":0,\"field\":\"name\",\"value\":[\"string\",\"Gold\"],\"weight\":\"-9223372036854775808\",\"recipients\":[{\"weight\":5,\"recipient\":\"alice\"}],\"lookup_hash\":\"abababababababababababababababababababababababababababababababab\",\"updated_at_block\":\"1\",\"updated_at_time\":\"1699999980000\",\"created_at_block\":\"1\",\"created_at_time\":\"1699999980000\"}],\"query_time\":1793876185284}",
+        "bytes": 858,
+        "sha256": "a59734360574e587f36ec39dfb74808fef7021fb5a8ad2c51f900e730f43104d"
+      },
+      {
+        "name": "attribute-head",
+        "route": "attributes",
+        "method": "HEAD",
+        "path": "/atomicmarket/v1/royalties/oracle/attributes",
+        "status": 200,
+        "headers": {
+          "access-control-allow-headers": "*",
+          "connection": "close",
+          "content-length": "858",
+          "content-type": "application/json; charset=utf-8",
+          "date": "Thu, 05 Nov 2026 10:56:25 GMT",
+          "last-modified": "Thu, 05 Nov 2026 10:56:25 GMT",
+          "vary": "Origin, Accept-Encoding"
+        },
+        "rawText": "",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  }
+}
