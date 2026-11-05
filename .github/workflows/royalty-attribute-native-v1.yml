@@ -1,0 +1,57 @@
+name: Royalty attribute original PG and native managed HTTP
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: ["main"]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  attribute-native:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['24.22.1', '26.4.0']
+    env:
+      HYPERION_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+      HYPERION_ATTRIBUTE_TEST_BSON_ROOT: ${{ github.workspace }}/out/royalty-attribute-inputs/hapi/node_modules/bson
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Fetch immutable Atomic product source
+        run: git fetch --no-tags --depth=1 origin b55fab683828cddeba292f9e5a7761e14a008aa1
+      - uses: actions/checkout@v4
+        with:
+          repository: eosrio/hyperion-history-api
+          ref: 06a3c96eb44947740fa8daaf4f3956dda69e3f6b
+          path: out/royalty-attribute-inputs/hapi
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+      - run: npm ci --allow-git=all
+      - run: npm ci --prefix out/royalty-attribute-inputs/hapi/packages/backend-mongodb --allow-git=all --ignore-scripts=false
+      - run: npm ci --prefix out/royalty-attribute-inputs/hapi --allow-git=all
+      - run: npm run build
+      - run: npm run build --prefix out/royalty-attribute-inputs/hapi
+      - run: npm run typecheck
+      - run: npm run typecheck --prefix out/royalty-attribute-inputs/hapi
+      - name: Pure original evidence, query and BSON controls
+        run: node --test tests/royalty-attribute-native-case.test.mjs scripts/qualification/royalty-attribute-mongo-v1/*.test.mjs
+      - name: Qualify exclusively owned attribute native HTTP and independent original pairing
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/qualification/royalty-attribute-mongo-v1/ci.mjs original-lifecycle
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: royalty-attribute-native-v1-${{ matrix.node }}
+          path: out/royalty-attribute-native-v1-original-lifecycle
+          if-no-files-found: warn

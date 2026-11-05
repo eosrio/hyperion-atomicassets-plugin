@@ -1,0 +1,2977 @@
+{
+  "schemaVersion": 1,
+  "physicalAcceptance": "pending",
+  "observation": {
+    "schemaVersion": 1,
+    "profile": "atomicmarket-royalty-attribute-owned-linux-v1",
+    "product": "b55fab683828cddeba292f9e5a7761e14a008aa1",
+    "hapi": "06a3c96eb44947740fa8daaf4f3956dda69e3f6b",
+    "physicalAcceptance": "pending",
+    "cycleInputsBoundByReviewedGitTree": [
+      "scripts/qualification/royalty-attribute-mongo-v1/admission.mjs",
+      "scripts/qualification/royalty-attribute-mongo-v1/binding.json"
+    ],
+    "files": [
+      {
+        "path": ".bun-version",
+        "bytes": 6,
+        "sha256": "d03d8b268b4171328ac2458ce8ca82d69a1fde38469d4e4faae4f8fa8d8a5e35"
+      },
+      {
+        "path": ".gitattributes",
+        "bytes": 1086,
+        "sha256": "8c45e9dec974aac9f4f26a974d649f0d63ab7b48da74931ddabad171d3f05a0a"
+      },
+      {
+        "path": ".github/ISSUE_TEMPLATE/task.md",
+        "bytes": 406,
+        "sha256": "48c8f37e5854afd3f2d881668b15d133377d25a904f4c6bd63308e351fd37b9a"
+      },
+      {
+        "path": ".github/workflows/atomic85-owned-bson-v1.yml",
+        "bytes": 2904,
+        "sha256": "80c3fee2e9334d237a6f2c324e944acc85fc514f094e580d0f8883e00b2863cb"
+      },
+      {
+        "path": ".github/workflows/atomic85-schema-id-v1.yml",
+        "bytes": 2964,
+        "sha256": "1a67e3c4051aa34c83cfd31e1afa9a0ebf93fcf48683f03c5b03e58f3e183c55"
+      },
+      {
+        "path": ".github/workflows/ci.yml",
+        "bytes": 2670,
+        "sha256": "f552cc21ab073933ec91958298f747dc976e897d9ddd9f8de15c0ee967df60fa"
+      },
+      {
+        "path": ".github/workflows/json-display-oracle.yml",
+        "bytes": 2192,
+        "sha256": "8b264ce97b49ba5eea8b88e13fe582754ffa14820ead062a60a04895d0a6463a"
+      },
+      {
+        "path": ".github/workflows/jsonb-display-bson-v3.yml",
+        "bytes": 2475,
+        "sha256": "fe90ca8df528b8be43b6b3ac1497d2eea13f0fac1d903f88e75747056ebc24cd"
+      },
+      {
+        "path": ".github/workflows/jsonb-display-mongo-http.yml",
+        "bytes": 2362,
+        "sha256": "646925014eb302e43f847c99cbbe48414e901252b22ff71cdcbbc55fcd8f127d"
+      },
+      {
+        "path": ".github/workflows/royalty-attribute-native-v1.yml",
+        "bytes": 2408,
+        "sha256": "bea36518f6c1cd483d21bd7d0b2f73b8599ad44d29e49c2b568249f3f3023e20"
+      },
+      {
+        "path": ".github/workflows/royalty-rule-pg-oracle-v1.yml",
+        "bytes": 2383,
+        "sha256": "1e4bec06c4d0ee92117f6aa32e774d23e97f1ae73886340e946d5f68bd845d0e"
+      },
+      {
+        "path": ".github/workflows/schema-id-json39-oracle-v1.yml",
+        "bytes": 2727,
+        "sha256": "28139265fa19669ffa6b472232e310d83eed37c205998f23161586de883e8396"
+      },
+      {
+        "path": ".github/workflows/schema-id-mongo-v1.yml",
+        "bytes": 2517,
+        "sha256": "0938526bba0e54d9b5f7af59f5df1cb60175dcf5fa2e9c52064f8bbf5bfc6df4"
+      },
+      {
+        "path": ".github/workflows/schema-sql-oracle.yml",
+        "bytes": 2849,
+        "sha256": "0757622a2cf787af6c07d99e3d5dcd13af80823adf5150e7e76ea1a8d2a1b495"
+      },
+      {
+        "path": ".gitignore",
+        "bytes": 62,
+        "sha256": "dfd596301adfd8d8a81806e00f42c44d739f2b5611743879c9ae8f491f00d4dd"
+      },
+      {
+        "path": "AGENTS.md",
+        "bytes": 874,
+        "sha256": "2d1505a304882a29e036d0c2a815eba0fa6eff70055fadee58776e341c9e14d6"
+      },
+      {
+        "path": "CONTRIBUTING.md",
+        "bytes": 876,
+        "sha256": "98f48b3641e869fdb02ca78c8d4768f3227298f607b1d4bd1e72df059b86117f"
+      },
+      {
+        "path": "LICENSE",
+        "bytes": 1064,
+        "sha256": "6003319e9f697544477d6e4a0e09755e54ff18f5f09ca474f68d751a50383f77"
+      },
+      {
+        "path": "README.md",
+        "bytes": 13847,
+        "sha256": "1d4cb4bf508b230709bf719ab0281151847d44c50465a625839719e7113bb654"
+      },
+      {
+        "path": "docs/parity/atomicassets/README.md",
+        "bytes": 6911,
+        "sha256": "3c53e98176aef237227cc78a0fba68b1ac5b69b2bd496dfc9433ad2df107b908"
+      },
+      {
+        "path": "docs/parity/atomicassets/collection-id.md",
+        "bytes": 5109,
+        "sha256": "ef2b5aacde4e0ac9891ecafeaa9859fb0309dd9c3c39b022b0dac4c7edd8edd4"
+      },
+      {
+        "path": "docs/parity/atomicassets/config.md",
+        "bytes": 6276,
+        "sha256": "e9620dfe737f99d652bbee14286a875e9b2d8e249e09a692e737e9745d8be473"
+      },
+      {
+        "path": "docs/parity/atomicassets/domain-tracer.md",
+        "bytes": 8046,
+        "sha256": "11830a3027b088629d527f5e287ca155c9c68cfbebc0e3e8b6e411e8e9f74124"
+      },
+      {
+        "path": "docs/parity/atomicassets/formatter.md",
+        "bytes": 4395,
+        "sha256": "15aff38749a9842de9ac21c78f903a17f50439705dbfe7086e039349421ced97"
+      },
+      {
+        "path": "docs/parity/atomicassets/inventory.json",
+        "bytes": 260325,
+        "sha256": "d2613354bc227174cf26231f49f952669410c121380e1358233eb71fb346438b"
+      },
+      {
+        "path": "docs/parity/atomicassets/json-compatibility.md",
+        "bytes": 9470,
+        "sha256": "5ab7d3823742de8a8bd1f21e11700fec4cb34bcaf2a32b8a90e3bba3effa5c75"
+      },
+      {
+        "path": "docs/parity/atomicassets/json-display-capture.md",
+        "bytes": 4304,
+        "sha256": "94016b1ad638b39ff9519ecaed749ec8720df32d082ee6257daedf173ba9fa98"
+      },
+      {
+        "path": "docs/parity/atomicassets/lifecycle.md",
+        "bytes": 9549,
+        "sha256": "c354ff64ba78bcdc43eb491fb91cba551a641fdebcc37aef1de2f11d0a7b5850"
+      },
+      {
+        "path": "docs/parity/atomicassets/owned-schema-foundation.md",
+        "bytes": 6007,
+        "sha256": "b59d91a65d7100821dd67f250863808b7b36c8f33339020580585b5c47fdf50a"
+      },
+      {
+        "path": "docs/parity/atomicassets/paired-mint-capture.md",
+        "bytes": 6629,
+        "sha256": "607578e49e12076301f8715bb6b181e2a6a5eff2c561975d46eac2bffae21233"
+      },
+      {
+        "path": "docs/parity/atomicassets/postgres-oracle-harness.md",
+        "bytes": 11944,
+        "sha256": "7bf20b829372e9084326629d1a731a7b53c443d82c75db3e926f829c42ff7ffc"
+      },
+      {
+        "path": "docs/parity/atomicassets/postgres-oracle-plan.md",
+        "bytes": 9733,
+        "sha256": "87279c85c1c4727c4a0c32b07d033a7a8d28c979c58b898513db3b9406091bcb"
+      },
+      {
+        "path": "docs/parity/atomicassets/postgres-oracle-sources.json",
+        "bytes": 114269,
+        "sha256": "56d2134d24b7f9fdcbb295a5881bf6073e1f66327844442b6b9c803bdc6bd4b1"
+      },
+      {
+        "path": "docs/parity/atomicassets/schema-counts.md",
+        "bytes": 1660,
+        "sha256": "3cc46ddb023d5b22f7e47a03e3049bb819b20fa2e13319ab97e0a87cdbd625ea"
+      },
+      {
+        "path": "docs/parity/atomicassets/schema-id.md",
+        "bytes": 1857,
+        "sha256": "4d6e9c0c60c3f4b945fff21b01b3110a94b912c31dd5790547020c7403b17c5f"
+      },
+      {
+        "path": "docs/parity/atomicassets/schema-indexed-ledger.json",
+        "bytes": 6262,
+        "sha256": "2c4e14cfb4964a0f784a09bb4988b40d003098177e2297b918efd49440fba258"
+      },
+      {
+        "path": "docs/parity/atomicassets/schema-indexed.md",
+        "bytes": 8435,
+        "sha256": "c245d800d7acb8d2a59f74888bde3e56988d8dc37f6baa959483f869bef0612c"
+      },
+      {
+        "path": "docs/parity/atomicassets/schema-list-sql-oracle.md",
+        "bytes": 2092,
+        "sha256": "66d4617aeb83261d21ff1c8f86e59c4526a1975cece384446ed25a21bb49f6af"
+      },
+      {
+        "path": "docs/parity/atomicassets/sdk50-postgres-outcomes.md",
+        "bytes": 1188,
+        "sha256": "898d0cf5dfd9087f7504cd3429c6319d98649fa265346dc8a3ceee52bbfae4c3"
+      },
+      {
+        "path": "docs/parity/atomicassets/source-probe-diagnostics.md",
+        "bytes": 4475,
+        "sha256": "6820cc56bf8cd932868accf8c78a238338f57ab713a63e94c5bf618cddb646c1"
+      },
+      {
+        "path": "docs/parity/atomicassets/template-id.md",
+        "bytes": 1324,
+        "sha256": "9a6dde3e3ceb6924649a5ec32def4c042217abc6234fd883e5afbd845cf3ae44"
+      },
+      {
+        "path": "docs/parity/atomicassets/templates.md",
+        "bytes": 4036,
+        "sha256": "cacca94cd928780f1cca062a0334be4171250601fe78da9f62168335e328ca4d"
+      },
+      {
+        "path": "docs/parity/atomicmarket/README.md",
+        "bytes": 9220,
+        "sha256": "1c364d851553fe2fab78b2ffe934f820ae8f499563ca376eddb5316c17d11e24"
+      },
+      {
+        "path": "docs/parity/atomicmarket/UPSTREAM-LICENSE",
+        "bytes": 1140,
+        "sha256": "458f83058135a4425dcbdcbeb51586dad3ca7b2d6c999fcd16b1a064c9acfa3e"
+      },
+      {
+        "path": "docs/parity/atomicmarket/auction-id-coverage.json",
+        "bytes": 1872,
+        "sha256": "4d74dd9ba8a49d822d8092215d229f64b43ff2579ea4e91479199ad6d81942f4"
+      },
+      {
+        "path": "docs/parity/atomicmarket/auction-id.md",
+        "bytes": 6079,
+        "sha256": "41c19152c2d710c487463faa8b9d888b9f899dbc76be8b70179abd01d7616319"
+      },
+      {
+        "path": "docs/parity/atomicmarket/buyoffer-id-coverage.json",
+        "bytes": 2256,
+        "sha256": "759a94ee0c50a3cf2b56ad6b6d5149fbe55829e6ad80cda1dd2b704dcadc800a"
+      },
+      {
+        "path": "docs/parity/atomicmarket/buyoffer-id.md",
+        "bytes": 4756,
+        "sha256": "58b35243dfc25bb5a0457009e1795f344e85bca24cf4a20ec999aa1bcf6128af"
+      },
+      {
+        "path": "docs/parity/atomicmarket/capabilities.json",
+        "bytes": 2437,
+        "sha256": "8e5af0b43604bd3d23d698e329d33fb598e189514b749251728273717f5df5ee"
+      },
+      {
+        "path": "docs/parity/atomicmarket/capabilities.md",
+        "bytes": 6270,
+        "sha256": "e43c260fb34a5ab9079c85afe02560b9a3bf9c92329860032e6f8b4d5f0ecba4"
+      },
+      {
+        "path": "docs/parity/atomicmarket/fixed-sale-lifecycle.md",
+        "bytes": 8422,
+        "sha256": "532e98380c41249273e532d2d2cd4e80ac5e4683a14db1b04217686bd3b0700a"
+      },
+      {
+        "path": "docs/parity/atomicmarket/inventory.json",
+        "bytes": 505830,
+        "sha256": "30a416d596980fd703fa90f03dc1e51ff654b72f6f9bc75d4d98fa3fd9eb494f"
+      },
+      {
+        "path": "docs/parity/atomicmarket/marketplace-id-coverage.json",
+        "bytes": 1712,
+        "sha256": "6a42350fe33068c0824ab714e6a7b6db1a1a9fdf701d689beeedfeda665cb2fd"
+      },
+      {
+        "path": "docs/parity/atomicmarket/marketplace-id.md",
+        "bytes": 4692,
+        "sha256": "eb1a88a167dcaa7bde5cce1eb3396611f35ad78ee4e9d37b51c7cb20c38e49bb"
+      },
+      {
+        "path": "docs/parity/atomicmarket/marketplace-indexing.md",
+        "bytes": 10646,
+        "sha256": "e83a02a0e88c4d4e0fd6ad58819da17daa98b887b9e2fcd168c6057b450e414c"
+      },
+      {
+        "path": "docs/parity/atomicmarket/marketplace-list.md",
+        "bytes": 2759,
+        "sha256": "7c2d8ea8c1a8128659deae058a59364abbae080504e811f9cf86c77152231428"
+      },
+      {
+        "path": "docs/parity/atomicmarket/marketplace-mongodb-acceptance.json",
+        "bytes": 9352,
+        "sha256": "eeac290693979a6535918b08203e77cf6a754074400cbf5a0d3b5ac6cd375f7f"
+      },
+      {
+        "path": "docs/parity/atomicmarket/reference-evidence.json",
+        "bytes": 7369,
+        "sha256": "d146b95e3bc3d63b6950e1530ad8e25a8c2af0fa69cc9b56e61d6db70a6fbd32"
+      },
+      {
+        "path": "docs/parity/atomicmarket/royalty-config.md",
+        "bytes": 7432,
+        "sha256": "b8586123c06625af5de3b05c2cd8b773d72855b96387721c1ef12d600d6dc118"
+      },
+      {
+        "path": "docs/parity/atomicmarket/royalty-rules-coverage.json",
+        "bytes": 2703,
+        "sha256": "a9ab0301628baa243e15fc9d0325691c6475af6414e6bbe967d8272ff4240ef3"
+      },
+      {
+        "path": "docs/parity/atomicmarket/royalty-rules.md",
+        "bytes": 13738,
+        "sha256": "e90c535f952dea907747ae315c08edb3266349656ce90e96043b148226c56613"
+      },
+      {
+        "path": "docs/parity/atomicmarket/sale-formatter.md",
+        "bytes": 4068,
+        "sha256": "55d01720b1a7daf44322a0939a1982628a3da7b44aa1e22a6e036b473188a61b"
+      },
+      {
+        "path": "docs/parity/atomicmarket/sale-nested-assets.md",
+        "bytes": 3060,
+        "sha256": "4fbb351a0fb00cc95d0c98ee6172efbc16b56f29d77e38137cb04f849e7de197"
+      },
+      {
+        "path": "docs/parity/atomicmarket/source-relationships.md",
+        "bytes": 4581,
+        "sha256": "2b9142a026541db120db48e061354cd7d98bdbc52a55d4c4872d9cd1f304f4cb"
+      },
+      {
+        "path": "docs/parity/id-http.md",
+        "bytes": 3104,
+        "sha256": "bd4c4583b7ca73de2928b36d9d44f5b5b70fd0dc6428c0d8c8c9f1d37dbe0f9d"
+      },
+      {
+        "path": "docs/parity/stateful-bridge.md",
+        "bytes": 5334,
+        "sha256": "a9627ee3330036c0caa47859cbfd2234fc258790b03898160f15f06c87d6a49c"
+      },
+      {
+        "path": "docs/royalty-template-original-oracle.md",
+        "bytes": 2622,
+        "sha256": "ae338e49f09dc5962accbf9fa47f3112755ec25be6057945c9ea1120eb30828a"
+      },
+      {
+        "path": "docs/stateful-plugin.md",
+        "bytes": 10161,
+        "sha256": "3a2ab8c5c8cf1a1e92ec1e259223abb9d54b02b823f241df7792932bb358119c"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/asset-invalid-id.expected.json",
+        "bytes": 113,
+        "sha256": "41acedeed4d0eb3c3e4c93ecbad8f8c181d259be26e109b0f414a77256ea12fc"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/asset-invalid-id.input.json",
+        "bytes": 676,
+        "sha256": "2c54a90080a5e1bcd2bb10e69f30937ad38454142cc90edb3d029e9259f6959d"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/asset-not-found.expected.json",
+        "bytes": 92,
+        "sha256": "2ce65efb5192195c2943df731d34cb45c09f985b9c0238e21db7dd2c7523a3d6"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/asset-not-found.input.json",
+        "bytes": 872,
+        "sha256": "b88385e7663fc33315dad92eac23c97320a6e32d2f60aba428f10aee4c54ac54"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/domain/expected.json",
+        "bytes": 68584,
+        "sha256": "4488cb4acad269d5d72b2f8927a21332b1492d17db60ed9f49865ab73ef007a6"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/domain/provenance.json",
+        "bytes": 1496,
+        "sha256": "8848e85ab035333874f822d0c64052d859d7fb23d2722524998d13e079c81efc"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/expected.json",
+        "bytes": 158443,
+        "sha256": "868e06e23d47d605ce29737e8d15396f7b8d253311e6daca0a570e0796d93687"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/input-safe-image.json",
+        "bytes": 2850,
+        "sha256": "612d44a7dfab5d722aeafc07ab768f9abc05875aac4992265b1ac9fff95d1115"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/input.json",
+        "bytes": 2855,
+        "sha256": "8006d4c79506d19bbdad4cab6f794368be960f30f90b673e07e1cc42e1fc7f6a"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/LICENSE",
+        "bytes": 1140,
+        "sha256": "458f83058135a4425dcbdcbeb51586dad3ca7b2d6c999fcd16b1a064c9acfa3e"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/NOTICE",
+        "bytes": 874,
+        "sha256": "c50dba45bfe5f1b79911ef24b848a98cba29a5b37801f5f0872ad6611b136370"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/codec/LICENSE",
+        "bytes": 1168,
+        "sha256": "f61f57d0725fd9f6e63582c0316409122024830a99e567be2a01a65aeebafc7d"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/codec/NOTICE",
+        "bytes": 639,
+        "sha256": "e60e86c31e8ee0548ac61ceab020571900d7c04a30b8ed7f3fdb755ad276bc2f"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/codec/build/index.cjs",
+        "bytes": 107772,
+        "sha256": "2dfe332031728c475622ae510d7ea78246a9592a9da6cf70ba8a1abd7fa2e573"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/codec/licenses/Apache-2.0.txt",
+        "bytes": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/codec/package.json",
+        "bytes": 1971,
+        "sha256": "9808a959dda89c8942524476c68033ad3929d5468ce8bcdefe06cf542058c8fb"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/definitions/views/atomicassets_assets_master.sql",
+        "bytes": 4085,
+        "sha256": "a15cd23ec3ca69e09b303808b34efc49843436cdc75f299f9fdaaeabd1e64367"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/package.json",
+        "bytes": 5162,
+        "sha256": "ac81fe7d5e2ddb1998f4e47a7762481eb003417edb665cdf26492a2494e91c02"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/pnpm-lock.yaml",
+        "bytes": 168997,
+        "sha256": "91dc5c040888673788bca9778b7a87ea285b5a5f1aa834da7707a2e6cdb52e5c"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/src/filler/handlers/atomicassets/index.ts",
+        "bytes": 26848,
+        "sha256": "3708ea3747446300fd27f81af83bb2552a3020b3fa9e04ddcba2bafce6c4f9be"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/src/filler/handlers/atomicassets/processors/assets.ts",
+        "bytes": 12082,
+        "sha256": "d1897e903b5bac3ee9dc379925b1efded412e7cb7bd381aaae61558143bc5c9f"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/src/filler/handlers/atomicassets/processors/collections.ts",
+        "bytes": 2982,
+        "sha256": "55637545d54b155f012bb3fb182070a40db83484d8a9a5a034edcfe084b2881d"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/src/filler/handlers/atomicassets/processors/config.ts",
+        "bytes": 4432,
+        "sha256": "a1d1f9f13bce6d16fc1e53cb2906461cf6cadf40d1ede5b7cfac1de85f3ad37d"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/src/filler/handlers/atomicassets/processors/schemas.ts",
+        "bytes": 2505,
+        "sha256": "c29562be9e90fd0d3e946b01810c014ea00cd0f09c152aa79a3f262b44511ee7"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/src/filler/handlers/atomicassets/processors/templates.ts",
+        "bytes": 6169,
+        "sha256": "5d66b578b5f669fae361aeb1807c6497ba398541f8e4c31f81ec85bf3d5794a4"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/src/filler/processor.ts",
+        "bytes": 14186,
+        "sha256": "cf5c1432789322fd95b2ef9be34aae1635e18846690d1119e3894b069a744651"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/src/filler/utils.ts",
+        "bytes": 124,
+        "sha256": "3b792f88013f17759dd02e39e5aaaad700defe81d1aad2cb6a6ee299013b3fcc"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/src/utils/eosio.ts",
+        "bytes": 3099,
+        "sha256": "df7150c69bee8ffcbc9f6b13491b1cc10b00dc059b5ecc60d40b3d4e1c496121"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/original/src/utils/index.ts",
+        "bytes": 1602,
+        "sha256": "56f5c6ecda7cdf033e25dc3f3cc4bb4d5f0964b5407cb5b487c3085dac8e92ec"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/lifecycle/provenance.json",
+        "bytes": 4601,
+        "sha256": "3eb9514944cd5efa392ddcf4341c7fc5abc798233398fc671ba13c602d5df07b"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/namespace-args.json",
+        "bytes": 79,
+        "sha256": "d277f812389a3d8ed84ce7c63d1878602ec8344c4b01f039bd4c69a9b596be05"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/single-asset.expected.json",
+        "bytes": 2156,
+        "sha256": "8336699040bc7ad0e59c619b45a29508057cf4a278f270005c4368e68f540409"
+      },
+      {
+        "path": "fixtures/harness/atomicassets/single-asset.input.json",
+        "bytes": 2540,
+        "sha256": "16a98ecc5fc76a85d1dc5eb512fbd3006b83e00238bf9e16d8eb4af1461ea2d9"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/.gitattributes",
+        "bytes": 99,
+        "sha256": "29d50217bf3beab4ead2a9e43ad7c913a253e034aa28e3424398d4066788bc07"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/HOST-ARTIFACT-LICENSE",
+        "bytes": 19068,
+        "sha256": "b1d9596672e2c4e4a36b353d45adf5313d029e67da1a8a66ad0f805a1a4f9bab"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/HOST-ARTIFACT-NOTICE.md",
+        "bytes": 812,
+        "sha256": "3429decec061723535fd10d32db69ef156db1b5778ef213707b348d55442d272"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/capture-reference.mjs",
+        "bytes": 3084,
+        "sha256": "3a584169e6fb12338841be4a4b3ede7ef30c488df225ae5cba805380833461d8"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/constructed-marketplace.abi.json",
+        "bytes": 677,
+        "sha256": "a4da3a7064b2c3f2aaf2490c66bfd8fd7ecd03695c8b73105b333bb3c08bafd9"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/host-artifact-variants.json",
+        "bytes": 25851,
+        "sha256": "e07a72e084fe7f4764af2e91959b1fd81135c173bc3866f49616729d23934668"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/inventory-reference.mjs",
+        "bytes": 10644,
+        "sha256": "c927e97f6876dd5c18094eadf1b147c08b89c5c66190d740ebecca197794ea5d"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/expected.json",
+        "bytes": 180308,
+        "sha256": "12d4af2377f71bd15b2f0b16df2417c53b15f52d35d57afa92007105e78ffe68"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/input.json",
+        "bytes": 17420,
+        "sha256": "73df62166d5087132a66b1a699d4f8a5b9bad947a98672692bb959accee144a4"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/definitions/views/atomicmarket_sale_prices_master.sql",
+        "bytes": 2027,
+        "sha256": "d5b056931b702b8b7cf76853a207abcd63fb8b48bd904da9eae2865855a2bfa4"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/definitions/views/atomicmarket_sales_master.sql",
+        "bytes": 3474,
+        "sha256": "34185bc4779e69daad131e069f3d08871a957774b17ccb1150ad18deb3219669"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/package.json",
+        "bytes": 5162,
+        "sha256": "ac81fe7d5e2ddb1998f4e47a7762481eb003417edb665cdf26492a2494e91c02"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/pnpm-lock.yaml",
+        "bytes": 168997,
+        "sha256": "91dc5c040888673788bca9778b7a87ea285b5a5f1aa834da7707a2e6cdb52e5c"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/src/api/namespaces/atomicmarket/filler.ts",
+        "bytes": 2422,
+        "sha256": "4f3875e7dc4639db58f276e585374c23b82c5015f80f5c9e6697f5a589551f77"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/src/api/namespaces/atomicmarket/format.ts",
+        "bytes": 11355,
+        "sha256": "b0e3062d2c0da87988e5ce18d1972d96c772ee66b080028ab206a477a74a91f2"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/src/api/namespaces/atomicmarket/handlers/sales.ts",
+        "bytes": 6645,
+        "sha256": "076dd5f46a2bb78f4de33a0c45ffcffd43d5b31222cae35586cb192b7c8dc4f4"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/src/filler/handlers/atomicassets/index.ts",
+        "bytes": 26848,
+        "sha256": "3708ea3747446300fd27f81af83bb2552a3020b3fa9e04ddcba2bafce6c4f9be"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/src/filler/handlers/atomicassets/v2-guard.ts",
+        "bytes": 2761,
+        "sha256": "2e423d548ed5280ad43d1cce37319a86ce9fd63d538859a6a0be573d15b84abe"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/src/filler/handlers/atomicmarket/index.ts",
+        "bytes": 63339,
+        "sha256": "4d12d51af28be8cbb404c849b334e387c8bf32295c61c5e9d6f3ab32a87f8f09"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/src/filler/handlers/atomicmarket/legacy-bundles.ts",
+        "bytes": 8161,
+        "sha256": "3ddc12b4ee5a9e1ad0b6532cd7ad156f00fb935a811ea914b05e32b8f3b7749a"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/src/filler/handlers/atomicmarket/processors/sales.ts",
+        "bytes": 9666,
+        "sha256": "e34e5f1391bd2eeb5a68d035ee73a85cca29c8161454daea137db9165a0302e9"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/src/filler/handlers/atomicmarket/types/actions.ts",
+        "bytes": 3568,
+        "sha256": "19d1957e5766b20329255d31d8cee531734cb61e04a118a3c699d4904d4edcc5"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/src/filler/handlers/delphioracle/index.ts",
+        "bytes": 7778,
+        "sha256": "b0a22ffb2c166e8278343f129d4733139ce7ce5ed001efa838d16cbb70b1193b"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/src/filler/processor.ts",
+        "bytes": 14186,
+        "sha256": "cf5c1432789322fd95b2ef9be34aae1635e18846690d1119e3894b069a744651"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/src/utils/binary.ts",
+        "bytes": 1598,
+        "sha256": "26cd2fc42ed37b28ebb5dfaf513cd8ee12bcd27e022c5b4cf80f40dbb9af74a7"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/src/utils/eosio.ts",
+        "bytes": 3099,
+        "sha256": "df7150c69bee8ffcbc9f6b13491b1cc10b00dc059b5ecc60d40b3d4e1c496121"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/original/src/utils/marketplace.ts",
+        "bytes": 200,
+        "sha256": "01660cdf207a5023720abc886b1ef053a1c809246e005fc9e09af8b806db971e"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/lifecycle/provenance.json",
+        "bytes": 5099,
+        "sha256": "26c2562d8ac2a4c051bba30c35439afdf10101a691cbe8b89614ef0f7ea556a2"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/marketplace-not-found.expected.json",
+        "bytes": 1313,
+        "sha256": "cc39990e31834f9d2e76ef3938dd9b95db6ebbd6e894e9feb3422ed3059496be"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/marketplace-not-found.input.json",
+        "bytes": 1530,
+        "sha256": "9a7d513a8ff2902c11850b90b6ea7a702d160c12ac6e551c740ca5ae1149dc2e"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/marketplace.expected.json",
+        "bytes": 1458,
+        "sha256": "6064e0401685e974d6c2904ab5f2aeb996cd57c1084ee6243cfb508beb24c9c6"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/marketplace.input.json",
+        "bytes": 1769,
+        "sha256": "3790e2036598581ffa80fe47e796196323dc40cdf346e321c8a3b4f2eaabc0e1"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/marketplace.test.mjs",
+        "bytes": 5411,
+        "sha256": "5c71bd18c6e4615725cb97e91c35deeecbd715a0f1e730ac241be352b3d4a46d"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/reference-http.test.mjs",
+        "bytes": 1638,
+        "sha256": "d79ae44aa5d41090901973f1756135e62fbef909731360ddf2e88439a77ae8d0"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/sale-invalid-id.expected.json",
+        "bytes": 1317,
+        "sha256": "ef3c96895f245133bde4bc2323a2d96dba7c7dfd5a5ef96c381e8d0e7c2d405a"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/sale-invalid-id.input.json",
+        "bytes": 1078,
+        "sha256": "c3009b406bfcf6a73584a9816a4a0b4eb9e450a4d6d511f738e14a206336dd94"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/sale-not-found.expected.json",
+        "bytes": 1303,
+        "sha256": "507fed0c33676fa8b0110f99d0f0533bbc8fe72245828b21fbabc0b9b716ecb2"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/sale-not-found.input.json",
+        "bytes": 1271,
+        "sha256": "001c50f1f8e7bc271f25c237fce1bc6e3ec784ca8bd0be1cf4eadc261d0806ec"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/single-sale.expected.json",
+        "bytes": 3683,
+        "sha256": "ca900cf2c393789dcbfdc46c813e8af4fd427747bd2d2e8ab57c58e8063c14ef"
+      },
+      {
+        "path": "fixtures/harness/atomicmarket/single-sale.input.json",
+        "bytes": 4656,
+        "sha256": "82fdc1226ccdbb47f035bc808c5c7f98d90c92439cc1241db0d9464ca739ba84"
+      },
+      {
+        "path": "harness/atomicassets/capture-fixtures.mjs",
+        "bytes": 2076,
+        "sha256": "3af78126fc8feb8ebfb485c23ee02de2b8cc0732de40990431db941e92c0eb1d"
+      },
+      {
+        "path": "harness/atomicassets/capture-formatter.mjs",
+        "bytes": 1256,
+        "sha256": "60830e13ba9c994f1923fe96e467fb54ceead95420406ade9657494013420ff6"
+      },
+      {
+        "path": "harness/atomicassets/capture-original-controls.mjs",
+        "bytes": 909,
+        "sha256": "0bc5986f0005ae98bbdf976a442f1fdf9b038068e2a71ef5a0a5b38a849a9218"
+      },
+      {
+        "path": "harness/atomicassets/inventory.mjs",
+        "bytes": 6963,
+        "sha256": "d66e48a57ef25980d30fd41759cc847be0d23220669195c703da59304d468712"
+      },
+      {
+        "path": "harness/atomicassets/json-vectors.cjs",
+        "bytes": 1284,
+        "sha256": "e34529d20e248700d7bd65aa5bae1757ed294f096ea8dd52cee10b671b5be3d4"
+      },
+      {
+        "path": "harness/atomicassets/lifecycle-input.cjs",
+        "bytes": 3071,
+        "sha256": "d073f51cfb2f18408fb686cd58610155c7c4e362313fba01a951eb692f29e3fc"
+      },
+      {
+        "path": "harness/atomicassets/mint-capture-profile.cjs",
+        "bytes": 1642,
+        "sha256": "518deb4bf335bbdc1dcb5edc5c9c685c80588141d9b0aafb20d578640343a8c5"
+      },
+      {
+        "path": "harness/atomicassets/original-controls.cjs",
+        "bytes": 15750,
+        "sha256": "6611ad18ad628645d480ec96fdd962fb6c58185d2b36bf334878b97a61175740"
+      },
+      {
+        "path": "harness/atomicassets/paired-compare.mjs",
+        "bytes": 7859,
+        "sha256": "6f1c7870750f6ef6a53d458d48a4fad69a8c4094dfc66b620b40748cc2e1319c"
+      },
+      {
+        "path": "harness/atomicassets/paired-mint.mjs",
+        "bytes": 2465,
+        "sha256": "b913d3491463acd5c2a2309731b3fa6f78ce5f0ed6d8855824434b21f6b78029"
+      },
+      {
+        "path": "harness/atomicassets/postgres/admission.mjs",
+        "bytes": 7675,
+        "sha256": "4450aba9d57b23c08c250477327a01124beee4e35968be0fa54960d9c8f2b01a"
+      },
+      {
+        "path": "harness/atomicassets/postgres/child.cjs",
+        "bytes": 4669,
+        "sha256": "082c78e63470d0d168c69f2ef5b0ace8c1a77906bbb5859cdb56ebbf10042f3a"
+      },
+      {
+        "path": "harness/atomicassets/postgres/fixture-pin.json",
+        "bytes": 1106,
+        "sha256": "617f8f4ff572d98341c668151878d609a36b37294390535670192a960125c509"
+      },
+      {
+        "path": "harness/atomicassets/postgres/git-blob-batch.mjs",
+        "bytes": 1745,
+        "sha256": "c8b742d2efde0bd1bde38a3c9eff8af6ffb5047f5274d88b98ae333eb13fd1e9"
+      },
+      {
+        "path": "harness/atomicassets/postgres/image-identity.mjs",
+        "bytes": 3636,
+        "sha256": "d401d6c97091ab25eacb7780e030380a8114ceae534e8270553d8da9a1e7563a"
+      },
+      {
+        "path": "harness/atomicassets/postgres/json-display-ci.mjs",
+        "bytes": 5160,
+        "sha256": "e0ba568c5e9b9f1b48a148613acafa7aa17cadda9f3b0351aed77d283a500aec"
+      },
+      {
+        "path": "harness/atomicassets/postgres/json-display-faults.test.mjs",
+        "bytes": 12042,
+        "sha256": "2b516356f1e9cd9182dc313b922e64c0c196ee3499f3d145f08a1137284d2a3c"
+      },
+      {
+        "path": "harness/atomicassets/postgres/json-display-gate.cjs",
+        "bytes": 6107,
+        "sha256": "9b7504daf23295bb2b61e9dd63c27bb10c34323ea109008230647baf627dfc0c"
+      },
+      {
+        "path": "harness/atomicassets/postgres/json-display-lifecycle.mjs",
+        "bytes": 1134,
+        "sha256": "07b3fac4195e281e927897369eff7b23598f6310287d0bd454e916a63763d710"
+      },
+      {
+        "path": "harness/atomicassets/postgres/json-display-oracle.cjs",
+        "bytes": 5875,
+        "sha256": "1e27d80749f7e22d5b29c33d856d0f1b015901da63acf61d2ee342cf3a80d37a"
+      },
+      {
+        "path": "harness/atomicassets/postgres/json-display-source.test.mjs",
+        "bytes": 8261,
+        "sha256": "c83e4d205133c26ba61f6946555635fa247d5f3789b76fd323b7f4481d291af5"
+      },
+      {
+        "path": "harness/atomicassets/postgres/owned-schema-gate-fixture.json",
+        "bytes": 22067,
+        "sha256": "8c66b013857b51f5715b65f07355df35576ac7ee08ddc480b135e1c2e19d62ef"
+      },
+      {
+        "path": "harness/atomicassets/postgres/owned-schema-oracle.mjs",
+        "bytes": 5521,
+        "sha256": "868287269ff9cd68817c5cd7cb27cffd6b32859e8f22639323e1fe5a4cd8bee0"
+      },
+      {
+        "path": "harness/atomicassets/postgres/owned-schema-oracle.test.mjs",
+        "bytes": 5012,
+        "sha256": "bb036022e555dda05110329c59f6e6a2ec2eb907b4a60152e716b0b2da8bce82"
+      },
+      {
+        "path": "harness/atomicassets/postgres/postgres-16.15-linux-amd64.config.json",
+        "bytes": 9073,
+        "sha256": "6a2e324ebe59af6031c4c1cd96c1d5072c2ebc36563d2196365e43b8297c062d"
+      },
+      {
+        "path": "harness/atomicassets/postgres/postgres-16.15-linux-amd64.manifest.json",
+        "bytes": 3054,
+        "sha256": "cbf42f0edc946c0bc1b8eeed62403734e1f25dc67a3491455d07a92fdb558b28"
+      },
+      {
+        "path": "harness/atomicassets/postgres/query-observer.cjs",
+        "bytes": 1295,
+        "sha256": "7d5c01dd38da9c6eda1b48834501c63b15f3f49adc4eb1d20bebc1aaf785861a"
+      },
+      {
+        "path": "harness/atomicassets/postgres/royalty-rule-README.md",
+        "bytes": 2915,
+        "sha256": "0e47589d59c5f5cbceeddea277baf6c332f3402c701ba413911943396e98bfa1"
+      },
+      {
+        "path": "harness/atomicassets/postgres/royalty-rule-build-contract.mjs",
+        "bytes": 622,
+        "sha256": "a0ea75103353339059ca647edc9415cdb903d817f9c755513ae3c3d419fbe51c"
+      },
+      {
+        "path": "harness/atomicassets/postgres/royalty-rule-census.cjs",
+        "bytes": 4092,
+        "sha256": "2523ffcda1c818be0025e7d377c1d4a3314d73e050aa6fcdd316035dae42b460"
+      },
+      {
+        "path": "harness/atomicassets/postgres/royalty-rule-ci.mjs",
+        "bytes": 4935,
+        "sha256": "fbda15afdf95f0286597669972fc6ab9a088e5f426d7c6e9766c8b711cc4ac78"
+      },
+      {
+        "path": "harness/atomicassets/postgres/royalty-rule-extra-pins.json",
+        "bytes": 591,
+        "sha256": "53864811e64b70b53b1936e18b4f5d720b01cdb5120852a60fcff3e21856b74c"
+      },
+      {
+        "path": "harness/atomicassets/postgres/royalty-rule-gate.cjs",
+        "bytes": 7920,
+        "sha256": "640d703713b0dde575ef88d72ba621a8b1d32d38111e9d6c33e8d0bf635bc7fa"
+      },
+      {
+        "path": "harness/atomicassets/postgres/royalty-rule-original-database.source.txt",
+        "bytes": 50216,
+        "sha256": "24882decf0a6823cde7dd0d7c7c59df727fac64863c6ef3ff6380c3e232c5054"
+      },
+      {
+        "path": "harness/atomicassets/postgres/royalty-rule-original-dml.test.mjs",
+        "bytes": 4296,
+        "sha256": "3a32283a582d35079d3718e194604bce85ea5e977a804940daf492dde52882a1"
+      },
+      {
+        "path": "harness/atomicassets/postgres/royalty-rule-plan.cjs",
+        "bytes": 2231,
+        "sha256": "8d68bad66570d90d725ce9a3bb49b3e301f7df6b627ef630f5fd54e0e7644ba3"
+      },
+      {
+        "path": "harness/atomicassets/postgres/royalty-rule-query-contract.json",
+        "bytes": 7464,
+        "sha256": "e643276f6de3dd94909e7aa11f35f919077b1e6f0d0c70121e0c3362e900cf48"
+      },
+      {
+        "path": "harness/atomicassets/postgres/royalty-rule-runtime.cjs",
+        "bytes": 1231,
+        "sha256": "e98f38d2e44c62733d45e94d491b6f8c7bb21b169bbc80d7e1514645cd6fb29c"
+      },
+      {
+        "path": "harness/atomicassets/postgres/royalty-rule-scenario.cjs",
+        "bytes": 6447,
+        "sha256": "e2f77f5a1b5d48e4dc07de5ac840e4edc83c3310eb6565afbba4681846578928"
+      },
+      {
+        "path": "harness/atomicassets/postgres/royalty-rule-source.test.mjs",
+        "bytes": 13640,
+        "sha256": "16e9bbbb124f1ffbda039e1ccfd87f2fc90e4ceed7af01391a82cd403e71aa14"
+      },
+      {
+        "path": "harness/atomicassets/postgres/royalty-template-oracle.mjs",
+        "bytes": 3606,
+        "sha256": "60baf39a62be77f7e3ddc3b0e24c285f9b8facd4fef484f92fe2b039ef596734"
+      },
+      {
+        "path": "harness/atomicassets/postgres/royalty-template-oracle.test.mjs",
+        "bytes": 3022,
+        "sha256": "a3b47cb1fc14609bc69f4ac3c96f3337663a55d90fa9651e919c9ec8765e4f19"
+      },
+      {
+        "path": "harness/atomicassets/postgres/run.mjs",
+        "bytes": 5593,
+        "sha256": "eeaecfd5d4c4f25459d6ce268980b034045584d5c01358cc3593dbb30f2863b2"
+      },
+      {
+        "path": "harness/atomicassets/postgres/scenario.cjs",
+        "bytes": 23756,
+        "sha256": "752312f4ef2fae4feef5a163e544c8d111b982b5313913e8d4628849613d60a5"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema-id-json39-README.md",
+        "bytes": 1566,
+        "sha256": "a5afa2b09f78bd47b429ac06393579156dd0bd489db7df7ba8fbd9b3e82c683d"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema-id-json39-ci.mjs",
+        "bytes": 6881,
+        "sha256": "a7865821f9228c06028e326b6943142334630ccdaf20bf883d8fa2246df1b356"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema-id-json39-faults.test.mjs",
+        "bytes": 12175,
+        "sha256": "bb3810a031939ce5d9e399c7f759eb2d45d1068c34c216f7e0a9775d3d242b7e"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema-id-json39-gate.cjs",
+        "bytes": 7835,
+        "sha256": "fcf54b84dfc8f3f1a2dcbaab186b9bdc820e19cbec8615d56b4c308dfeeab869"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema-id-json39-oracle.cjs",
+        "bytes": 5673,
+        "sha256": "24fbd3a92e0d9baebe1b1fc0b10e3295840c3aac751afcf01790c003424c84b3"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema-id-json39-original-pins.json",
+        "bytes": 1772,
+        "sha256": "f0eabf755b45bd61bb3db2807b41f586e7705cc25d6607012c9f903d48b3404e"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema-id-json39-scenario.cjs",
+        "bytes": 23795,
+        "sha256": "12c35deef780536f2458f012ef089cfa0ec2bf0bdb6ca954c288da26fe136d56"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema-id-json39-source.test.mjs",
+        "bytes": 10297,
+        "sha256": "36846a3f2a9e5d4f116e84cadde2030e4afef173e200dee34634a548f53b2585"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema-list-ci-admission.mjs",
+        "bytes": 3093,
+        "sha256": "a4a1c916c1c901f0ce37420028923686c862a4df941b5d2475b9cb6e27126e5f"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema-list-ci-admission.test.mjs",
+        "bytes": 3459,
+        "sha256": "9a635494123aeb41b74bc9f91c5f1aa2a1c7411c1d35f7d1db30753db66ba93b"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema-list-ci-metadata.mjs",
+        "bytes": 800,
+        "sha256": "fb5353da24fc70ad3dfca99d50119fb9630077ec9f5e4f1f582b9faab7f52912"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema-list-ci.mjs",
+        "bytes": 8033,
+        "sha256": "fdae26e38c7246bb43331a0eae67233eca0169f5657e20afc6139b635dea6371"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema-list-oracle.cjs",
+        "bytes": 4588,
+        "sha256": "b522d223f17cbb961ccad90424fd967a084d9a425f982f5767570cca2f7f8379"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema-report-gate.mjs",
+        "bytes": 12165,
+        "sha256": "fea549f5a854aa25b79bcd57ac2c913981d5919e4fea83d78c9e32e0330f6a71"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema-report-gate.test.mjs",
+        "bytes": 5123,
+        "sha256": "79c953022f0bc495e2445e15fa55b331ce06e4e9b3aedc533a640a531f3ae6a8"
+      },
+      {
+        "path": "harness/atomicassets/postgres/schema.cjs",
+        "bytes": 3159,
+        "sha256": "e31bf477c0c88333d1d33509d6510d9ee6bdc4b7ff7c427a3cfee56ef1004de2"
+      },
+      {
+        "path": "harness/atomicassets/postgres/sdk50-gate-fixture.json",
+        "bytes": 5147,
+        "sha256": "2572c07e823a3d481fc53c4ff402b396082b136af9d66a221320aac5bf253db4"
+      },
+      {
+        "path": "harness/atomicassets/postgres/sdk50-outcomes.mjs",
+        "bytes": 3957,
+        "sha256": "ac0adac9d8098a8ce5e492752b9a74abb11d69bca2465152d264f0b829fb69f9"
+      },
+      {
+        "path": "harness/atomicassets/postgres/sdk50-outcomes.test.mjs",
+        "bytes": 4157,
+        "sha256": "ab2f1b25dd91c9190d2137ad1da8c7d8190a0eac1a4fc0dc30902a84d45b38e2"
+      },
+      {
+        "path": "harness/atomicassets/postgres/source-probe-evidence.mjs",
+        "bytes": 3724,
+        "sha256": "cc5bd183c6175e1612763044dfa0e17a676badbe8a9dec62b315979d8b643ac2"
+      },
+      {
+        "path": "harness/atomicassets/postgres/source.mjs",
+        "bytes": 3818,
+        "sha256": "42d6bdb94f0bb16638f4939b5f5d95558b945668dbd9ae7994e1e22df63ba525"
+      },
+      {
+        "path": "harness/atomicmarket/capture-sale-formatter.mjs",
+        "bytes": 1503,
+        "sha256": "64e7400b55b86b1deae8ec8106b131ba60ae497ff63ab7fbc9bd225ba39da36d"
+      },
+      {
+        "path": "harness/atomicmarket/contextual-failures.mjs",
+        "bytes": 6720,
+        "sha256": "2410054d2bf4d4fd0748c26af94196bc7b236ee41dbdddca317d27175b61d02b"
+      },
+      {
+        "path": "harness/atomicmarket/contextual-host.mjs",
+        "bytes": 3004,
+        "sha256": "731551931c27e86cfa0878369425f68d7a539a92b346bee99fcf8c32f2389988"
+      },
+      {
+        "path": "harness/atomicmarket/contextual-lifecycle.mjs",
+        "bytes": 7730,
+        "sha256": "09b0553695bf388745ad43b7e6efae569fff1af695058a8664d770aef7938b37"
+      },
+      {
+        "path": "harness/atomicmarket/contextual-source.mjs",
+        "bytes": 7538,
+        "sha256": "68f2284244992eaadee3b9a9e57ed6418dacb1783b5c12509995301894eb0ae9"
+      },
+      {
+        "path": "harness/atomicmarket/contextual.test.mjs",
+        "bytes": 2776,
+        "sha256": "5ec3b299e519901d7f51169a21af8c6c87e707a3bc4ce62d1141be0c678b84f1"
+      },
+      {
+        "path": "harness/atomicmarket/host-artifacts.test.mjs",
+        "bytes": 3447,
+        "sha256": "75a494810a5a7bbf14446a47f9e136a595de3e8b0b06c4bc2a5bec7282a0ea2c"
+      },
+      {
+        "path": "harness/atomicmarket/host-pins.json",
+        "bytes": 50943,
+        "sha256": "98a3353175074abbf1291d86e07b5713cb346392cd0c0e8c21146d46a4ca34c6"
+      },
+      {
+        "path": "harness/atomicmarket/original-marketplace-controls.cjs",
+        "bytes": 5469,
+        "sha256": "2d427dd533f0fc8eb7ddf8d1fa92bf4d6fb01cdb18b4c98724ce4e9eff40377f"
+      },
+      {
+        "path": "harness/atomicmarket/original-sale-assets.cjs",
+        "bytes": 4698,
+        "sha256": "7f5d4d1ed64fd86c4bb130cfe028db646e251516ac6f8bef031dab0f2cc29cf0"
+      },
+      {
+        "path": "harness/atomicmarket/original-sale-controls.cjs",
+        "bytes": 11373,
+        "sha256": "cff6985fe656e08e15ca2c3fc8bb6ea5f15fa050478dc2eb963a2a7594c7d682"
+      },
+      {
+        "path": "harness/atomicmarket/process-restart-child.mjs",
+        "bytes": 7554,
+        "sha256": "642a9c57075e1d5c8115a9858fc568253504c944fe8880ae2e685fea8ddc0f4c"
+      },
+      {
+        "path": "harness/atomicmarket/process-restart-job.mjs",
+        "bytes": 1792,
+        "sha256": "734682b3697bc8a580d11ea1b7a5ad7b5b69b71c9b4f29fb75617ebd681849e2"
+      },
+      {
+        "path": "harness/atomicmarket/process-restart.mjs",
+        "bytes": 7136,
+        "sha256": "5f15668bfc248a27fbd42cba8801507fc8888e6a36abb5b0cbdc77c2a0d233ed"
+      },
+      {
+        "path": "harness/atomicmarket/recovered-command-monitor.mjs",
+        "bytes": 3239,
+        "sha256": "ec216d216846015149550fc225f8d7915dd31f3bf681b2829906e9be3c2182b5"
+      },
+      {
+        "path": "harness/shared/LICENSE.atomicassets-api.txt",
+        "bytes": 1140,
+        "sha256": "458f83058135a4425dcbdcbeb51586dad3ca7b2d6c999fcd16b1a064c9acfa3e"
+      },
+      {
+        "path": "harness/shared/NOTICE.atomicassets-api.txt",
+        "bytes": 874,
+        "sha256": "c50dba45bfe5f1b79911ef24b848a98cba29a5b37801f5f0872ad6611b136370"
+      },
+      {
+        "path": "harness/shared/capture.mjs",
+        "bytes": 1291,
+        "sha256": "67a08f5e78dc4c6be88cc2818bd898af171551ecc79c49fb54d7ecf04f54dc00"
+      },
+      {
+        "path": "harness/shared/reference-child.cjs",
+        "bytes": 9883,
+        "sha256": "e7976ef10f8f9e4ec788909d35ccec74ee1548798a5981e9b4902e510ab71451"
+      },
+      {
+        "path": "harness/shared/reference.mjs",
+        "bytes": 6350,
+        "sha256": "e773cfdc6d9e1eac8dc9d6d47d39adeded6d23f70826e654c48844ed52054165"
+      },
+      {
+        "path": "harness/shared/socket-inventory.mjs",
+        "bytes": 10132,
+        "sha256": "5e1ffee224b1d7375cadf025e5e8e9bc3aa5f51f1cbf3551d0340a3693d3b83e"
+      },
+      {
+        "path": "harness/stateful/bridge.mjs",
+        "bytes": 6588,
+        "sha256": "91e6e1f7c0605835d6929cd3c1482a2fd8f5bd1b470e7a10c7a8fe6c484b7454"
+      },
+      {
+        "path": "harness/stateful/component-pins.json",
+        "bytes": 4749,
+        "sha256": "95b3fd1ca7baf79258c0865f9583e86fe21a6dc6d2357d020c5c263185f78068"
+      },
+      {
+        "path": "harness/stateful/engine/README.md",
+        "bytes": 8076,
+        "sha256": "836842c8df1f234c0e39b375ec6b2fa79501942bc8d12106148dd03ba4c422c6"
+      },
+      {
+        "path": "harness/stateful/engine/domain.mjs",
+        "bytes": 8478,
+        "sha256": "722917c7e8137ad533100ad237276b29e61468b31f9478fb273360dfc1e01a4d"
+      },
+      {
+        "path": "harness/stateful/engine/engine-build.pending.json",
+        "bytes": 2775,
+        "sha256": "09ddff8c1fac481a305a8e9fdf67da545c1e8ca4a44f78f633205c1bf3039f03"
+      },
+      {
+        "path": "harness/stateful/engine/guard.mjs",
+        "bytes": 12464,
+        "sha256": "cd358625034afc5d0423492108f1574eba10b12b581af315e7b3d565f8aca07f"
+      },
+      {
+        "path": "harness/stateful/engine/mint-capture.mjs",
+        "bytes": 9936,
+        "sha256": "d17c37d7f83329cffc7ec3986990c859375122b6083e82797852de8ca45997c3"
+      },
+      {
+        "path": "harness/stateful/engine/offline.test.mjs",
+        "bytes": 15326,
+        "sha256": "33dad294a7d00012694a25a341375694389bba1f96952368aaf402d82d7c7500"
+      },
+      {
+        "path": "harness/stateful/engine/plan.json",
+        "bytes": 218,
+        "sha256": "4ef7140c3c1a8478b2fb4bed2189cadc2c58a4c3f5fc9cb2db8654d5cf8c0527"
+      },
+      {
+        "path": "harness/stateful/engine/runner.mjs",
+        "bytes": 29151,
+        "sha256": "eedd03d5798cc8c2fa542f6286b6828e612708f0efe7994804f218714c39117d"
+      },
+      {
+        "path": "harness/stateful/engine/source-pins.json",
+        "bytes": 4456,
+        "sha256": "66ccc6d86d6eea3583d41aa190261c462386dd985c9b65c0769d8b57067b1ffc"
+      },
+      {
+        "path": "harness/stateful/scenario.mjs",
+        "bytes": 4119,
+        "sha256": "673239f775c14f5298507f1ed8afdf25bdf81e100d276351fc8d97c155802067"
+      },
+      {
+        "path": "legacy/build/index.js",
+        "bytes": 139,
+        "sha256": "b9fc6eb12b7e2d8a270e0d4c400c90c821ee7aad4d1f240aa03f0c69769a89eb"
+      },
+      {
+        "path": "legacy/package.json",
+        "bytes": 338,
+        "sha256": "e829915461fc0f9e5c65a7f06fd673ff7c06e303c449c9652ec0f750acd0bc7a"
+      },
+      {
+        "path": "package-lock.json",
+        "bytes": 38067,
+        "sha256": "59fd5596680f535fdb546e676ba946b56e9603fe637ef4883e1b1e087f6982aa"
+      },
+      {
+        "path": "package.json",
+        "bytes": 4435,
+        "sha256": "fc56cc9dc19af5e7b280b5a7fdfe5c2b38c7dbf5ef596bad495798a5128bd1c9"
+      },
+      {
+        "path": "scripts/capture-asset-domain-fixture.py",
+        "bytes": 4432,
+        "sha256": "7bf33fb690fde383e74a99051e085fe93fedc00b10927d550834898aa28614b8"
+      },
+      {
+        "path": "scripts/check-config-package.mjs",
+        "bytes": 5224,
+        "sha256": "ba8936dcb003db5259188001987aa72a45bf1537abea46a8fbd2fa8fe3da9f14"
+      },
+      {
+        "path": "scripts/check-docs.py",
+        "bytes": 1144,
+        "sha256": "8928665ee0869e132153f1236f70255a958146dab55e8276848c707e12f37356"
+      },
+      {
+        "path": "scripts/check-marketplace-mongodb.mjs",
+        "bytes": 11498,
+        "sha256": "d20014dcfef5b5c12e1e3f690c7b50c18024de0f5f15b541894d1a6ae75900ad"
+      },
+      {
+        "path": "scripts/check-package.mjs",
+        "bytes": 16366,
+        "sha256": "63d5d6282eaa05af8c84489c667fa37e68d55597b36270eec1fb56a059a8f85a"
+      },
+      {
+        "path": "scripts/check-royalty-package.mjs",
+        "bytes": 7142,
+        "sha256": "f39c48234be94ac5ca9dbd8c1ed91b4ba3be03311040e3e444f59271292f2d74"
+      },
+      {
+        "path": "scripts/check-royalty-rules-package.mjs",
+        "bytes": 7380,
+        "sha256": "e149c000d0fa93c8139aa46843b53275f0f1e4ad5998ed2e5c0d0364f8e1645b"
+      },
+      {
+        "path": "scripts/check-schema-package.mjs",
+        "bytes": 6949,
+        "sha256": "a0889747e208277156c19cd2453abe0bfa5c695c80ad2153ac730ea607271fad"
+      },
+      {
+        "path": "scripts/prepare-reference.mjs",
+        "bytes": 1820,
+        "sha256": "202478cbd8f9fd75597a6a39b8adf3aba3b5919a5f90598e3e09aecc2e5c43f3"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/README.md",
+        "bytes": 3534,
+        "sha256": "d57f14dfb43b98848a15c8a74b705dff432aff9837cd74acd141446b5c3356bd"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/admission.mjs",
+        "bytes": 5019,
+        "sha256": "e5913fc7b2a83219dd794e88abe6f2dda9c71f01d89667278571d5678492e961"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/assembly.mjs",
+        "bytes": 5225,
+        "sha256": "0803edfd31eee511a2a222592f85e45076c0a599e75d702fbec8ef5daf5a17c3"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/binding.json",
+        "bytes": 18141,
+        "sha256": "331410bc5bb58a5a8da9720c01df6f205d2f994f08829fc86fe21c110ffbbd8a"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/child-owned.mjs",
+        "bytes": 5583,
+        "sha256": "b0c37e81b5a45e00611e4433c01703be08eb6499b9fadd419428fca83df848ca"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/child-schema.mjs",
+        "bytes": 5880,
+        "sha256": "edeb14c1ae1abd93cda1c61f4a60d3ea35a1993d5b5fe5259602aa6a3132685e"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/ci-owned.mjs",
+        "bytes": 13748,
+        "sha256": "f6568d77e72d31c097fbc66a08d3456248420b6c985eae8a754941f03fc437de"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/ci-schema.mjs",
+        "bytes": 14664,
+        "sha256": "27a6c4788c7d817044d45a40e338e3dbfc88c0f761e673318f1d25b6c5fa6931"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/contract.mjs",
+        "bytes": 1015,
+        "sha256": "49bb71e2c21b74697af93fb35db13a57ae13fba11155de2c7876c5b9857590b1"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/entry-deltas.json",
+        "bytes": 9923,
+        "sha256": "5bcbfcf88e1e454b571defd7016da70eb9b4eb0c90c5cf9382e63ac96f2ffe3b"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/historical-bson-controls.test.mjs",
+        "bytes": 6767,
+        "sha256": "1386eaef89344408185cbf6db1f64eaba6a1820f1d2c78ae9082f8cbda2798c6"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/historical-schema-controls.test.mjs",
+        "bytes": 7075,
+        "sha256": "0b9917736d1f5de8737470d962e4df91aaae4de684d083525c2c507781ab6eb4"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/host-sdk.mjs",
+        "bytes": 2659,
+        "sha256": "94e660f1f1d61d84554f68b7e8eafc6ad250998be9c8fa498ece0b4e19fbc0c0"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/profile.json",
+        "bytes": 32145,
+        "sha256": "a7c79e78acbd63675faa7bc3dbb472900c622b6fe7160dee64d38cd48922636b"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/run-owned-contract.mjs",
+        "bytes": 381,
+        "sha256": "d8ead77dc990f5aba5f69a4699c40407dd3239eab2e9cba3141b942994bb63d5"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/run-schema-contract.mjs",
+        "bytes": 370,
+        "sha256": "8c397e8fa4ba8fdab1a488c106f5df31352a29e3a892112dee131e976dc4746f"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/workload-owned.mjs",
+        "bytes": 19887,
+        "sha256": "c8c07017033bc7760804f8ddb216e4dc674ba0cebbc3f40a8c4af46f7f0c5588"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/workload-schema.mjs",
+        "bytes": 19922,
+        "sha256": "2f95122ced9cb8b82e1447b666ef5367a1b0c96dc9d96f450a8965588e4f6738"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/README.md",
+        "bytes": 4001,
+        "sha256": "08a099e1d1b54c733d96275c3bc72d888ac76c9913b16b40f08c0537255d0855"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/admission.mjs",
+        "bytes": 4882,
+        "sha256": "28f997f999a971db257d18ecc22ed270835d63a2732cf3137f401e279d766742"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/binding.json",
+        "bytes": 10744,
+        "sha256": "811125990938061c728c3c830820d38161333f1a7c504b11a21f924a1e1dfbce"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/bson-recorder.mjs",
+        "bytes": 5798,
+        "sha256": "6bd7f9e97cb77adf629b19ec7684206c2648786d5b717131f99aeef125a02b9d"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/bson-recorder.test.mjs",
+        "bytes": 6345,
+        "sha256": "1a39d18e900aadebcc8fa37037270abf5f30e696b0a76773cad6cee0e4e2e775"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/child.mjs",
+        "bytes": 5544,
+        "sha256": "35515f7fd5675b9cf3deeaceadbc44cb360db3c8f938584b9a4181d95c821c65"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/ci.mjs",
+        "bytes": 13679,
+        "sha256": "c563a7afa403377b3f519a9328c3f487eceb7d883f94763bd929bf1efdfa90af"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/cleanup.mjs",
+        "bytes": 2056,
+        "sha256": "10a0c2fb986c6454ed5453a4c4100783ac570e9e91d5526af256187e83ea5b96"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/cleanup.test.mjs",
+        "bytes": 2540,
+        "sha256": "c2e27968d68803b87ccbed7330cd7a23458dbab0d787fad5efaa4b17196a4e2b"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/contract.mjs",
+        "bytes": 2333,
+        "sha256": "cb5630380411c69a1ee5e0e6ee4813604bbc709405a375c1fc663191e50fc729"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/guard.mjs",
+        "bytes": 5174,
+        "sha256": "308a7ef64a3688709ba9b2215f92627fef165b667de9402329cd1a9630eb683d"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/guard.test.mjs",
+        "bytes": 5037,
+        "sha256": "9a451ff18c545ef5f05ed27b9b0e6ce3c94442f7492d526716e0465632258d45"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/io.mjs",
+        "bytes": 3722,
+        "sha256": "6af60a162d1968cf9ac619642944eb4991a981c921acf137f1bc3c53d6629ac4"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/io.test.mjs",
+        "bytes": 2710,
+        "sha256": "8d9f3994305ac34b8f24fe6fea828190fe2db97fd628b3ba3ec21db9c15bcc29"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/original-artifacts.json",
+        "bytes": 854,
+        "sha256": "4910b12060a0bd57c39967bcbd78eb63266b6589a08bed31cae9c8c9f3503415"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/qualification.test.mjs",
+        "bytes": 6840,
+        "sha256": "234106551ff69021b9576335590d4c3468d910d92a650bdf0f234f8f11997f9d"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/reports.mjs",
+        "bytes": 6784,
+        "sha256": "70f4bc6a1a338c3d5c5f447bdf2a1073aa0481ade5368fe5c7115a7875becd84"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/reports.test.mjs",
+        "bytes": 4707,
+        "sha256": "78754a2b0f2e17ce2892722a46a6409f6d22621da819561e846b19923dd76ba4"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/run-contract-v3.mjs",
+        "bytes": 578,
+        "sha256": "f08a9eb2270b60180421638f7f14bd0edb269825598f8923c0c2e9956a5feb48"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/run-delta.json",
+        "bytes": 7176,
+        "sha256": "957b21145039c64cb4124cf21ab3f2ba81063485ebe630d4d48beb6806d873da"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/run-lossless-bson-v3.mjs",
+        "bytes": 19893,
+        "sha256": "4037d2853cdab4472bdc74aca72c88ac136795c0554c00fbef0b38e875654fd0"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/README.md",
+        "bytes": 6086,
+        "sha256": "c0afa8ed5950dd346c724710e86022bded4d8c5776e422ffc12dfe03516938a7"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/admission.mjs",
+        "bytes": 3550,
+        "sha256": "0e0cd50332b28776d6b35f5dc496f48c6bd766fe39b98a40cdf1a8d158fde2af"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/binding.json",
+        "bytes": 5598,
+        "sha256": "a5259714b8fdf573daab37088a747e3444ca5f5b8562d6a7c53a5b83ab827416"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/child.mjs",
+        "bytes": 5370,
+        "sha256": "3123cde3f768301a51bd0e960b140271913b3ce053e72376544186222ded4c62"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/ci.mjs",
+        "bytes": 13677,
+        "sha256": "fa2bcfefefa4b733782c3469a949cedf0ae6589685e3a65a09fc1ec139161df6"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/contract.mjs",
+        "bytes": 2261,
+        "sha256": "5f2e25922fe399a59a3ba1d71fd6cb9eb3859a8f030a5ed024089a50009ca74c"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/guard.mjs",
+        "bytes": 5174,
+        "sha256": "308a7ef64a3688709ba9b2215f92627fef165b667de9402329cd1a9630eb683d"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/guard.test.mjs",
+        "bytes": 5037,
+        "sha256": "9a451ff18c545ef5f05ed27b9b0e6ce3c94442f7492d526716e0465632258d45"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/host-sdk.mjs",
+        "bytes": 2672,
+        "sha256": "98c92ef52d874cd2fdb4e1d42f230eb7a47c340319de1d180f1f5435ff86bd71"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/io.mjs",
+        "bytes": 2827,
+        "sha256": "3e02d794b3022bf19b6221beb1c1b625713f42fe384f0590e3a59e21dd5a1d31"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/original-artifacts.json",
+        "bytes": 854,
+        "sha256": "4910b12060a0bd57c39967bcbd78eb63266b6589a08bed31cae9c8c9f3503415"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/reports.mjs",
+        "bytes": 6784,
+        "sha256": "70f4bc6a1a338c3d5c5f447bdf2a1073aa0481ade5368fe5c7115a7875becd84"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/reports.test.mjs",
+        "bytes": 4707,
+        "sha256": "78754a2b0f2e17ce2892722a46a6409f6d22621da819561e846b19923dd76ba4"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/run-contract-v2.mjs",
+        "bytes": 510,
+        "sha256": "8bd9a9d52e3f3f944a522044788714f4358172da287146d812f530dde2ad727e"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/run-host-sdk-v2.mjs",
+        "bytes": 21768,
+        "sha256": "714342da8817cc3657e9a1c84530b57bb7cedb508cd254dd404d87339eab8a61"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/sdk-cohort.test.mjs",
+        "bytes": 7497,
+        "sha256": "9b11ba6a8645136bc4e568c36268a7a6fd355ab6b54accffb6c5f34b44f0a5ff"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/README.md",
+        "bytes": 5665,
+        "sha256": "6684d48550aac975ede70e1217289751ac45da416f76e8f4253bb127677342a8"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/assembly.mjs",
+        "bytes": 6482,
+        "sha256": "a3abbb188a6437ab2494135c33442021273b296882914edc8762a286d7fed862"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/contract.mjs",
+        "bytes": 1855,
+        "sha256": "2e80b9b055cc793f531f693578e766b88ee304e6dabb2b9b4f53c8b1eed4f5cb"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/corpus.mjs",
+        "bytes": 6634,
+        "sha256": "59281c726a3a9595af3c601e6157fd8557346e0e5943fb10ff364d414b44d78b"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/host.mjs",
+        "bytes": 6336,
+        "sha256": "17f7a05accbdbf07f60b14b08d71eda5bc5a6f70af1d16e922eb746a4bc0f433"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/ledger.json",
+        "bytes": 70522,
+        "sha256": "00561585eadb36e2cc67840a137fec191cbe001fa416f8b15a9189bf0078685a"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/profile.json",
+        "bytes": 691686,
+        "sha256": "638329108ebcb9ec5810b7ec10b2842c126dd300665149d6c43072b1682f14ae"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/run.mjs",
+        "bytes": 21647,
+        "sha256": "f163e197c93b2f05187747fd30e6c9db7211f2c160694792a75b6c66b73fb982"
+      },
+      {
+        "path": "scripts/qualification/owned-schema-mongodb/controller.mjs",
+        "bytes": 8173,
+        "sha256": "4ad01fb4e9c8e1077b9f3a210ac3bb3d944fdca93e0c1781c788f829f6c6f05e"
+      },
+      {
+        "path": "scripts/qualification/owned-schema-mongodb/driver.mjs",
+        "bytes": 7878,
+        "sha256": "225f9179262e2c18ed4ed0941834e5f543f973893fce1d004cc4e80444a98a20"
+      },
+      {
+        "path": "scripts/qualification/owned-schema-mongodb/oracle.mjs",
+        "bytes": 2827,
+        "sha256": "4d6bc57d34ef7322b0f6b7ca133efd383e6c03482025754a47ddae40d9ab5a2c"
+      },
+      {
+        "path": "scripts/qualification/owned-schema-mongodb/profile.json",
+        "bytes": 32412,
+        "sha256": "ad804429780b2688883c780cce0802bb19726a8b872839c5a5b22ddb55689875"
+      },
+      {
+        "path": "scripts/qualification/owned-schema-mongodb/royalty-attribute-source-profile.json",
+        "bytes": 32207,
+        "sha256": "f901709a3aa88a0f74f36329cf39fd0d5529e8db390f595984aacd2ad41628b7"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/README.md",
+        "bytes": 4790,
+        "sha256": "934d981a70e5d1699e836d5ba9cd81aaf70da569b4a3acc480ecc03ba2c22550"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/assembly.mjs",
+        "bytes": 4328,
+        "sha256": "f9506c73469798f164bf88b3c1064ac01a0534decca16e766801530ba0ae3f3b"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/attribute-oracle.mjs",
+        "bytes": 2323,
+        "sha256": "3785579e56f87c3745e2fc58b253668a9b27b0e0d7c163b2bd6f8cd43677f7c8"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/attribute-oracle.test.mjs",
+        "bytes": 2338,
+        "sha256": "9356e45c338386ac2c43ae17496497a51803b36207e30e5f99643862066a5709"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/child.mjs",
+        "bytes": 5568,
+        "sha256": "fbdf05246c64c79321c67f7d85587fcd0274085f82a38fa0cc72709752621c79"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/ci.mjs",
+        "bytes": 13836,
+        "sha256": "307a721309aa3b7e4dcf36ba1580265abfc61dc80a03b015fd769e5d93e82e38"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/contract.mjs",
+        "bytes": 1470,
+        "sha256": "a4f70ececdf11d95083b6b609f2d0e027742a7bd95f713f7e1ad2db7bc0d7eb5"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/custody.mjs",
+        "bytes": 6086,
+        "sha256": "d9f74ffc4a47f59bd7ad78b1d0031a62f20f11bef7df9d126c26ca3dd08cc63d"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/custody.test.mjs",
+        "bytes": 5438,
+        "sha256": "aabab1e5333463b5decce01252c7d1faad8b708a61202554c0e010d00edba21a"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/driver.mjs",
+        "bytes": 9023,
+        "sha256": "bf53f67934e2a8bf3efe67ea796b407353bd9718c360589505d6dda7a39c9b37"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/host-sdk.mjs",
+        "bytes": 1940,
+        "sha256": "b1429fc32c88d1abfc74531b3a54570a3e015f0817c3f4027b6f39f3380d555e"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/host.mjs",
+        "bytes": 7873,
+        "sha256": "3f40bc113f3b3b9f9347c32f9b9071ed0b52547317361e162c418df303e2fa1b"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/original-files.mjs",
+        "bytes": 708,
+        "sha256": "9916d04d39230fab4caad293c069c887c5dd20cf979883236c4f712a85cb5dbc"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/original.mjs",
+        "bytes": 2793,
+        "sha256": "7aded682dbf61edef7b10966e6d035120b0f4fc62277f4c509841a1d68b20552"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/original.test.mjs",
+        "bytes": 1769,
+        "sha256": "3bb298a7d9542d6f42dd9aef68bfb26080e35e12d687a88be206b3c903a65483"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/pair.mjs",
+        "bytes": 2095,
+        "sha256": "34dc52c03290e28e64fda9246a01ba980bf23dd820262a69e5694dce9c70bf20"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/pair.test.mjs",
+        "bytes": 1678,
+        "sha256": "2ee4b8894d54333787a4b06085c4b0dc2a2b4d62457ecb4787f614c67ecfd857"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/pg-pins.json",
+        "bytes": 918,
+        "sha256": "76c3f6c982f100a4bc90608f25fd3bc15e8cef7f1d82ddda790cb1c5de5dfa19"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/profile.json",
+        "bytes": 696272,
+        "sha256": "979fc9d84a859fdb9cea4c9cb85329840e3a14617990c75ad103267fa1e48288"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/reports.mjs",
+        "bytes": 6585,
+        "sha256": "64190db53b6dcc5e5cc860fb891456fa135561ce1e5bd83273bca59f335bdb2f"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/source.mjs",
+        "bytes": 1638,
+        "sha256": "aec66432cd6cac1e51bede2ed6c935817588e11fbead1386d0428236ff25ce82"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/source.test.mjs",
+        "bytes": 1394,
+        "sha256": "80b27c2eb518b15b02189304b2bb7eadec4c219ab8d4b867c6c193de559122b8"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/test-bson.mjs",
+        "bytes": 795,
+        "sha256": "bf8f0443a2a151f53037b770530e656de38c8763b100243e72a0451ff7d3996e"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/verify-evidence.mjs",
+        "bytes": 13319,
+        "sha256": "9b475534299c5324f918be4ed58d8bbd3169a87189e787f55b79ea3298388811"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/verify-evidence.test.mjs",
+        "bytes": 5579,
+        "sha256": "b3239cabcfde47fbc029442759b083fa67888d781d7e268c71567136884d1a86"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-mongo-v1/workload.mjs",
+        "bytes": 8421,
+        "sha256": "290a185120ced29a5f5fe2de6d0d2973bb8c813aa716f87d3c1c5773cb01593a"
+      },
+      {
+        "path": "scripts/qualification/royalty-attribute-source-profile.mjs",
+        "bytes": 2576,
+        "sha256": "01ec9b78a90891caa544c4dbfc5049ac1c67c545061ebd225c3276135945e004"
+      },
+      {
+        "path": "scripts/qualification/royalty-template-mongodb/controller.mjs",
+        "bytes": 6456,
+        "sha256": "4e024b4ca1199e13ae2022c801a10d255c515aa6747c4cd78561dc4af06bfeb6"
+      },
+      {
+        "path": "scripts/qualification/royalty-template-mongodb/driver.mjs",
+        "bytes": 6032,
+        "sha256": "d47f42cd31953ea3273d233c0a97a25f195bdda5ca0ac7720af767312c9f188e"
+      },
+      {
+        "path": "scripts/qualification/royalty-template-mongodb/driver.test.mjs",
+        "bytes": 804,
+        "sha256": "6b13faa974692805b4cab4b79edf27ad1b92689af68fca3e3f84649ec5b003b9"
+      },
+      {
+        "path": "scripts/qualification/royalty-template-mongodb/oracle.mjs",
+        "bytes": 3595,
+        "sha256": "cbf41805ce36369ec31f1823de9f7feb277eaa03fead458cc4c54638c06a96b4"
+      },
+      {
+        "path": "scripts/qualification/royalty-template-mongodb/oracle.test.mjs",
+        "bytes": 1188,
+        "sha256": "fb0bc0a89b461a9805967c395ba21417b1f85d74ff257720abd55860ecdc9bbe"
+      },
+      {
+        "path": "scripts/qualification/royalty-template-mongodb/profile.json",
+        "bytes": 1978,
+        "sha256": "adcbb487ca38e85daffba3290a743e778a2d524f754d85dbb89f7acd39aebd4f"
+      },
+      {
+        "path": "scripts/qualification/royalty-template-mongodb/royalty-attribute-source-profile.json",
+        "bytes": 30716,
+        "sha256": "79dba2b8ee192033baae01ecf37d67c95d958bf13e2e63235fae4d7c40bd4306"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/README.md",
+        "bytes": 2364,
+        "sha256": "158eb7be49a2ba419271e6ee11847c45d68b4de9d38319d2ec588bcab9ee00d5"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/admission.mjs",
+        "bytes": 1032,
+        "sha256": "7f3c77052088894d85f05093e224547240c4fdf10c319c26225b656f0ba6459b"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/child.mjs",
+        "bytes": 5824,
+        "sha256": "ca32bb4535e69ce4ac121d27e0e770e75b43c11c4dffb631d0df92c25237a91f"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/ci.mjs",
+        "bytes": 14598,
+        "sha256": "c45aef9b26aca4609ac69342f4bf396e803f9fb9b5b98534a23eb7d02cd0660f"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/contract.mjs",
+        "bytes": 639,
+        "sha256": "4d3fbcf21a530e8988f91624a09a30d4d0f4e65426aeee8efe6be6e14142ee8d"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/refusal.mjs",
+        "bytes": 1982,
+        "sha256": "181ea511f0dac3b0c7b70576294e9d4e006ac9b686ec8051a3ff468f9cfa6dbf"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/refusal.test.mjs",
+        "bytes": 2950,
+        "sha256": "dbd89d395e76c77ca816c4a69ea5e49a42c5b2fd827ce47e21a771d2b5224de1"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/reports.mjs",
+        "bytes": 7406,
+        "sha256": "4b7de8cf98d8866111a21515c07c86f0c117e4a40289cf44deb7c9ca9eba607b"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/schema-oracle.mjs",
+        "bytes": 1962,
+        "sha256": "b4ea698fb3cd41c7306204ab4d0320e87dbbf469e00887969886f9318b635894"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/schema-oracle.test.mjs",
+        "bytes": 6762,
+        "sha256": "dd8c13ca976a4fa3d06088acde49162a7f7c3242bdcfabaeee07c8119d61f178"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/schema-report-pins.json",
+        "bytes": 1513,
+        "sha256": "45c1487e59432c8fa1b38bdbbc13ad5869164933b74f916468fa759c0acd1b12"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/workload.mjs",
+        "bytes": 19926,
+        "sha256": "0e79376d421268023f587ef944c20ea2f0b38a8173060f8509f1edfc0ced5add"
+      },
+      {
+        "path": "scripts/run-tests.mjs",
+        "bytes": 860,
+        "sha256": "f061ebe74dedf5a7f13b7844e53e46be7cf35ed31dc6daf93f6fd60035f14c1b"
+      },
+      {
+        "path": "src/atomicassets/asset.ts",
+        "bytes": 5224,
+        "sha256": "ec2d3ccb7d60b5968af1e95cdbda5ebc168aa1a44cb407829564e6bfdcf8428d"
+      },
+      {
+        "path": "src/atomicassets/internal/collections.ts",
+        "bytes": 2901,
+        "sha256": "7ab75568ef13fb8f40f1ca997cbf2f68ec138b958d7f26f7a9af7acff25f8b09"
+      },
+      {
+        "path": "src/atomicassets/internal/config.ts",
+        "bytes": 7505,
+        "sha256": "d167f6c2552f78bbad143b6aad51cdeabb2b1b5fe545579d787ec4560d2fd07a"
+      },
+      {
+        "path": "src/atomicassets/internal/database-json.ts",
+        "bytes": 1613,
+        "sha256": "c1f2510445bbdd684a65b6b6b82b74e3ab68f4ca517e71a64f8f6267da981262"
+      },
+      {
+        "path": "src/atomicassets/internal/jsonb-text.ts",
+        "bytes": 2481,
+        "sha256": "b00417e791aede990bc13257a3b46b2182edb2cc5cd472b462613cdb0440ec21"
+      },
+      {
+        "path": "src/atomicassets/internal/lifecycle-port.ts",
+        "bytes": 6664,
+        "sha256": "54af1f20beb14d94efd4932ee2f9bfc8b553e783c173bf479c58d75c45c42ba5"
+      },
+      {
+        "path": "src/atomicassets/internal/lifecycle.ts",
+        "bytes": 16585,
+        "sha256": "18692c2e19f1219ec6c7cb430182d4f82f0e779fa8b9b9bbfc457cdbf4d5a533"
+      },
+      {
+        "path": "src/atomicassets/internal/owned-schema-count.ts",
+        "bytes": 2232,
+        "sha256": "1a39910e338400b64b9786bb7954227cecab27e926b8d9946d7b33c76a135d07"
+      },
+      {
+        "path": "src/atomicassets/internal/schema-counts.ts",
+        "bytes": 2437,
+        "sha256": "30df0a8a15c654b6600182e742f457992cc8949ab77836f589d088179dbbd1a2"
+      },
+      {
+        "path": "src/atomicassets/internal/schema-list-parameters.ts",
+        "bytes": 7476,
+        "sha256": "2ecfe80d525b2b794661942681f2b0e91a5c88184a4bd8d43822c11f7becb9cc"
+      },
+      {
+        "path": "src/atomicassets/internal/schema-list.ts",
+        "bytes": 3620,
+        "sha256": "93c59725b3e358c7b8982cce10ee5a56c933aa0532118ef6ddd79689ed99d995"
+      },
+      {
+        "path": "src/atomicassets/internal/schema-query.ts",
+        "bytes": 5135,
+        "sha256": "b8cbfdc5cd12c72667193f7ca690109ffb03f340b14b074f8794bcc75d4770f5"
+      },
+      {
+        "path": "src/atomicassets/internal/templates.ts",
+        "bytes": 6693,
+        "sha256": "a52b7ba74e3c0e73b2024425f7d750cd5be79e5498d31474a0eecc8b8954ec77"
+      },
+      {
+        "path": "src/atomicmarket/internal/auction-assets.ts",
+        "bytes": 1256,
+        "sha256": "8f8460fe9117c7987689e32c6b5ada166e607ef2eb5fa0d035c42ec3b77be0e6"
+      },
+      {
+        "path": "src/atomicmarket/internal/auctions.ts",
+        "bytes": 12596,
+        "sha256": "5e96ae8b5d9eb3dbbae6722e9d59f0fb0a953401b22107d32df6db542b252ddb"
+      },
+      {
+        "path": "src/atomicmarket/internal/buyoffer-assets.ts",
+        "bytes": 1059,
+        "sha256": "5291c91990cedc7aa8be35a122ab54c23b58487fd30c2d7cd718da1773002622"
+      },
+      {
+        "path": "src/atomicmarket/internal/buyoffers.ts",
+        "bytes": 12352,
+        "sha256": "68eefb46dffb9c14e153d188afedc47d7776983d62b4df6f24bdac1aefef9b77"
+      },
+      {
+        "path": "src/atomicmarket/internal/fixed-sale-port.ts",
+        "bytes": 5162,
+        "sha256": "1fa0d95dcefabacb812cb82b7fb731eecd1056c6d13b6d82630f1924ac393685"
+      },
+      {
+        "path": "src/atomicmarket/internal/fixed-sale.ts",
+        "bytes": 14342,
+        "sha256": "69f6c43db7ab2591be6a7d127c7015eb7573d178de68f3f37dd785f094d7fc0e"
+      },
+      {
+        "path": "src/atomicmarket/internal/marketplace-state.ts",
+        "bytes": 3773,
+        "sha256": "ea0d2489d603838f0eaaf27e8c060aa8fac17b2d08f5c627ab566562355d6647"
+      },
+      {
+        "path": "src/atomicmarket/internal/relationships.ts",
+        "bytes": 8245,
+        "sha256": "ebc599aa384dfff56710e462bf1e8342271421d4ec0422aa26396604c37acafb"
+      },
+      {
+        "path": "src/atomicmarket/internal/royalty-attribute-query.ts",
+        "bytes": 1954,
+        "sha256": "7ef0be059ed677f0182c106a4d8b4bdfd41a7f94a5b03aae057c1a28e10dbba4"
+      },
+      {
+        "path": "src/atomicmarket/internal/royalty-config.ts",
+        "bytes": 5543,
+        "sha256": "2c6d65a1ae41dd8e22279f6e5fdbac3d562340ff5ab7840c6dcc21ee765c1656"
+      },
+      {
+        "path": "src/atomicmarket/internal/royalty-rules.ts",
+        "bytes": 7599,
+        "sha256": "e2050b490c75c3f23295bf601622b962eb72bf0b174e51bac71367f46c13472e"
+      },
+      {
+        "path": "src/atomicmarket/internal/royalty-template-query.ts",
+        "bytes": 4786,
+        "sha256": "a950d96495fafe885828798dd322f19bb76719f7f3f585dc0115a53014328288"
+      },
+      {
+        "path": "src/atomicmarket/internal/sale-assets.ts",
+        "bytes": 1696,
+        "sha256": "e7e026eb319d8986ca392f9789edebc7576dbc72c64b3b1177037c86c93a518e"
+      },
+      {
+        "path": "src/atomicmarket/marketplace-indexing.ts",
+        "bytes": 2304,
+        "sha256": "5ec7f0e10c45ae374eb69efd9cdb98ca8897866a6a80fd40f5c3a2112e389ef7"
+      },
+      {
+        "path": "src/atomicmarket/marketplace.ts",
+        "bytes": 2044,
+        "sha256": "fd4c270f233b2a95437492718ec198e7b22bcbf7e4e31bf9d3334d2eaa1d651a"
+      },
+      {
+        "path": "src/atomicmarket/sale.ts",
+        "bytes": 1995,
+        "sha256": "cce516c252c81ee55aaabcda7ac30bf00d0afb1ade25257dc7506ebe8f1a07fb"
+      },
+      {
+        "path": "src/http/id-routes.ts",
+        "bytes": 10124,
+        "sha256": "ed38f109fde76fe94916b087c23cc5dcc4e5fc56a03f50a9dc9bb19f3152567b"
+      },
+      {
+        "path": "src/http/owned-schema-route.ts",
+        "bytes": 2546,
+        "sha256": "935f736cf7de1b0f21a3f99331c6173cac7cefeb494f4767eb3c90e11b38b6ad"
+      },
+      {
+        "path": "src/http/royalty-attribute-route.ts",
+        "bytes": 2507,
+        "sha256": "ea84f180b3c2cb5c42ad6e12169231e3ec66be24c8bb1cfcdfa138ee74222bbd"
+      },
+      {
+        "path": "src/http/royalty-config-route.ts",
+        "bytes": 2080,
+        "sha256": "a51549134c934caba19f5782092c1b1350753fe5c8e6fe535816f47a4c646de6"
+      },
+      {
+        "path": "src/http/royalty-template-route.ts",
+        "bytes": 2745,
+        "sha256": "34a73f06b859dcf78e5c99627de9ac661b05e3ab6ddc4a049140fd9dc920a32c"
+      },
+      {
+        "path": "src/http/schema-list-routes.ts",
+        "bytes": 2964,
+        "sha256": "3aceb8dea23f23e5cde8734eecca213306ed5ca146c7eb9ee717c9ca15fc93db"
+      },
+      {
+        "path": "src/index.ts",
+        "bytes": 1331,
+        "sha256": "1c22149c7045a1becb57b25e4a29b14d490332e1d70a88e32c8039ed05f970d7"
+      },
+      {
+        "path": "src/reference-baseline.ts",
+        "bytes": 278,
+        "sha256": "da84b9b68eb307bdf5b57e89392dae7659979ff5d303c596125fb77d55a6daff"
+      },
+      {
+        "path": "src/stateful/hook-inventory.ts",
+        "bytes": 32373,
+        "sha256": "2fce6e3e2b709bfc6b6d63459e106b68e83c8a40e0d304a8f779ddfbbdd55821"
+      },
+      {
+        "path": "src/stateful/metadata-codec.ts",
+        "bytes": 1481,
+        "sha256": "7c90029b9bf0a3c404e22d11e4e7db0ee9be5371bd265796feea9126af17c691"
+      },
+      {
+        "path": "src/stateful/owned-schema-indexed.ts",
+        "bytes": 1614,
+        "sha256": "ea649961858496e1b5e2c0fbb5db640edcea1ed2ce9552300e8d44739a9a9c77"
+      },
+      {
+        "path": "src/stateful/plugin.ts",
+        "bytes": 20903,
+        "sha256": "3a76fc7b91243e1a1bb778b2ef440b6d9278e930ad0c2ba47b205419294c11d5"
+      },
+      {
+        "path": "src/stateful/royalty-config.ts",
+        "bytes": 1632,
+        "sha256": "286619654fc5ee6beb6281eb949457e4039572933a107e767ceaf92b37e08756"
+      },
+      {
+        "path": "src/stateful/royalty-rules.ts",
+        "bytes": 5379,
+        "sha256": "c7a88eee3a49f63e3c9f9317ffa4455770caa8e06c92effc6175400d1fdb2cdc"
+      },
+      {
+        "path": "src/stateful/schema-indexed.ts",
+        "bytes": 2960,
+        "sha256": "698acb75e413b1ec983ca1b935c961ca418e36c41c1925c537282c05f6e79a00"
+      },
+      {
+        "path": "tests/asset-formatter.test.mjs",
+        "bytes": 2424,
+        "sha256": "c16751f662ccb7a09b67f3316ac5517b0a8cd350dc06c3ea171d0f280c42bc1b"
+      },
+      {
+        "path": "tests/asset-lifecycle-input.test.mjs",
+        "bytes": 7801,
+        "sha256": "a5d8e85630825b6e5f9ee9bf8d70756e2ccf0e6b1bd391b58827d2d64d9ac4e6"
+      },
+      {
+        "path": "tests/asset-lifecycle.test.mjs",
+        "bytes": 18206,
+        "sha256": "990a83e51a4051cce70ca13f3eb94844465c29813044d29ef281e59b8c962b85"
+      },
+      {
+        "path": "tests/asset-paired-mint.test.mjs",
+        "bytes": 12619,
+        "sha256": "79faa2469ad674cdaa836390a49708008e1bca1e3dc1a600187f953ad41a7068"
+      },
+      {
+        "path": "tests/asset-postgres-admission.test.mjs",
+        "bytes": 11763,
+        "sha256": "6dbabd6a5f5b17d26f860fc939910cb5b0d0feb3719eac3f3698e9d8fab448a8"
+      },
+      {
+        "path": "tests/asset-postgres-image-identity.test.mjs",
+        "bytes": 4314,
+        "sha256": "b279f4089fed6204a900ed9296688c39693b2d2cf618118867ea73a1d9188948"
+      },
+      {
+        "path": "tests/atomic-stateful-bridge.test.mjs",
+        "bytes": 11341,
+        "sha256": "cface8bc9077cc5b946cad00357a881e20a63a8c9364cd8dfdc64c755c03eea3"
+      },
+      {
+        "path": "tests/atomic85-managed-successor.test.mjs",
+        "bytes": 11884,
+        "sha256": "b2638494bb9428091cd347725345983a8a209906d1a852420d9aee98cedbd11f"
+      },
+      {
+        "path": "tests/auctions.test.mjs",
+        "bytes": 18938,
+        "sha256": "62bfb2de432ad321924a66e6fa7c56c806689645ab96a08d2c78a86e15bbfea3"
+      },
+      {
+        "path": "tests/buyoffer-source-capture.test.mjs",
+        "bytes": 5710,
+        "sha256": "ee3d1ef30ba86d3adbe68725df8f160c028bf6ce106814ef6a460589ebafe0f7"
+      },
+      {
+        "path": "tests/buyoffers.test.mjs",
+        "bytes": 21820,
+        "sha256": "4f9b35fdad308d5813da9c36f14235545ae646089b2a51d55e898f1a38eb38c7"
+      },
+      {
+        "path": "tests/collections.test.mjs",
+        "bytes": 10156,
+        "sha256": "bf4f5b1c0c23ae2f9e43c56998af9092c19ab2e4c920bd6f90ef04e6d5900392"
+      },
+      {
+        "path": "tests/config-component.test.mjs",
+        "bytes": 15751,
+        "sha256": "4acfee1f58c04b6deb02b503b2b4f89efc1eb862cb29aeadc2f99992ad064b2e"
+      },
+      {
+        "path": "tests/fixed-sale-lifecycle.test.mjs",
+        "bytes": 15791,
+        "sha256": "de18c0dd36fa3d236d71d04cba2eea4d144868e8c2cff749f978eee85e99827f"
+      },
+      {
+        "path": "tests/fixtures/asset-domain-cases.mjs",
+        "bytes": 4877,
+        "sha256": "3d49425619f994897d88702a193b674084b8cca46f3a3876b34c9c8e0a6a687a"
+      },
+      {
+        "path": "tests/fixtures/asset-domain-original.cjs",
+        "bytes": 3414,
+        "sha256": "df5eddbe1d2b8ef57cf2afe39475d9aeac9ff91fb6356c876b5f7af8d1879e26"
+      },
+      {
+        "path": "tests/fixtures/asset-formatter-cases.mjs",
+        "bytes": 3075,
+        "sha256": "fed19a240cb5d599facab631337bb9ff9dae10536617b4eaa640cde83dc9db1e"
+      },
+      {
+        "path": "tests/fixtures/asset-formatter.expected.json",
+        "bytes": 13626,
+        "sha256": "b22627de5a33bb22e384219bd1d6720d0dc91dca291a996496bb0c980d3cdc77"
+      },
+      {
+        "path": "tests/fixtures/asset-postgres-source.cjs",
+        "bytes": 5273,
+        "sha256": "8d2b9abcd23b2f18839e43570a5f0655009a8951e26fd5b98317432c61f954c0"
+      },
+      {
+        "path": "tests/fixtures/capture-config-sources.py",
+        "bytes": 2299,
+        "sha256": "9abf2b6c127e0221ba839749c020cf5c27d7818021c7954fb428c5cee7ece0b6"
+      },
+      {
+        "path": "tests/fixtures/capture-royalty-rule-sources.py",
+        "bytes": 1899,
+        "sha256": "0bf71e18e2a482ed05931a8466c217ef4103662827fe13ecb8a8e1fcb5bcda76"
+      },
+      {
+        "path": "tests/fixtures/capture-schema-list-sources.py",
+        "bytes": 2152,
+        "sha256": "4455388d48f475ca2ea9ec0f69a6997d5a8bfdc97ca155e9500678b01b922246"
+      },
+      {
+        "path": "tests/fixtures/complete-kind-adapter.mjs",
+        "bytes": 5560,
+        "sha256": "e8ea8e8393152714d3c01c5fac10231b1406cfedd96329d9816c5b7681303efe"
+      },
+      {
+        "path": "tests/fixtures/config-component.mjs",
+        "bytes": 8479,
+        "sha256": "4e126a59cd1d07bfab54be5487a6b0fa60c331e9223ea5d10ba0c599f8eeaca8"
+      },
+      {
+        "path": "tests/fixtures/config-consumer.mts",
+        "bytes": 1287,
+        "sha256": "8645ba9abaea6c7f74ca29bad57ed69cfecfc7a8504aa2730e3d843f9f442731"
+      },
+      {
+        "path": "tests/fixtures/config-original-2.7/.gitattributes",
+        "bytes": 100,
+        "sha256": "9e2aba62e98a0df959d6268f33fa3c997bbfcb004db42a8fca268a07a596472b"
+      },
+      {
+        "path": "tests/fixtures/config-original-2.7/LICENSE",
+        "bytes": 1140,
+        "sha256": "458f83058135a4425dcbdcbeb51586dad3ca7b2d6c999fcd16b1a064c9acfa3e"
+      },
+      {
+        "path": "tests/fixtures/config-original-2.7/api-utils.source.txt",
+        "bytes": 5618,
+        "sha256": "4fcce204aded2e2101282a05240cf15bb2bf43133cfaa414a46cb0c07b533567"
+      },
+      {
+        "path": "tests/fixtures/config-original-2.7/atomicassets-handler.ts",
+        "bytes": 26848,
+        "sha256": "3708ea3747446300fd27f81af83bb2552a3020b3fa9e04ddcba2bafce6c4f9be"
+      },
+      {
+        "path": "tests/fixtures/config-original-2.7/config-handler.ts",
+        "bytes": 908,
+        "sha256": "0551dfe8d3dbd103a240919c8cdd761a37f885743239f468d5470dc5dd291417"
+      },
+      {
+        "path": "tests/fixtures/config-original-2.7/config-processor-fork-fix.ts",
+        "bytes": 5681,
+        "sha256": "948b93ce5022c6223513e0349b3304f63932e4f18d98805c484ad182d76fabc7"
+      },
+      {
+        "path": "tests/fixtures/config-original-2.7/config-processor.ts",
+        "bytes": 4432,
+        "sha256": "a1d1f9f13bce6d16fc1e53cb2906461cf6cadf40d1ede5b7cfac1de85f3ad37d"
+      },
+      {
+        "path": "tests/fixtures/config-original-2.7/config-route.ts",
+        "bytes": 2191,
+        "sha256": "4fb459eed807de4364c05ee1b0b25631ea3663eb44ac36b8a8dfb8a1f3f49161"
+      },
+      {
+        "path": "tests/fixtures/config-original-2.7/error.ts",
+        "bytes": 189,
+        "sha256": "0252da2e8aeb66456c132e810a8f2447be95f4135690958b78406360172c8752"
+      },
+      {
+        "path": "tests/fixtures/config-original-2.7/manifest.json",
+        "bytes": 4468,
+        "sha256": "ad6e3c4594f364ff37b3c317753b2234c97a9295802ef4ba847172be398b3861"
+      },
+      {
+        "path": "tests/fixtures/config-original-2.7/namespace-utils.source.txt",
+        "bytes": 3034,
+        "sha256": "c8abe1a19e2089e8f2a592bf64e46c2bb358adf5da33b22b523859ab10e59808"
+      },
+      {
+        "path": "tests/fixtures/config-original-2.7/server.source.txt",
+        "bytes": 18442,
+        "sha256": "df32f2055d45bcb3e055cf09b306aa97590e7b14defaea6899a166198b068e1d"
+      },
+      {
+        "path": "tests/fixtures/config-original-2.7/tables.source.sql",
+        "bytes": 17666,
+        "sha256": "d6efc1a8c02244d31e3cf1636d651dcb6c5035cde1f1a04cc7443896235de566"
+      },
+      {
+        "path": "tests/fixtures/config-original-2.7/upstream-regression.source.txt",
+        "bytes": 4451,
+        "sha256": "899a99fb203c67623d730687cafd744aaa1b071554e385368f7c32a3aeceb49f"
+      },
+      {
+        "path": "tests/fixtures/config-original-2.7/v2-guard.source.txt",
+        "bytes": 2761,
+        "sha256": "2e423d548ed5280ad43d1cce37319a86ce9fd63d538859a6a0be573d15b84abe"
+      },
+      {
+        "path": "tests/fixtures/config-original.mjs",
+        "bytes": 7792,
+        "sha256": "03c97ee21a1de0e6ca7660291fac3e1b6639a98ba885e2ec74ef93489d9099eb"
+      },
+      {
+        "path": "tests/fixtures/fixed-sale-cases.mjs",
+        "bytes": 3245,
+        "sha256": "4a9d17eb8f403af86dd1a242dd0435bed9f31badfffb6914b58badf5ae603cb7"
+      },
+      {
+        "path": "tests/fixtures/jsonb-display-pg16.json",
+        "bytes": 72584,
+        "sha256": "c2eb66d9ab596f8142a1c35cb6770854169d281baf1611b09f392b368018786b"
+      },
+      {
+        "path": "tests/fixtures/marketplace-list-baseline-red.mjs",
+        "bytes": 605,
+        "sha256": "512d820643c5c2bfe84f0187b18ccf651e709b8c1a2a80da7871a499a8d8c69e"
+      },
+      {
+        "path": "tests/fixtures/original-auctions.cjs",
+        "bytes": 10919,
+        "sha256": "a6be299fdef5b700f492fd18bf4e369a522dc91e65db75c4ae711d566d555432"
+      },
+      {
+        "path": "tests/fixtures/original-buyoffer-sources.cjs",
+        "bytes": 1472,
+        "sha256": "ec1653086d75ff298423db0fba6084a99e0c64204d7266c2546a9ca836731942"
+      },
+      {
+        "path": "tests/fixtures/original-buyoffer-sources.json",
+        "bytes": 3103,
+        "sha256": "90b57103b35a7cbd9f33b6e14912331e41cf85fa899bc072d88602d016c171f4"
+      },
+      {
+        "path": "tests/fixtures/original-buyoffers.cjs",
+        "bytes": 8612,
+        "sha256": "be0425edf6b38904cba5baaf1afce6f7a10faa88ad26c346a1e4e9fe567e71d6"
+      },
+      {
+        "path": "tests/fixtures/original-collections.cjs",
+        "bytes": 6851,
+        "sha256": "be0d6c60123c8487c89cd01e98df8506080f592ba9ff6282e6b35b800a6de497"
+      },
+      {
+        "path": "tests/fixtures/original-id-http.cjs",
+        "bytes": 4758,
+        "sha256": "22aa7f85b5384d6cd9b7654a35f597d81380858c243476a927a7ec00ba4bda83"
+      },
+      {
+        "path": "tests/fixtures/original-json.cjs",
+        "bytes": 2603,
+        "sha256": "b37b2557d1d4c35a985530e8e4807e1fd68e58f001f696f1d71ea45e7880f330"
+      },
+      {
+        "path": "tests/fixtures/original-relationships.cjs",
+        "bytes": 8380,
+        "sha256": "2a4d288caa161d80cd0ec4e8b92f3537f3bf3fd0296ef46f8bf74acd6ae6d8b8"
+      },
+      {
+        "path": "tests/fixtures/original-templates.cjs",
+        "bytes": 7489,
+        "sha256": "75986a65dcb05832970b3a412994718d2a29427be6219378a697af9c30765fa8"
+      },
+      {
+        "path": "tests/fixtures/owned-schema-original-2.7/.gitattributes",
+        "bytes": 78,
+        "sha256": "c439303e5a177e037cfbc49a32a88ad2ff6634839a02528fc207749c8ee47963"
+      },
+      {
+        "path": "tests/fixtures/owned-schema-original-2.7/LICENSE",
+        "bytes": 1140,
+        "sha256": "458f83058135a4425dcbdcbeb51586dad3ca7b2d6c999fcd16b1a064c9acfa3e"
+      },
+      {
+        "path": "tests/fixtures/owned-schema-original-2.7/collections.ts",
+        "bytes": 7003,
+        "sha256": "943826d8a9bf0d4adfc93480020b6691708214bb223813f89487f874d7bce56e"
+      },
+      {
+        "path": "tests/fixtures/owned-schema-original-2.7/migration.sql",
+        "bytes": 3340,
+        "sha256": "e08678302db4f48c6327eea6815826738a081d73c71751445f628ed46b6c731e"
+      },
+      {
+        "path": "tests/fixtures/owned-schema-owner.mjs",
+        "bytes": 5300,
+        "sha256": "41858db3f2eb447ebeb4af6e2ceef7817bc0c3c71f44df3e0bb4b3970883c64d"
+      },
+      {
+        "path": "tests/fixtures/owned-schema-pg71-report.json",
+        "bytes": 222009,
+        "sha256": "dcfc8813f9c4fff797d563bb52f979e98cfca9e3071b2f9b06df4037ce7fec93"
+      },
+      {
+        "path": "tests/fixtures/packed-consumer/consume.mjs",
+        "bytes": 8316,
+        "sha256": "38187399f1e59a87e6dd3b4103565809b579e5e3620b98a4b0c8cf5a1ae097c3"
+      },
+      {
+        "path": "tests/fixtures/packed-consumer/consume.ts",
+        "bytes": 8316,
+        "sha256": "5dcfad95d71f5834fed52d0bd27aff6de11143dba1c6eae6c79ad144adaf724f"
+      },
+      {
+        "path": "tests/fixtures/packed-consumer/host-inventory-c871.json",
+        "bytes": 1006,
+        "sha256": "822a880fbebe61a9aa629ebb347fee5e7b50d9955e66d4d67ca0e542327f727f"
+      },
+      {
+        "path": "tests/fixtures/packed-consumer/tsconfig.json",
+        "bytes": 212,
+        "sha256": "97ab3ffc180644d59bf5064d94471cc388b01aa0fc6419985a162f73a8339901"
+      },
+      {
+        "path": "tests/fixtures/packed-consumer/wrapper.mjs",
+        "bytes": 6154,
+        "sha256": "604545fc0085cf5b918db65b56e264c92985f27a033a48808b3edc3a5707d297"
+      },
+      {
+        "path": "tests/fixtures/royalty-attribute-pg16-ci-snapshot.json",
+        "bytes": 30741,
+        "sha256": "5cde222a623a719c512cc90960402321c3c0bd46a52ef0ffc48c609a10d69fc8"
+      },
+      {
+        "path": "tests/fixtures/royalty-component.mjs",
+        "bytes": 8725,
+        "sha256": "c9b3b51affc9ba389580f697956df51a06cb41fd7a30cd214f2928064eaae70f"
+      },
+      {
+        "path": "tests/fixtures/royalty-consumer.mts",
+        "bytes": 992,
+        "sha256": "5f9d6aca2b2c87f07464f9cbf2abe3714e2163f7ac55f1f320beb49a16d083ee"
+      },
+      {
+        "path": "tests/fixtures/royalty-original-2.7/.gitattributes",
+        "bytes": 8,
+        "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+      },
+      {
+        "path": "tests/fixtures/royalty-original-2.7/LICENSE",
+        "bytes": 1140,
+        "sha256": "458f83058135a4425dcbdcbeb51586dad3ca7b2d6c999fcd16b1a064c9acfa3e"
+      },
+      {
+        "path": "tests/fixtures/royalty-original-2.7/api-utils.source.txt",
+        "bytes": 5618,
+        "sha256": "4fcce204aded2e2101282a05240cf15bb2bf43133cfaa414a46cb0c07b533567"
+      },
+      {
+        "path": "tests/fixtures/royalty-original-2.7/cache.ts",
+        "bytes": 5185,
+        "sha256": "56b9cb7c4e06992bc1ec0c06af84ffe7c9273bc47a4aae589513a1d9366041ca"
+      },
+      {
+        "path": "tests/fixtures/royalty-original-2.7/eosio.source.txt",
+        "bytes": 3099,
+        "sha256": "df7150c69bee8ffcbc9f6b13491b1cc10b00dc059b5ecc60d40b3d4e1c496121"
+      },
+      {
+        "path": "tests/fixtures/royalty-original-2.7/error.ts",
+        "bytes": 189,
+        "sha256": "0252da2e8aeb66456c132e810a8f2447be95f4135690958b78406360172c8752"
+      },
+      {
+        "path": "tests/fixtures/royalty-original-2.7/handler.ts",
+        "bytes": 10523,
+        "sha256": "c59c114fdff8567c8001a7a222a705024b1189ef275594f8aeac3b53d038d1a2"
+      },
+      {
+        "path": "tests/fixtures/royalty-original-2.7/json.ts",
+        "bytes": 124,
+        "sha256": "3b792f88013f17759dd02e39e5aaaad700defe81d1aad2cb6a6ee299013b3fcc"
+      },
+      {
+        "path": "tests/fixtures/royalty-original-2.7/manifest.json",
+        "bytes": 3110,
+        "sha256": "d6188629c2354697e02bb406df4f0a88d6160d153a7057338e3bbc480c1e7e95"
+      },
+      {
+        "path": "tests/fixtures/royalty-original-2.7/namespace-utils.source.txt",
+        "bytes": 3034,
+        "sha256": "c8abe1a19e2089e8f2a592bf64e46c2bb358adf5da33b22b523859ab10e59808"
+      },
+      {
+        "path": "tests/fixtures/royalty-original-2.7/processor.ts",
+        "bytes": 14658,
+        "sha256": "6d967a8d699730bf7ccd5a2cc6e246f0d937f3eaa9f3db79b0defa6fc90043c5"
+      },
+      {
+        "path": "tests/fixtures/royalty-original-2.7/route.ts",
+        "bytes": 11702,
+        "sha256": "d561c3d1c10bf23521ea83bfa05346a07ce327f77148a229fe63a273260a30b5"
+      },
+      {
+        "path": "tests/fixtures/royalty-original-2.7/server.source.txt",
+        "bytes": 18442,
+        "sha256": "df32f2055d45bcb3e055cf09b306aa97590e7b14defaea6899a166198b068e1d"
+      },
+      {
+        "path": "tests/fixtures/royalty-original-2.7/tables.sql",
+        "bytes": 28196,
+        "sha256": "bdcb96e1cf60bfac26d3b6cafd3645133cdbda21d16e269d95506074ab20d71d"
+      },
+      {
+        "path": "tests/fixtures/royalty-original.mjs",
+        "bytes": 8508,
+        "sha256": "063bc411b48b40422badd992234818e6acaeaa353c2e9d19c0d255e34c06f9ca"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-component.mjs",
+        "bytes": 11196,
+        "sha256": "9606336463a3049fab4889fcf8f1819b649f111fdbb3d178cb264672121f2325"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-consumer.mts",
+        "bytes": 1424,
+        "sha256": "3f8e470ed3551704f94255228dd9746302afde8b4274cec8a33cc7aad847ea0b"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/.gitattributes",
+        "bytes": 20,
+        "sha256": "e97602ab9cac70102245345c5ab0fc9830df8b17f1072b188265a662a3a547ae"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/LICENSE",
+        "bytes": 1140,
+        "sha256": "458f83058135a4425dcbdcbeb51586dad3ca7b2d6c999fcd16b1a064c9acfa3e"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/api-utils.ts",
+        "bytes": 5618,
+        "sha256": "4fcce204aded2e2101282a05240cf15bb2bf43133cfaa414a46cb0c07b533567"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/builder.ts",
+        "bytes": 4617,
+        "sha256": "2ae1e3b89da2e42e826e00eed65fda2576a4da7b83fbc6cc3ccedc6e72b8cbf3"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/eosio.ts",
+        "bytes": 3099,
+        "sha256": "df7150c69bee8ffcbc9f6b13491b1cc10b00dc059b5ecc60d40b3d4e1c496121"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/error.ts",
+        "bytes": 189,
+        "sha256": "0252da2e8aeb66456c132e810a8f2447be95f4135690958b78406360172c8752"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/handler.ts",
+        "bytes": 10523,
+        "sha256": "c59c114fdff8567c8001a7a222a705024b1189ef275594f8aeac3b53d038d1a2"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/json.ts",
+        "bytes": 124,
+        "sha256": "3b792f88013f17759dd02e39e5aaaad700defe81d1aad2cb6a6ee299013b3fcc"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/lists.ts",
+        "bytes": 1417,
+        "sha256": "5f646390252ea805b65d765f762a8c85b2efc7ed3814721795d1b5a2c5ac01df"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/manifest.json",
+        "bytes": 3763,
+        "sha256": "e75a751a5c0de99873388f5d6515b16e3074472e0944334f4b4923c00d46d168"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/namespace-utils.ts",
+        "bytes": 3034,
+        "sha256": "c8abe1a19e2089e8f2a592bf64e46c2bb358adf5da33b22b523859ab10e59808"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/numbers.ts",
+        "bytes": 1602,
+        "sha256": "56f5c6ecda7cdf033e25dc3f3cc4bb4d5f0964b5407cb5b487c3085dac8e92ec"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/processor.ts",
+        "bytes": 14658,
+        "sha256": "6d967a8d699730bf7ccd5a2cc6e246f0d937f3eaa9f3db79b0defa6fc90043c5"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/routes.ts",
+        "bytes": 11702,
+        "sha256": "d561c3d1c10bf23521ea83bfa05346a07ce327f77148a229fe63a273260a30b5"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/server.ts",
+        "bytes": 18442,
+        "sha256": "df32f2055d45bcb3e055cf09b306aa97590e7b14defaea6899a166198b068e1d"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/tables.sql",
+        "bytes": 28196,
+        "sha256": "bdcb96e1cf60bfac26d3b6cafd3645133cdbda21d16e269d95506074ab20d71d"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original-2.7/validation.ts",
+        "bytes": 5416,
+        "sha256": "daca1f17ad21cd4bafc72e12f240d644e9a3517451cd9ca64b861c87c26f51b1"
+      },
+      {
+        "path": "tests/fixtures/royalty-rule-original.mjs",
+        "bytes": 8722,
+        "sha256": "63e36dc92d0d339a1afbb80d6b7f2400ae15d4c8bd66b102de0183e2d2eda2ee"
+      },
+      {
+        "path": "tests/fixtures/royalty-template-pg16-ci-snapshot.json",
+        "bytes": 23515,
+        "sha256": "d33f0e77f8995c2d0c4301277c1359bcac45f88408413b6feb5285a8505abb08"
+      },
+      {
+        "path": "tests/fixtures/sale-formatter-cases.mjs",
+        "bytes": 2490,
+        "sha256": "04b4748f01efe4438bf35f9a8dbe9c52db3cdaa3b7bd1e2b4bdc02c041f9a7d4"
+      },
+      {
+        "path": "tests/fixtures/sale-formatter.expected.json",
+        "bytes": 35212,
+        "sha256": "79c381103b4a43b1450f219b02fbe00d532ce2eca69f8c3a3f130d3240c2c014"
+      },
+      {
+        "path": "tests/fixtures/schema-indexed-component.mjs",
+        "bytes": 7794,
+        "sha256": "a9cc2bbae6cad02acbf9eeaba71deb6d2b2bf80589c93766d6f115b8d621a8ab"
+      },
+      {
+        "path": "tests/fixtures/schema-indexed-consumer.mts",
+        "bytes": 948,
+        "sha256": "2cd7fe35ab74c9b27844ca538e2f38c2303535ce7eed49a677e3fece26f6c12b"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/.gitattributes",
+        "bytes": 20,
+        "sha256": "e97602ab9cac70102245345c5ab0fc9830df8b17f1072b188265a662a3a547ae"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/LICENSE",
+        "bytes": 1140,
+        "sha256": "458f83058135a4425dcbdcbeb51586dad3ca7b2d6c999fcd16b1a064c9acfa3e"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/api-utils.ts",
+        "bytes": 5618,
+        "sha256": "4fcce204aded2e2101282a05240cf15bb2bf43133cfaa414a46cb0c07b533567"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/boundaries.ts",
+        "bytes": 3034,
+        "sha256": "c8abe1a19e2089e8f2a592bf64e46c2bb358adf5da33b22b523859ab10e59808"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/builder.ts",
+        "bytes": 4617,
+        "sha256": "2ae1e3b89da2e42e826e00eed65fda2576a4da7b83fbc6cc3ccedc6e72b8cbf3"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/cache.ts",
+        "bytes": 5185,
+        "sha256": "56b9cb7c4e06992bc1ec0c06af84ffe7c9273bc47a4aae589513a1d9366041ca"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/error.ts",
+        "bytes": 189,
+        "sha256": "0252da2e8aeb66456c132e810a8f2447be95f4135690958b78406360172c8752"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/format.ts",
+        "bytes": 4424,
+        "sha256": "c37c327d594643ed49b3e4d2e8c5c799e6c352a46473193fea7ad992fa9dafef"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/greylists.ts",
+        "bytes": 12354,
+        "sha256": "3f5cc15d3e370fa78d8d8bf06af1c7713dc3bde2d5ecdb0797e835be3dbab2e5"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/lists.ts",
+        "bytes": 1417,
+        "sha256": "5f646390252ea805b65d765f762a8c85b2efc7ed3814721795d1b5a2c5ac01df"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/manifest.json",
+        "bytes": 4005,
+        "sha256": "fd9f947f8bdb8b54719913ddcf22f2b33ace68f0a52286c7f655432c3bd8dd35"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/routes.ts",
+        "bytes": 7073,
+        "sha256": "27292e1434f024bfa3575ec2c7337be6002c0ce37279e6a5cabc565b6f78f037"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/schema-view.sql",
+        "bytes": 1208,
+        "sha256": "dd1e769c1d8e5503320050ea8e1c08be05f278d9e31b38b412baf84ede24242e"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/schemas.ts",
+        "bytes": 5581,
+        "sha256": "9af0899d2e53e538f34abff204abdbc9aba08807b1f03be72ae718ff4d41887e"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/server.ts",
+        "bytes": 18442,
+        "sha256": "df32f2055d45bcb3e055cf09b306aa97590e7b14defaea6899a166198b068e1d"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/utils.ts",
+        "bytes": 1602,
+        "sha256": "56f5c6ecda7cdf033e25dc3f3cc4bb4d5f0964b5407cb5b487c3085dac8e92ec"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original-2.7/validation.ts",
+        "bytes": 5416,
+        "sha256": "daca1f17ad21cd4bafc72e12f240d644e9a3517451cd9ca64b861c87c26f51b1"
+      },
+      {
+        "path": "tests/fixtures/schema-list-original.mjs",
+        "bytes": 4985,
+        "sha256": "fbe9877254b203e886af4e1ca9886b178843a45a82a301c9d58a1e91c201e69f"
+      },
+      {
+        "path": "tests/fixtures/source-capture-494.mjs.txt",
+        "bytes": 3608,
+        "sha256": "e90de44212b0c60bd9ffc7dc2d73db02f72fe42165d523c98f6f6ada7c125dd7"
+      },
+      {
+        "path": "tests/fixtures/source-capture-controls.mjs",
+        "bytes": 8612,
+        "sha256": "6083eb8ba3c6d78d0fb4889fe2fc7fdb12c1bd730670787ef90b1c1988503dab"
+      },
+      {
+        "path": "tests/fixtures/template-cases.mjs",
+        "bytes": 2429,
+        "sha256": "2c6dfd64d2236bf7b237c7ca70932580ba01bc626f736b51837dcaab96d02d35"
+      },
+      {
+        "path": "tests/id-http.test.mjs",
+        "bytes": 8734,
+        "sha256": "f30696243ae8b8c828a4f92c9b289b7da65c2c7c76b576f847974579d36a8b5f"
+      },
+      {
+        "path": "tests/inventory.test.mjs",
+        "bytes": 1206,
+        "sha256": "4dd1ceba79b1aa9042485df9c4ff34f09fbc33e302498813e861ed5ef9d6b321"
+      },
+      {
+        "path": "tests/json-compatibility.test.mjs",
+        "bytes": 13613,
+        "sha256": "c478a12889330c69595ac1ffb67f6e86110a3ae837ac5558f47f9c46b9884a8e"
+      },
+      {
+        "path": "tests/jsonb-display-mongo-http.test.mjs",
+        "bytes": 6771,
+        "sha256": "40b612076f3d2b0b275ae5a898324c42fd0bee77687a7e51bcfaa0f20e6b98f2"
+      },
+      {
+        "path": "tests/jsonb-display-owned-ci.test.mjs",
+        "bytes": 14743,
+        "sha256": "0a5abcbfc18594bf680bf2b9f1e0877afd6cea56276df95446be67cfc0c51534"
+      },
+      {
+        "path": "tests/jsonb-display.test.mjs",
+        "bytes": 10423,
+        "sha256": "5b1524eae098c1397a3830fdbf42fc729dd1cb3cf75bafd8e27fd0e1d5f85177"
+      },
+      {
+        "path": "tests/marketplace-command-monitor.test.mjs",
+        "bytes": 4762,
+        "sha256": "3c7a76e0e663886a5ef8f372a71a4932e4ddda5573d9c6a9b43b287410b721e0"
+      },
+      {
+        "path": "tests/marketplace-id.test.mjs",
+        "bytes": 15356,
+        "sha256": "463bae37f834a9d39dd51064a30a625c4099ca6a79123daa9c4fb67b89c685f2"
+      },
+      {
+        "path": "tests/marketplace-indexing.test.mjs",
+        "bytes": 3970,
+        "sha256": "9a6503599144cf3a573363a1e3cec6d37587c066836c37dc090526b413676cde"
+      },
+      {
+        "path": "tests/marketplace-list-sdk.test.mjs",
+        "bytes": 4046,
+        "sha256": "5a483130ea51d510407b5c8767e9108d81fa99ad93014180db8132d734bbb5f5"
+      },
+      {
+        "path": "tests/marketplace-list.test.mjs",
+        "bytes": 4944,
+        "sha256": "a66481b9b3627e47cd24e5132ec8d59ce312c8086f825a638918dbc18667838a"
+      },
+      {
+        "path": "tests/marketplace-process-finalization.test.mjs",
+        "bytes": 6627,
+        "sha256": "ccc5f6896978cabde2859899a1e062dede292de492a4b0b94078d74fb8ed4889"
+      },
+      {
+        "path": "tests/marketplace-process-job.test.mjs",
+        "bytes": 4919,
+        "sha256": "97bc211727f410ef0f65792a752f4cc367de5016fdd26d96d4d165245427d4c8"
+      },
+      {
+        "path": "tests/original-asset-controls.test.mjs",
+        "bytes": 8294,
+        "sha256": "0c9af1b4c79df8528c4ccff464dd8acf541f0780ecb2cdfc9938b4fabe6922b5"
+      },
+      {
+        "path": "tests/original-marketplace-controls.test.mjs",
+        "bytes": 2253,
+        "sha256": "26d3d3f9cac22e81db029e5d5938aedf0f7296e536f077daa028bff450886bfa"
+      },
+      {
+        "path": "tests/owned-bson-display-v3.test.mjs",
+        "bytes": 14728,
+        "sha256": "1468b8822eedff63d1e3972309a4532d17544a0a061983e2ef9fefa1086bdbdd"
+      },
+      {
+        "path": "tests/owned-schema-count.test.mjs",
+        "bytes": 3872,
+        "sha256": "0552698ab7f67e3308a37228fa84ee0e64932ead49990b4d5eec8be1538b10de"
+      },
+      {
+        "path": "tests/owned-schema-http.test.mjs",
+        "bytes": 11753,
+        "sha256": "1786eae237d6dba3dbde38f152dccefd275effd798d1469d260d94f61da143ef"
+      },
+      {
+        "path": "tests/owned-schema-native-controller.test.mjs",
+        "bytes": 3080,
+        "sha256": "ed34bc76d13af267b134640650a588b2531029a898a37021c17083b6d37afe8d"
+      },
+      {
+        "path": "tests/owned-schema-native-driver.test.mjs",
+        "bytes": 945,
+        "sha256": "fcbb7c9fc699d8835e54a6e70fa69f27dd116f7d9dab068fc5942c0e98eefb71"
+      },
+      {
+        "path": "tests/owned-schema-native-oracle.test.mjs",
+        "bytes": 1250,
+        "sha256": "757d7840b02097055fc4ff5d1d927e4a3ab460f8cfbc609a43f3942f3fa552e5"
+      },
+      {
+        "path": "tests/owned-schema-native-planner.test.mjs",
+        "bytes": 5804,
+        "sha256": "3e11e8a0114ebd06c640172117a2d13b02d9a8f14c6866faa728bf0c7c346ef4"
+      },
+      {
+        "path": "tests/owned-schema-owner.test.mjs",
+        "bytes": 4697,
+        "sha256": "a5391bbb4d772b2eb6a16be00e7671be9eb77da4ca16f701ec7c89730d04e7c8"
+      },
+      {
+        "path": "tests/package-sdk-pin.test.mjs",
+        "bytes": 1799,
+        "sha256": "383ba3dc4924d4feafc9d5984fa8505223c88e10e1ad1a0643d2cb0188169578"
+      },
+      {
+        "path": "tests/plugin-factory.test.mjs",
+        "bytes": 9587,
+        "sha256": "f734228371d53f063e2b4fa974984188729c90c361556cdb5d9655867fa6c9e0"
+      },
+      {
+        "path": "tests/reference-asset.test.mjs",
+        "bytes": 3365,
+        "sha256": "448dc39fa505c3987b768e66d2350dff968358507be6547ddef97efb47b26412"
+      },
+      {
+        "path": "tests/relationships.test.mjs",
+        "bytes": 13605,
+        "sha256": "5f830f9a3a2d87d55bcc4dcd40535fe1bfafd0f3dbbf8c529ee62cb75a58e26f"
+      },
+      {
+        "path": "tests/royalty-attribute-native-case.test.mjs",
+        "bytes": 2942,
+        "sha256": "61fda5f7c415969e21c3bdbdf94e05b35b39d95437f867b3e65a7eaa642fe1c3"
+      },
+      {
+        "path": "tests/royalty-config.test.mjs",
+        "bytes": 16041,
+        "sha256": "b047966fd1e2ddd2c641a70358bd0a910a606c97947257b35fcb51d05e95dd74"
+      },
+      {
+        "path": "tests/royalty-rule-components.test.mjs",
+        "bytes": 29567,
+        "sha256": "80dcbe801c9385cfbc37a0a9a6ed47628d9476d9096a36ebabdd25dfd42768be"
+      },
+      {
+        "path": "tests/royalty-template-mongo-profile.test.mjs",
+        "bytes": 4475,
+        "sha256": "08f61988899924470b03b8255a39ca057925e09eff2e8c0e91a76dce85a02e2c"
+      },
+      {
+        "path": "tests/royalty-template-native-controller.test.mjs",
+        "bytes": 2252,
+        "sha256": "3fd6de5b45c5e3c71fc37f49a8e838b266a0a2ef8c2427f9371f1eef556d2f02"
+      },
+      {
+        "path": "tests/royalty-template-original-oracle.test.mjs",
+        "bytes": 3711,
+        "sha256": "cfa7b8d80b9de71c4bc5e1e7b86009daf9e49f8d7dfc299e61cdfe9d19d865cb"
+      },
+      {
+        "path": "tests/royalty-template-pg-snapshot.test.mjs",
+        "bytes": 4879,
+        "sha256": "816e173e5d38d329e5e32bced0f34a9cb009799061e05d2db9d78561981055e7"
+      },
+      {
+        "path": "tests/royalty-template-query.test.mjs",
+        "bytes": 11886,
+        "sha256": "a76d6cc793880aaa5159d28858c6ec0bcb13c08e0e9d92b951979d0351961c16"
+      },
+      {
+        "path": "tests/royalty-unavailable-http.test.mjs",
+        "bytes": 2463,
+        "sha256": "7344515eb63d4de47de22baa6a66ffea601fa89b0fcf01981d1f99c2b5d19835"
+      },
+      {
+        "path": "tests/sale-formatter.test.mjs",
+        "bytes": 2491,
+        "sha256": "f9ef3dbbbef090b7f5dda04b1675912c16605f67124da3f2d997d02aceac9830"
+      },
+      {
+        "path": "tests/sale-nested-assets.test.mjs",
+        "bytes": 11658,
+        "sha256": "d3cc2a000c8e350fcdaac0010a8cd4e959203365469c74fa44fa64d9113b2cb1"
+      },
+      {
+        "path": "tests/schema-counts.test.mjs",
+        "bytes": 10295,
+        "sha256": "2b288a887c07e6b960eadf9df2edc86798d38d006659a855b9588d8049fe49ba"
+      },
+      {
+        "path": "tests/schema-id-component.test.mjs",
+        "bytes": 9359,
+        "sha256": "8f9b887667b3a35ad76ea6049db340660081382b906d2b3970a495c031fb17fd"
+      },
+      {
+        "path": "tests/schema-indexed-consumer.test.mjs",
+        "bytes": 26127,
+        "sha256": "d9bda653cb57aa431a66eb155b1e6ab9a620a2e8945ad3df7a7ee16042df099e"
+      },
+      {
+        "path": "tests/socket-inventory.test.mjs",
+        "bytes": 8963,
+        "sha256": "cdd397636da17776d232819f255e21989c7de4093228d5be84901eec89c4b113"
+      },
+      {
+        "path": "tests/source-capture-batch.test.mjs",
+        "bytes": 3820,
+        "sha256": "cb8a12015fe554726ea0a209284346b6716d74238cd7a34a24935b1ce9a809e5"
+      },
+      {
+        "path": "tests/source-probe-evidence.test.mjs",
+        "bytes": 9948,
+        "sha256": "e1354bc60f31982fe78df265206632426094249639297da959ef19b6bcbb5158"
+      },
+      {
+        "path": "tests/template-id-source.test.mjs",
+        "bytes": 9524,
+        "sha256": "9e6947c8fdb9fa18ec2545b2a2107c1d0de248fbddfc79b57d526db6edb5d724"
+      },
+      {
+        "path": "tests/template-id.test.mjs",
+        "bytes": 4194,
+        "sha256": "a1b422a5827edce9d9c7611b5982a4d9735f4d1fc8a26dc39bc4790c612a0079"
+      },
+      {
+        "path": "tests/templates.test.mjs",
+        "bytes": 14944,
+        "sha256": "67183f0ee72155f83900ec668358a4e5d95c056be21df0b238b901bd7eb97756"
+      },
+      {
+        "path": "tests/wrapper-metadata.test.mjs",
+        "bytes": 785,
+        "sha256": "abea6eb1541c73814cf63bbf736a5c646408c838f9c4d274c51246c65db991ac"
+      },
+      {
+        "path": "tsconfig.json",
+        "bytes": 389,
+        "sha256": "9d208e3e49682ff5e7f35a396348adc80c50b3bb11cd037df69809602b725948"
+      },
+      {
+        "path": "vendor/atomicassets-2.2.0/LICENSE",
+        "bytes": 1168,
+        "sha256": "f61f57d0725fd9f6e63582c0316409122024830a99e567be2a01a65aeebafc7d"
+      },
+      {
+        "path": "vendor/atomicassets-2.2.0/NOTICE",
+        "bytes": 639,
+        "sha256": "e60e86c31e8ee0548ac61ceab020571900d7c04a30b8ed7f3fdb755ad276bc2f"
+      },
+      {
+        "path": "vendor/atomicassets-2.2.0/build/index.cjs",
+        "bytes": 107772,
+        "sha256": "2dfe332031728c475622ae510d7ea78246a9592a9da6cf70ba8a1abd7fa2e573"
+      },
+      {
+        "path": "vendor/atomicassets-2.2.0/licenses/Apache-2.0.txt",
+        "bytes": 11358,
+        "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+      }
+    ]
+  }
+}
