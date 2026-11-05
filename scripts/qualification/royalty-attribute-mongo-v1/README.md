@@ -2,6 +2,10 @@
 
 This new qualification is pending fresh physical acceptance on Linux Node 24 and 26.
 It keeps the merged Atomic85 default BSON/schema workloads and all frozen profiles unchanged.
+Repository CI additionally fetches the immutable b55 base before discovering the new test,
+preserving its existing 626 fetch. Only that current CI input hash is refreshed in Atomic85's
+current controller binding; old physical receipts retain their original identities. All eight
+current-default managed jobs require fresh execution with this source cohort.
 The product is Atomic `b55fab683828cddeba292f9e5a7761e14a008aa1`, tree
 `2ce0eaaa7a67ab3957a31ae7f2a103a239f83e19`; HAPI is independently pinned to
 `06a3c96eb44947740fa8daaf4f3956dda69e3f6b`, tree

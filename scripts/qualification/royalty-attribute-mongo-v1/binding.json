@@ -39,8 +39,8 @@
       },
       {
         "path": ".github/workflows/ci.yml",
-        "bytes": 2670,
-        "sha256": "f552cc21ab073933ec91958298f747dc976e897d9ddd9f8de15c0ee967df60fa"
+        "bytes": 2711,
+        "sha256": "efd85df4f99b1ef5880bee0e8f2445a0cabdab36d091ab5cf68e74320bac334f"
       },
       {
         "path": ".github/workflows/json-display-oracle.yml",
@@ -1290,7 +1290,7 @@
       {
         "path": "scripts/qualification/atomic85-managed-v1/binding.json",
         "bytes": 18141,
-        "sha256": "331410bc5bb58a5a8da9720c01df6f205d2f994f08829fc86fe21c110ffbbd8a"
+        "sha256": "9cc12488d58edcf2f016b3723d18893ba62f970ca6f767574a5869beeeee9f22"
       },
       {
         "path": "scripts/qualification/atomic85-managed-v1/child-owned.mjs",
@@ -1614,8 +1614,8 @@
       },
       {
         "path": "scripts/qualification/royalty-attribute-mongo-v1/README.md",
-        "bytes": 4790,
-        "sha256": "934d981a70e5d1699e836d5ba9cd81aaf70da569b4a3acc480ecc03ba2c22550"
+        "bytes": 5147,
+        "sha256": "d682f3340615a2a0852061217220f600c94cde6d87aea7e87069482ca9dfcecf"
       },
       {
         "path": "scripts/qualification/royalty-attribute-mongo-v1/assembly.mjs",
@@ -2844,8 +2844,8 @@
       },
       {
         "path": "tests/royalty-attribute-native-case.test.mjs",
-        "bytes": 2942,
-        "sha256": "61fda5f7c415969e21c3bdbdf94e05b35b39d95437f867b3e65a7eaa642fe1c3"
+        "bytes": 3675,
+        "sha256": "1ecfd897cef88d31a1317a4bfc4234d4f0e9ab7a092dd3fbb9c6acbbe9815597"
       },
       {
         "path": "tests/royalty-config.test.mjs",

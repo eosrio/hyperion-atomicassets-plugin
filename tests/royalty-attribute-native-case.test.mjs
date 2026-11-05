@@ -19,3 +19,10 @@ test('actual new workflow routes both native Node majors on Ubuntu24 through pur
  const ci=read('scripts/qualification/royalty-attribute-mongo-v1/ci.mjs');assert(ci.indexOf('admission = await admitController()')<ci.indexOf('fixture = new OwnedMongoFixture()'));assert(ci.indexOf('loadOriginalReports(')<ci.indexOf('fixture = new OwnedMongoFixture()'));assert(ci.indexOf('verifyChildEvidence({')<ci.indexOf("report.physicalAcceptance = 'passed-bounded-six-attribute-driver-event-only'"));
  assert.equal(LIMITS.parentMS,600000);assert.equal(LIMITS.workloadMS,360000);assert.equal(LIMITS.fixtureMemory,1073741824);
 });
+test('Repository CI fetches both immutable product bases before auto-discovered qualification controls',()=>{
+ const ci=read('.github/workflows/ci.yml'),runner=read('scripts/run-tests.mjs');
+ assert.match(runner,/await visit\('tests'\)/);assert.match(runner,/entry\.name\.endsWith\('\.test\.mjs'\)/);
+ const command=ci.match(/^\s*run: git fetch --no-tags --depth=1 origin[^\r\n]+/m)?.[0];assert(command,'Explicit immutable qualification fetch required');
+ for(const base of ['6261491b37e85c735bad563152147c9c59822f6e',PINS.atomic])assert(command.includes(' '+base),'Main Repository CI is missing immutable base '+base);
+ assert(ci.indexOf(command)<ci.indexOf('run: npm test'),'Both bases must exist before full test discovery');
+});
