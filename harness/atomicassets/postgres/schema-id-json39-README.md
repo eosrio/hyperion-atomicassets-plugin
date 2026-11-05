@@ -1,0 +1,7 @@
+# Schema ID JSONB original oracle v1
+
+Pending execution: this candidate captures the original 2.7.0 schema-ID handler, formatter, wrapper and PostgreSQL 16.15 schema master view, using the original processor lifecycle followed by the same 21 vectors and three rotations as JSON39. The direct SQL collection update is formatter/storage evidence; it is not chain authority. The shared codec/callback classifier records 27 accepted source-representable vectors, six source-representable refusals and 30 source/import-pending vectors; schema-ID MongoDB/HTTP remains pending for all.
+
+The only physical entry point is the separate Linux GitHub Actions workflow. It checks PR head or dispatch SHA, runs Node 24.22.1 and 26.4.0 against both input profiles, admits an exclusively allocated pinned PostgreSQL service under 2 CPU/1 GiB, enforces the existing 180-second child, 30-second SQL, 2 MiB response and 8 MiB report bounds, preserves 63 case outcomes and attempts cleanup. Service retirement is a GitHub job responsibility and not independently qualified here. Existing runs, workflows and fixtures remain untouched.
+
+Per accepted write, independently retain raw schema view JSON and original HTTP response bytes/headers; require status 200 and exact view/HTTP collection match. Capture rejected SQL outcomes without inventing an HTTP result, verify restoration, keep numeric raw SQL probes separate, and bind original handler/route/formatter bytes plus transitive existing reference inventory. This is no Mongo parity, production, cache, Wire or full endpoint claim.
