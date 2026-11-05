@@ -38,13 +38,13 @@
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/guard.mjs",
-        "bytes": 4728,
-        "sha256": "27fccf056eaff171284f13cb745080de10407d7cb10540e1c16e085f574abd8a"
+        "bytes": 4920,
+        "sha256": "f864dfc403695edadeb7bb5102255b3cd67db3b9bf4355836494cf7952e61a8c"
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/guard.test.mjs",
-        "bytes": 2282,
-        "sha256": "2292d35aa6b91068f8e3eb5ac60cf90f3f82287321994ae4daf337b20caf74c8"
+        "bytes": 3015,
+        "sha256": "b025be54b53c8539d7a7b806fde9de15a5a424b8a705e034205b7bc79c3e399b"
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/io.mjs",

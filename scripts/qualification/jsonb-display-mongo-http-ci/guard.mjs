@@ -22,6 +22,7 @@ export function evaluateSnapshot(s, phase, baseline, deadlineMS) {
  if(!Number.isSafeInteger(s.memoryTotalBytes)||s.memoryTotalBytes<=0||s.memoryTotalBytes>LIMITS.maximumMemoryBytes) fail('total memory');
  if(!Number.isSafeInteger(s.memoryAvailableBytes)||s.memoryAvailableBytes<(phase==='before'?LIMITS.beforeAvailableBytes:LIMITS.availableBytes)) fail('available memory');
  if(!Number.isSafeInteger(s.diskAvailableBytes)||s.diskAvailableBytes<LIMITS.diskBytes) fail('available disk');
+ for(const value of [baseline.oom,s.oom]) if(!value||!['v1','v2'].includes(value.scope)||!Number.isSafeInteger(value.oomKill)||value.oomKill<0) fail('missing or invalid cgroup OOM evidence');
  if(s.oom.scope!==baseline.oom.scope||s.oom.oomKill!==baseline.oom.oomKill) fail('cgroup OOM counter changed');
 }
 // Internal pure core: callers must provide inert observations; production never accepts these ports.
