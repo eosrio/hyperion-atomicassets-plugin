@@ -26,6 +26,8 @@ jobs:
         node: ['24.x', '26.x']
     steps:
       - uses: actions/checkout@v4
+      - name: Fetch immutable current-product qualification source
+        run: git fetch --no-tags --depth=1 origin 6261491b37e85c735bad563152147c9c59822f6e
       - name: Select owned reference directory
         run: printf 'AA_REFERENCE_ROOT=%s/atomicassets-api-2.7.0\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
       - uses: actions/setup-node@v4

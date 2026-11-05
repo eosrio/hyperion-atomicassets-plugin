@@ -1,11 +1,26 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
+import {createRequire} from 'node:module';
 import {originalRules,manifest} from './fixtures/royalty-rule-original.mjs';
 import {prepared,attribute,template,event,key,pageAnswer,parseRoyaltyAttributeParameters,limits,
  AtomicPlugin,ROYALTY_ATTRIBUTE_KIND,ROYALTY_TEMPLATE_KIND,ROYALTY_ATTRIBUTE_MODEL_ID,ROYALTY_ATTRIBUTE_COMPARISON,royaltyAttributeRows} from './fixtures/royalty-rule-component.mjs';
 const plain=v=>JSON.parse(JSON.stringify(v));
 const clean=(status,body)=>{const value=plain(body);if(value.success){assert.equal(typeof value.query_time,'number');delete value.query_time;}return{status,body:value};};
 const publicRow=(table,row)=>{const{recordVersion,...data}=plain(row);assert.equal(recordVersion,1);if(table==='royaltyattr')data.source=Number(data.source);return data;};
+const attributeSnapshotBytes=readFileSync(new URL('./fixtures/royalty-attribute-pg16-ci-snapshot.json',import.meta.url));
+assert.equal(createHash('sha256').update(attributeSnapshotBytes).digest('hex'),'5cde222a623a719c512cc90960402321c3c0bd46a52ef0ffc48c609a10d69fc8');
+const attributeSnapshot=JSON.parse(attributeSnapshotBytes),simpleComparison='mongodb-simple-utf8-v1';
+const attributeProfile=engineering=>({options:{engineeringRoyaltyAttributeMongoComparison:engineering},comparison:engineering?simpleComparison:ROYALTY_ATTRIBUTE_COMPARISON});
+// Finite interpretation of the logical request, using only reducer-produced rows.
+// This is neither a physical MongoDB reader nor text-comparison qualification.
+function attributePage(request,rows){
+ assert.equal(request.kind,'page');assert.deepEqual(request.order,[{field:'rule_id',direction:'asc',nulls:'last'}]);
+ const selected=rows.filter(row=>request.where.every(p=>{assert.equal(p.op,'eq');return row[p.field]===p.value;}));
+ selected.sort((a,b)=>BigInt(a.rule_id)<BigInt(b.rule_id)?-1:BigInt(a.rule_id)>BigInt(b.rule_id)?1:0);
+ const offset=BigInt(request.offset);return pageAnswer(offset>BigInt(selected.length)?[]:selected.slice(Number(offset),Number(offset)+request.limit));
+}
 const url=collection=>'/atomicmarket/v1/royalties/'+encodeURIComponent(collection)+'/attributes';
 async function seeded(value=attribute(),options={}){const s=await prepared('royaltyattr',options);await s.execute([event(value)]);return s;}
 
@@ -27,6 +42,61 @@ test('actual SDK captures a no-join attribute model with explicit requiredSQL pr
   assert.equal(s.requirement.limits.readAttempts,limits().readAttempts);assert.equal(s.requirement.limits.responseRecords,limits().responseRecords);assert.equal(s.requirement.limits.responseBytes,limits().responseBytes);
   assert.equal(s.requirement.limits.queryBytes,Math.min(limits().inputBytes,limits().responseBytes));assert.equal(s.requirement.limits.orderTerms,1);
  }finally{await s.close();}
+});
+
+test('attribute Mongo comparison is explicit, model-local and cannot negotiate the default profile',async()=>{
+ const context={binding:{},sourceCapabilities:['original-action-authorization-v1']};
+ const declarations=options=>new AtomicPlugin({limits:limits(),...options}).getStatefulProjectionsV2(context).projections;
+ const base=declarations({}),selected=declarations({engineeringRoyaltyAttributeMongoComparison:true});
+ assert.equal(base[3].requiredIndexedQueries[0].model.textComparison,ROYALTY_ATTRIBUTE_COMPARISON);
+ assert.equal(selected[3].requiredIndexedQueries[0].model.textComparison,simpleComparison);
+ for(const i of [0,1,2]){assert.deepEqual(selected[i].definition,base[i].definition);assert.deepEqual(selected[i].limits,base[i].limits);assert.deepEqual(selected[i].requiredIndexedQueries,base[i].requiredIndexedQueries);}
+ assert.deepEqual(selected[3].definition,base[3].definition);assert.deepEqual(selected[3].limits,base[3].limits);
+ assert.deepEqual(selected[3].requiredIndexedQueries[0],{...base[3].requiredIndexedQueries[0],model:{...base[3].requiredIndexedQueries[0].model,textComparison:simpleComparison}});
+ const combined=declarations({engineeringRoyaltyTemplateQuery:true,engineeringRoyaltyTemplateMongoComparison:true,engineeringRoyaltyAttributeMongoComparison:true});
+ assert.equal(combined[2].requiredIndexedQueries[0].model.textComparison,simpleComparison);assert.equal(combined[3].requiredIndexedQueries[0].model.textComparison,simpleComparison);
+ const digests=[];
+ for(const [options,comparison]of [[{},simpleComparison],[{engineeringRoyaltyAttributeMongoComparison:true},ROYALTY_ATTRIBUTE_COMPARISON]]){
+  const s=await prepared('royaltyattr',{options,comparison});try{digests.push(s.model.digest);const r=await s.api.inject(url('oracle'));assert.equal(r.statusCode,503);assert.equal(r.headers['cache-control'],'no-store');assert.equal(s.adapter.queryCalls,0);}finally{await s.close();}
+ }
+ assert.notEqual(digests[0],digests[1]);
+});
+
+for(const engineering of [false,true])test('retained original PostgreSQL attribute stages and six HTTP cases agree with finite SDK reader; engineering='+engineering,async()=>{
+ const {provenance,royaltyAttribute:captured}=attributeSnapshot;
+ assert.equal(provenance.baseline,manifest.baseline);assert.equal(provenance.postgres,'16.15');assert.equal(provenance.run,42014752481);
+ assert.deepEqual(provenance.artifacts.map(x=>x.artifactId),['13408438511','13408208855']);
+ const {steps,cases}=createRequire(import.meta.url)('../harness/atomicassets/postgres/royalty-rule-plan.cjs');
+ assert.deepEqual(captured.inputs.map(x=>x.rows),steps.map(x=>x.rows.filter(row=>row.table==='royaltyattr')));
+ const originals=cases.filter(x=>x.route==='attributes');assert.equal(originals.length,6);
+ const s=await prepared('royaltyattr',attributeProfile(engineering)),o=originalRules();
+ try{
+  assert.equal(s.model.model.textComparison,engineering?simpleComparison:ROYALTY_ATTRIBUTE_COMPARISON);
+  for(const [i,input]of captured.inputs.entries()){
+   const timeMs=Date.parse(input.block.timestamp+'Z'),number=input.block.block_num;
+   await s.execute(input.rows.map(row=>event(row.value,{scope:'oracle',present:row.present!==false})),{number,timeMs:String(timeMs)});
+   for(const row of input.rows)await o.apply('royaltyattr',row.value,{scope:'oracle',present:row.present!==false,blockNum:number,timeMs});
+   const expected=captured.stages[i].attributes.rows.map(x=>JSON.parse(x.raw_json));
+   const actual=(await Promise.all(['1','2'].map(id=>s.data(id,'oracle')))).filter(Boolean).map(row=>publicRow('royaltyattr',row));
+   assert.deepEqual(actual,expected,input.stage);for(const row of expected)assert.deepEqual(o.data('royaltyattr','oracle',row.rule_id),row);
+  }
+  const rows=(await Promise.all(['1','2'].map(id=>s.data(id,'oracle')))).filter(Boolean);
+  for(const [i,response]of captured.responses.entries()){
+   const original=originals[i];assert.equal(response.name,original.name);assert.deepEqual(response.query,original.query);assert.deepEqual(response.body,original.body);assert.equal(response.method??'GET',original.method??'GET');
+   assert.equal(Buffer.byteLength(response.rawText),response.bytes);assert.equal(createHash('sha256').update(response.rawText).digest('hex'),response.sha256);
+   if(response.status===200){const plan=s.plan();plan.before=({request})=>{plan.answer=attributePage(request,rows);};}
+   const result=await s.api.inject({method:response.method??'GET',url:response.path,query:response.query,payload:response.body});
+   assert.equal(result.statusCode,response.status,response.name);
+   const query=captured.handlerQueries.find(x=>x.case===response.name);
+   const actualOriginal=await o.response('oracle',{method:response.method??'GET',query:response.query,body:response.body,rows:query?.rows??[]});
+   assert.equal(actualOriginal.status,response.status,response.name);
+   if(response.method==='HEAD'){assert.equal(result.body,response.rawText);assert.equal(actualOriginal.headBody,'');}
+   else {const expected=JSON.parse(response.rawText);assert.deepEqual(clean(result.statusCode,result.json()),clean(response.status,expected),response.name);assert.deepEqual(clean(actualOriginal.status,actualOriginal.body),clean(response.status,expected),response.name);}
+  }
+  assert.deepEqual(o.calls,captured.handlerQueries.map(x=>({sql:x.sql,values:x.bindings})));
+  assert.equal(s.adapter.queryCalls,5);assert.equal(s.adapter.kindCalls,0);assert.equal(s.adapter.getCalls,0);
+  assert.equal(s.queries.filter(q=>q.where.some(p=>p.field==='source'&&p.value==='0')).length,2);
+ }finally{o.close();await s.close();}
 });
 
 for(const table of ['royaltytemp','royaltyattr'])test('real original '+table+' callback agrees on insert, replacement, first-created, delete/recreate',async()=>{
@@ -180,9 +250,9 @@ test('ordinary Fastify early unavailable policy is503 retry/no-store and HEAD su
  }
 });
 
-test('covered empty page differs from incomplete source, pending fork and unavailable owner',async()=>{
- const ready=await prepared();try{ready.plan();const r=await ready.api.inject(url('collection'));assert.equal(r.statusCode,200);assert.deepEqual(r.json().data,[]);}finally{await ready.close();}
- for(const flag of ['incomplete','recovering','retired']){const s=await prepared();try{
+for(const engineering of [false,true])test('covered empty page differs from incomplete source, pending fork and unavailable owner; engineering='+engineering,async()=>{
+ const profile=attributeProfile(engineering),ready=await prepared('royaltyattr',profile);try{ready.plan();const r=await ready.api.inject(url('collection'));assert.equal(r.statusCode,200);assert.deepEqual(r.json().data,[]);}finally{await ready.close();}
+ for(const flag of ['incomplete','recovering','retired']){const s=await prepared('royaltyattr',profile);try{
   if(flag==='recovering')s.adapter.phase='recovering';else s.flags[flag]=true;
   assert.equal((await s.api.inject(url('collection'))).statusCode,503);assert.equal(s.adapter.queryCalls,0);
  }finally{await s.close();}}
@@ -195,28 +265,30 @@ test('numeric rule order and exact IDs are backend-returned, not application-sor
  }finally{await s.close();}
 });
 
-test('wrong/partial results, canonical identity and unsafe attempts poison composition into unavailable',async()=>{
+for(const engineering of [false,true])test('wrong/partial results, canonical identity and unsafe attempts poison composition into unavailable; engineering='+engineering,async()=>{
  for(const alter of [result=>{result.result.complete=false;},result=>{result.result={kind:'count',exact:true,value:'1'};},result=>{result.attempts=0;},
   result=>{result.view.revision='e'.repeat(64);},result=>{result.result.rows[0].key='foreign';},result=>{result.result.rows[0].records.rule.recordVersion=2;},
   result=>{result.result.rows[0].records.rule.lookup_hash='ABC';},result=>{result.result.rows[0].records.rule.source='01';}]){
-  const s=await seeded();try{s.plan(pageAnswer([await s.data()])).alter=alter;assert.equal((await s.api.inject(url('collection'))).statusCode,503);assert.equal(s.adapter.acquired,s.adapter.closed);assert.equal(s.adapter.kindCalls,0);}finally{await s.close();}
+  const s=await seeded(attribute(),attributeProfile(engineering));try{s.plan(pageAnswer([await s.data()])).alter=alter;assert.equal((await s.api.inject(url('collection'))).statusCode,503);assert.equal(s.adapter.acquired,s.adapter.closed);assert.equal(s.adapter.kindCalls,0);}finally{await s.close();}
  }
 });
 
-test('attempt/row/UTF8 budgets retain existing ceilings and never publish a truncated page',async()=>{
- const a=await seeded(attribute(),{bounds:{readAttempts:1}});try{a.plan(pageAnswer([await a.data()])).attempts=2;assert.equal((await a.api.inject(url('collection'))).statusCode,503);}finally{await a.close();}
- const b=await prepared('royaltyattr',{bounds:{responseRecords:1}});try{await b.execute([event(attribute()),event(attribute({index:'2'}))]);b.plan(pageAnswer([await b.data(),await b.data('2')]));assert.equal((await b.api.inject(url('collection'))).statusCode,503);}finally{await b.close();}
- const c=await seeded(attribute({value:['string','雪'.repeat(500)]}),{bounds:{responseBytes:1000}});try{c.plan(pageAnswer([await c.data()]));assert.equal((await c.api.inject(url('collection'))).statusCode,503);}finally{await c.close();}
+for(const engineering of [false,true])test('attempt/row/UTF8 budgets retain existing ceilings and never publish a truncated page; engineering='+engineering,async()=>{
+ const profile=attributeProfile(engineering);
+ const a=await seeded(attribute(),{...profile,bounds:{readAttempts:1}});try{a.plan(pageAnswer([await a.data()])).attempts=2;assert.equal((await a.api.inject(url('collection'))).statusCode,503);}finally{await a.close();}
+ const b=await prepared('royaltyattr',{...profile,bounds:{responseRecords:1}});try{await b.execute([event(attribute()),event(attribute({index:'2'}))]);b.plan(pageAnswer([await b.data(),await b.data('2')]));assert.equal((await b.api.inject(url('collection'))).statusCode,503);}finally{await b.close();}
+ const c=await seeded(attribute({value:['string','雪'.repeat(500)]}),{...profile,bounds:{responseBytes:1000}});try{c.plan(pageAnswer([await c.data()]));assert.equal((await c.api.inject(url('collection'))).statusCode,503);}finally{await c.close();}
 });
 
-test('request/owner/fork/publication guards survive awaits, serialization, onSend and retained cache metadata',async()=>{
+for(const engineering of [false,true])test('request/owner/fork/publication guards survive awaits, serialization, onSend and retained cache metadata; engineering='+engineering,async()=>{
+ const profile=attributeProfile(engineering);
  for(const point of ['await','serialize','send','fork']){
-  const s=await seeded();try{s.plan(pageAnswer([await s.data()]),undefined,point==='await'?async()=>{await Promise.resolve();s.flags.cancelled=true;}:undefined);
+  const s=await seeded(attribute(),profile);try{s.plan(pageAnswer([await s.data()]),undefined,point==='await'?async()=>{await Promise.resolve();s.flags.cancelled=true;}:undefined);
    if(point==='serialize')s.beforeSerialize=async()=>{s.flags.retired=true;};if(point==='send')s.beforeSend=async()=>{s.flags.expired=true;};if(point==='fork')s.beforeSerialize=async()=>{s.adapter.view={...s.adapter.view,revision:'f'.repeat(64)};};
    const r=await s.api.inject(url('collection'));assert.equal(r.statusCode,503);assert.equal(r.headers['retry-after'],'1');assert.equal(r.headers['cache-control'],'no-store');assert.equal(s.adapter.acquired,s.adapter.closed);
   }finally{await s.close();}
  }
- const s=await seeded();try{s.plan(pageAnswer([await s.data()]));assert.equal((await s.api.inject(url('collection'))).statusCode,200);const guard=s.retained.at(-1);guard();s.flags.retired=true;assert.throws(guard);}finally{await s.close();}
+ const s=await seeded(attribute(),profile);try{s.plan(pageAnswer([await s.data()]));assert.equal((await s.api.inject(url('collection'))).statusCode,200);const guard=s.retained.at(-1);guard();s.flags.retired=true;assert.throws(guard);}finally{await s.close();}
 });
 
 test('static payout route before or after registration keeps its own precedence and ownership',async()=>{

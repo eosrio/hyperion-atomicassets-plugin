@@ -38,12 +38,15 @@ try {
  assert.equal(metadata.dependencies['@eosrio/hyperion-sdk'],'git+https://github.com/eosrio/hyperion-sdk.git#cbfb26694b90b52266d1e0b9b5dbf6f8389e736b');
  const files={};for(const path of [...paths].sort()){const raw=await readFile(join(installed,path));assert.equal(sha(raw),sha(await readFile(join(root,path))),path);files[path]={bytes:raw.length,sha256:sha(raw)};}
  await mkdir(join(consumer,'tests/fixtures'),{recursive:true});
- const copied=['royalty-rule-components.test.mjs','fixtures/royalty-rule-component.mjs','fixtures/royalty-rule-original.mjs','fixtures/complete-kind-adapter.mjs'];
+ const copied=['royalty-rule-components.test.mjs','fixtures/royalty-rule-component.mjs','fixtures/royalty-rule-original.mjs','fixtures/complete-kind-adapter.mjs','fixtures/royalty-attribute-pg16-ci-snapshot.json'];
  for(const path of copied)await copyFile(join(root,'tests',path),join(consumer,'tests',path));
  await cp(join(root,'tests/fixtures/royalty-rule-original-2.7'),join(consumer,'tests/fixtures/royalty-rule-original-2.7'),{recursive:true});
  const manifest=JSON.parse(await readFile(join(root,'tests/fixtures/royalty-rule-original-2.7/manifest.json')));
  copied.push(...Object.keys(manifest.sources).map(path=>'fixtures/royalty-rule-original-2.7/'+path),'fixtures/royalty-rule-original-2.7/manifest.json','fixtures/royalty-rule-original-2.7/.gitattributes');
  const controlInputs={};for(const path of copied){const raw=await readFile(join(consumer,'tests',path));assert.equal(sha(raw),sha(await readFile(join(root,'tests',path))));controlInputs['tests/'+path]={bytes:raw.length,sha256:sha(raw)};}
+ const planPath='harness/atomicassets/postgres/royalty-rule-plan.cjs';await mkdir(join(consumer,'harness/atomicassets/postgres'),{recursive:true});
+ await copyFile(join(root,planPath),join(consumer,planPath));const planBytes=await readFile(join(consumer,planPath));assert.equal(sha(planBytes),sha(await readFile(join(root,planPath))));
+ controlInputs[planPath]={bytes:planBytes.length,sha256:sha(planBytes)};
  await copyFile(join(root,'tests/fixtures/royalty-rule-consumer.mts'),join(consumer,'consumer.mts'));
  const declaration=await readFile(join(consumer,'consumer.mts'));assert.equal(sha(declaration),sha(await readFile(join(root,'tests/fixtures/royalty-rule-consumer.mts'))));
  controlInputs['tests/fixtures/royalty-rule-consumer.mts']={bytes:declaration.length,sha256:sha(declaration)};

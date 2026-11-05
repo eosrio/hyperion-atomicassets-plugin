@@ -1,0 +1,57 @@
+name: Atomic85 current626 schema ID managed HTTP
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: ["main"]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  owned-display:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['24.22.1', '26.4.0']
+        profile: [original-lifecycle, portable-safe-image]
+    env:
+      HYPERION_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - name: Fetch exact immutable workload and product source objects
+        run: git fetch --no-tags --depth=1 origin d192357a03e1a48a19528ff0086e8e81b62ac562 a410e16497bd2a6529b72691bad03507f90dcc7f 2294d97f0e248ab68c4e6792b63523e230622b2c 6261491b37e85c735bad563152147c9c59822f6e
+      - uses: actions/checkout@v4
+        with:
+          repository: eosrio/hyperion-history-api
+          ref: 7270b1eba0e4e118e61fd282dbf44a66f361df47
+          path: out/jsonb-display-inputs/hapi
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: .bun-version
+      - run: npm ci --allow-git=all
+      - run: npm ci --prefix out/jsonb-display-inputs/hapi/packages/backend-mongodb --allow-git=all --ignore-scripts=false
+      - run: npm ci --prefix out/jsonb-display-inputs/hapi --allow-git=all
+      - run: npm run build
+      - run: npm run build --prefix out/jsonb-display-inputs/hapi
+      - run: npm run typecheck
+      - run: npm run typecheck --prefix out/jsonb-display-inputs/hapi
+      - name: Pure original codec and current successor controls
+        run: node --test tests/jsonb-display-mongo-http.test.mjs tests/owned-bson-display-v3.test.mjs scripts/qualification/schema-id-mongo-v1/refusal.test.mjs scripts/qualification/jsonb-display-mongo-http-ci/sdk-cohort.test.mjs scripts/qualification/jsonb-display-bson-v3/bson-recorder.test.mjs scripts/qualification/jsonb-display-bson-v3/cleanup.test.mjs scripts/qualification/jsonb-display-bson-v3/guard.test.mjs scripts/qualification/jsonb-display-bson-v3/io.test.mjs scripts/qualification/jsonb-display-bson-v3/reports.test.mjs scripts/qualification/atomic85-managed-v1/*.test.mjs tests/atomic85-managed-successor.test.mjs
+      - name: Qualify exclusively owned MongoDB and actual managed HTTP
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/qualification/atomic85-managed-v1/ci-schema.mjs ${{ matrix.profile }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: atomic85-managed-schema-v1-${{ matrix.node }}-${{ matrix.profile }}
+          path: out/atomic85-managed-schema-v1-${{ matrix.profile }}
+          if-no-files-found: warn

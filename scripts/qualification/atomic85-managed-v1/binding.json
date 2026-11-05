@@ -1,0 +1,448 @@
+{
+  "schemaVersion": 1,
+  "physicalAcceptance": "pending",
+  "observation": {
+    "schemaVersion": 1,
+    "profile": "atomic85-626-managed-controller-inputs-v1",
+    "product": "6261491b37e85c735bad563152147c9c59822f6e",
+    "hapi": "7270b1eba0e4e118e61fd282dbf44a66f361df47",
+    "physicalAcceptance": "pending",
+    "oldWorkflowExceptions": [
+      {
+        "path": ".github/workflows/jsonb-display-bson-v3.yml",
+        "change": "retire-only-automatic-pull-request-trigger",
+        "originalSha256": "8e8f1adf6c41c5d6fa95c2e8039688de347378cbe7fcde57b16f0f2ae024b430",
+        "currentSha256": "fe90ca8df528b8be43b6b3ac1497d2eea13f0fac1d903f88e75747056ebc24cd",
+        "unchangedJobsSha256": "8199be131633f6d37545ec80be7d224d2a9dd7e96aca9eb9ad09be7d7914c711"
+      },
+      {
+        "path": ".github/workflows/schema-id-mongo-v1.yml",
+        "change": "retire-only-automatic-pull-request-trigger",
+        "originalSha256": "27ea67b2b13dc0bbb0da6a96d41aba5e59e69010e49a90bdfed974ce426de6b4",
+        "currentSha256": "0938526bba0e54d9b5f7af59f5df1cb60175dcf5fa2e9c52064f8bbf5bfc6df4",
+        "unchangedJobsSha256": "c6a70aa319472b91339938e5679313e2ed5e4f3803131188bec34e60df68f335"
+      }
+    ],
+    "cycleInputsBoundByReviewedGitTree": [
+      "scripts/qualification/atomic85-managed-v1/admission.mjs",
+      "scripts/qualification/atomic85-managed-v1/binding.json"
+    ],
+    "files": [
+      {
+        "path": ".github/workflows/atomic85-owned-bson-v1.yml",
+        "bytes": 2904,
+        "sha256": "80c3fee2e9334d237a6f2c324e944acc85fc514f094e580d0f8883e00b2863cb"
+      },
+      {
+        "path": ".github/workflows/atomic85-schema-id-v1.yml",
+        "bytes": 2964,
+        "sha256": "1a67e3c4051aa34c83cfd31e1afa9a0ebf93fcf48683f03c5b03e58f3e183c55"
+      },
+      {
+        "path": ".github/workflows/ci.yml",
+        "bytes": 2670,
+        "sha256": "f552cc21ab073933ec91958298f747dc976e897d9ddd9f8de15c0ee967df60fa"
+      },
+      {
+        "path": ".github/workflows/jsonb-display-bson-v3.yml",
+        "bytes": 2475,
+        "sha256": "fe90ca8df528b8be43b6b3ac1497d2eea13f0fac1d903f88e75747056ebc24cd"
+      },
+      {
+        "path": ".github/workflows/jsonb-display-mongo-http.yml",
+        "bytes": 2362,
+        "sha256": "646925014eb302e43f847c99cbbe48414e901252b22ff71cdcbbc55fcd8f127d"
+      },
+      {
+        "path": ".github/workflows/schema-id-mongo-v1.yml",
+        "bytes": 2517,
+        "sha256": "0938526bba0e54d9b5f7af59f5df1cb60175dcf5fa2e9c52064f8bbf5bfc6df4"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/README.md",
+        "bytes": 3534,
+        "sha256": "d57f14dfb43b98848a15c8a74b705dff432aff9837cd74acd141446b5c3356bd"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/assembly.mjs",
+        "bytes": 5225,
+        "sha256": "0803edfd31eee511a2a222592f85e45076c0a599e75d702fbec8ef5daf5a17c3"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/child-owned.mjs",
+        "bytes": 5583,
+        "sha256": "b0c37e81b5a45e00611e4433c01703be08eb6499b9fadd419428fca83df848ca"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/child-schema.mjs",
+        "bytes": 5880,
+        "sha256": "edeb14c1ae1abd93cda1c61f4a60d3ea35a1993d5b5fe5259602aa6a3132685e"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/ci-owned.mjs",
+        "bytes": 13748,
+        "sha256": "f6568d77e72d31c097fbc66a08d3456248420b6c985eae8a754941f03fc437de"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/ci-schema.mjs",
+        "bytes": 14664,
+        "sha256": "27a6c4788c7d817044d45a40e338e3dbfc88c0f761e673318f1d25b6c5fa6931"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/contract.mjs",
+        "bytes": 1015,
+        "sha256": "49bb71e2c21b74697af93fb35db13a57ae13fba11155de2c7876c5b9857590b1"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/entry-deltas.json",
+        "bytes": 9923,
+        "sha256": "5bcbfcf88e1e454b571defd7016da70eb9b4eb0c90c5cf9382e63ac96f2ffe3b"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/historical-bson-controls.test.mjs",
+        "bytes": 6767,
+        "sha256": "1386eaef89344408185cbf6db1f64eaba6a1820f1d2c78ae9082f8cbda2798c6"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/historical-schema-controls.test.mjs",
+        "bytes": 7075,
+        "sha256": "0b9917736d1f5de8737470d962e4df91aaae4de684d083525c2c507781ab6eb4"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/host-sdk.mjs",
+        "bytes": 2659,
+        "sha256": "94e660f1f1d61d84554f68b7e8eafc6ad250998be9c8fa498ece0b4e19fbc0c0"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/profile.json",
+        "bytes": 32145,
+        "sha256": "a7c79e78acbd63675faa7bc3dbb472900c622b6fe7160dee64d38cd48922636b"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/run-owned-contract.mjs",
+        "bytes": 381,
+        "sha256": "d8ead77dc990f5aba5f69a4699c40407dd3239eab2e9cba3141b942994bb63d5"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/run-schema-contract.mjs",
+        "bytes": 370,
+        "sha256": "8c397e8fa4ba8fdab1a488c106f5df31352a29e3a892112dee131e976dc4746f"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/workload-owned.mjs",
+        "bytes": 19887,
+        "sha256": "c8c07017033bc7760804f8ddb216e4dc674ba0cebbc3f40a8c4af46f7f0c5588"
+      },
+      {
+        "path": "scripts/qualification/atomic85-managed-v1/workload-schema.mjs",
+        "bytes": 19922,
+        "sha256": "2f95122ced9cb8b82e1447b666ef5367a1b0c96dc9d96f450a8965588e4f6738"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/README.md",
+        "bytes": 4001,
+        "sha256": "08a099e1d1b54c733d96275c3bc72d888ac76c9913b16b40f08c0537255d0855"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/admission.mjs",
+        "bytes": 4882,
+        "sha256": "28f997f999a971db257d18ecc22ed270835d63a2732cf3137f401e279d766742"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/binding.json",
+        "bytes": 10744,
+        "sha256": "811125990938061c728c3c830820d38161333f1a7c504b11a21f924a1e1dfbce"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/bson-recorder.mjs",
+        "bytes": 5798,
+        "sha256": "6bd7f9e97cb77adf629b19ec7684206c2648786d5b717131f99aeef125a02b9d"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/bson-recorder.test.mjs",
+        "bytes": 6345,
+        "sha256": "1a39d18e900aadebcc8fa37037270abf5f30e696b0a76773cad6cee0e4e2e775"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/child.mjs",
+        "bytes": 5544,
+        "sha256": "35515f7fd5675b9cf3deeaceadbc44cb360db3c8f938584b9a4181d95c821c65"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/ci.mjs",
+        "bytes": 13679,
+        "sha256": "c563a7afa403377b3f519a9328c3f487eceb7d883f94763bd929bf1efdfa90af"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/cleanup.mjs",
+        "bytes": 2056,
+        "sha256": "10a0c2fb986c6454ed5453a4c4100783ac570e9e91d5526af256187e83ea5b96"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/cleanup.test.mjs",
+        "bytes": 2540,
+        "sha256": "c2e27968d68803b87ccbed7330cd7a23458dbab0d787fad5efaa4b17196a4e2b"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/contract.mjs",
+        "bytes": 2333,
+        "sha256": "cb5630380411c69a1ee5e0e6ee4813604bbc709405a375c1fc663191e50fc729"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/guard.mjs",
+        "bytes": 5174,
+        "sha256": "308a7ef64a3688709ba9b2215f92627fef165b667de9402329cd1a9630eb683d"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/guard.test.mjs",
+        "bytes": 5037,
+        "sha256": "9a451ff18c545ef5f05ed27b9b0e6ce3c94442f7492d526716e0465632258d45"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/io.mjs",
+        "bytes": 3722,
+        "sha256": "6af60a162d1968cf9ac619642944eb4991a981c921acf137f1bc3c53d6629ac4"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/io.test.mjs",
+        "bytes": 2710,
+        "sha256": "8d9f3994305ac34b8f24fe6fea828190fe2db97fd628b3ba3ec21db9c15bcc29"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/original-artifacts.json",
+        "bytes": 854,
+        "sha256": "4910b12060a0bd57c39967bcbd78eb63266b6589a08bed31cae9c8c9f3503415"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/qualification.test.mjs",
+        "bytes": 6840,
+        "sha256": "234106551ff69021b9576335590d4c3468d910d92a650bdf0f234f8f11997f9d"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/reports.mjs",
+        "bytes": 6784,
+        "sha256": "70f4bc6a1a338c3d5c5f447bdf2a1073aa0481ade5368fe5c7115a7875becd84"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/reports.test.mjs",
+        "bytes": 4707,
+        "sha256": "78754a2b0f2e17ce2892722a46a6409f6d22621da819561e846b19923dd76ba4"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/run-contract-v3.mjs",
+        "bytes": 578,
+        "sha256": "f08a9eb2270b60180421638f7f14bd0edb269825598f8923c0c2e9956a5feb48"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/run-delta.json",
+        "bytes": 7176,
+        "sha256": "957b21145039c64cb4124cf21ab3f2ba81063485ebe630d4d48beb6806d873da"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-bson-v3/run-lossless-bson-v3.mjs",
+        "bytes": 19893,
+        "sha256": "4037d2853cdab4472bdc74aca72c88ac136795c0554c00fbef0b38e875654fd0"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/README.md",
+        "bytes": 6086,
+        "sha256": "c0afa8ed5950dd346c724710e86022bded4d8c5776e422ffc12dfe03516938a7"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/admission.mjs",
+        "bytes": 3550,
+        "sha256": "0e0cd50332b28776d6b35f5dc496f48c6bd766fe39b98a40cdf1a8d158fde2af"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/binding.json",
+        "bytes": 5598,
+        "sha256": "a5259714b8fdf573daab37088a747e3444ca5f5b8562d6a7c53a5b83ab827416"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/child.mjs",
+        "bytes": 5370,
+        "sha256": "3123cde3f768301a51bd0e960b140271913b3ce053e72376544186222ded4c62"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/ci.mjs",
+        "bytes": 13677,
+        "sha256": "fa2bcfefefa4b733782c3469a949cedf0ae6589685e3a65a09fc1ec139161df6"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/contract.mjs",
+        "bytes": 2261,
+        "sha256": "5f2e25922fe399a59a3ba1d71fd6cb9eb3859a8f030a5ed024089a50009ca74c"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/guard.mjs",
+        "bytes": 5174,
+        "sha256": "308a7ef64a3688709ba9b2215f92627fef165b667de9402329cd1a9630eb683d"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/guard.test.mjs",
+        "bytes": 5037,
+        "sha256": "9a451ff18c545ef5f05ed27b9b0e6ce3c94442f7492d526716e0465632258d45"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/host-sdk.mjs",
+        "bytes": 2672,
+        "sha256": "98c92ef52d874cd2fdb4e1d42f230eb7a47c340319de1d180f1f5435ff86bd71"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/io.mjs",
+        "bytes": 2827,
+        "sha256": "3e02d794b3022bf19b6221beb1c1b625713f42fe384f0590e3a59e21dd5a1d31"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/original-artifacts.json",
+        "bytes": 854,
+        "sha256": "4910b12060a0bd57c39967bcbd78eb63266b6589a08bed31cae9c8c9f3503415"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/reports.mjs",
+        "bytes": 6784,
+        "sha256": "70f4bc6a1a338c3d5c5f447bdf2a1073aa0481ade5368fe5c7115a7875becd84"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/reports.test.mjs",
+        "bytes": 4707,
+        "sha256": "78754a2b0f2e17ce2892722a46a6409f6d22621da819561e846b19923dd76ba4"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/run-contract-v2.mjs",
+        "bytes": 510,
+        "sha256": "8bd9a9d52e3f3f944a522044788714f4358172da287146d812f530dde2ad727e"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/run-host-sdk-v2.mjs",
+        "bytes": 21768,
+        "sha256": "714342da8817cc3657e9a1c84530b57bb7cedb508cd254dd404d87339eab8a61"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/sdk-cohort.test.mjs",
+        "bytes": 7497,
+        "sha256": "9b11ba6a8645136bc4e568c36268a7a6fd355ab6b54accffb6c5f34b44f0a5ff"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/README.md",
+        "bytes": 5665,
+        "sha256": "6684d48550aac975ede70e1217289751ac45da416f76e8f4253bb127677342a8"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/assembly.mjs",
+        "bytes": 6482,
+        "sha256": "a3abbb188a6437ab2494135c33442021273b296882914edc8762a286d7fed862"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/contract.mjs",
+        "bytes": 1855,
+        "sha256": "2e80b9b055cc793f531f693578e766b88ee304e6dabb2b9b4f53c8b1eed4f5cb"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/corpus.mjs",
+        "bytes": 6634,
+        "sha256": "59281c726a3a9595af3c601e6157fd8557346e0e5943fb10ff364d414b44d78b"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/host.mjs",
+        "bytes": 6336,
+        "sha256": "17f7a05accbdbf07f60b14b08d71eda5bc5a6f70af1d16e922eb746a4bc0f433"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/ledger.json",
+        "bytes": 70522,
+        "sha256": "00561585eadb36e2cc67840a137fec191cbe001fa416f8b15a9189bf0078685a"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/profile.json",
+        "bytes": 691686,
+        "sha256": "638329108ebcb9ec5810b7ec10b2842c126dd300665149d6c43072b1682f14ae"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http/run.mjs",
+        "bytes": 21647,
+        "sha256": "f163e197c93b2f05187747fd30e6c9db7211f2c160694792a75b6c66b73fb982"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/README.md",
+        "bytes": 2364,
+        "sha256": "158eb7be49a2ba419271e6ee11847c45d68b4de9d38319d2ec588bcab9ee00d5"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/admission.mjs",
+        "bytes": 1032,
+        "sha256": "7f3c77052088894d85f05093e224547240c4fdf10c319c26225b656f0ba6459b"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/child.mjs",
+        "bytes": 5824,
+        "sha256": "ca32bb4535e69ce4ac121d27e0e770e75b43c11c4dffb631d0df92c25237a91f"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/ci.mjs",
+        "bytes": 14598,
+        "sha256": "c45aef9b26aca4609ac69342f4bf396e803f9fb9b5b98534a23eb7d02cd0660f"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/contract.mjs",
+        "bytes": 639,
+        "sha256": "4d3fbcf21a530e8988f91624a09a30d4d0f4e65426aeee8efe6be6e14142ee8d"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/refusal.mjs",
+        "bytes": 1982,
+        "sha256": "181ea511f0dac3b0c7b70576294e9d4e006ac9b686ec8051a3ff468f9cfa6dbf"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/refusal.test.mjs",
+        "bytes": 2950,
+        "sha256": "dbd89d395e76c77ca816c4a69ea5e49a42c5b2fd827ce47e21a771d2b5224de1"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/reports.mjs",
+        "bytes": 7406,
+        "sha256": "4b7de8cf98d8866111a21515c07c86f0c117e4a40289cf44deb7c9ca9eba607b"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/schema-oracle.mjs",
+        "bytes": 1962,
+        "sha256": "b4ea698fb3cd41c7306204ab4d0320e87dbbf469e00887969886f9318b635894"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/schema-oracle.test.mjs",
+        "bytes": 6762,
+        "sha256": "dd8c13ca976a4fa3d06088acde49162a7f7c3242bdcfabaeee07c8119d61f178"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/schema-report-pins.json",
+        "bytes": 1513,
+        "sha256": "45c1487e59432c8fa1b38bdbbc13ad5869164933b74f916468fa759c0acd1b12"
+      },
+      {
+        "path": "scripts/qualification/schema-id-mongo-v1/workload.mjs",
+        "bytes": 19926,
+        "sha256": "0e79376d421268023f587ef944c20ea2f0b38a8173060f8509f1edfc0ced5add"
+      },
+      {
+        "path": "tests/atomic85-managed-successor.test.mjs",
+        "bytes": 11884,
+        "sha256": "b2638494bb9428091cd347725345983a8a209906d1a852420d9aee98cedbd11f"
+      },
+      {
+        "path": "tests/jsonb-display-mongo-http.test.mjs",
+        "bytes": 6771,
+        "sha256": "40b612076f3d2b0b275ae5a898324c42fd0bee77687a7e51bcfaa0f20e6b98f2"
+      },
+      {
+        "path": "tests/jsonb-display-owned-ci.test.mjs",
+        "bytes": 14743,
+        "sha256": "0a5abcbfc18594bf680bf2b9f1e0877afd6cea56276df95446be67cfc0c51534"
+      },
+      {
+        "path": "tests/owned-bson-display-v3.test.mjs",
+        "bytes": 14728,
+        "sha256": "1468b8822eedff63d1e3972309a4532d17544a0a061983e2ef9fefa1086bdbdd"
+      }
+    ]
+  }
+}

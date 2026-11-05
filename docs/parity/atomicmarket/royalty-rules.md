@@ -134,3 +134,32 @@ composition and compares it with the retained PostgreSQL snapshot. The controlle
 must pin its source/model/input and prove MongoDB commands, sessions, publication and
 cleanup independently. The driver cannot authorize or attest its own execution; its
 presence and offline tests are not MongoDB or physical HTTP evidence.
+
+### Attribute engineering comparison input
+
+`engineeringRoyaltyAttributeMongoComparison: true` selects `mongodb-simple-utf8-v1`
+for the existing attribute indexed model only. It is independent of both template
+options. Omitting it retains `atomicmarket-270-royalty-attribute-pg16-v1`; selectors,
+reducers, routes, logical fields/order, no-join shape and caller budgets stay the same.
+The different indexed declaration digest requires a matching, independently admitted
+backend offer. A default-profile offer cannot serve the engineering declaration, or
+vice versa. This option adds no backend offer, initialization coverage, source authority
+or production support, and changes no SDK dependency.
+
+`tests/fixtures/royalty-attribute-pg16-ci-snapshot.json` retains the exact attribute
+input, four typed stage snapshots, handler SQL/results and six raw HTTP subsections
+from the original PostgreSQL 16.15 [run 42014752481](https://github.com/eosrio/hyperion-atomicassets-plugin/actions/runs/42014752481),
+at `af07febcbc1146f162817c3a84ec7cbbebd76114`. Provenance records both Node 24/26
+artifact IDs and ZIP/report SHA256; both reports passed the existing complete-capture
+gate and their attribute observations agree after omitting HTTP headers and query time.
+The callback inputs are constructed contract rows, not chain chronology.
+
+The focused and installed-package controls feed those same inputs through the existing
+reducers and a finite logical-query reader under each comparison choice. They compare
+insert/update/delete/recreate values, signed weights, source zero, literal field,
+query/body merge, validation and HEAD with the retained physical original and pinned
+original VM callbacks/handler. Existing incomplete/foreign-view/partial-result,
+attempt/row/byte limits and final publication controls run under both choices. These
+are source and package controls; the reader performs no MongoDB query. A separately
+admitted physical MongoDB attribute case and managed HAPI request still remain open,
+as do SDK #50's original 500/408 outcomes and full #65/#10/#1 parity.

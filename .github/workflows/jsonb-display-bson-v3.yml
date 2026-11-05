@@ -1,9 +1,6 @@
 name: Owned BSON JSONB display MongoDB managed HTTP
 on:
   workflow_dispatch:
-  pull_request:
-    branches: ["main"]
-    paths: ["scripts/qualification/jsonb-display-bson-v3/**", "scripts/qualification/jsonb-display-mongo-http/**", "scripts/qualification/jsonb-display-mongo-http-ci/**", "tests/jsonb-display-mongo-http.test.mjs", "tests/jsonb-display-owned-ci.test.mjs", "tests/owned-bson-display-v3.test.mjs", ".github/workflows/jsonb-display-mongo-http.yml", ".github/workflows/jsonb-display-bson-v3.yml", "AGENTS.md", "CONTRIBUTING.md", ".bun-version", "tsconfig.json", "package*.json", "src/**", "vendor/**", "tests/fixtures/jsonb-display-pg16.json", "harness/atomicassets/lifecycle-input.cjs", "fixtures/harness/atomicassets/lifecycle/**"]
 permissions:
   contents: read
   actions: read
