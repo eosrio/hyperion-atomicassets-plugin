@@ -13,8 +13,8 @@
     "files": [
       {
         "path": ".github/workflows/jsonb-display-mongo-http.yml",
-        "bytes": 2345,
-        "sha256": "5b920fa0d214146e984c84ae17dbcf9219a2138037da856a1439b29bf30b7c51"
+        "bytes": 2549,
+        "sha256": "1542bab44d9d52c2f4216858d6eedeaa497157b19c2af402c2f6849464fef010"
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/README.md",
@@ -113,8 +113,8 @@
       },
       {
         "path": "tests/jsonb-display-owned-ci.test.mjs",
-        "bytes": 10424,
-        "sha256": "2a21becb082da1d96d7dc97268c4cb068ac57f6987a82ce75056f4be9bcbd10a"
+        "bytes": 10573,
+        "sha256": "768de74a4f24b517a3efcbb70ab6f566517ea128917a658afb9c4610bf25b816"
       }
     ]
   }

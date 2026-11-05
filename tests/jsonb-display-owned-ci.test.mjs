@@ -100,6 +100,7 @@ test('workflow checks exact PR head, pinned HAPI and all explicit input/runtime 
   assert(source.includes('ref: ${{ github.event.pull_request.head.sha || github.sha }}'));
   assert(source.includes('HYPERION_EXPECTED_HEAD: ${{ github.event.pull_request.head.sha || github.sha }}'));
   assert(source.includes('ref: 7270b1eba0e4e118e61fd282dbf44a66f361df47'));
+  assert(source.includes('git fetch --no-tags --depth=1 origin d192357a03e1a48a19528ff0086e8e81b62ac562 a410e16497bd2a6529b72691bad03507f90dcc7f'));
   assert(source.includes("node: ['24.22.1', '26.4.0']")); assert(source.includes('profile: [original-lifecycle, portable-safe-image]'));
   assert(source.includes('actions: read')); assert(!source.includes(': write')); assert(!source.includes('services:')); assert(!source.includes('continue-on-error'));
 });

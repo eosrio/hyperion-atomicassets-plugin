@@ -22,6 +22,8 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha || github.sha }}
           persist-credentials: false
+      - name: Fetch exact immutable workload and product source objects
+        run: git fetch --no-tags --depth=1 origin d192357a03e1a48a19528ff0086e8e81b62ac562 a410e16497bd2a6529b72691bad03507f90dcc7f
       - uses: actions/checkout@v4
         with:
           repository: eosrio/hyperion-history-api
