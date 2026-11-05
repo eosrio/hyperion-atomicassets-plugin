@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import {mkdir,writeFile} from 'node:fs/promises';
+import {mkdir,writeFile,readFile} from 'node:fs/promises';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {join} from 'node:path';
 import Fastify from 'fastify';
@@ -91,11 +91,18 @@ test('collection requests propagate unknown coverage and final host failure for 
   }finally{await s.api.close();}
 });
 
-test('collection reads detach caller state and refuse malformed or unsupported metadata instead of inventing values',async()=>{
+test('collection reads detach caller state, match measured nontext display and refuse malformed rows',async()=>{
   const s=await setup();try{await s.run({...block(0),events:initial()});const before=s.snapshot(),k=key(input.contract,input.collection),stored=before.get('collection'+k);
     const a=await s.request();a.body.data.data.name='changed';a.body.data.authorized_accounts.push('bad');assert.deepEqual(s.snapshot(),before);
-    for(const change of [v=>{v.contract='other'},v=>{delete v.new_author_date},v=>{v.data.name=1},v=>{v.allow_notify='true'},v=>{v.new_author_date=1}]){
+    for(const change of [v=>{v.contract='other'},v=>{delete v.new_author_date},v=>{v.data.name=Infinity},v=>{v.allow_notify='true'},v=>{v.new_author_date=1}]){
       const bad=structuredClone(stored);change(bad);s.seed('collection',k,bad);assert.equal((await s.request()).status,503);
+    }
+    const oracle=JSON.parse(await readFile(new URL('./fixtures/jsonb-display-pg16.json',import.meta.url),'utf8'));
+    for(const name of ['booleans','zero','nested-values']){
+      const captured=oracle.cases.find(c=>c.name===name&&c.rotation===0);assert.equal(captured.storageAccepted,true);
+      const accepted=structuredClone(stored);accepted.data=JSON.parse(captured.encoded);s.seed('collection',k,accepted);
+      const result=await s.request();assert.equal(result.status,200);
+      for(const field of ['name','img'])assert.equal(result.body.data[field],captured.collectionHttp[field]);
     }
     s.seed('collection',k,stored);assert.equal((await s.request()).status,200);
   }finally{await s.api.close();}

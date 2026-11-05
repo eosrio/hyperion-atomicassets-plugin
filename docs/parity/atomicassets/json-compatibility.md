@@ -98,3 +98,25 @@ SQL state.
 Executable artifact identity changes require the normal new declaration/generation and
 operator activation; an old hook declaration is not silently relabeled. Initialize/rebuild
 state projections separately from retained Elasticsearch history.
+
+## Source-profile successor after PR79 CI
+
+The first exact-head Linux run exposed two stale tests that still required nontext display
+refusal, plus two shared-profile checks pinned to the earlier lifecycle source. The tests now
+use captured nested/boolean/zero SQL/HTTP expectations while retaining invalid integer,
+unsupported variant, malformed row, unavailable-coverage and final-fence guards.
+
+The active shared emission profile is explicitly versioned as
+`atomicassets-owned-schema-cbfb-jsonb-display-qualification-v2`, with physical qualification
+recorded as not-run. It binds the display implementation at `bbd3ceb01f01c7896ec52b105d7d5bd479a40799`,
+adds the changed display sources and the jsonbText/lifecycle-port source closure, and updates
+exactly the 17 changed plugin emission entries. All 37 SDK emission entries and the native
+HAPI/SDK revision pins are unchanged. Exact source/profile/emission checks still fail closed;
+new tamper controls cover both helper source files. The royalty controller continues to use
+that exact shared emission verification without changing its own model or profile.
+
+The [previous v1 profile at its immutable revision](https://github.com/eosrio/hyperion-atomicassets-plugin/blob/92e57c492976dab46af45bd014f234e7dff8b1fe/scripts/qualification/owned-schema-mongodb/profile.json)
+remains available with SHA-256 `591bacf8fc107abc9b875e4e1164094c0f6449d37303d9a880021c0af3cacca3`.
+Old source or physical evidence must continue to cite its original revision and hashes. Updating
+this active source profile does not relabel a historical physical result as qualification of
+v2. Exact successor Linux CI and physical plugin qualification remain pending.

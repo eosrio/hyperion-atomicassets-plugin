@@ -20,8 +20,14 @@ test('qualification refuses unsafe backend and generation identifiers',async()=>
 });
 
 test('domain profile accepts exact inputs and refuses altered pinned source',()=>{
- const profile=verifyDomainProfile();assert.equal(profile.files.length,13);
+ const profile=verifyDomainProfile();assert.equal(profile.files.length,21);
+ assert.equal(profile.sourceBinding.physicalQualification,'not-run');
+ assert.equal(profile.sourceBinding.supersedes.commit,'92e57c492976dab46af45bd014f234e7dff8b1fe');
  assert.throws(()=>verifyDomainProfile(path=>path.endsWith('profile.json')?'{}':''),/profile bytes differ/);
  assert.throws(()=>verifyDomainProfile(path=>readFileSync(new URL('../'+path,import.meta.url),'utf8'),()=>[]),/plugin emissions differ/);
  assert.throws(()=>verifyDomainProfile(path=>readFileSync(new URL('../'+path,import.meta.url),'utf8')+(path==='src/stateful/plugin.ts'?'x':'')),/domain source differs/);
+ for(const file of ['src/atomicassets/internal/jsonb-text.ts','src/atomicassets/internal/lifecycle-port.ts']){
+  assert.ok(profile.files.some(row=>row.path===file));
+  assert.throws(()=>verifyDomainProfile(path=>readFileSync(new URL('../'+path,import.meta.url),'utf8')+(path===file?'x':'')),/domain source differs/);
+ }
 });

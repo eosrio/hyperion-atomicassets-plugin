@@ -184,12 +184,18 @@ test('unmodified original collection callback accepts the safe subset and origin
   const value=JSON.parse(result.trim().split('\n').at(-1));assert.equal(value.originalCollectionCallback,true);assert.equal(value.originalFormatterStages,7);assert.equal(value.physicalSQL,false);
 });
 
-test('rounded integer inputs, unsupported metadata variants and nontext collection joins refuse instead of imitating SQL casts',async()=>{
+test('rounded integer inputs and unsupported metadata variants refuse while measured nontext joins match SQL',async()=>{
   for(const attributes of [[{key:'id',value:['uint64',9007199254740992]}],[{key:'id',value:['int64','9223372036854775808']}],
     [{key:'id',value:['UINT64_VEC',['-1']]}],[{key:'unknown',value:['unknown','text']}]]){
     const s=storage(),events=initial();events[0].value.new_data=attributes;await rejects(s.run(reduce,block(0),events));assert.equal(s.snapshot().size,0);
   }
-  const s=await minted(),k=key(input.contract,input.collection),value=s.snapshot().get('collection:'+k);value.data.img={nested:true};s.seed('collection',k,value);
+  const oracle=JSON.parse(await readFile(new URL('./fixtures/jsonb-display-pg16.json',import.meta.url),'utf8'));
+  const captured=oracle.cases.find(c=>c.name==='nested-values'&&c.rotation===0);assert.equal(captured.storageAccepted,true);
+  const s=await minted(),k=key(input.contract,input.collection),value=s.snapshot().get('collection:'+k);
+  value.data=JSON.parse(captured.encoded);s.seed('collection',k,value);
+  const actual=(await read(s.reader(),input.contract,input.assetId)).collection;
+  for(const field of ['name','img','images'])assert.equal(actual[field],captured.assetHttp[field]);
+  const invalid=structuredClone(value);invalid.data.img=Infinity;s.seed('collection',k,invalid);
   await rejects(read(s.reader(),input.contract,input.assetId));
 });
 

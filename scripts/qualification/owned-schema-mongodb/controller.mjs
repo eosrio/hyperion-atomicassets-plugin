@@ -12,11 +12,11 @@ import {OWNED_SCHEMA_MODEL_ID} from '../../../dist/stateful/owned-schema-indexed
 import {limits as fixtureLimits} from '../../../tests/fixtures/config-component.mjs';
 import {runOwnedSchemaNativeDifferential} from './driver.mjs';
 const hex=n=>n.toString(16).padStart(64,'0');
-export const PROFILE='atomicassets-owned-schema-cbfb-c561-qualification-v1';
+export const PROFILE='atomicassets-owned-schema-cbfb-jsonb-display-qualification-v2';
 export const HAPI_REVISION='49dfe804590ab5b9cb17df05ebc85eb8e6976b14';
 export const SDK_REVISION='cbfb26694b90b52266d1e0b9b5dbf6f8389e736b';
 export const NATIVE_PROFILE='indexed-royalty-sdk-cbfb-native-cf514-engineering-v1';
-export const DOMAIN_PROFILE_SHA256='591bacf8fc107abc9b875e4e1164094c0f6449d37303d9a880021c0af3cacca3';
+export const DOMAIN_PROFILE_SHA256='ad804429780b2688883c780cce0802bb19726a8b872839c5a5b22ddb55689875';
 const root=new URL('../../../',import.meta.url),digest=bytes=>createHash('sha256').update(bytes).digest('hex');
 function inventory(rootPath) {
  const rows=[];let total=0;function visit(dir){for(const name of readdirSync(dir).sort()){const path=join(dir,name),stat=lstatSync(path);assert.equal(stat.isSymbolicLink(),false);
