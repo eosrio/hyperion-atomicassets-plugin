@@ -8,6 +8,7 @@ import {admitController, root, hapiRoot} from './admission.mjs';
 import {CI_PROFILE, LIMITS, assertOwnedUri, sha} from './contract.mjs';
 import {createPhysicalGuard} from './guard.mjs';
 import {evidenceWriter, exclusiveFile, processIdentity} from './io.mjs';
+import {PROFILE as RUN_PROFILE} from './run-contract-v2.mjs';
 export async function main() {
   assert.equal(process.platform, 'linux'); assert.equal(process.argv.length, 3);
   const path = resolve(process.argv[2]); assert(lstatSync(path).isFile() && !lstatSync(path).isSymbolicLink());
@@ -38,8 +39,8 @@ export async function main() {
       promoteLongs: false, monitorCommands: true, maxPoolSize: 2, serverSelectionTimeoutMS: 5000, connectTimeoutMS: 5000, timeoutMS: 5000});
     await client.connect(); guard(); const hello = await client.db('admin').command({hello: 1});
     assert.equal(hello.setName, intent.fixture.replicaSet); assert.equal(hello.isWritablePrimary, true); assert.deepEqual(hello.hosts, [intent.fixture.member]);
-    const {runJsonbDisplayQualification} = await import('../jsonb-display-mongo-http/run.mjs');
-    result = await runJsonbDisplayQualification({profile: 'atomic79-hapi7270-jsonb-display-id-mongo-http-v1', hapiRoot, client,
+    const {runJsonbDisplayQualification} = await import('./run-host-sdk-v2.mjs');
+    result = await runJsonbDisplayQualification({profile: RUN_PROFILE, hapiRoot, client,
       databaseName: intent.databaseName, inputProfile: intent.inputProfile, originalReportRoot: join(output, 'reports'),
       reviewedHarness: admission.reviewedHarness, guard, persist: row => writer.persist(row)});
     assert.equal(result.status, 'passed-bounded-source-representable-IDs-only');

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-export const CI_PROFILE = 'atomic80-owned-jsonb-id-mongo-http-linux-ci-v1';
+export const CI_PROFILE = 'atomic80-owned-jsonb-id-mongo-http-linux-ci-v2';
 export const HARNESS_BASE = 'd192357a03e1a48a19528ff0086e8e81b62ac562';
 export const HAPI = '7270b1eba0e4e118e61fd282dbf44a66f361df47';
 export const IMAGE = 'docker.io/library/mongo@sha256:4c7d0fb8fde0681e2ae443b0b09371ec9c31a81caab05af9579458bfcb30d656';

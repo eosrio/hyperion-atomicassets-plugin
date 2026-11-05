@@ -3,7 +3,7 @@
   "physicalAcceptance": "pending",
   "observation": {
     "schemaVersion": 1,
-    "profile": "atomic80-owned-jsonb-id-mongo-http-linux-ci-v1",
+    "profile": "atomic80-owned-jsonb-id-mongo-http-linux-ci-v2",
     "frozenBase": "d192357a03e1a48a19528ff0086e8e81b62ac562",
     "hapi": "7270b1eba0e4e118e61fd282dbf44a66f361df47",
     "cycleInputsBoundByReviewedGitTree": [
@@ -18,13 +18,13 @@
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/README.md",
-        "bytes": 4166,
-        "sha256": "1ee2a8dc00d0299e746ada9ce0738fba1de36a09bbf628aef1625f6bf6440e2d"
+        "bytes": 5534,
+        "sha256": "b8d4f51f2baac1493384d587c4e8569e2b3ba91b1ae18a954b0fe16dd34d3d32"
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/child.mjs",
-        "bytes": 5361,
-        "sha256": "3350d0df562ce283a66318e3524708317346f8ad67bb2b082c5c5023b12b0fce"
+        "bytes": 5370,
+        "sha256": "3123cde3f768301a51bd0e960b140271913b3ce053e72376544186222ded4c62"
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/ci.mjs",
@@ -34,7 +34,7 @@
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/contract.mjs",
         "bytes": 2261,
-        "sha256": "829af53a064c2e3694c7432ed77e6e931586412d40fc52779136e55ae4619557"
+        "sha256": "5f2e25922fe399a59a3ba1d71fd6cb9eb3859a8f030a5ed024089a50009ca74c"
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/guard.mjs",
@@ -45,6 +45,11 @@
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/guard.test.mjs",
         "bytes": 3015,
         "sha256": "b025be54b53c8539d7a7b806fde9de15a5a424b8a705e034205b7bc79c3e399b"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/host-sdk.mjs",
+        "bytes": 2672,
+        "sha256": "98c92ef52d874cd2fdb4e1d42f230eb7a47c340319de1d180f1f5435ff86bd71"
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/io.mjs",
@@ -65,6 +70,21 @@
         "path": "scripts/qualification/jsonb-display-mongo-http-ci/reports.test.mjs",
         "bytes": 4707,
         "sha256": "78754a2b0f2e17ce2892722a46a6409f6d22621da819561e846b19923dd76ba4"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/run-contract-v2.mjs",
+        "bytes": 510,
+        "sha256": "8bd9a9d52e3f3f944a522044788714f4358172da287146d812f530dde2ad727e"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/run-host-sdk-v2.mjs",
+        "bytes": 21768,
+        "sha256": "714342da8817cc3657e9a1c84530b57bb7cedb508cd254dd404d87339eab8a61"
+      },
+      {
+        "path": "scripts/qualification/jsonb-display-mongo-http-ci/sdk-cohort.test.mjs",
+        "bytes": 7497,
+        "sha256": "9b11ba6a8645136bc4e568c36268a7a6fd355ab6b54accffb6c5f34b44f0a5ff"
       },
       {
         "path": "scripts/qualification/jsonb-display-mongo-http/README.md",

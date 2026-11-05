@@ -1,0 +1,221 @@
+// Version 2 executes the unchanged workload with the actual admitted HAPI SDK instance.
+// Frozen v1 remains failed; never import/execute this entry point on Windows.
+import assert from 'node:assert/strict';
+import {randomBytes} from 'node:crypto';
+import {createRequire} from 'node:module';
+import {join} from 'node:path';
+import {pathToFileURL} from 'node:url';
+import {loadHostSdkPorts} from './host-sdk.mjs';
+import profiles from '../../../harness/atomicassets/lifecycle-input.cjs';
+import {PROFILE, ACCEPTANCE, assertRunInput} from './run-contract-v2.mjs';
+import {corpus, classifyCorpus, codec, sha} from '../jsonb-display-mongo-http/corpus.mjs';
+import {verifyAssembly, verifyOriginalReports} from '../jsonb-display-mongo-http/assembly.mjs';
+const hex = n => n.toString(16).padStart(64, '0'), copy = structuredClone;
+const bounds = {value: {depth: 32, nodes: 8192, fields: 64, arrayElements: 256, stringBytes: 4096, recordBytes: 131072, integerFields: 16, pathSegments: 16},
+  envelope: {depth: 48, nodes: 65536, fields: 64, arrayElements: 1024, stringBytes: 1048576, recordBytes: 2097152, integerFields: 16, pathSegments: 16},
+  selectors: 128, recordKinds: 21, inputOccurrences: 128, inputBytes: 1048576, keyBytes: 256, readKeys: 16, readAttempts: 64,
+  mutations: 128, candidateBytes: 2097152, responseRecords: 16, responseBytes: 65536};
+const collectionKey = JSON.stringify(['atomicassets', 'fixturecoll']);
+const select = (value, fields) => Object.fromEntries(fields.map(field => [field, value[field]]));
+const without = (value, fields) => Object.fromEntries(Object.entries(value).filter(([key]) => !fields.includes(key)));
+const failure = error => ({name: String(error?.name ?? 'Error'), message: String(error?.message ?? error).slice(0, 2048), code: error?.code ?? null});
+
+function initialEvents(input) {
+  const serialized = Buffer.from(codec.serialize(input.collectionData, codec.CachedObjectSchema(input.collectionFormat))).toString('hex');
+  return [{kind: 'table', name: 'config', scope: 'atomicassets', data: {collection_format: input.collectionFormat}},
+    collectionEvent(input, serialized), {kind: 'table', name: 'schemas', scope: input.collection, data: {schema_name: input.schema, format: input.format}},
+    {kind: 'action', name: 'logmint', data: {asset_id: input.assetId, collection_name: input.collection, schema_name: input.schema, template_id: -1,
+      new_asset_owner: 'alice', authorized_minter: 'author', immutable_data: input.immutableAttributes, mutable_data: input.mutableAttributes}},
+    {kind: 'action', name: 'logsetdata', data: {asset_id: input.assetId, new_data: input.updatedAttributes}}];
+}
+function collectionEvent(input, serialized) {
+  return {kind: 'table', name: 'collections', scope: input.collection, data: {collection_name: input.collection, author: 'author', allow_notify: true,
+    authorized_accounts: ['author', 'editor'], notify_accounts: ['watcher'], market_fee: 0.05, serialized_data: serialized}};
+}
+function caseEvents(input, plan) {return [{kind: 'table', name: 'config', scope: 'atomicassets', data: {collection_format: plan.format}}, collectionEvent(input, plan.serializedHex)];}
+
+/** Raw exact source-v2 fields, captured under the actual registry declaration. */
+export function sourceInputs(declaration, events, serial) {
+  const binding = declaration.projection.definition.binding;
+  return events.map((event, index) => {
+    const selector = declaration.projection.definition.selectors.find(row => row.contract === 'atomicassets' && row.kind === event.kind && row.name === event.name); assert(selector);
+    const raw = Buffer.from(JSON.stringify(event.data));
+    return {kind: event.kind, selector: selector.id, order: index, contract: selector.contract, name: selector.name,
+      abiDeployment: selector.abiDeployment, abiSha256: selector.abiSha256, mappingRevision: binding.mappingRevision,
+      codecRevision: binding.codecRevision, normalizerRevision: binding.normalizerRevision,
+      rawHex: raw.toString('hex'), rawSha256: sha(raw), sourceEvidence: sha('controlled-jsonb:' + serial + ':' + index), data: copy(event.data),
+      ...(event.kind === 'table' ? {transactionId: null, identity: {kind: 'contract-row', scope: event.scope, primaryKey: String(index)},
+        payer: null, present: true, deltaOrdinal: index, rowOrdinal: 0} :
+        {transactionId: hex(serial), actionOrdinal: index + 1, receiver: selector.contract, receiptOrdinal: index + 1, sequence: null})};
+  });
+}
+
+export async function runJsonbDisplayQualification(options) {
+  assert.equal(process.platform, 'linux'); assert.equal(process.arch, 'x64'); assert.equal(process.versions.bun, undefined);
+  assert([24, 26].includes(Number(process.versions.node.split('.')[0])));
+  const {profile, hapiRoot, client, databaseName, inputProfile = 'original-lifecycle', persist, guard} = options;
+  assertRunInput({...options, inputProfile}); guard();
+  const assembly = await verifyAssembly(hapiRoot, options.reviewedHarness), originalReports = verifyOriginalReports(options.originalReportRoot); guard();
+  const {owner, captureStatefulSourceV2, receipt: hostSdk} = await loadHostSdkPorts(hapiRoot, assembly);
+  await persist({event: 'host-sdk-ports', ...hostSdk}); guard();
+  const plans = await classifyCorpus(), selected = profiles.loadInputProfile(inputProfile), input = selected.input;
+  assert.equal(input.contract, 'atomicassets'); assert.equal(input.collection, 'fixturecoll');
+  const [{createHost}, atomic] = await Promise.all([import('../jsonb-display-mongo-http/host.mjs'), import('../../../dist/index.js')]);
+  const {BSON} = createRequire(join(hapiRoot, 'package.json'))('mongodb');
+  // Source/runtime admission above precedes touching the supplied native client.
+  assert.equal(client.options.retryReads, false); assert.equal(client.options.retryWrites, false);
+  assert.equal(client.options.maxAdaptiveRetries, 0); assert.equal(client.options.monitorCommands, true);
+  assert.equal(client.options.promoteLongs, false);
+  const hello = await client.db('admin').command({hello: 1}), build = await client.db('admin').command({buildInfo: 1}); guard();
+  assert.equal(build.version, '8.0.34'); assert(hello.isWritablePrimary && typeof hello.setName === 'string');
+  assert(!(await client.db('admin').admin().listDatabases()).databases.some(row => row.name === databaseName), 'Fresh exclusively owned DB required');
+  const marker = randomBytes(24).toString('hex'), database = client.db(databaseName), hosts = [], trace = [], sessions = [];
+  const report = {schemaVersion: 1, profile, status: 'running', acceptance: copy(ACCEPTANCE), assembly, hostSdk, inputProfile: selected.descriptor,
+    originalCapture: {reports: corpus.reports, postgresVersion: corpus.postgresVersion, workflowRun: corpus.workflowRun},
+    server: {version: build.version, replicaSet: hello.setName}, ledger: plans, observations: [], refusals: [], publication: [],
+    rawNumericProbes: copy(corpus.nativeSqlNumericProbes), cleanup: {httpClosed: false, readsClosed: false, sessionsEnded: false, databaseDropped: false, client: 'caller-owned'}};
+  let owned = false, primary, serial = 1000, commandsBytes = 0, replyBytes = 0;
+  const activeCommands = new Map();
+  const retain = error => {primary ??= error;};
+  const startSession = client.startSession;
+  client.startSession = function (...args) {const session = startSession.apply(this, args), row = {ended: false}, end = session.endSession;
+    sessions.push(row); session.endSession = async function (...values) {try {return await end.apply(this, values);} finally {row.ended = this.hasEnded;}}; return session;};
+  const command = event => {
+    if (event.databaseName !== databaseName && !['commitTransaction', 'abortTransaction', 'endSessions'].includes(event.commandName)) return;
+    const bytes = BSON.serialize(event.command); commandsBytes += bytes.length; assert(trace.length < 16384 && commandsBytes + replyBytes <= 32 * 1024 * 1024);
+    assert(!activeCommands.has(event.requestId)); activeCommands.set(event.requestId, event.commandName);
+    trace.push({event: 'started', name: event.commandName, requestId: event.requestId, commandBsonHex: bytes.toString('hex')});
+  };
+  const terminal = (event, ok) => {if (!activeCommands.has(event.requestId)) return;
+    activeCommands.delete(event.requestId); const bytes = ok ? BSON.serialize(event.reply) : undefined; replyBytes += bytes?.length ?? 0;
+    assert(trace.length < 16384 && commandsBytes + replyBytes <= 32 * 1024 * 1024); trace.push({event: ok ? 'succeeded' : 'failed', requestId: event.requestId,
+      ...(ok ? {replyBsonHex: bytes.toString('hex')} : {failure: failure(event.failure)})});};
+  const succeeded = event => terminal(event, true), failed = event => terminal(event, false);
+  client.on('commandStarted', command); client.on('commandSucceeded', succeeded); client.on('commandFailed', failed);
+  const emit = async row => {guard(); await persist(row);};
+  const make = async label => {
+    const host = await createHost({hapiRoot, atomic, client, databaseName, generation: 'jsonb-display-' + label, bounds, persist: emit}); hosts.push(host);
+    const entry = host.registry.entries.get('atomicassets'); assert(entry);
+    const identity = {id: 'controlled-jsonb-display', generation: label}, lease = await entry.adapter.acquireOwner({expected: null, nextOwner: identity}, guard);
+    const state = {host, entry, identity, lease, custody: new Map(), candidate: undefined};
+    state.store = {async load(digest, source) {return state.custody.get(digest + ':' + source) ?? null;}, async retain(candidate) {
+      await emit({event: 'candidate', label, candidate}); const key = candidate.declarationDigest + ':' + candidate.source.digest;
+      const old = state.custody.get(key); if (old) assert.equal(old.digest, candidate.digest); else state.custody.set(key, copy(candidate)); state.candidate = candidate;
+    }};
+    return state;
+  };
+  const readCollection = async state => {
+    const {adapter} = state.entry, view = (await adapter.recovery()).view, read = await adapter.completedRead(state.identity, view, guard);
+    try {const answer = await adapter.readCompleted(read, view, [{kind: 'collection', key: collectionKey}]); assert.equal(answer.results[0].status, 'present'); return copy(answer.results[0].value);}
+    finally {adapter.closeRead(read);}
+  };
+  const apply = async (state, events, refusal) => {
+    guard(); const {entry} = state, {adapter, declaration} = entry, previous = (await adapter.recovery()).view, id = ++serial;
+    const block = {blockNum: previous.checkpoint.blockNum + 1, blockId: hex(id), previousBlockId: previous.checkpoint.blockId};
+    const target = await owner.captureStatefulRawTargetV2(declaration, {schemaVersion: 2, chainId: declaration.projection.definition.binding.chainId,
+      declarationDigest: declaration.digest, owner: state.identity, previous, block,
+      rawSource: {commitId: 'controlled-jsonb:' + id, selectionId: 'controlled-jsonb:' + id, observationId: 'controlled-jsonb:' + id, observationDigest: hex(id + 10000)}});
+    await adapter.admitRaw(state.lease, target);
+    const source = {previous: copy(previous.checkpoint), block: {...block, timeMs: String(Date.parse(input.block.timestamp + 'Z') + id * 1000)},
+      inputs: sourceInputs(declaration, events, id)};
+    const captured = await captureStatefulSourceV2(declaration, source); state.candidate = undefined;
+    await emit({event: 'admitted-source', target, source, capturedDigest: captured.digest});
+    if (refusal) {
+      const baseline = copy(refusal.baseline); let rejected;
+      try {await owner.executeStatefulOwnerBlockV2(declaration, adapter, state.lease, target.digest, source, state.store, entry.reduce, guard);}
+      catch (error) {rejected = error;}
+      assert(rejected, 'Original SQL refusal must never become a successful plugin candidate'); assert.equal(state.candidate, undefined);
+      const beforeGap = await adapter.recovery(); assert.deepEqual(beforeGap.view, previous);
+      const read = await adapter.reductionRead(state.lease, target.digest, captured.digest);
+      try {const after = await adapter.readReduction(read, previous, [{kind: 'collection', key: collectionKey}]); assert.equal(after.results[0].status, 'present'); assert.deepEqual(copy(after.results[0].value), baseline);}
+      finally {adapter.closeRead(read);}
+      await adapter.markSourceFailure(state.lease, target.digest, captured.digest, 'controlled original JSONB storage refusal');
+      const recovery = await adapter.recovery(); assert(recovery.gap); assert.deepEqual(recovery.view, previous);
+      const http = await state.host.observe('/atomicassets/v1/collections/' + input.collection, previous, 503);
+      const receipt = {id: refusal.plan.id, originalSQL: corpus.cases[refusal.plan.index].storageError, error: failure(rejected),
+        candidateRetained: false, baselineUnchanged: true, recovery, http}; report.refusals.push(receipt); await emit({event: 'source-refusal', ...receipt}); return;
+    }
+    const result = await owner.executeStatefulOwnerBlockV2(declaration, adapter, state.lease, target.digest, source, state.store, entry.reduce, guard);
+    assert.equal(result.status, 'applied'); assert(state.candidate);
+    await adapter.retireRaw(state.lease, target.digest, state.candidate.source.digest, state.candidate.digest);
+    const recovery = await adapter.recovery(); assert.equal(recovery.gap, null); assert.equal(recovery.pending, null);
+    await state.host.publish(declaration, recovery.view); await emit({event: 'committed-and-retired', result, recovery}); return {previous, view: recovery.view};
+  };
+  const urls = ['/atomicassets/v1/collections/' + input.collection, '/atomicassets/v1/assets/' + input.assetId];
+  try {
+    for (const original of originalReports) await emit({event: 'original-pg-report-by-value', ...original});
+    await database.collection('_qualification_owner').insertOne({_id: marker, profile: PROFILE}, {writeConcern: {w: 'majority', j: true}}); owned = true;
+    await emit({event: 'complete-original-corpus-ledger', ledger: plans, rawNumericProbes: report.rawNumericProbes, inputProfile: selected.descriptor});
+    const state = await make('accepted'); await state.host.observe(urls[0], null, 503); await apply(state, initialEvents(input));
+    const baseView = (await state.entry.adapter.recovery()).view;
+    const baselineCollection = (await state.host.observe(urls[0], baseView)).body.data, baselineAsset = (await state.host.observe(urls[1], baseView)).body.data;
+    let last, preceding;
+    for (const plan of plans.filter(row => row.sourceRepresentable && row.originalSqlAccepted)) {
+      const original = corpus.cases[plan.index], applied = await apply(state, caseEvents(input, plan)); preceding = last; last = {plan, applied};
+      const stored = await readCollection(state); assert.deepEqual(stored.data, JSON.parse(original.encoded));
+      const collection = await state.host.observe(urls[0], applied.view), asset = await state.host.observe(urls[1], applied.view);
+      assert.deepEqual(select(collection.body.data, ['name', 'img']), original.collectionHttp);
+      assert.deepEqual(select(asset.body.data.collection, ['name', 'img', 'images']), original.assetHttp);
+      assert.deepEqual(collection.body.data.data, JSON.parse(original.encoded));
+      assert.deepEqual(without(collection.body.data, ['name', 'img', 'data']), without(baselineCollection, ['name', 'img', 'data']));
+      assert.deepEqual(without(asset.body.data, ['collection']), without(baselineAsset, ['collection']));
+      const repeat = await state.host.observe(urls[0], applied.view); assert.deepEqual(without(repeat.body, ['query_time']), without(collection.body, ['query_time']));
+      const observation = {id: plan.id, view: applied.view, stored, collection, asset, repeat}; report.observations.push(observation); plan.projectionCoverage = 'passed-physical-source-mongo-http'; await emit({event: 'paired-id-display', ...observation});
+    }
+    assert.equal(report.observations.length, 27);
+    const current = () => state.entry.adapter.recovery(); let view = (await current()).view;
+    for (const flag of ['source', 'mapping']) {
+      state.host.controls[flag] = false; try {await state.host.observe(urls[0], view, 503);} finally {state.host.controls[flag] = true;}
+      await state.host.late(urls[0], async () => {state.host.controls[flag] = false;}, view).finally(() => {state.host.controls[flag] = true;});
+      report.publication.push({control: flag + '-early-and-late', refused: true});
+    }
+    await state.host.cancelAtPublication(urls[0], view); report.publication.push({control: 'request-abort-after-domain-result', refused: true});
+    const socket = state.host.controls.socket;
+    await state.host.late(urls[0], async () => {state.host.controls.socket = {};}, view).finally(() => {state.host.controls.socket = socket;});
+    report.publication.push({control: 'source-socket-replacement', refused: true});
+    await state.host.late(urls[0], async () => {
+      const recovery = await current(); state.identity = {...state.identity, generation: 'accepted-takeover'};
+      state.lease = await state.entry.adapter.acquireOwner({expected: {version: recovery.version, view: recovery.view, owner: recovery.owner}, nextOwner: state.identity}, guard);
+    }, view); report.publication.push({control: 'actual-native-owner-takeover', refused: true});
+    await state.host.late(urls[0], async () => {
+      const recovery = await current(); await state.entry.adapter.rollbackOwned(state.lease, {declarationDigest: state.entry.declaration.digest,
+        revision: recovery.view.revision, operationId: hex(++serial), from: recovery.view.checkpoint, ancestor: last.applied.previous.checkpoint, maxBlocks: 1});
+    }, view); report.publication.push({control: 'actual-native-fork-rollback', refused: true});
+    const rolled = await current(); state.identity = {...state.identity, generation: 'replacement-branch'};
+    state.lease = await state.entry.adapter.acquireOwner({expected: {version: rolled.version, view: rolled.view, owner: rolled.owner}, nextOwner: state.identity}, guard);
+    await state.host.publish(state.entry.declaration, rolled.view);
+    const afterRollback = await state.host.observe(urls[0], rolled.view);
+    assert.deepEqual(select(afterRollback.body.data, ['name', 'img']), corpus.cases[preceding.plan.index].collectionHttp);
+    const replacement = await apply(state, caseEvents(input, last.plan)); await state.host.observe(urls[0], replacement.view);
+    for (const plan of plans.filter(row => row.sourceRepresentable && !row.originalSqlAccepted)) {
+      const rejected = await make('refused-' + plan.index); await apply(rejected, initialEvents(input));
+      const baseline = await readCollection(rejected); await apply(rejected, caseEvents(input, plan), {plan, baseline}); plan.projectionCoverage = 'passed-source-refusal-with-unchanged-state';
+      await state.host.observe(urls[0], (await current()).view);
+    }
+    assert.equal(report.refusals.length, 6);
+    assert.equal(activeCommands.size, 0, 'All observed native operations need an actual terminal receipt');
+    assert(trace.some(row => row.event === 'started' && ['insert', 'update', 'commitTransaction'].includes(row.name)), 'Actual native write monitoring is mandatory');
+    assert(trace.some(row => row.event === 'succeeded'), 'Actual native wire replies are mandatory');
+    report.acceptance.physicalMongoHTTP = 'passed-bounded-source-representable-IDs-only';
+    report.status = 'passed-bounded-source-representable-IDs-only';
+  } catch (error) {retain(error); report.failure = failure(error); report.status = 'failed';}
+  finally {
+    let closedHosts = 0, closureEvidence = true;
+    for (const host of hosts) try {const closed = await host.close(); closedHosts++; await persist({event: 'host-resource-closure', ...closed});} catch (error) {closureEvidence = false; retain(error);}
+    report.cleanup.httpClosed = hosts.length > 0 && closedHosts === hosts.length; report.cleanup.readsClosed = report.cleanup.httpClosed;
+    report.sessions = {opened: sessions.length, ended: sessions.filter(row => row.ended).length};
+    report.cleanup.sessionsEnded = sessions.every(row => row.ended);
+    if (!report.cleanup.sessionsEnded) retain(new Error('Native session closure unproved'));
+    try {await persist({event: 'before-owned-database-cleanup', report, trace});} catch (error) {closureEvidence = false; retain(error);}
+    if (owned && closureEvidence && report.cleanup.httpClosed && report.cleanup.readsClosed && report.cleanup.sessionsEnded) {
+      try {const row = await database.collection('_qualification_owner').findOne({_id: marker}); assert.equal(row?.profile, PROFILE);
+        await database.dropDatabase({writeConcern: {w: 'majority', j: true}}); assert.equal((await database.listCollections().toArray()).length, 0); report.cleanup.databaseDropped = true;}
+      catch (error) {retain(error); report.cleanup.failure = failure(error);}
+    } else if (owned) report.cleanup.databaseRetained = 'Failure or missing resource-closure proof; Root owns guarded cleanup';
+    client.off('commandStarted', command); client.off('commandSucceeded', succeeded); client.off('commandFailed', failed); client.startSession = startSession;
+    report.traceEvents = trace.length; report.nativeCommandBytes = commandsBytes; report.nativeReplyBytes = replyBytes; report.nativeCommandsPending = activeCommands.size;
+    if (primary) {report.status = 'failed'; report.failure ??= failure(primary); report.acceptance.physicalMongoHTTP = 'failed';}
+    try {await persist({event: 'native-command-trace', trace}); await persist({event: 'terminal-report', report});} catch (error) {retain(error);}
+  }
+  if (primary) throw primary; return report;
+}

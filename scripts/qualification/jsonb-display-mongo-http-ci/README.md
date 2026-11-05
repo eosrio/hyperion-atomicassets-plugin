@@ -1,9 +1,29 @@
 # Owned Linux controller for the JSONB ID comparison
 
-This is a separate controller profile, `atomic80-owned-jsonb-id-mongo-http-linux-ci-v1`,
-for the frozen [d192 workload](../jsonb-display-mongo-http/README.md). Physical
-acceptance is pending. The d192 namespace, profile and test remain byte exact;
-this controller does not update consumer pins, product behavior or deployment.
+This is controller profile `atomic80-owned-jsonb-id-mongo-http-linux-ci-v2`,
+using execution profile `atomic79-hapi7270-jsonb-display-id-host-sdk-mongo-http-v2`.
+Physical acceptance of this revision is pending. The original
+[d192 workload](../jsonb-display-mongo-http/README.md), namespace, profile and test
+remain byte exact; this controller does not update consumer pins, product behavior
+or deployment.
+
+The first [v1 Linux run](https://github.com/eosrio/hyperion-atomicassets-plugin/actions/runs/41976928421)
+failed all four jobs after real MongoDB setup: its workload passed a HAPI-captured
+owner declaration to the plugin's separately loaded SDK instance. The SDK correctly
+rejected that transferable capture. The failed v1 verdict remains failed. Root's
+artifact audit verifies child exit/EOF closure, physical guards and owned cleanup;
+none changes the workload failure into a pass.
+
+`run-host-sdk-v2.mjs` preserves the original workload body with eight enumerated
+source edits for its profile, sibling imports, SDK selection and SDK receipt.
+A pure control compares the complete revised body against those exact deltas.
+The new port selector resolves the SDK package from the actual HAPI registry's
+location, checks the expected HAPI installation and ESM exports, and checks the
+selected owner/source bytes against the frozen admitted `hapiSDK` inventory.
+It imports those standard files without a loader hook or dependency alias. A
+receipt records the package path/hash and selected port paths/hashes before any
+database use. The registry and executor therefore retain the same local SDK
+capture; no brand, receive/negotiation rule or source grant is bypassed.
 
 The GitHub Actions workflow checks out the actual PR head, not its generated merge
 reference, and HAPI `7270b1eba0e4e118e61fd282dbf44a66f361df47` under ignored `out`.
@@ -51,7 +71,7 @@ the fixture and explicitly fails. Final guard or cleanup failures never pass.
 Root reviews and publishes this source before selecting a GitHub Actions run.
 The workflow is the concrete Linux entry point; no Windows physical execution,
 remote host action, CI dispatch or deployment is part of source validation.
-Windows tests use inert VM actor/resource ports and the original codec controls;
+Windows tests use inert VM actor/resource ports, actual SDK module identity and original codec controls;
 they do not start MongoDB, Docker, workers, HTTP listeners or physical timers.
 
 A successful Linux result would establish only the frozen workload's 27
