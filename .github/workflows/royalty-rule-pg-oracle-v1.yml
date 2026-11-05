@@ -56,5 +56,3 @@ jobs:
           name: royalty-rule-pg-oracle-v1-${{ matrix.node }}
           path: ${{ runner.temp }}/royalty-rule-pg-oracle-v1.json
           if-no-files-found: error
-
-\n

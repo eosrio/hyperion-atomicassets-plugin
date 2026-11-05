@@ -1,0 +1,245 @@
+[
+  {
+    "name": "attribute-all",
+    "status": 200,
+    "calls": [
+      {
+        "sql": "\n        SELECT market_contract, collection_name, rule_id, source, field, value, weight, recipients,\n            encode(lookup_hash::bytea, 'hex') lookup_hash,\n            updated_at_block, updated_at_time, created_at_block, created_at_time\n        FROM atomicmarket_royalties_attributes\n     WHERE market_contract = $1 AND collection_name = $2 ORDER BY rule_id ASC LIMIT $3 OFFSET $4  ",
+        "values": [
+          "atomicmarket",
+          "oracle",
+          100,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "attribute-zero",
+    "status": 200,
+    "calls": [
+      {
+        "sql": "\n        SELECT market_contract, collection_name, rule_id, source, field, value, weight, recipients,\n            encode(lookup_hash::bytea, 'hex') lookup_hash,\n            updated_at_block, updated_at_time, created_at_block, created_at_time\n        FROM atomicmarket_royalties_attributes\n     WHERE market_contract = $1 AND collection_name = $2 AND source = $3 ORDER BY rule_id ASC LIMIT $4 OFFSET $3  ",
+        "values": [
+          "atomicmarket",
+          "oracle",
+          0,
+          100
+        ]
+      }
+    ]
+  },
+  {
+    "name": "attribute-field",
+    "status": 200,
+    "calls": [
+      {
+        "sql": "\n        SELECT market_contract, collection_name, rule_id, source, field, value, weight, recipients,\n            encode(lookup_hash::bytea, 'hex') lookup_hash,\n            updated_at_block, updated_at_time, created_at_block, created_at_time\n        FROM atomicmarket_royalties_attributes\n     WHERE market_contract = $1 AND collection_name = $2 AND field = $3 ORDER BY rule_id ASC LIMIT $4 OFFSET $5  ",
+        "values": [
+          "atomicmarket",
+          "oracle",
+          "name",
+          100,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "attribute-invalid",
+    "status": 400,
+    "calls": []
+  },
+  {
+    "name": "attribute-body-query",
+    "status": 200,
+    "calls": [
+      {
+        "sql": "\n        SELECT market_contract, collection_name, rule_id, source, field, value, weight, recipients,\n            encode(lookup_hash::bytea, 'hex') lookup_hash,\n            updated_at_block, updated_at_time, created_at_block, created_at_time\n        FROM atomicmarket_royalties_attributes\n     WHERE market_contract = $1 AND collection_name = $2 AND source = $3 AND field = $4 ORDER BY rule_id ASC LIMIT $5 OFFSET $3  ",
+        "values": [
+          "atomicmarket",
+          "oracle",
+          0,
+          "name",
+          100
+        ]
+      }
+    ]
+  },
+  {
+    "name": "attribute-head",
+    "status": 200,
+    "calls": [
+      {
+        "sql": "\n        SELECT market_contract, collection_name, rule_id, source, field, value, weight, recipients,\n            encode(lookup_hash::bytea, 'hex') lookup_hash,\n            updated_at_block, updated_at_time, created_at_block, created_at_time\n        FROM atomicmarket_royalties_attributes\n     WHERE market_contract = $1 AND collection_name = $2 ORDER BY rule_id ASC LIMIT $3 OFFSET $4  ",
+        "values": [
+          "atomicmarket",
+          "oracle",
+          100,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "template-all",
+    "status": 200,
+    "calls": [
+      {
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 ORDER BY template_id ASC LIMIT $3 OFFSET $4  ",
+        "values": [
+          "atomicmarket",
+          "oracle",
+          100,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "template-one",
+    "status": 200,
+    "calls": [
+      {
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND template_id = $3 ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "values": [
+          "atomicmarket",
+          "oracle",
+          "1",
+          100,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "template-two",
+    "status": 200,
+    "calls": [
+      {
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND template_id = ANY($3) ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "values": [
+          "atomicmarket",
+          "oracle",
+          [
+            "1",
+            "2"
+          ],
+          100,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "template-ten",
+    "status": 200,
+    "calls": [
+      {
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND template_id = ANY($3) ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "values": [
+          "atomicmarket",
+          "oracle",
+          [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10"
+          ],
+          100,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "template-eleven",
+    "status": 200,
+    "calls": [
+      {
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND EXISTS (SELECT FROM UNNEST($3::BIGINT[]) u(c) WHERE u.c = template_id) ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "values": [
+          "atomicmarket",
+          "oracle",
+          [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+            "10",
+            "11"
+          ],
+          100,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "template-weak",
+    "status": 200,
+    "calls": [
+      {
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND template_id = ANY($3) ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "values": [
+          "atomicmarket",
+          "oracle",
+          [
+            "001",
+            "-2",
+            "-0"
+          ],
+          100,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "template-invalid",
+    "status": 400,
+    "calls": []
+  },
+  {
+    "name": "template-body-query",
+    "status": 200,
+    "calls": [
+      {
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 AND template_id = $3 ORDER BY template_id ASC LIMIT $4 OFFSET $5  ",
+        "values": [
+          "atomicmarket",
+          "oracle",
+          "1",
+          1,
+          0
+        ]
+      }
+    ]
+  },
+  {
+    "name": "template-head",
+    "status": 200,
+    "calls": [
+      {
+        "sql": "SELECT * FROM atomicmarket_royalties_templates WHERE market_contract = $1 AND collection_name = $2 ORDER BY template_id ASC LIMIT $3 OFFSET $4  ",
+        "values": [
+          "atomicmarket",
+          "oracle",
+          100,
+          0
+        ]
+      }
+    ]
+  }
+]

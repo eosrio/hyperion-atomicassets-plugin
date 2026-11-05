@@ -11,14 +11,12 @@ const steps=[
 const cases=[
  {name:'attribute-all',route:'attributes'}, {name:'attribute-zero',route:'attributes',query:{source:'0'}},
  {name:'attribute-field',route:'attributes',query:{field:'name'}}, {name:'attribute-invalid',route:'attributes',query:{source:'-1'}},
- {name:'attribute-body-query',route:'attributes',method:'POST',query:{source:'0'},body:{field:'name'}},
+ {name:'attribute-body-query',route:'attributes',method:'POST',query:{source:'1',field:'not-name'},body:{source:'0',field:'name'}},
  {name:'attribute-head',route:'attributes',method:'HEAD'},
  {name:'template-all',route:'templates'}, {name:'template-one',route:'templates',query:{template_id:'1'}},
  {name:'template-two',route:'templates',query:{template_id:'1,2'}}, {name:'template-ten',route:'templates',query:{template_id:'1,2,3,4,5,6,7,8,9,10'}},
  {name:'template-eleven',route:'templates',query:{template_id:'1,2,3,4,5,6,7,8,9,10,11'}},
  {name:'template-weak',route:'templates',query:{template_id:'001,-2,-0'}}, {name:'template-invalid',route:'templates',query:{template_id:'+1',page:'0'}},
- {name:'template-body-query',route:'templates',method:'POST',query:{template_id:'1'},body:{limit:'1'}}, {name:'template-head',route:'templates',method:'HEAD'}
+ {name:'template-body-query',route:'templates',method:'POST',query:{template_id:'2',limit:'2'},body:{template_id:'1',limit:'1'}}, {name:'template-head',route:'templates',method:'HEAD'}
 ];
 module.exports={steps,cases};
-
-\n

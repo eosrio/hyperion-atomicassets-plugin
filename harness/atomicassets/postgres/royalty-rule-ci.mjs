@@ -21,7 +21,7 @@ try{await lifecycle(report,{persist:()=>{report.completedAt=new Date().toISOStri
  const reference=originalSource(process.env.AA_REFERENCE_ROOT);report.reference={commit:reference.commit,sources:reference.observed};
  const manifest=JSON.parse(readFileSync(new URL('../../../tests/fixtures/royalty-rule-original-2.7/manifest.json',import.meta.url)));assert.equal(manifest.baseline,reference.commit);
  report.royaltySources=Object.values(manifest.sources).map(pin=>{const blob=execFileSync('git',['show',reference.commit+':'+pin.path],{cwd:reference.root,timeout:10000,maxBuffer:2*1024**2}),working=readFileSync(join(reference.root,pin.path));assert.equal(blob.length,pin.bytes);assert.equal(sha(blob),pin.sha256);assert.equal(sha(working),pin.sha256);return {path:pin.path,bytes:pin.bytes,sha256:pin.sha256};});
- report.harness=['royalty-rule-ci.mjs','royalty-rule-README.md','royalty-rule-extra-pins.json','royalty-rule-plan.cjs','royalty-rule-scenario.cjs','royalty-rule-gate.cjs','royalty-rule-source.test.mjs','source.mjs','schema.cjs','schema-list-ci-admission.mjs','image-identity.mjs','json-display-lifecycle.mjs','../../../.github/workflows/royalty-rule-pg-oracle-v1.yml','../../../tests/fixtures/royalty-rule-original-2.7/manifest.json'].map(path=>{const b=readFileSync(new URL('./'+path,import.meta.url));return {path,bytes:b.length,sha256:sha(b)};});
+ report.harness=require('./royalty-rule-gate.cjs').names.map(path=>{const b=readFileSync(new URL('./'+path,import.meta.url));return {path,bytes:b.length,sha256:sha(b)};});
   const extra=JSON.parse(readFileSync(new URL('./royalty-rule-extra-pins.json',import.meta.url)));assert.equal(extra.commit,reference.commit);report.namespaceSources=extra.sources.map(pin=>{const blob=execFileSync('git',['show',reference.commit+':'+pin.path],{cwd:reference.root,timeout:10000,maxBuffer:2*1024**2}),working=readFileSync(join(reference.root,pin.path));assert.equal(blob.length,pin.bytes);assert.equal(sha(blob),pin.sha256);assert.equal(sha(working),pin.sha256);return pin;});
  report.runtime={node:process.version,sha256:sha(readFileSync(process.execPath))};
  const dir=mkdtempSync(join(tmpdir(),'aa-royalty-pg-'));copyDefinitions(reference,dir);process.chdir(dir);
@@ -33,8 +33,3 @@ try{await lifecycle(report,{persist:()=>{report.completedAt=new Date().toISOStri
  report.schema=await require('./schema.cjs')(reference.fromReference,db,report.admission,record);persist();
  return await require('./royalty-rule-scenario.cjs')(reference.fromReference,db,{host:'127.0.0.1',port:CI.port,user:CI.user,password:CI.password,database:CI.database},record);
 }});}finally{clearTimeout(timer);}process.exit(report.status==='passed'?0:1);
-
-
-
-
-\n

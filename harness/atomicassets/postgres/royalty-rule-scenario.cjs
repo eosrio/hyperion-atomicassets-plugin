@@ -2,7 +2,7 @@
 const assert=require('node:assert/strict');
 const {once}=require('node:events');
 const {createHash}=require('node:crypto');
-const {steps,cases}=require('./royalty-rule-plan.cjs');
+const {steps,cases}=require('./royalty-rule-plan.cjs');const {readBody,transaction}=require('./royalty-rule-runtime.cjs');
 const hash=b=>createHash('sha256').update(b).digest('hex');
 // Original processor, PostgreSQL transaction, namespace, router and wrapper; no expected answer rows.
 module.exports=async function capture(fromReference,connection,config,record){
@@ -27,19 +27,20 @@ module.exports=async function capture(fromReference,connection,config,record){
   observeServer(server);const namespace=new AtomicMarketNamespace('/atomicmarket',server.connection,{atomicmarket_account:'atomicmarket',atomicassets_account:'atomicassets',delphioracle_account:'delphioracle',connected_reader:'original-pg'});
   await namespace.init();server.web.express.use('/atomicmarket',await namespace.router(server));server.httpServer.listen(0,'127.0.0.1');await once(server.httpServer,'listening');
   const snapshot=async name=>{const out={name};for(const [label,table,key]of [['templates','atomicmarket_royalties_templates','template_id'],['attributes','atomicmarket_royalties_attributes','rule_id']]){
-   const sql=`SELECT row_to_json(t)::text AS raw_json FROM (SELECT *, ${key}::text AS key_text, created_at_block::text AS created_text, updated_at_block::text AS updated_text${label==='attributes'?", weight::text AS weight_text, encode(lookup_hash, 'hex') AS lookup_hex":""} FROM ${table} WHERE market_contract=$1 AND collection_name=$2 ORDER BY ${key}) t`;
+   const cols=label==="templates"?"market_contract,collection_name,template_id::text AS template_id,recipients":"market_contract,collection_name,rule_id::text AS rule_id,source,field,value,weight::text AS weight,recipients,encode(lookup_hash, 'hex') AS lookup_hash";
+   const sql=`SELECT row_to_json(t)::text AS raw_json FROM (SELECT ${cols},updated_at_block::text AS updated_at_block,updated_at_time::text AS updated_at_time,created_at_block::text AS created_at_block,created_at_time::text AS created_at_time FROM ${table} WHERE market_contract=$1 AND collection_name=$2 ORDER BY ${key}) t`;
    const r=await client.query(sql,['atomicmarket','oracle']);out[label]={sql,bindings:['atomicmarket','oracle'],rows:r.rows};}
    result.stages.push(out);record({kind:'royalty-stage',value:out});return out;};
   for(let i=0;i<steps.length;i++){
    const step=steps[i],block={block_num:i+1,block_id:String(i+1).padStart(64,'0'),timestamp:`2023-11-14T22:13:0${i}.000`};
-   record({kind:'royalty-callback-input',stage:step.name,block,rows:step.rows});callbackPhase=step.name;await client.query('BEGIN');try{for(const row of step.rows)processor.processContractRow(block,{code:'atomicmarket',scope:'oracle',table:row.table,present:row.present!==false,value:structuredClone(row.value)});
-    await processor.executeHeadQueue(helper.createTestTransaction(client));await client.query('COMMIT');}catch(error){await client.query('ROLLBACK');throw error;}
+   record({kind:'royalty-callback-input',stage:step.name,block,rows:step.rows});callbackPhase=step.name;await transaction(client,async()=>{for(const row of step.rows)processor.processContractRow(block,{code:'atomicmarket',scope:'oracle',table:row.table,present:row.present!==false,value:structuredClone(row.value)});
+    await processor.executeHeadQueue(helper.createTestTransaction(client));},record);
    callbackPhase=null;await snapshot(step.name);
   }
   for(const plan of cases){const path='/atomicmarket/v1/royalties/oracle/'+plan.route,query=new URLSearchParams(plan.query??{}),method=plan.method??'GET';
    queryPhase=plan.name;const response=await fetch('http://127.0.0.1:'+server.httpServer.address().port+path+(query.size?'?'+query:''),{method,redirect:'manual',signal:AbortSignal.timeout(10000),
     ...(plan.body?{headers:{'content-type':'application/json'},body:JSON.stringify(plan.body)}:{})});
-   const chunks=[];let bytes=0;for await(const c of response.body){bytes+=c.length;assert(bytes<=2097152);chunks.push(c);}const raw=Buffer.concat(chunks);
+   const raw=await readBody(response);
    const row={...plan,path,status:response.status,headers:Object.fromEntries(response.headers),rawText:raw.toString('utf8'),bytes:raw.length,sha256:hash(raw)};
    if(method!=='HEAD')JSON.parse(row.rawText);queryPhase=null;result.responses.push(row);record({kind:'royalty-http',value:row});}
  }catch(e){primary=e;}
@@ -51,9 +52,3 @@ module.exports=async function capture(fromReference,connection,config,record){
  }
  if(primary)throw primary;return result;
 };
-
-
-
-
-
-\n
