@@ -1,0 +1,3 @@
+import Fastify from 'fastify';import {registerAtomicIdRoutes} from './dist/http/id-routes.js';
+const app=Fastify();registerAtomicIdRoutes(app,{atomicassets:{projectionId:'p',contract:'atomicassets'},atomicmarket:{projectionId:'p',contract:'atomicmarket'},queryHost(){throw Error('unexpected host');}});
+try{const r=await app.inject('/atomicmarket/v1/marketplaces');console.log(JSON.stringify({node:process.version,baseline:'edfc7a5af7aeac07c9866b0a736949b4c7f227cd',status:r.statusCode,body:r.json(),expected:200,retrospective:true}));if(r.statusCode!==404)process.exitCode=1;}finally{await app.close();}
